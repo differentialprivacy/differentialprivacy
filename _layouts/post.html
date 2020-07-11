@@ -13,5 +13,10 @@ layout: default
       Posted {% if page.author %}by {{ page.author }} {% endif %}on {{ page.date | date: "%B %e, %Y" }}
   </div>
 
-  {% include disqus.html %}
+  <!-- {% include disqus.html %} -->
+  {% if page.comments %}
+  <div id="disqus_thread">
+  <a href="#" class="comments-holder" onclick="loadDisqus();return false;">Show/Post Comments</a>
+  </div>
+  {% endif %}
 </article>
