@@ -10,7 +10,20 @@ This website is intended to serve as a resource for the differential privacy res
 
 ### Following
 
-<a href="https://groups.google.com/d/forum/differential-privacy-org">Google Groups mailing list</a>
+<a href="https://groups.google.com/d/forum/differential-privacy-org">Google Groups mailing list:</a>
+<iframe id="forum_embed"
+  src="javascript:void(0)"
+  scrolling="no"
+  frameborder="0"
+  width="900"
+  height="700">
+</iframe>
+<script type="text/javascript">
+  document.getElementById('forum_embed').src =
+     'https://groups.google.com/forum/embed/?place=forum/differential-privacy-org'
+     + '&showsearch=true&showpopout=true&showtabs=false'
+     + '&parenturl=' + encodeURIComponent(window.location.href);
+</script>
 
 <a href="https://github.com/differentialprivacy/differentialprivacy"><i class="svg-icon github"></i> Github</a>
 
