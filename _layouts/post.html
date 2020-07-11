@@ -15,27 +15,46 @@ layout: default
 
   <!-- {% include disqus.html %} -->
   {% if page.comments %}
- <script>
-  function load_disqus( disqus_shortname ) {
-    // Prepare the trigger and target
-    var disqus_trigger = document.getElementById('disqus_trigger'),
-        disqus_target = document.getElementById('disqus_thread'),
-        disqus_embed  = document.createElement('script'),
-        disqus_hook   = (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]);
+ <div class="comments-block">
+     <button id="show-comments" onclick="disqus();return false;">SHOW COMMENTS</button>
+ </div>
 
-    // Load script asynchronously only when the trigger and target exist
-    if( disqus_target && disqus_trigger ) {
-      disqus_embed.type = 'text/javascript';
-      disqus_embed.async = true;
-      disqus_embed.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-      disqus_hook.appendChild(disqus_embed);
-      disqus_trigger.remove();
-      console.log('Disqus loaded.');
-    }
-  }
-  </script>
-  <div id="disqus_thread"></div>
-    <button id="diqus_trigger" onclick="load_disqus('{{ site.disqus }}')">SHOW COMMENTS</button>
-  </div>
+ <div id="disqus_thread"></div>
+
+ <script>
+ var disqus_loaded = false;
+ var disqus_shortname = '{{ site.disqus }}'; //Add your shortname here
+
+ function disqus() {
+
+     if (!disqus_loaded)  {
+         disqus_loaded = true;
+
+         var e = document.createElement("script");
+         e.type = "text/javascript";
+         e.async = true;
+         e.src = "//" + disqus_shortname + ".disqus.com/embed.js";
+         (document.getElementsByTagName("head")[0] ||
+         document.getElementsByTagName("body")[0])
+         .appendChild(e);
+
+         //Hide the button after opening
+         document.getElementById("show-comments").style.display = "none";
+     }
+ }
+
+ //Opens comments when linked to directly
+ var hash = window.location.hash.substr(1);
+ if (hash.length > 8) {
+     if (hash.substring(0, 8) == "comment-") {
+         disqus();
+     }
+ }
+
+ //Remove this if you don't want to load comments for search engines
+ if(/bot|google|baidu|bing|msn|duckduckgo|slurp|yandex/i.test(navigator.userAgent)) {
+    disqus();
+ }
+ </script>
   {% endif %}
 </article>
