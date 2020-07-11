@@ -19,7 +19,7 @@ html {
 
 body {
 	background: $white;
-  font: 18px/1.4 Lato;
+  font: 18px/1.4 Open Sans;
   color: $darkGray;
 }
 
@@ -31,7 +31,7 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Lato',$helveticaNeue;
+  font-family: 'Open Sans',$helveticaNeue;
   color: $darkerGray;
   font-weight: bold;
 
@@ -194,9 +194,9 @@ img {
   margin: 0;
   color: $darkGray;
   cursor: pointer;
-  font-family: 'Lato', $helveticaNeue;
+  font-family: 'Open Sans', $helveticaNeue;
   font-weight: bold;
-  font-size: 36px;
+  font-size: 30px;
   letter-spacing: 0px;
 }
 
@@ -213,7 +213,7 @@ img {
 nav {
   float: right;
   margin-top: 23px; // @TODO: Vertically middle align
-  font-family: 'Lato', $helveticaNeue;
+  font-family: 'Open Sans', $helveticaNeue;
   font-size: 18px;
 
   @include mobile {
