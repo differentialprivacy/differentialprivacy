@@ -4,8 +4,6 @@ title: About
 permalink: /about/
 ---
 
-# About
-
 This website is intended to serve as a resource for the differential privacy research community, as well as for those seeking to learn more about the subject. If you have any comments or suggestions for topics to cover, please contact the site administrators.
 
 ### Following
