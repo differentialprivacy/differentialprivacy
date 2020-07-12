@@ -10,7 +10,7 @@ layout: default
   </div>
 
   <div class="date">
-      Posted {% if page.author %}by {% if page.authorurl %}<a href="{{ page.authorurl }}">{% endif %}{{ page.author }}{% if page.authorurl %}</a>{% endif %} {% endif %}on {{ page.date | date: "%B %e, %Y" }}
+      Posted {% if page.author %}by {% if page.authorurl %}<a href="{{ page.authorurl }}">{% endif %}{{ page.author }}{% if page.authorurl %}</a>{% endif %} {% endif %}on {{ page.date | date: "%B %e, %Y" }}.
   </div>
 
   <!-- {% include disqus.html %} -->
@@ -58,4 +58,5 @@ layout: default
  }
  </script>
   {% endif %}
+    <br/>&nbsp;<br/>
 </article>
