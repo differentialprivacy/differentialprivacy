@@ -18,12 +18,19 @@ as an example.
   ```
   https://github.com/<YourUserName>/differentialprivacy
   ```
+  You can skip this step if you have already done so previously.
 
-  If you have already forked the repo before, you may want to update
-  the forked repo with `git rebase`:
+- Next, clone the repo by running the command:
   ```
+  git clone https://github.com/<YourUserName>/differentialprivacy
+  cd differentialprivacy/
   # Add the remote (original repo that you forked) and call it “upstream”
   git remote add upstream https://github.com/differentialprivacy/differentialprivacy.git 
+  ```
+
+  If you have already forked the repo before, you should skip
+  this. But you may want to update the forked repo with `git rebase`:
+  ```
   # Fetch all branches of remote upstream
   git fetch upstream
   # Rewrite your master with upstream’s master using git rebase.
@@ -32,21 +39,11 @@ as an example.
   git push origin master --force
   ```
 
-- Next, clone the repo by running the command:
-  ```
-  git clone https://github.com/<YourUserName>/differentialprivacy
-  ```
-
 - Create a new branch by 
   ```
   git checkout -b gauss_mech
   ```
   where `gauss_mech` is the name of your new branch.
-
-- Create a new remote for the upstream repo with the command:
-  ```
-  git remote add upstream https://github.com/differentialprivacy/differentialprivacy
-  ```
 
 - Now that you are inside this new branch, you can add or change
   contents. For example, if you want to create a new post, the following code 
