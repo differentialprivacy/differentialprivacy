@@ -1,18 +1,6 @@
 # Repository for [differentialprivacy.org](https://differentialprivacy.org/)
 We're currently working to add some content.
 
-## Installation
-- To run the website locally, you would need to install
-  [Jekyll](https://jekyllrb.com/).
-
-## Preview
-- To preview the website locally, run command line:
-```
-# go to the repo directory
-cd differentialprivacy/
-jekyll serve
-# then browse to http://localhost:4000
-```
 
 ## Contribute to [differentialprivacy.org](https://differentialprivacy.org/)
 ### The easy way: email the editors!
@@ -29,6 +17,19 @@ as an example.
   GitHub user account under the url
   ```
   https://github.com/<YourUserName>/differentialprivacy
+  ```
+
+  If you have already forked the repo before, you may want to update
+  the forked repo with `git rebase`:
+  ```
+  # Add the remote (original repo that you forked) and call it “upstream”
+  git remote add upstream https://github.com/differentialprivacy/differentialprivacy.git 
+  # Fetch all branches of remote upstream
+  git fetch upstream
+  # Rewrite your master with upstream’s master using git rebase.
+  git rebase upstream/master
+  # Push your updates to your own master. You may need to force the push with “--force”.
+  git push origin master --force
   ```
 
 - Next, clone the repo by running the command:
@@ -58,5 +59,19 @@ as an example.
   git push -u origin gauss_mech
   ```
   
-- The editors will review your edits merge the edits if they are good!
+- The editors will review your edits and merge the edits if they are
+  good!
+  
 
+## Installation
+- To run the website locally, you would need to install
+  [Jekyll](https://jekyllrb.com/).
+
+## Preview your changes
+- To preview the website locally, run command line:
+```
+# go to the repo directory
+cd differentialprivacy/
+jekyll serve
+# then browse to http://localhost:4000
+```
