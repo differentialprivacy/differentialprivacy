@@ -16,6 +16,7 @@ This website is intended to serve as a resource for the differential privacy res
 
 #### Contributors
 * <a href="http://www.thomas-steinke.net/">Thomas Steinke</a>
+* [Steven Wu](https://zstevenwu.com/)
 
 ## Contact
 
