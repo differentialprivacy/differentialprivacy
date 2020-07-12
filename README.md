@@ -7,8 +7,8 @@ We're currently working to add some content.
   [Jekyll](https://jekyllrb.com/).
 
 # Preview
-- To preview the website locally:
-'''command line
+- To preview the website locally, run command line:
+```
 jekyll serve
 # then browse to http://localhost:4000
-'''
+```
