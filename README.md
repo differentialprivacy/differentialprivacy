@@ -52,7 +52,7 @@ as an example.
   contents. For example, if you want to create a new post, the following code 
   will create a pull request under your branch
   ```
-  cd __post/ # go to the post directory
+  cd _post/ # go to the post directory
   echo “some test file” > test.md # toy example of a new post
   git add test.md 
   git commit -m "Adding a test file to this branch"
