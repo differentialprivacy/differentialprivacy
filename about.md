@@ -7,16 +7,19 @@ permalink: /about/
 This website is intended to serve as a resource for the differential privacy research community, as well as for those seeking to learn more about the subject. If you have any comments or suggestions for topics to cover, please contact the site administrators.
 
 ## Team
-#### Current Editors
-* <a href="http://www.thomas-steinke.net/">Thomas Steinke</a><br>
-* <a href="https://www.ccs.neu.edu/home/jullman/">Jonathan Ullman</a><br>
-
-#### Webmaster
-* <a href="http://www.thomas-steinke.net/">Thomas Steinke</a>
+#### Admins
+* [Clément Canonne](http://www.cs.columbia.edu/~ccanonne/)
+* [Gautam Kamath](http://www.gautamkamath.com/)
+* [Thomas Steinke](http://www.thomas-steinke.net/)
+* [Jonathan Ullman](https://www.ccs.neu.edu/home/jullman/)
+* [Zhiwei Steven Wu](https://zstevenwu.com/)
 
 #### Contributors
-* <a href="http://www.thomas-steinke.net/">Thomas Steinke</a>
-* [Steven Wu](https://zstevenwu.com/)
+* [Clément Canonne](http://www.cs.columbia.edu/~ccanonne/)
+* [Gautam Kamath](http://www.gautamkamath.com/)
+* [Thomas Steinke](http://www.thomas-steinke.net/)
+* [Jonathan Ullman](https://www.ccs.neu.edu/home/jullman/)
+* [Zhiwei Steven Wu](https://zstevenwu.com/)
 
 ## Contact
 
