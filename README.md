@@ -1,7 +1,7 @@
 # Repository for [differentialprivacy.org](https://differentialprivacy.org/)
 We're currently working to add some content.
 
-$# Installation
+## Installation
 - To run the website locally, you would need to install
   [Jekyll](https://jekyllrb.com/).
 
@@ -14,4 +14,4 @@ jekyll serve
 # then browse to http://localhost:4000
 ```
 
-# Contribute to [differentialprivacy.org](https://differentialprivacy.org/)
+## Contribute to [differentialprivacy.org](https://differentialprivacy.org/)
