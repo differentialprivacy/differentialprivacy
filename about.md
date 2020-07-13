@@ -8,7 +8,6 @@ This website is intended to serve as a resource for the differential privacy res
 
 ## Team
 #### Admins
-* [Clément Canonne](http://www.cs.columbia.edu/~ccanonne/)
 * [Gautam Kamath](http://www.gautamkamath.com/)
 * [Thomas Steinke](http://www.thomas-steinke.net/)
 * [Jonathan Ullman](https://www.ccs.neu.edu/home/jullman/)
