@@ -19,6 +19,14 @@ permalink: /resources/
 * [Algorithmic Foundations of Data Privacy](https://www.cis.upenn.edu/~aaroth/courses/privacyF11.html), taught by [Aaron Roth](https://www.cis.upenn.edu/~aaroth/), Fall 2011
 * [Algorithmic Challenges in Data Privacy](http://www.cse.psu.edu/~ads22/privacy598/), taught by [Sofya Raskhodnikova](https://cs-people.bu.edu/sofya/) and [Adam Smith](https://cs-people.bu.edu/ads22/), Spring 2010
 
-## Past Workshops with Videos
+## Videos
+* [The Theory and Practice of Differential Privacy](), by [Salil Vadhan](https://salil.seas.harvard.edu/), [COLT 2020](https://www.colt2020.org/)
+* [The U.S. Census Bureau Tries to be a Good Data Steward in the 21st Century](https://www.youtube.com/watch?v=R_8riuhIw-4), by [John Abowd](https://www.ilr.cornell.edu/people/john-abowd), [ICML 2019](https://icml.cc/Conferences/2019)
+* [Tutorial on Differentially Private Machine Learning](https://vimeo.com/248492174), by [Kamalika Chaudhuri](http://cseweb.ucsd.edu/~kamalika/) and [Anand Sarwate](https://www.ece.rutgers.edu/~asarwate/), [ICML 2017](https://icml.cc/Conferences/2017/)
+
+## Workshops (with Videos)
 * [Data Privacy: Foundations and Applications](https://simons.berkeley.edu/programs/privacy2019), Spring 2019 at the Simons Institute for the Theory of Computing
 * [Mathematical Foundations of Data Privacy](https://www.birs.ca/events/2018/5-day-workshops/18w5189), May 2018 at the Banff International Research Station
+
+## Workshops (without Videos)
+* [Theory and Practice of Differential Privacy (TPDP)](https://tpdp.journalprivacyconfidentiality.org/)
