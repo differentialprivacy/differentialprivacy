@@ -14,6 +14,7 @@ permalink: /resources/
 ## Courses
 * [Algorithms in Society](https://docs.google.com/document/d/1MO9DSbJMMnJxgml3uwYRgw2LaXPzUaDGyDM1CU6Z-Tk/), taught by [Adam Smith](https://cs-people.bu.edu/ads22/), Spring 2020
 * [Applied Privacy for Data Science](http://people.seas.harvard.edu/~salil/cs208/), taught by [James Honaker](https://hona.kr/) and [Salil Vadhan](https://salil.seas.harvard.edu/), Spring 2019
+* [The Algorithmic Foundations of Adaptive Data Analysis](https://adaptivedataanalysis.com/), taught by [Aaron Roth](https://www.cis.upenn.edu/~aaroth/) and [Adam Smith](https://cs-people.bu.edu/ads22/), Fall 2017
 * [Differential Privacy in Game Theory and Mechanism Design](https://www.cis.upenn.edu/~aaroth/courses/gametheoryprivacyS14.html), taught by [Aaron Roth](https://www.cis.upenn.edu/~aaroth/), Spring 2014
 * [Mathematical Approaches to Data Privacy](http://people.seas.harvard.edu/~salil/diffprivcourse/spring13/), taught by [Salil Vadhan](https://salil.seas.harvard.edu/), Spring 2013
 * [Algorithmic Foundations of Data Privacy](https://www.cis.upenn.edu/~aaroth/courses/privacyF11.html), taught by [Aaron Roth](https://www.cis.upenn.edu/~aaroth/), Fall 2011
