@@ -27,7 +27,7 @@ This website is intended to serve as a resource for the differential privacy res
 
 ## Following
 
-<a href="https://groups.google.com/d/forum/differential-privacy-org/joi"><i class="svg-icon email"></i></a>&nbsp;&nbsp;
+<a href="https://groups.google.com/d/forum/differential-privacy-org/join"><i class="svg-icon email"></i></a>&nbsp;&nbsp;
 <a href="https://www.twitter.com/DiffPriv"><i class="svg-icon twitter"></i></a>&nbsp;&nbsp;
 <a href="{{ site.baseurl }}/feed.xml"><i class="svg-icon rss"></i></a>&nbsp;&nbsp;
 <a href="https://github.com/differentialprivacy/differentialprivacy"><i class="svg-icon github"></i></a> 
