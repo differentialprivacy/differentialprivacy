@@ -22,7 +22,8 @@ as an example.
 
 - Next, clone the repo by running the command:
   ```
-  git clone https://github.com/<YourUserName>/differentialprivacy
+  # Clone with ssh. You can also clone with https.
+  git clone git@github.com:differentialprivacy/differentialprivacy.git
   cd differentialprivacy/
   # Add the remote (original repo that you forked) and call it “upstream”
   git remote add upstream https://github.com/differentialprivacy/differentialprivacy.git 
