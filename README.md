@@ -72,7 +72,7 @@ Look at the [Welcome Post](https://github.com/differentialprivacy/differentialpr
   git commit -m "Adding my post"
   git push -u origin my_branch
   ```
-  - Go back to `https://github.com/<YourUserName>/differentialprivacy` and create a pull request on github.
+  - Go back to `https://github.com/<YourUserName>/differentialprivacy/tree/my_branch` on github and click `Pull request`. You can leave some comments and then click `Create pull request`.
   
  - The site administrators will then review your edits and merge them into the live version of the website. 
 
