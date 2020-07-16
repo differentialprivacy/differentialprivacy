@@ -10,9 +10,8 @@ layout: default
   </div>
 
   <div class="date">
-      Posted {% if page.author %}by {% if page.authorurl %}<a href="{{ page.authorurl }}">{% endif %}{{ page.author }}{% if page.authorurl %}</a>{% endif %} {% endif %}on {{ page.date | date: "%B %e, %Y" }}. </br>
+      Posted {% if page.authors %}by{% for author in page.authors %}{% if forloop.first == false %}{% if forloop.last == true %} and{% else %},{% endif %}{% endif %} <a href="{{ site.data.contributors[author].homepage }}">{{ site.data.contributors[author].name }}</a>{% endfor %}{% endif %} on {{ page.date | date: "%B %e, %Y" }}.
   </div>
-  
   <div class="post-categories">
     {% if post %}
       {% assign categories = post.categories %}
