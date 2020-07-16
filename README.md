@@ -59,18 +59,22 @@ Look at the [Welcome Post](https://github.com/differentialprivacy/differentialpr
   ```
   where `my_branch` is the name of your new branch.
 
-- Now you can add your post or otherwise edit the content on your system. For example, if you want to create a new post, the following code 
-  will create a pull request under your branch
+- Now you can add your post or otherwise edit the content on your system.
   ```
   cd _post/ # go to the post directory
   cp 2020-7-11-Welcome.md YYYY-MM-DD-My-Post-Name.md #make a copy of the Welcome post
   open YYYY-MM-DD-My-Post-Name.md #open it in your favourite editor and make changes
+  ```
+  
+  - Next you must add your post to your github repository.
+  ```
   git add YYYY-MM-DD-My-Post-Name.md
   git commit -m "Adding my post"
   git push -u origin my_branch
   ```
+  - Go back to `https://github.com/<YourUserName>/differentialprivacy` and create a pull request on github.
   
-- The site administrators will then review your edits and merge them into the website.
+ - The site administrators will then review your edits and merge them into the live version of the website. 
 
 ## Preview your content
 
