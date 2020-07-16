@@ -7,7 +7,7 @@ authors:
 categories: Posts
 ---
 
-There exist various notions of differential privacy which, while sharing a common core, differin some key specific aspects. Broadly speaking, vary among a few main axes, such as the type of guarantee they provide, the specific similarity between data they consider, and the trust model they aim to address. This last point will be the focus of this post: *which notion of privacy is best suited to the specific scenario at hand?*
+There exist various notions of differential privacy which, while sharing a common core, differ in some key specific aspects. Broadly speaking, vary among a few main axes, such as the type of guarantee they provide, the specific similarity between data they consider, and the trust model they aim to address. This last point will be the focus of this post: *which notion of privacy is best suited to the specific scenario at hand?*
 
 We will cover 4 of these notions. 
 - (central) differential privacy (DP)
