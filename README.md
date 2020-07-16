@@ -49,15 +49,10 @@ Look at the [Welcome Post](https://github.com/differentialprivacy/differentialpr
   git fetch upstream
   # Rewrite your master with upstream’s master using git rebase.
   git rebase upstream/master
+  git pull upstream master
   # Push your updates to your own master. You may need to force the push with “--force”.
   git push origin master --force
   ```
-
-- Create a new branch by 
-  ```
-  git checkout -b my_branch
-  ```
-  where `my_branch` is the name of your new branch.
 
 - Now you can add your post or otherwise edit the content on your system.
   ```
@@ -66,14 +61,14 @@ Look at the [Welcome Post](https://github.com/differentialprivacy/differentialpr
   open YYYY-MM-DD-My-Post-Name.md #open it in your favourite editor and make changes
   ```
   
-  - Next you must add your post to your github repository.
+- Next you must add your post to your github repository.
   ```
   git add YYYY-MM-DD-My-Post-Name.md
   git commit -m "Adding my post"
-  git push -u origin my_branch
+  git push -u origin master
   ```
 
-- Go back to `https://github.com/<YourUserName>/differentialprivacy/tree/my_branch` on github and click `Pull request`. You can leave some comments and then click `Create pull request`.
+- Go back to `https://github.com/<YourUserName>/differentialprivacy/` on github and click `Pull request`. You can leave some comments and then click `Create pull request`.
   
 - The site administrators will then review your edits and merge them into the live version of the website. 
 
