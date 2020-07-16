@@ -43,7 +43,7 @@ Look at the [Welcome Post](https://github.com/differentialprivacy/differentialpr
   git remote add upstream https://github.com/differentialprivacy/differentialprivacy.git 
   ```
 
-  - If you have already forked the repo before, you should skip this. But you may want to update the forked repo with `git rebase`:
+- If you have already forked the repo before, you should skip this. But you may want to update the forked repo with `git rebase`:
   ```
   # Fetch all branches of remote upstream
   git fetch upstream
@@ -72,9 +72,10 @@ Look at the [Welcome Post](https://github.com/differentialprivacy/differentialpr
   git commit -m "Adding my post"
   git push -u origin my_branch
   ```
-  - Go back to `https://github.com/<YourUserName>/differentialprivacy/tree/my_branch` on github and click `Pull request`. You can leave some comments and then click `Create pull request`.
+
+- Go back to `https://github.com/<YourUserName>/differentialprivacy/tree/my_branch` on github and click `Pull request`. You can leave some comments and then click `Create pull request`.
   
- - The site administrators will then review your edits and merge them into the live version of the website. 
+- The site administrators will then review your edits and merge them into the live version of the website. 
 
 ## Preview your content
 
@@ -85,9 +86,9 @@ Before making your content live on the website, please test it out on your compu
  gem install bundler jekyll
 ```
 
-- To preview the website locally:
+- To preview the website locally, simply navigate to the copy of the repository on your computer, run `jekyll serve`, and open `http://localhost:4000` in your browser:
 ```
-#make a copy of the website repository https://github.com/differentialprivacy/differentialprivacy
+#first make a copy of the website repository https://github.com/differentialprivacy/differentialprivacy
 cd differentialprivacy/ #go to the repo directory
 jekyll serve #start the local server
 open http://localhost:4000 #view the website in your web browser

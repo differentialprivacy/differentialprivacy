@@ -12,7 +12,11 @@ layout: none
       <item>
         <title>{{ post.title | xml_escape }}</title>
         <description>{{ post.content | xml_escape }}</description>
-        <author>{{ post.author }}</author>
+        {% if post.authors %}<author>
+        {% for author in post.authors %}
+            <name>{{ site.data.contributors[author].name }}</name>
+        {% endfor %}
+        </author>{% endif %}
         <pubDate>{{ post.date | date: "%a, %d %b %Y %H:%M:%S %z" }}</pubDate>
         <link>{{ site.url }}{{ post.url }}</link>
         <guid isPermaLink="true">{{ site.url }}{{ post.url }}</guid>
