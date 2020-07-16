@@ -17,7 +17,7 @@ layout: none
             <name>{{ site.data.contributors[author].name }}</name>
         {% endfor %}
         </author>{% endif %}
-        <pubDate>{{ post.date | date: "%a, %d %b %Y %H:%M:%S %z" }}</pubDate>
+        <pubDate>{{ post.date | date: "%a, %d %b %Y" }} {{ post.timestamp }}</pubDate>
         <link>{{ site.url }}{{ post.url }}</link>
         <guid isPermaLink="true">{{ site.url }}{{ post.url }}</guid>
       </item>
