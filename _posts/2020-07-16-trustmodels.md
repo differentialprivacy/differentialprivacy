@@ -26,7 +26,7 @@ The *pan-privacy model* **\[DNPRY10\]** introduces the notion of time. Each user
 
 Finally, the recent *shuffle model* of privacy **\[CSUZZ19,EFMRTT19\]** is in some sense intermediate between the central and local models of DP: users do not trust the server (and, god forbid, they still don't trust the outside world!); however, they do trust some small blackbox in the middle, whose role is to randomly, well, _shuffle_ the data. That is, when all users send their data to the untrusted server, this box-in-the-middle randomly permutes all the data points, so that the server had no idea who sent which part of the data. This simple-yet-helpful trusted backbox, in turn, can be implemented using e.g., cryptographic primitives; and the goal is to try and provide stronger privacy than in the DP model, while suffering a smaller utility loss than in the stringent LDP model.
 
-It is important to note that _there is no right or wrong model_ of privacy here, and one cannot say that any of the above notion is "better" than the others. They all aim at modeling different scenarios, and provide incomparable guarantees: depending on your situation, pick the one that fits best.
+It is important to note that _there is no right or wrong model_ of privacy here, and one cannot say that any of the above notion is "better" than the others with regard to both privacy and accuracy. They all aim at modeling different scenarios, and provide incomparable guarantees: depending on your situation, pick the one that fits best.
 
 ---
 
