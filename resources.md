@@ -15,10 +15,13 @@ permalink: /resources/
 * [Exposed! A Survey of Attacks on Private Data](https://privacytools.seas.harvard.edu/publications/exposed-survey-attacks-private-data) by [Cynthia Dwork](https://www.microsoft.com/en-us/research/people/dwork/), [Adam Smith](https://cs-people.bu.edu/ads22/), [Thomas Steinke](http://www.thomas-steinke.net/), and [Jonathan Ullman](http://www.ccs.neu.edu/home/jullman/)
 
 ## Courses
+* [Private Systems](https://columbia.github.io/private-systems-class/), taught by [Roxana Geambasu](https://roxanageambasu.github.io/), Spring 2020
 * [Algorithms in Society](https://docs.google.com/document/d/1MO9DSbJMMnJxgml3uwYRgw2LaXPzUaDGyDM1CU6Z-Tk/), taught by [Adam Smith](https://cs-people.bu.edu/ads22/), Spring 2020
+* [Privacy in the World of Big Data](https://www.korolova.com/teaching/CSCI631/), taught by [Aleksandra Korolova](https://www.korolova.com/), Fall 2019
 * [Applied Privacy for Data Science](http://people.seas.harvard.edu/~salil/cs208/), taught by [James Honaker](https://hona.kr/) and [Salil Vadhan](https://salil.seas.harvard.edu/), Spring 2019
-* [Rigorous Approaches to Data Privacy](http://www.ccs.neu.edu/home/jullman/cs7880s17/syllabus.html), taught by [Jonathan Ullman](http://www.ccs.neu.edu/home/jullman/), Spring 2017 
 * [The Algorithmic Foundations of Adaptive Data Analysis](https://adaptivedataanalysis.com/), taught by [Aaron Roth](https://www.cis.upenn.edu/~aaroth/) and [Adam Smith](https://cs-people.bu.edu/ads22/), Fall 2017
+* [Rigorous Approaches to Data Privacy](http://www.ccs.neu.edu/home/jullman/cs7880s17/syllabus.html), taught by [Jonathan Ullman](http://www.ccs.neu.edu/home/jullman/), Spring 2017 
+* [Design of Stable Algorithms for Privacy and Learning](https://www2.cs.duke.edu/courses/fall16/compsci590.3/), taught by [Ashwin Machanavajjhala](https://users.cs.duke.edu/~ashwin/)
 * [Differential Privacy in Game Theory and Mechanism Design](https://www.cis.upenn.edu/~aaroth/courses/gametheoryprivacyS14.html), taught by [Aaron Roth](https://www.cis.upenn.edu/~aaroth/), Spring 2014
 * [Mathematical Approaches to Data Privacy](http://people.seas.harvard.edu/~salil/diffprivcourse/spring13/), taught by [Salil Vadhan](https://salil.seas.harvard.edu/), Spring 2013
 * [Algorithmic Foundations of Data Privacy](https://www.cis.upenn.edu/~aaroth/courses/privacyF11.html), taught by [Aaron Roth](https://www.cis.upenn.edu/~aaroth/), Fall 2011
@@ -30,13 +33,17 @@ permalink: /resources/
 * [Tutorial on Differentially Private Machine Learning](https://vimeo.com/248492174), by [Kamalika Chaudhuri](http://cseweb.ucsd.edu/~kamalika/) and [Anand Sarwate](https://www.ece.rutgers.edu/~asarwate/), [ICML 2017](https://icml.cc/Conferences/2017/)
 
 ## Workshops (with Videos)
+* [Challenges and New Approaches for Protecting Privacy in Federal Statistical Programs](https://www.nationalacademies.org/event/06-06-2019/challenges-and-new-approaches-for-protecting-privacy-in-federal-statistical-programs-a-workshop), June 2019 at the National Academies
 * [Data Privacy: Foundations and Applications](https://simons.berkeley.edu/programs/privacy2019), Spring 2019 at the Simons Institute for the Theory of Computing
 * [Mathematical Foundations of Data Privacy](https://www.birs.ca/events/2018/5-day-workshops/18w5189), May 2018 at the Banff International Research Station
+* [Differential Privacy: From Theory to Practice](http://cyber.biu.ac.il/event/the-7th-biu-winter-school/), February 2017 at Bar Ilan University
 
 ## Workshops (without Videos)
 * [Theory and Practice of Differential Privacy (TPDP)](https://tpdp.journalprivacyconfidentiality.org/)
 
 ## Code Libraries
+* [Google's DP Library](https://github.com/google/differential-privacy)
+* [RAPPOR](https://github.com/google/rappor)
 * [OpenDP](https://github.com/opendifferentialprivacy/)
 * [Tensorflow Privacy](https://github.com/tensorflow/privacy)
 * [IBM Differential Privacy Library](https://github.com/IBM/differential-privacy-library)
