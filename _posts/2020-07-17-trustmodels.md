@@ -5,7 +5,7 @@ comments: true
 authors: 
     - clementcanonne
 categories: Definitions
-timestamp: 15:40:00 -0500
+timestamp: 19:00:00 -0400
 ---
 
 There exist various notions of differential privacy which, while sharing a common core, differ in some key specific aspects. Broadly speaking, vary among a few main axes, such as the type of guarantee they provide, the specific similarity between data they consider, and the trust model they aim to address. This last point will be the focus of this post: *which notion of privacy is best suited to the specific scenario at hand?*
