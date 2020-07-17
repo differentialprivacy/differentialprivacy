@@ -30,20 +30,20 @@ It is important to note that _there is no right or wrong model_ of privacy here,
 
 ---
 
-**\[CSUZZ19\]** Albert Cheu, Adam D. Smith, Jonathan Ullman, David Zeber, Maxim Zhilyaev:
+**\[[CSUZZ19](https://arxiv.org/abs/1808.01394)\]** Albert Cheu, Adam D. Smith, Jonathan Ullman, David Zeber, Maxim Zhilyaev:
 _Distributed Differential Privacy via Shuffling._ EUROCRYPT (1) 2019: 375-403
 
-**\[DMN06\]** Cynthia Dwork, Frank McSherry, Kobbi Nissim, Adam D. Smith:
+**\[[DMN06](https://journalprivacyconfidentiality.org/index.php/jpc/article/view/405)\]** Cynthia Dwork, Frank McSherry, Kobbi Nissim, Adam D. Smith:
 _Calibrating Noise to Sensitivity in Private Data Analysis._ TCC 2006: 265-284
 
-**\[DNPRY10\]** Cynthia Dwork, Moni Naor, Toniann Pitassi, Guy N. Rothblum, Sergey Yekhanin:
+**\[[DNPRY10](https://conference.iiis.tsinghua.edu.cn/ICS2010/content/papers/6.html)\]** Cynthia Dwork, Moni Naor, Toniann Pitassi, Guy N. Rothblum, Sergey Yekhanin:
 _Pan-Private Streaming Algorithms._ ICS 2010: 66-80
 
-**\[EFMRTT19\]** Úlfar Erlingsson, Vitaly Feldman, Ilya Mironov, Ananth Raghunathan, Kunal Talwar, Abhradeep Thakurta:
+**\[[EFMRTT19](https://arxiv.org/abs/1811.12469)\]** Úlfar Erlingsson, Vitaly Feldman, Ilya Mironov, Ananth Raghunathan, Kunal Talwar, Abhradeep Thakurta:
 _Amplification by Shuffling: From Local to Central Differential Privacy via Anonymity._ SODA 2019: 2468-2479
 
-**\[EGS03\]** Alexandre V. Evfimievski, Johannes Gehrke, Ramakrishnan Srikant:
+**\[[EGS03](https://dl.acm.org/doi/10.1145/773153.773174)\]** Alexandre V. Evfimievski, Johannes Gehrke, Ramakrishnan Srikant:
 _Limiting privacy breaches in privacy preserving data mining._ PODS 2003: 211-222
 
-**\[KLNRS08\]** Shiva Prasad Kasiviswanathan, Homin K. Lee, Kobbi Nissim, Sofya Raskhodnikova, Adam D. Smith:
+**\[[KLNRS08](https://arxiv.org/abs/0803.0924)\]** Shiva Prasad Kasiviswanathan, Homin K. Lee, Kobbi Nissim, Sofya Raskhodnikova, Adam D. Smith:
 _What Can We Learn Privately?_ FOCS 2008: 531-540
