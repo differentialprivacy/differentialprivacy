@@ -17,7 +17,7 @@ Below are technical instructions for creating and adding content to the website.
 ## How to put content on the website
 
 Posts must be written in [markdown](https://www.markdownguide.org/basic-syntax/). (Although some HTML can be included if necessary.)
-Look at the [Welcome Post](https://github.com/differentialprivacy/differentialprivacy/blob/master/_posts/2020-07-11-Welcome.md) or any other post as an example for the format. Note that you must add yourself to the [contributors list](https://github.com/differentialprivacy/differentialprivacy/blob/master/_data/contributors.yml)
+Look at the [Welcome Post](https://github.com/differentialprivacy/differentialprivacy/blob/master/_posts/2020-07-16-welcome.md) or any other post as an example for the format. Note that the administrators will also add your details to the [contributors list](https://github.com/differentialprivacy/differentialprivacy/blob/master/_data/contributors.yml)
 
 ### The easy way: email the editors!
 
@@ -57,7 +57,7 @@ Look at the [Welcome Post](https://github.com/differentialprivacy/differentialpr
 - Now you can add your post or otherwise edit the content on your system.
   ```
   cd _posts/ # go to the post directory
-  cp 2020-07-11-Welcome.md YYYY-MM-DD-My-Post-Name.md #make a copy of the Welcome post
+  cp 2020-07-16-welcome.md YYYY-MM-DD-My-Post-Name.md #make a copy of the Welcome post
   open YYYY-MM-DD-My-Post-Name.md #open it in your favourite editor and make changes
   ```
   

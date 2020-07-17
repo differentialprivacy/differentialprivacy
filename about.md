@@ -12,7 +12,7 @@ This website is intended to serve as a resource for the differential privacy res
 
 ## Mailing list
 
-Please [join our mailing list](https://groups.google.com/d/forum/differential-privacy-org/join) for updates.
+Please [join our low-traffic mailing list](https://groups.google.com/d/forum/differential-privacy-org/join) to receive important announcements for the differential privacy community.
 
 ## Contributors
 {% for author in site.data.contributors %}
