@@ -18,7 +18,7 @@ We will cover 4 of these notions.
 
 Typically, the world can be divided in a few categories: (i) the users, who hold the data; (ii) the "server," who runs the algorithm; and (iii) the rest of the world, which does what the rest of the world does. As the name indicates, the _trust model_ boils down to the following simple question: as a user, **who do you trust** with your sensitive data? 
 
-In the *DP model* **\[DMN06\]**, the answer is essentially "the server, and nobody else." Users are happy to provide their data to the server, which runs the algorithm on the resulting dataset; however, the _output_ of that algorithm, which is released to the (untrusted) world, needs to be private, and not reveal sensitive information about any single user.
+In the *DP model* **\[DMNS06\]**, the answer is essentially "the server, and nobody else." Users are happy to provide their data to the server, which runs the algorithm on the resulting dataset; however, the _output_ of that algorithm, which is released to the (untrusted) world, needs to be private, and not reveal sensitive information about any single user.
 
 In the *LDP model* **\[EGS03,KLNRS08\]**, the server itself is untrusted, and the answer is "nobody." Any data communicated by the users must already be private, and even a prying server cannot learn much about any single user. Of course, this is a strictly more stringent privacy model than the central DP one, and this comes at a price: the utility one can obtain from the same amount of data is typically smaller than in the DP model.
 
@@ -33,7 +33,7 @@ It is important to note that _there is no right or wrong model_ of privacy here,
 **\[[CSUZZ19](https://arxiv.org/abs/1808.01394)\]** Albert Cheu, Adam D. Smith, Jonathan Ullman, David Zeber, Maxim Zhilyaev:
 _Distributed Differential Privacy via Shuffling._ EUROCRYPT (1) 2019: 375-403
 
-**\[[DMN06](https://journalprivacyconfidentiality.org/index.php/jpc/article/view/405)\]** Cynthia Dwork, Frank McSherry, Kobbi Nissim, Adam D. Smith:
+**\[[DMNS06](https://journalprivacyconfidentiality.org/index.php/jpc/article/view/405)\]** Cynthia Dwork, Frank McSherry, Kobbi Nissim, Adam D. Smith:
 _Calibrating Noise to Sensitivity in Private Data Analysis._ TCC 2006: 265-284
 
 **\[[DNPRY10](https://conference.iiis.tsinghua.edu.cn/ICS2010/content/papers/6.html)\]** Cynthia Dwork, Moni Naor, Toniann Pitassi, Guy N. Rothblum, Sergey Yekhanin:
