@@ -22,6 +22,12 @@ audramcmillan:
   image: 
   affiliation: Apple
 
+ryanrogers:
+  name: Ryan Rogers
+  homepage: https://www.math.upenn.edu/~ryrogers/
+  image: 
+  affiliation: LinkedIn
+
 adamsealfon:
   name: Adam Sealfon
   homepage: http://www.mit.edu/~asealfon/
