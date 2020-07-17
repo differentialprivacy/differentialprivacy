@@ -28,7 +28,7 @@ permalink: /resources/
 * [Algorithmic Challenges in Data Privacy](http://www.cse.psu.edu/~ads22/privacy598/), taught by [Sofya Raskhodnikova](https://cs-people.bu.edu/sofya/) and [Adam Smith](https://cs-people.bu.edu/ads22/), Spring 2010
 
 ## Videos
-* [The Theory and Practice of Differential Privacy](), by [Salil Vadhan](https://salil.seas.harvard.edu/), [COLT 2020](https://www.colt2020.org/)
+* [The Theory and Practice of Differential Privacy](https://www.youtube.com/watch?v=4bpFDpT1t7I), by [Salil Vadhan](https://salil.seas.harvard.edu/), [COLT 2020](https://www.colt2020.org/)
 * [The U.S. Census Bureau Tries to be a Good Data Steward in the 21st Century](https://www.youtube.com/watch?v=R_8riuhIw-4), by [John Abowd](https://www.ilr.cornell.edu/people/john-abowd), [ICML 2019](https://icml.cc/Conferences/2019)
 * [Tutorial on Differentially Private Machine Learning](https://vimeo.com/248492174), by [Kamalika Chaudhuri](http://cseweb.ucsd.edu/~kamalika/) and [Anand Sarwate](https://www.ece.rutgers.edu/~asarwate/), [ICML 2017](https://icml.cc/Conferences/2017/)
 
