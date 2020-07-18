@@ -17,6 +17,9 @@ Below are technical instructions for creating and adding content to the website.
 ## How to put content on the website
 
 Posts must be written in [markdown](https://www.markdownguide.org/basic-syntax/). (Although some HTML can be included if necessary.)
+
+Math is rendered using [MathJax](https://www.mathjax.org/). Inline math should use be written as `\\\(e^{i\pi}+1=0\\\)` (in LaTeX this would simply be `\(e^{i\pi}+1=0\)` or `$e^{i\pi}+1=0$`) and displayed equations should be written as `\\\[\sum_{n=0}^\infty \frac{x^n}{n!} = e^x\\\]` (in LaTeX this would be `\[...\]` or `$$...$$`). The reason for the excessive backslashes is to escape special characters; markdown renders `\\` as `\` and `\(` as `(` etc. You can convert LaTeX to markdown by simply doing find and replace. Note that you must use "plain" LaTeX; your macros can't be used.
+
 Look at the [Welcome Post](https://github.com/differentialprivacy/differentialprivacy/blob/master/_posts/2020-07-16-welcome.md) or any other post as an example for the format. Note that the administrators will also add your details to the [contributors list](https://github.com/differentialprivacy/differentialprivacy/blob/master/_data/contributors.yml)
 
 ### The easy way: email the editors!
