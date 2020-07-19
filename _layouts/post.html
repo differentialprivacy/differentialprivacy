@@ -29,13 +29,19 @@ layout: default
 
   <!-- {% include disqus.html %} -->
   {% if page.comments %}
+  <span class="disqus-comment-count" data-disqus-url="{{ site.url }}{{ page.url }}"> <!-- Comment count will be inserted here --> </span>
+
+
   <br/>&nbsp;<br/>
  <div class="comments-block">
      <center><button id="show-comments" onclick="disqus();return false;">SHOW COMMENTS</button></center>
  </div>
+ <noscript>Comments cannot be shown due to javascript being disabled in your browser.</noscript>
 
  <div id="disqus_thread"></div>
-
+ 
+ <script id="dsq-count-scr" src="//{{ site.disqus }}.disqus.com/count.js" async></script>
+ 
  <script>
  var disqus_loaded = false;
  var disqus_shortname = '{{ site.disqus }}'; //Add your shortname here
