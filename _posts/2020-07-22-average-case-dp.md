@@ -83,7 +83,7 @@ Now, suppose we have a weight vector \\( w \in \mathbb{R}^{d} \\) and want to es
 \\[
 q(X) = \sum_{j = 1}^{d} w_j q_j(X) = \sum_{i=1}^{n} \sum_{j=1}^{d} w_{j} X_{i,j} X_{i,d+1}
 \\]
-This statistic may look a little odd, but it's pretty close to computing the average squared error of the linear predictor \\( \hat X_{i,d+1} = \sum_{j=1}^{d} w_j X_{i,j} \\) given by the weight vector \\( w \\), which is a natural thing to estimate.  %It's not too hard to show that, under our distributional model, this query has mean 0 and variance \\( n\\\| w \\\|_2^2 \\).  
+This statistic may look a little odd, but it's pretty close to computing the average squared error of the linear predictor \\( \hat X_{i,d+1} = \sum_{j=1}^{d} w_j X_{i,j} \\) given by the weight vector \\( w \\), which is a natural thing to estimate. 
 
 The worst-case sensitivity of \\(q\\) is proportional to \\( \\\|w\\\|_1 \\).  
 However, it's not too hard to show that, under our distributional model, the average-case sensitivity is much lower, proportional to \\( \\\| w \\\|_2 \\).  Thus, using average-case privacy allows us to add significantly less noise.
