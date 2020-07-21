@@ -9,7 +9,7 @@ categories: [Definitions]
 timestamp: 10:00:00 -0400
 ---
 
-Differential privacy protects against extremely strong adversaries---even ones who know the entire dataset except for one bit of information about one individual.  Since its inception, people have considered ways to relax the definition to assume a more realistic adversary to allow better analysis.  A natural way to do so is to incorporate some distributional assumptions. That is, rather than considering a worst-case dataset, assume the dataset is drawn from some distribution and provide some form of "average-case" or "Bayesian" privacy guarantee with respect to this distribution. This is especially tempting as it is common for statistical analysis to work under distributional assumptions.
+Differential privacy protects against extremely strong adversaries---even ones who know the entire dataset except for one bit of information about one individual.  Since its inception, people have considered ways to relax the definition to assume a more realistic adversary.  A natural way to do so is to incorporate some distributional assumptions. That is, rather than considering a worst-case dataset, assume the dataset is drawn from some distribution and provide some form of "average-case" or "Bayesian" privacy guarantee with respect to this distribution. This is especially tempting as it is common for statistical analysis to work under distributional assumptions.
 
 In this post and in a planned follow-up post, we will discuss some pitfalls of average-case or Bayesian versions of differential privacy.  To avoid keeping you in suspense:
 
@@ -55,17 +55,19 @@ where
 \\)
 is called the "worst-case sensitivity" of \\( q \\) and \\( Z \\) is some noise, commonly drawn from a Laplace or Gaussian distribution.
 
-Unfortunately, the worst-case sensitivity may be large or even infinite for basic statistics of interest, such as the mean \\( q(x) = \frac{1}{n} \sum_{i} x_i \\) of real-valued data.  There are a variety of differentially private algorithms for addressing this problem,[^1] but that is not what this post is about.  It's tempting to, instead, try to scale the noise to some notion of "average-case sensitivity," with the goal of satisfying some average-case version of differential privacy.  For example, suppose the data is drawn from some normal distribution \\( N(\mu,1) \\) and the neighboring datasets \\( x', x" \\) are each \\( n \\) i.i.d. samples from this distribution, but differing on exactly one random sample.  Then the worst-case sensitivity of the mean is infinite:
+Unfortunately, the worst-case sensitivity may be large or even infinite for basic statistics of interest, such as the mean \\( q(x) = \frac{1}{n} \sum_{i} x_i \\) of real-valued data.  There are a variety of differentially private algorithms for addressing this problem,[^1] but that is not what this post is about.  It's tempting to, instead, try to scale the noise to some notion of "average-case sensitivity," with the goal of satisfying some average-case version of differential privacy.  For example, suppose the data is drawn from some normal distribution \\( N(\mu,\sigma^2) \\) and the neighboring datasets \\( x', x" \\) are each \\( n \\) i.i.d. samples from this distribution, but differing on exactly one random sample.  Then the worst-case sensitivity of the mean is infinite:
 \\[
 \sup_{\textrm{neighboring}~x',x"} |q(x') - q(x")| = \infty,
 \\]
 but the average-sensitivity is proportional to \\(1/n\\):
 \\[
-\mathbb{E}_{\textrm{neighboring}~x', x"}(|q(x') - q(x")|) = O(1/n).
+\mathbb{E}_{\textrm{neighboring}~x', x"}(|q(x') - q(x")|) \approx \frac{\sigma}{n}.
 \\]
 Thus, under an average-case privacy guarantee, we can estimate the mean with very little noise.
 
-But what happens to privacy if this assumption fails, perhaps because of outliers?  Imagine computing the average wealth of a subset of one hundred Amazon employees who test positive for COVID-19, and discovering that it's over one billion dollars.  Maybe Jeff Bezos isn't feeling well?[^2]  Yes, this example is a little contrived, since you probably shouldn't have computed the empirical mean of such skewed data, but if this fact leaks out you can't just go back in time and truncate the data or compute the median instead.  
+But what happens to privacy if this assumption fails, perhaps because of outliers?  Imagine computing the average wealth of a subset of one hundred Amazon employees who test positive for COVID-19, and discovering that it's over one billion dollars.  Maybe Jeff Bezos isn't feeling well?[^2]  
+
+Yes, this example is a little contrived, since you probably shouldn't have computed the empirical mean of such skewed data anyway. But, if this fact leaks out, you can't just go back in time and truncate the data or compute the median instead. Privacy tends to be high-stakes both because of the potential consequences of a breach and the inability to retract or correct a privacy violation after it is discovered. 
 
 In the next section we'll see a slightly more complex example where average-case privacy / average-case sensitivity fails to protect privacy even when the distributional assumptions hold.
 
@@ -88,7 +90,7 @@ This statistic may look a little odd, but it's pretty close to computing the ave
 The worst-case sensitivity of \\(q\\) is proportional to \\( \\\|w\\\|_1 \\).  
 However, it's not too hard to show that, under our distributional model, the average-case sensitivity is much lower, proportional to \\( \\\| w \\\|_2 \\).  Thus, using average-case privacy allows us to add significantly less noise.
 
-What could go wrong here?  Well, we've implicitly assumed that the weights \\( w \\) are independent of the data \\( X \\).  That is, the person specifying the weights has no knowledge of the data itself, only its distribution.  What if the weights are specified by an adversary who has learned the \\( d \\) features of the first individual (although there is nothing special about considering the first individual), and sets the weights to \\(w = (X_{1,1},\dots,X_{1,d}) \\).  Another calculation shows that, in this case, \emph{even when our model of the data is exactly correct}, the query \\(q(X)\\) has mean \\( d X_{1,d+1} \\) and standard deviation approximately \\( \sqrt{nd} \\).  Thus, if \\( d \gg n \\) we can confidently determine the secret label of the first individual.  Moreover, adding noise of standard deviation \\( \ll d \\) will not significantly affect the adversary's ability to learn the label.  But, earlier, we argued that average-case sensitivity is proportional to \\( \\|w \\|_2 = \sqrt{d} \\), so this form of average-case privacy fails to protect a user's data in this scenario!  Note that adding noise proportional to \\( \\|w\\|_1 = d \\) would satisfy (worst-case) differential privacy and would thwart this adversary.
+What could go wrong here?  Well, we've implicitly assumed that the weights \\( w \\) are independent of the data \\( X \\).  That is, the person specifying the weights has no knowledge of the data itself, only its distribution.  What if the weights are specified by an adversary who has learned the \\( d \\) features of the first individual (although there is nothing special about considering the first individual), and sets the weights to \\(w = (X_{1,1},\dots,X_{1,d}) \\).  Another calculation shows that, in this case, \emph{even when our model of the data is exactly correct}, the query \\( q(X) \\) has mean \\( d X_{1,d+1} \\) and standard deviation approximately \\( \sqrt{nd} \\).  Thus, if \\( d \gg n \\) we can confidently determine the secret label of the first individual \\( X_{1,d+1} \\) from the value \\( q(X) \\).  Moreover, adding noise of standard deviation \\( \ll d \\) will not significantly affect the adversary's ability to learn the label.  But, earlier, we argued that average-case sensitivity is proportional to \\( \\|w \\|_2 = \sqrt{d} \\), so this form of average-case privacy fails to protect a user's data in this scenario!  Note that adding noise proportional to \\( \\|w\\|_1 = d \\) would satisfy (worst-case) differential privacy and would thwart this adversary.
 
 >What went wrong is that the data satisfied our assumptions, but the adversary's beliefs about the data did not!
 
@@ -96,8 +98,8 @@ The set of reasonable models to consider for the adversary's beliefs may look ve
 
 Before wrapping up, let's just make a couple more observations about this example:
 
-* This model is pretty robust.   The assumption that the data is uniform with independent features can be relaxed significantly.  It's also not necessary for the attacker to exactly know all the features of the first user, all we need is for the weights to have correlation \\( \gg \sqrt{nd} \\) with the features.  For example, if the dataset is genomic data, having the data of a relative might suffice.
-* This problem isn't specific to high-dimensional data with \\( d \gg n \\).  If we allow more general types of "queries" then a similar attack is possible when there are only \\( d \approx \log n \\) features.
+* This attack is pretty robust. The assumption that the data is uniform with independent features can be relaxed significantly.  It's also not necessary for the adversary to exactly know all the features of the first user, all we need is for the weights to have correlation \\( \gg \sqrt{nd} \\) with the features.  For example, if the dataset is genomic data, having the data of a relative might suffice.
+* This problem isn't specific to high-dimensional data with \\( d \gg n \\).  If we allow more general types of "queries", then a similar attack is possible when there are only \\( d \approx \log n \\) features.
 * To make this example as crisp as possible, we allowed an adversarial data analyst to specify the weight vector \\( w \\).  You might think examples like this can't arise if the algorithm designer specifies all of the queries internally, but ensuring that requires great care (as we'll see in our upcoming post about composition).
     
 ### Conclusion
