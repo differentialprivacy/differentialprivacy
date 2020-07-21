@@ -1,6 +1,6 @@
 ---
 layout: post
-title: The Pitfalls of Average-Case DP
+title: The Pitfalls of Average-Case Differential Privacy
 comments: true
 authors: 
     - thomassteinke 
