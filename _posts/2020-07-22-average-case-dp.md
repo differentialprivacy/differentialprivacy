@@ -19,7 +19,7 @@ In this post and in a planned follow-up post, we will discuss some pitfalls of a
 
 We will show some illustrative examples for each of these points, but we will be purposefully vague as to exactly which alternative definition we are considering, as these issues arise in a wide variety of definitions.  Our hope is not to shut down discussion of these relaxations, nor to single out specific definitions as flawed. Our goal is simply to highlight some issues that, in our opinion, aren't adequately discussed when considering these relaxations.
 
-### Assumptions about nature vs.~assumptions about the adversary?
+### Assumptions about nature vs. assumptions about the adversary?
 
 In any reasonable definition of privacy, we have to think about whom we are hiding sensitive information from.  This person---"the adversary"---could be a stranger, a close friend, a relative, a corporation we do business with, or the government, and who they are affects what information they have access to and what defenses are appropriate.   How the adversary can access the private system defines the [trust model](\trustmodels). Distributional assumptions correspond to the adversary's side information.  Our key point is:
 
@@ -31,7 +31,7 @@ This example illustrates how assumptions about the adversary that might seem rea
 
 ### All models are wrong, but some are useful
 
-One justification for incorporating distributional assumptions into the privacy definition is that the person using the data is often making these assumptions anyway---for example, that the data is i.i.d.~Gaussian, or that two variables have some underlying linear relationship to be discovered.  So, if the assumption were false, wouldn't we already be in trouble?  Not really.
+One justification for incorporating distributional assumptions into the privacy definition is that the person using the data is often making these assumptions anyway---for example, that the data is i.i.d. Gaussian, or that two variables have some underlying linear relationship to be discovered.  So, if the assumption were false, wouldn't we already be in trouble?  Not really.
 
 >It's important to remember the old saw "all models are wrong, but some are useful."  Some models have proven themselves useful for statistical purposes, but that does not mean they are useful as a basis for privacy.
 
@@ -55,7 +55,7 @@ where
 \\)
 is called the "worst-case sensitivity" of \\( q \\) and \\( Z \\) is some noise, commonly drawn from a Laplace or Gaussian distribution.
 
-Unfortunately, the worst-case sensitivity may be large or even infinite for basic statistics of interest, such as the mean \\( q(x) = \frac{1}{n} \sum_{i} x_i \\) of real-valued data.  There are a variety of differentially private algorithms for addressing this problem [1], but that is not what this post is about.  It's tempting to, instead, try to scale the noise to some notion of "average-case sensitivity," with the goal of satisfying some average-case version of differential privacy.  For example, suppose the data is drawn from some normal distribution \\( N(\mu,1) \\) and the neighboring datasets \\( x', x" \\) are each \\( n \\) i.i.d.~samples from this distribution, but differing on exactly one random sample.  Then the worst-case sensitivity of the mean is infinite:
+Unfortunately, the worst-case sensitivity may be large or even infinite for basic statistics of interest, such as the mean \\( q(x) = \frac{1}{n} \sum_{i} x_i \\) of real-valued data.  There are a variety of differentially private algorithms for addressing this problem [1], but that is not what this post is about.  It's tempting to, instead, try to scale the noise to some notion of "average-case sensitivity," with the goal of satisfying some average-case version of differential privacy.  For example, suppose the data is drawn from some normal distribution \\( N(\mu,1) \\) and the neighboring datasets \\( x', x" \\) are each \\( n \\) i.i.d. samples from this distribution, but differing on exactly one random sample.  Then the worst-case sensitivity of the mean is infinite:
 \\[
 \sup_{\textrm{neighboring}~x',x"} |q(x') - q(x")| = \infty,
 \\]
