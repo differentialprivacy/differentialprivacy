@@ -55,7 +55,7 @@ where
 \\)
 is called the "worst-case sensitivity" of \\( q \\) and \\( Z \\) is some noise, commonly drawn from a Laplace or Gaussian distribution.
 
-Unfortunately, the worst-case sensitivity may be large or even infinite for basic statistics of interest, such as the mean \\( q(x) = \frac{1}{n} \sum_{i} x_i \\) of real-valued data.  There are a variety of differentially private algorithms for addressing this problem [1], but that is not what this post is about.  It's tempting to, instead, try to scale the noise to some notion of "average-case sensitivity," with the goal of satisfying some average-case version of differential privacy.  For example, suppose the data is drawn from some normal distribution \\( N(\mu,1) \\) and the neighboring datasets \\( x', x" \\) are each \\( n \\) i.i.d. samples from this distribution, but differing on exactly one random sample.  Then the worst-case sensitivity of the mean is infinite:
+Unfortunately, the worst-case sensitivity may be large or even infinite for basic statistics of interest, such as the mean \\( q(x) = \frac{1}{n} \sum_{i} x_i \\) of real-valued data.  There are a variety of differentially private algorithms for addressing this problem<sup>1</sup>, but that is not what this post is about.  It's tempting to, instead, try to scale the noise to some notion of "average-case sensitivity," with the goal of satisfying some average-case version of differential privacy.  For example, suppose the data is drawn from some normal distribution \\( N(\mu,1) \\) and the neighboring datasets \\( x', x" \\) are each \\( n \\) i.i.d. samples from this distribution, but differing on exactly one random sample.  Then the worst-case sensitivity of the mean is infinite:
 \\[
 \sup_{\textrm{neighboring}~x',x"} |q(x') - q(x")| = \infty,
 \\]
@@ -65,7 +65,7 @@ but the average-sensitivity is proportional to \\(1/n\\):
 \\]
 Thus, under an average-case privacy guarantee, we can estimate the mean with very little noise.
 
-But what happens to privacy if this assumption fails, perhaps because of outliers?  Imagine computing the average wealth of a subset of one hundred Amazon employees who test positive for COVID-19, and discovering that it's over one billion dollars.  Maybe Jeff Bezos isn't feeling well? [2]  Yes, this example is a little contrived, since you probably shouldn't have computed the empirical mean of such skewed data, but if this fact leaks out you can't just go back in time and truncate the data or compute the median instead.  
+But what happens to privacy if this assumption fails, perhaps because of outliers?  Imagine computing the average wealth of a subset of one hundred Amazon employees who test positive for COVID-19, and discovering that it's over one billion dollars.  Maybe Jeff Bezos isn't feeling well?<sup>2</sup>  Yes, this example is a little contrived, since you probably shouldn't have computed the empirical mean of such skewed data, but if this fact leaks out you can't just go back in time and truncate the data or compute the median instead.  
 
 In the next section we'll see a slightly more complex example where average-case privacy / average-case sensitivity fails to protect privacy even when the distributional assumptions hold.
 
