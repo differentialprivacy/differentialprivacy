@@ -17,7 +17,7 @@ In this post and in a planned follow-up post, we will discuss some pitfalls of a
 * Average-case relaxations do not satisfy the strong composition properties that have made differential privacy so successful.
 * It is safer to use distributional assumptions in the accuracy analysis instead of the privacy analysis. That is, we can provide average-case utility and worst-case privacy. Recent work has shown that this model can capture most of the advantages of distributional assumptions.
 
-We will show some illustrative examples for each of these points, but we will be purposefully vague as to exactly which alternative definition we are considering, as these issues arise in a wide variety of definitions.  Our hope is not to shut down discussion of these relaxations, nor to single out specific definitions as flawed. Our goal is simply to highlight some issues that, in our opinion, aren't adequately discussed when considering these relaxations.
+We will show some illustrative examples for each of these points, but we will be purposefully vague as to exactly which alternative definition we are considering, as these issues arise in a wide variety of definitions.  Our hope is not to shut down discussion of these relaxations, or to single out specific definitions as flawed.  There are specific concrete applications where average-case differential privacy might be useful, and our goal is to highlight some issues that must be carefully considered in each application.
 
 ### Assumptions about nature vs. assumptions about the adversary?
 
