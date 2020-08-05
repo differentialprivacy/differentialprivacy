@@ -13,7 +13,7 @@ Suppose that two weight functions \\(w\\) and \\(w'\\) of the same graph \\(G\\)
 
 This setting and question were considered in [[S16](https://arxiv.org/abs/1511.04631)].
 
-**Problem 1:** Let \\(G\\) be an arbitrary public graph, and \\(w : E \to \mathbb{R}^+\\) be an edge weight function. Can we release approximate all-pairs distances in \\((G, w)\\) with accuracy sublinear in \\(n\\) while preserving the privacy of the edge weight function, where two weight functions \\(w, w′\\) are neighbors if \\(\|w − w′\|_1 \le 1\\)? Or can we show that any private algorithm must have error \\(\Omega(n)\\)? A weaker (but nontrivial) lower bound would also be nice.
+**Problem 1:** Let \\(G\\) be an arbitrary public graph, and \\(w : E \to \mathbb{R}^+\\) be an edge weight function. Can we release approximate all-pairs distances in \\((G, w)\\) with accuracy sublinear in \\(n\\) while preserving the privacy of the edge weight function, where two weight functions \\(w, w'\\) are neighbors if \\(\\\|w − w'\\\|_1 \le 1\\)? Or can we show that any private algorithm must have error \\(\Omega(n)\\)? A weaker (but nontrivial) lower bound would also be nice.
 
 **Reward:** A bar of chocolate.
 
