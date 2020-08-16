@@ -11,7 +11,7 @@ timestamp: 10:00:00 -0400
 
 Differential privacy protects against extremely strong adversaries---even ones who know the entire dataset except for one bit of information about one individual.  Since its inception, people have considered ways to relax the definition to assume a more realistic adversary.  A natural way to do so is to incorporate some distributional assumptions. That is, rather than considering a worst-case dataset, assume the dataset is drawn from some distribution and provide some form of "average-case" or "Bayesian" privacy guarantee with respect to this distribution. This is especially tempting as it is common for statistical analysis to work under distributional assumptions.
 
-In this post and in a planned follow-up post, we will discuss some pitfalls of average-case or Bayesian versions of differential privacy.  To avoid keeping you in suspense:
+In this post and in a planned [follow-up post](/privacy-composition/), we will discuss some pitfalls of average-case or Bayesian versions of differential privacy.  To avoid keeping you in suspense:
 
 * The average-case assumptions in relaxations of differential privacy are qualitatively different to and much more brittle than the typical assumptions made about how the data is generated.
 * Average-case relaxations do not satisfy the strong composition properties that have made differential privacy so successful.
@@ -105,7 +105,7 @@ Before wrapping up, let's just make a couple more observations about this exampl
 ### Conclusion
 As we have discussed, the main issue that arises in average-case or Bayesian versions of differential privacy is that we must make strong assumptions about the adversary. A simple distributional assumption about the data, which may be entirely reasonable for statistical analysis, entails assuming a naïve adversary with essentially no side information, which is not reasonable from a privacy perspective.
 
-In a future post, we will discuss *composition*, which is a key robustness property and really the secret to differential privacy's success.  As we'll see, average-case versions of differential privacy do not enjoy strong composition properties the way worst-case differential privacy does, which makes them much harder to deploy.
+In a [future post](/privacy-composition/), we will discuss *composition*, which is a key robustness property and really the secret to differential privacy's success.  As we'll see, average-case versions of differential privacy do not enjoy strong composition properties the way worst-case differential privacy does, which makes them much harder to deploy.
 
 Incorporating assumptions about the adversary into the privacy guarantee requires great care; and it is safest to make fewer assumptions, which quickly pushes us towards the worst-case definition of differential privacy. Nevertheless, assumptions about the adversary are often made implicitly and it is worth studying how to make these explicit.
 
