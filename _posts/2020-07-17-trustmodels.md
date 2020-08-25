@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Trust models, and notions of privacy 
+title: Trust Models, and Notions of Privacy 
 comments: true
 authors: 
     - clementcanonne
