@@ -1,7 +1,10 @@
 ---
-bibliography:
-- 'references.bib'
-title: Differentially Private PAC Learning
+layout: post
+title: "Differentially Private PAC Learning"
+comments: true
+authors: matthewjoseph
+timestamp: 14:00:00 -0400
+categories: []
 ---
 
 The study of PAC learning under differential privacy runs all the way
