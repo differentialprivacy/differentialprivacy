@@ -98,7 +98,7 @@ hypothesis class of 1-dimensional thresholds over \\(T\\) points,
 \\(\log |\mathcal{H}| = \log T\\), while
 \\(\mathsf{VCD}\left(\mathcal{H}\right)\\) is only 1.
 
-![image]({{ site.baseurl }}/images/thresh.png)
+![image](/images/thresh.png)
 
 ### A Simple Private PAC Learner
 
@@ -237,7 +237,7 @@ To recap, we now know that proper pure private PAC learning is strictly
 harder than improper pure private PAC learning, which is characterized
 by representation dimension. A picture sums it up.
 
-![image]({{ site.baseurl }}/images/private_pac_1.png)
+![image](/images/private_pac_1.png)
 
 Note the dotted line, since we don't yet have any evidence separating
 finite representation dimension and finite VC dimension.
@@ -303,7 +303,7 @@ Littlestone dimension also gives lower bounds for pure private PAC
 learning but, as shown by \\(\mathsf{Line_p}\\), these bounds are sometimes
 quite loose [**[FX14]**](https://arxiv.org/abs/1402.6278 "Vitaly Feldman and David Xiao. Sample complexity bounds on differentially private learning via communication complexity. COLT 2014"). The picture now looks like this:
 
-![image]({{ site.baseurl }}/images/private_pac_2.png)
+![image](/images/private_pac_2.png)
 
 ### Lower Bounds for Approximate Private PAC Learning
 
@@ -358,7 +358,7 @@ know that private PAC learnability is tied to online PAC learnability
 of private PAC learning: finite Littlestone dimension is necessary.
 Sufficiency, however, remains an open question.
 
-![image]({{ site.baseurl }}/images/private_pac_3.png)
+![image](/images/private_pac_3.png)
 
 ### Characterizing Approximate Private PAC Learning
 
@@ -391,7 +391,7 @@ learning any \\(\mathcal{H}\\) is at least
 Littlestone dimension &mdash; and not VC dimension, or even representation
 dimension &mdash; characterizes private learnability.
 
-![image]({{ site.baseurl }}/images/private_pac_4.png)
+![image](/images/private_pac_4.png)
 
 Closing this gap is in part an open question, but note that we cannot
 hope to close it completely. For the lower bound, the current
