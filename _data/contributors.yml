@@ -1,19 +1,53 @@
 clementcanonne:
   name: Clément Canonne
   homepage: http://www.cs.columbia.edu/~ccanonne/
-  
+  image:
+  affiliation: IBM Research - Almaden
+
+matthewjoseph:
+  name: Matthew Joseph
+  homepage: https://www.majos.net/
+  image:
+  affiliation: Google
+
 gautamkamath:
   name: Gautam Kamath
   homepage: http://www.gautamkamath.com/
+  image: http://www.gautamkamath.com/gautam.jpg
+  affiliation: University of Waterloo
+  
+audramcmillan:
+  name: Audra McMillan
+  homepage: https://audramarymcmillan.wixsite.com/mysite
+  image: 
+  affiliation: Apple
+
+ryanrogers:
+  name: Ryan Rogers
+  homepage: https://www.math.upenn.edu/~ryrogers/
+  image: 
+  affiliation: LinkedIn
+
+adamsealfon:
+  name: Adam Sealfon
+  homepage: http://www.mit.edu/~asealfon/
+  image:
+  affiliation: UC Berkeley
 
 thomassteinke:
   name: Thomas Steinke
   homepage: http://www.thomas-steinke.net/
+  image: http://www.thomas-steinke.net/selfie.jpg
+  affiliation: IBM Research - Almaden
 
 jonullman:
   name: Jonathan Ullman
   homepage: https://www.ccs.neu.edu/home/jullman/
+  image:
+  affiliation: Northeastern University
   
 stevenwu:
   name: Zhiwei Steven Wu
   homepage: https://zstevenwu.com/
+  image: https://zstevenwu.com/images/ZSW.jpg
+  affiliation: Carnegie Mellon University

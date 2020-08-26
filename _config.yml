@@ -49,6 +49,9 @@ url: https://differentialprivacy.org
 # then add in the baseurl here, like this: "/repository-name"
 baseurl: 
 
+# Allow posts with a future date to go up
+future: true
+
 #
 # !! You don't need to change any of the configuration flags below !!
 #
