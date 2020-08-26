@@ -47,7 +47,7 @@ section while noting that
     parameters.
 
 For readers needing a refresher on PAC learning, the basic element of
-the "probably approximately correct" (PAC) framework [@V84] is a
+the "probably approximately correct" (PAC) framework **[V84]** is a
 *hypothesis*. Each hypothesis is a function
 \\(h \colon \mathcal{X}\to \{-1,1\}\\) mapping *examples* from some space
 \\(\mathcal{X}\\) to binary labels. A collection of hypotheses is a
@@ -135,7 +135,7 @@ sensitive scoring function: changing one sample only changes empirical
 error by 1. We can therefore use (negative) empirical error as our
 scoring function \\(u(X,h)\\), apply the exponential mechanism, and get a
 "private Occam's razor". This was exactly what Kasiviswanathan, Lee,
-Nissim, Raskhodnikova, and Smith [@KLNRS08] did when they introduced
+Nissim, Raskhodnikova, and Smith **[KLNRS08]** did when they introduced
 differentially private PAC learning in 2008. The resulting sample
 complexity bounds differ from the generic Occam's razor only by an
 \\(\varepsilon\\) factor in the denominator, and
@@ -159,7 +159,7 @@ above). The strictly weaker notion of approximate
 which may only output hypotheses from the learned class \\(\mathcal{H}\\).
 
 With these assumptions in place, in 2010, Beimel, Kasiviswanathan, and
-Nissim [@BKN10] showed that the hypothesis class \\(\mathsf{Point_d}\\) ---
+Nissim **[BKN10]** showed that the hypothesis class \\(\mathsf{Point_d}\\) ---
 \\(2^d\\) hypotheses, each associated with a unique binary vector
 \\(\{-1,1\}^d\\), labeling only its associated binary vector as 1 ---
 requires \\(\Omega(d)\\) samples for proper pure private PAC learning. Their
@@ -198,7 +198,7 @@ PAC learning. In contrast, the sample complexities of proper and
 improper PAC learning absent privacy are the same up to logarithmic
 factors in \\(\alpha\\) and \\(\beta\\).
 
-In 2013, Beimel, Nissim, and Stemmer [@BNS13] proved a more general
+In 2013, Beimel, Nissim, and Stemmer **[BNS13]** proved a more general
 result. They gave the first characterization of pure (improper) private
 PAC learning by defining a new hypothesis class measure called the
 *representation dimension*, \\(\mathsf{REPD}\left(\mathcal{H}\right)\\).
@@ -247,11 +247,11 @@ finite representation dimension and finite VC dimension.
 ### Separating Pure and Approximate Private PAC Learning
 
 A pair of interconnected papers give the first results for approximate
-private PAC learning. Among other things, Feldman and Xiao [@FX14]
+private PAC learning. Among other things, Feldman and Xiao **[FX14]**
 introduced *Littlestone dimension* to private PAC learning. Littlestone
 dimension \\(\mathsf{LD}\left(\mathcal{H}\right)\\) is, roughly, the maximum
 number of mistakes an adversary can force an *online* PAC-learning
-algorithm to make [@L88]. In general
+algorithm to make **[L88]**. In general
 \\(\mathsf{VCD}\left(\mathcal{H}\right) \leq \mathsf{LD}\left(\mathcal{H}\right) \leq \log|\mathcal{H}|\\).
 Feldman and Xiao first connected the representation dimension of a
 hypothesis class to the randomized one-way communication complexity of a
@@ -282,7 +282,7 @@ wrong answers from an online learner binary searching over
 conceptually connects private learning and online learning: we now know
 that pure private PAC learning is no easier than online PAC learning.
 
-A second paper by Beimel, Nissim, and Stemmer [@BNS13b] contrasted this
+A second paper by Beimel, Nissim, and Stemmer **[BNS13b]** contrasted this
 \\(\Omega(\log T)\\) lower bound with a \\(2^{O(\log^*T)}\\) upper bound for
 *approximate* private PAC learning \\(\mathsf{Thresh_T}\\). Here \\(\log^*\\)
 denotes the very slow-growing iterated logarithm, the number of times
@@ -306,18 +306,18 @@ entails no dependence on \\(p\\) at all, it improves the separation between
 pure and approximate private PAC learning given by @BNS13b.
 
 Let's pause to recap what's happened so far. We know that representation
-dimension characterizes pure private PAC learning [@BNS13]. However,
+dimension characterizes pure private PAC learning **[BNS13]**. However,
 \\(\mathsf{Thresh_T}\\) shows that representation dimension does not
-characterize approximate private PAC learning [@FX14; @BNS13b].
+characterize approximate private PAC learning **[FX14; BNS13b]**.
 Littlestone dimension also gives lower bounds for pure private PAC
 learning but, as shown by \\(\mathsf{Line_p}\\), these bounds are sometimes
-quite loose [@FX14]. The picture now looks like this:
+quite loose **[FX14]**. The picture now looks like this:
 
 ![image](private_pac_2){width="7cm" height="7cm"}
 
 ### Lower Bounds for Approximate Private PAC Learning
 
-In 2015, Bun, Nissim, Stemmer, and Vadhan [@BNSV15] improved this
+In 2015, Bun, Nissim, Stemmer, and Vadhan **[BNSV15]** improved this
 situation by showing that learning \\(\mathsf{Thresh_T}\\) has *proper*
 approximate private sample complexity \\(\Omega(\log^*(T))\\) and
 \\(O(2^{\log^*(T)})\\). The inclusion of \\(\log^*\\) means this is an extremely
@@ -343,7 +343,7 @@ problem domain sizes implies a general lower bound of roughly
 Even with this result, no lower bounds were known for *improper*
 approximate private PAC learning (beyond the generic non-private ones).
 This situation persisted for a few years. Then, in 2018, Alon, Livni,
-Malliaris, and Moran [@ALMM19] extended the \\(\Omega(\log^*T)\\) lower
+Malliaris, and Moran **[ALMM19]** extended the \\(\Omega(\log^*T)\\) lower
 bound for \\(\mathsf{Thresh_T}\\) to *improper* approximate privacy. More
 generally, they gave concrete evidence for the importance of thresholds
 by relating a class' Littlestone dimension to its ability to "contain"
@@ -378,21 +378,21 @@ Spurred by this question, several advances in private PAC learning have
 appeared in the last year. First, Gonen, Hazan, and Moran strengthened
 Theorem [\[thm:almm\]](#thm:almm){reference-type="ref"
 reference="thm:almm"} by giving a constructive method for converting
-*pure* private learners to online learners [@GHM19]. Their result
+*pure* private learners to online learners **[GHM19]**. Their result
 reaches back to the 2013 characterization of pure private learning in
 terms of representation dimension by using the covering distribution to
 generate a collection of "experts" for online learning. Again revisiting
 \\(\mathsf{Thresh_T}\\), Kaplan, Ligett, Mansour, Naor, and
-Stemmer [@KLMNS20] significantly reduced the \\(O(2^{\log^*(T)})\\) upper
-bound of @BNSV15 to just \\(O((\log^*(T))^{1.5})\\). Finally, Alon, Beimel,
-Moran, and Stemmer [@ABMS20] justified our focus on realizable private
+Stemmer **[KLMNS20]** significantly reduced the \\(O(2^{\log^*(T)})\\) upper
+bound of **[BNSV15]** to just \\(O((\log^*(T))^{1.5})\\). Finally, Alon, Beimel,
+Moran, and Stemmer **[ABMS20]** justified our focus on realizable private
 PAC learning: they gave a transformation from a realizable approximate
 private PAC learner to an agnostic one at the cost of slightly larger
 privacy parameters and an increase in sample complexity that depends on
 the VC dimension. This builds on an earlier transformation that only
-applied to *proper* learners [@BNS15].
+applied to *proper* learners **[BNS15]**.
 
-Finally, Bun, Livni, and Moran [@BLM20] answered the open question posed
+Finally, Bun, Livni, and Moran **[BLM20]** answered the open question posed
 by @ALMM19:
 
 [\[thm:equivalence\]]{#thm:equivalence label="thm:equivalence"} The
