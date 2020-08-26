@@ -98,7 +98,7 @@ hypothesis class of 1-dimensional thresholds over \\(T\\) points,
 \\(\log |\mathcal{H}| = \log T\\), while
 \\(\mathsf{VCD}\left(\mathcal{H}\right)\\) is only 1.
 
-![image](/images/thresh.png)
+<img src="/images/thresh.png" width="400" alt="Example: a one-dimensional threshold function" style="margin:auto;display: block;" />
 
 ### A Simple Private PAC Learner
 
@@ -150,7 +150,7 @@ VC dimension characterizes private PAC learning, too?
 
 The first work on this question considered private learners with two
 restrictions. First, we'll restrict ourselves to learners that satisfy
-*pure* privacy. Recall that pure \\((\varepsilon,0)\\(-differential privacy
+*pure* privacy. Recall that pure \\((\varepsilon,0)\\)-differential privacy
 forces output distributions that may only differ by a certain
 \\(e^\varepsilon\\) multiplicative factor (like the exponential mechanism
 above). The strictly weaker notion of approximate
@@ -237,7 +237,7 @@ To recap, we now know that proper pure private PAC learning is strictly
 harder than improper pure private PAC learning, which is characterized
 by representation dimension. A picture sums it up.
 
-![image](/images/private_pac_1.png)
+<img src="/images/private_pac_1.png" width="400" alt="Landscape of Private PAC, take 1" style="margin:auto;display: block;" />
 
 Note the dotted line, since we don't yet have any evidence separating
 finite representation dimension and finite VC dimension.
@@ -265,7 +265,7 @@ advantage of Theorem 2 is that Littlestone dimension is a known
 quantity that has already been studied in its own right. For example,
 this connection to Littlestone dimension gives an \\(\Omega(\log T)\\) lower
 bound for learning \\(\mathsf{Thresh_T}\\), the class of thresholds over
-\\(\{1, 2, \ldots, T\}\\), since an adversary can force \\(\Theta(\log T)\\(
+\\(\{1, 2, \ldots, T\}\\), since an adversary can force \\(\Theta(\log T)\\)
 wrong answers from an online learner binary searching over
 \\(\{1,2, \ldots, T\}\\). A second advantage is that Littlestone dimension
 conceptually connects private learning and online learning: we now know
@@ -303,7 +303,7 @@ Littlestone dimension also gives lower bounds for pure private PAC
 learning but, as shown by \\(\mathsf{Line_p}\\), these bounds are sometimes
 quite loose [**[FX14]**](https://arxiv.org/abs/1402.6278 "Vitaly Feldman and David Xiao. Sample complexity bounds on differentially private learning via communication complexity. COLT 2014"). The picture now looks like this:
 
-![image](/images/private_pac_2.png)
+<img src="/images/private_pac_2.png" width="400" alt="Landscape of Private PAC, take 2" style="margin:auto;display: block;" />
 
 ### Lower Bounds for Approximate Private PAC Learning
 
@@ -358,7 +358,7 @@ know that private PAC learnability is tied to online PAC learnability
 of private PAC learning: finite Littlestone dimension is necessary.
 Sufficiency, however, remains an open question.
 
-![image](/images/private_pac_3.png)
+<img src="/images/private_pac_3.png" width="400" alt="Landscape of Private PAC, take 3" style="margin:auto;display: block;" />
 
 ### Characterizing Approximate Private PAC Learning
 
@@ -391,7 +391,7 @@ learning any \\(\mathcal{H}\\) is at least
 Littlestone dimension &mdash; and not VC dimension, or even representation
 dimension &mdash; characterizes private learnability.
 
-![image](/images/private_pac_4.png)
+<img src="/images/private_pac_4.png" width="400" alt="Landscape of Private PAC, final take" style="margin:auto;display: block;" />
 
 Closing this gap is in part an open question, but note that we cannot
 hope to close it completely. For the lower bound, the current
