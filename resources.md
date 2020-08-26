@@ -9,7 +9,7 @@ permalink: /resources/
 * [The Complexity of Differential Privacy](https://privacytools.seas.harvard.edu/files/privacytools/files/complexityprivacy_1.pdf), by [Salil Vadhan](https://salil.seas.harvard.edu/)
 
 ## Focused Surveys
-* [Differential Privacy in the Shuffle Model: A Survey of Separations](https://www.ccis.northeastern.edu/home/albertcheu/survey-june-23.pdf) by [Albert Cheu](http://www.ccs.neu.edu/home/albertcheu/)
+* [Differential Privacy in the Shuffle Model: A Survey of Separations](https://www.ccis.northeastern.edu/home/albertcheu/survey-aug18.pdf) by [Albert Cheu](http://www.ccs.neu.edu/home/albertcheu/)
 * [A Primer on Private Statistics](https://arxiv.org/abs/2005.00010), by [Gautam Kamath](http://www.gautamkamath.com/) and [Jonathan Ullman](http://www.ccs.neu.edu/home/jullman/)
 * [Differential Privacy: A Primer for a Non-Technical Audience](https://salil.seas.harvard.edu/files/salil/files/differential_privacy_primer_nontechnical_audience.pdf), by [Alexandra Wood](https://cyber.harvard.edu/people/awood) et al.
 * [Exposed! A Survey of Attacks on Private Data](https://privacytools.seas.harvard.edu/publications/exposed-survey-attacks-private-data) by [Cynthia Dwork](https://www.microsoft.com/en-us/research/people/dwork/), [Adam Smith](https://cs-people.bu.edu/ads22/), [Thomas Steinke](http://www.thomas-steinke.net/), and [Jonathan Ullman](http://www.ccs.neu.edu/home/jullman/)
