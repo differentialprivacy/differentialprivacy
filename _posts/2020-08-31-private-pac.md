@@ -4,12 +4,13 @@ title: "Differentially Private PAC Learning"
 comments: true
 authors: matthewjoseph
 timestamp: 14:00:00 -0400
-categories: []
+categories: [Surveys]
 ---
 
 The study of PAC learning under differential privacy runs all the way
 from its introduction in 2008 [**[KLNRS08]**](https://arxiv.org/abs/0803.0924 "Shiva Prasad Kasiviswanathan, Homin K. Lee, Kobbi Nissim, Sofya Raskhodnikova, and Adam Smith. What Can We Learn Privately? FOCS 2008") to a best paper award at the
-Symposium on Foundations of Computer Science (FOCS) this year [**[BLM20]**](https://arxiv.org/abs/2003.00563 "Mark Bun, Roi Livni, and Shay Moran. An equivalence between private classification and online prediction. FOCS 2020").
+Symposium on Foundations of Computer Science (FOCS) this year [**[BLM20]**](https://arxiv.org/abs/2003.00563 "Mark Bun, Roi Livni, and Shay Moran. An equivalence between private classification and online prediction. FOCS 2020").  Thanks to this recent work, we now have an answer to the question posted in the very first work on this topic: "What concept classes can we learn privately?"
+
 In this post, we'll look at the main results in this line of work,
 aiming for enough detail for a rough understanding and no more. The
 ideal reader has some familiarity with PAC learning and differential
@@ -19,7 +20,7 @@ Let us start with the underlying, fundamental question this line of work
 is concerned about: *does privacy in machine learning come at a price?*
 Machine learning has been, over the past decades, immensely successful;
 and privacy concerns are now front and center in many critical
-applications. Is there a trade-off there &mdash; and if so, how does it
+applications. Is there a trade-off there &mdash; and if so, how does it
 manifest itself?
 
 To even start to address this question, one needs a formalization of
@@ -49,7 +50,7 @@ section while noting that
 For readers needing a refresher on PAC learning, the basic element of
 the "probably approximately correct" (PAC) framework [**[Val84]**](https://dl.acm.org/doi/10.1145/1968.1972 "Leslie G Valiant. A theory of the learnable. Communications of the ACM, 1984") is a
 *hypothesis*. Each hypothesis is a function
-\\(h \colon \mathcal{X}\to \{-1,1\}\\) mapping *examples* from some space
+\\(h \colon \mathcal{X}\to \\{-1,1\\}\\) mapping *examples* from some space
 \\(\mathcal{X}\\) to binary labels. A collection of hypotheses is a
 *hypothesis class* \\(\mathcal{H}\\), e.g., thresholds (a.k.a. perceptrons),
 rectangles, conjunctions, and so on. In the *realizable* setting, a
@@ -81,7 +82,7 @@ suffice to PAC learn \\(\mathcal{H}\\).
 
 At the same time, \\(|\mathcal{H}|\\) is a pretty coarse measure of
 hypothesis class complexity, as it would immediately rule out learning
-any infinite hypothesis class (of which there are many). Thus, as you
+any infinite hypothesis class, of which there are many. Thus, as you
 might expect, we can do better. We do so using *VC dimension*.
 \\(\mathsf{VCD}\left(\mathcal{H}\right)\\) is the size of the largest
 possible collection of examples such that, for every labeling of the
@@ -105,7 +106,7 @@ hypothesis class of 1-dimensional thresholds over \\(T\\) points,
 It is straightforward to add a differential privacy constraint to the
 PAC framework: the hypothesis output by the learner must be a
 differentially private function of the labeled examples
-\((x_1, y_1), \ldots, (x_n, y_n)\). That is, we must be able to change any
+\\((x_1, y_1), \ldots, (x_n, y_n)\\). That is, we must be able to change any
 of the examples &mdash; even to one with an inconsistent label &mdash; and still
 have a similar distribution over hypotheses output by the learner.
 
@@ -123,7 +124,7 @@ the privacy constraint. More formally, the exponential mechanism
 requires a scoring function \\(u(X,h)\\) mapping (database, output) pairs to
 real-valued scores and then selects a given output \\(h\\) with probability
 proportional to
-\\(\exp\left(\tfrac{\varepsilon u(X,h)}{2\Delta(u)}\right)\\), where
+\\[\exp\left(\tfrac{\varepsilon u(X,h)}{2\Delta(u)}\right),\\] where
 \\(\Delta(u) := \sup_h\sup_{X\sim X'} |u(X,h)-u(X',h)|\\) is the sensitivity
 of the scoring function. Thus a lower \\(\varepsilon\\) (stricter privacy
 requirement) and larger \\(\Delta(u)\\) (scoring function more sensitive to
@@ -160,8 +161,8 @@ which may only output hypotheses from the learned class \\(\mathcal{H}\\).
 
 With these assumptions in place, in 2010, Beimel, Kasiviswanathan, and
 Nissim [**[BKN10]**](https://dl.acm.org/doi/10.1007/978-3-642-11799-2_26 "Amos Beimel, Shiva Prasad Kasiviswanathan, and Kobbi Nissim. Bounds on the sample complexity for private learning and private data release. TCC 2010") showed that the hypothesis class \\(\mathsf{Point_d}\\) &mdash;
-\\(2^d\\) hypotheses, each associated with a unique binary vector
-\\(\{-1,1\}^d\\), labeling only its associated binary vector as 1 &mdash;
+a class of \\(2^d\\) hypotheses, each associated with a unique binary vector
+\\(\\{-1,1\\}^d\\), labeling only its associated binary vector as 1 &mdash;
 requires \\(\Omega(d)\\) samples for proper pure private PAC learning. Their
 proof used the classic "packing" lower bound method, which powers many
 lower bounds for pure differential privacy. The general packing method
@@ -188,7 +189,7 @@ characterize proper pure private PAC learning.
 
 [**[BKN10]**](https://dl.acm.org/doi/10.1007/978-3-642-11799-2_26 "Amos Beimel, Shiva Prasad Kasiviswanathan, and Kobbi Nissim. Bounds on the sample complexity for private learning and private data release. TCC 2010") then contrasted this result with *improper* pure private PAC
 learning. They proved that an application of the exponential mechanism
-to a class \\(\mathsf{Point_d}'\\) of hypotheses derived from
+to a class \\(\mathsf{Point'_d}\\) of hypotheses derived from
 \\(\mathsf{Point_d}\\) &mdash; but *not* necessarily a subset of
 \\(\mathsf{Point_d}\\) &mdash; gives an improper pure private PAC learner with
 sample complexity \\(O(\log d)\\). Moreover, they gave a still more involved
@@ -265,14 +266,14 @@ advantage of Theorem 2 is that Littlestone dimension is a known
 quantity that has already been studied in its own right. For example,
 this connection to Littlestone dimension gives an \\(\Omega(\log T)\\) lower
 bound for learning \\(\mathsf{Thresh_T}\\), the class of thresholds over
-\\(\{1, 2, \ldots, T\}\\), since an adversary can force \\(\Theta(\log T)\\)
+\\(\\{1, 2, \ldots, T\\}\\), since an adversary can force \\(\Theta(\log T)\\)
 wrong answers from an online learner binary searching over
-\\(\{1,2, \ldots, T\}\\). A second advantage is that Littlestone dimension
+\\(\\{1,2, \ldots, T\\}\\). A second advantage is that Littlestone dimension
 conceptually connects private learning and online learning: we now know
 that pure private PAC learning is no easier than online PAC learning.
 
 A second paper by Beimel, Nissim, and Stemmer [**[BNS13b]**](https://arxiv.org/abs/1407.2674 "Amos Beimel, Kobbi Nissim, and Uri Stemmer. Private learning and sanitization: Pure vs. approximate differential privacy. APPROX-RANDOM 2013") contrasted this
-\\(\Omega(\log T)\\) lower bound with a \\(2^{O(\log^\astT)}\\) upper bound for
+\\(\Omega(\log T)\\) lower bound with a \\(2^{O(\log^\ast T)}\\) upper bound for
 *approximate* private PAC learning \\(\mathsf{Thresh_T}\\). Here \\(\log^\ast\\)
 denotes the very slow-growing iterated logarithm, the number of times
 the logarithm of the argument must be taken to bring it \\(\leq 1\\). (We're
@@ -323,8 +324,8 @@ sequence of hard problems for databases of size \\(n=1, 2, \ldots\\). The
 \\(n^{th}\\) hard problem relies on a distribution over databases of size
 \\(n\\) whose data universe is of of size exponential in the size of the
 data universe for the \\((n-1)^{th}\\) distribution. The base case is the
-uniform distribution over the two singleton databases \\(\{0\}\\) and
-\\(\{1\}\\), and they show how to inductively construct successive problems
+uniform distribution over the two singleton databases \\(\\{0\\}\\) and
+\\(\\{1\\}\\), and they show how to inductively construct successive problems
 such that a solution for the \\(n^{th}\\) problem implies a solution for the
 \\((n-1)^{th}\\) problem. Unraveling the recursive relationship between the
 problem domain sizes implies a general lower bound of roughly
@@ -333,7 +334,7 @@ problem domain sizes implies a general lower bound of roughly
 Even with this result, no lower bounds were known for *improper*
 approximate private PAC learning (beyond the generic non-private ones).
 This situation persisted for a few years. Then, in 2018, Alon, Livni,
-Malliaris, and Moran [**[ALMM19]**](https://arxiv.org/abs/1806.00949 "Noga Alon, Roi Livni, Maryanthe Malliaris, and Shay Moran. Private PAC learning implies finite Littlestone dimension. STOC 2019") extended the \\(\Omega(\log^\astT)\\) lower
+Malliaris, and Moran [**[ALMM19]**](https://arxiv.org/abs/1806.00949 "Noga Alon, Roi Livni, Maryanthe Malliaris, and Shay Moran. Private PAC learning implies finite Littlestone dimension. STOC 2019") extended the \\(\Omega(\log^\ast T)\\) lower
 bound for \\(\mathsf{Thresh_T}\\) to *improper* approximate privacy. More
 generally, they gave concrete evidence for the importance of thresholds
 by relating a class' Littlestone dimension to its ability to "contain"
