@@ -16,20 +16,10 @@ aiming for enough detail for a rough understanding and no more. The
 ideal reader has some familiarity with PAC learning and differential
 privacy, but significant knowledge of either should not be necessary.
 
-Let us start with the underlying, fundamental question this line of work
-is concerned about: *does privacy in machine learning come at a price?*
-Machine learning has been, over the past decades, immensely successful;
-and privacy concerns are now front and center in many critical
-applications. Is there a trade-off there &mdash; and if so, how does it
-manifest itself?
+Before we get to the "what" and "how" of private PAC learning, it's worth thinking about the "why." One motivation for this line of work is that it neatly captures a fundamental question: _does privacy in machine learning come at a price?_ Machine learning is now sufficiently successful and widespread for this question to have real import. But to even start to address this question, we need a formalization of machine learning that allows us to reason about possible trade-offs in a rigorous way. Statistical learning theory, and its computational formalization as PAC learning, provide one such clean and well-studied
+ model. We can therefore use PAC learning as a testbed whose insights we might then carry to other, less idealized forms of learning.
 
-To even start to address this question, one needs a formalization of
-machine learning, one that allows us to reason in a clean and rigorous
-way about these things. Statistical learning theory, and its
-computational formalization, the so-called "Probably Approximately
-Correct" framework of learning, provide such a clean model, and one
-whose insights we can then hope to carry to other notions such as deep
-learning.
+With this motivation in mind, the rest of this post is structured as follows. The first section covers the basics of the PAC model, and subsequent sections gradually build up a chronology of results. When possible, we give short parenthetical sketches of the accompanying techniques
 
 ### PAC Learning
 
@@ -100,6 +90,7 @@ hypothesis class of 1-dimensional thresholds over \\(T\\) points,
 \\(\mathsf{VCD}\left(\mathcal{H}\right)\\) is only 1.
 
 <img src="/images/thresh.png" width="400" alt="Example: a one-dimensional threshold function" style="margin:auto;display: block;" />
+<center>An illustration of 1-dimensional thresholds. A given threshold is determined by some point \\(x^* \in [T]\\): any example \\(x \leq x^*\\) receives label \\(-1\\), and any example \\(x > x^*\\) receives label 1.</center>
 
 ### A Simple Private PAC Learner
 
