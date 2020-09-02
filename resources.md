@@ -43,6 +43,7 @@ permalink: /resources/
 
 ## Code Libraries
 * [Google's DP Library](https://github.com/google/differential-privacy)
+* [PyTorch Opacus](https://opacus.ai/)
 * [RAPPOR](https://github.com/google/rappor)
 * [OpenDP](https://github.com/opendifferentialprivacy/)
 * [Tensorflow Privacy](https://github.com/tensorflow/privacy)
