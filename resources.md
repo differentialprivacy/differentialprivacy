@@ -18,6 +18,7 @@ permalink: /resources/
 * [Private Systems](https://columbia.github.io/private-systems-class/), taught by [Roxana Geambasu](https://roxanageambasu.github.io/), Spring 2020
 * [Algorithms in Society](https://docs.google.com/document/d/1MO9DSbJMMnJxgml3uwYRgw2LaXPzUaDGyDM1CU6Z-Tk/), taught by [Adam Smith](https://cs-people.bu.edu/ads22/), Spring 2020
 * [Privacy in the World of Big Data](https://www.korolova.com/teaching/CSCI631/), taught by [Aleksandra Korolova](https://www.korolova.com/), Fall 2019
+* [Algorithms for Private Data Analysis](http://www.cs.toronto.edu/~anikolov/CSC2412F19/CSC2412.html), taught by [Aleksandar Nikolov](http://www.cs.toronto.edu/~anikolov/), Fall 2019
 * [Applied Privacy for Data Science](http://people.seas.harvard.edu/~salil/cs208/), taught by [James Honaker](https://hona.kr/) and [Salil Vadhan](https://salil.seas.harvard.edu/), Spring 2019
 * [The Algorithmic Foundations of Adaptive Data Analysis](https://adaptivedataanalysis.com/), taught by [Aaron Roth](https://www.cis.upenn.edu/~aaroth/) and [Adam Smith](https://cs-people.bu.edu/ads22/), Fall 2017
 * [Rigorous Approaches to Data Privacy](http://www.ccs.neu.edu/home/jullman/cs7880s17/syllabus.html), taught by [Jonathan Ullman](http://www.ccs.neu.edu/home/jullman/), Spring 2017 
