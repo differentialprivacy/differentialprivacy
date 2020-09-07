@@ -47,6 +47,7 @@ permalink: /resources/
 * [PyTorch Opacus](https://opacus.ai/)
 * [RAPPOR](https://github.com/google/rappor)
 * [OpenDP](https://github.com/opendifferentialprivacy/)
-* [Tensorflow Privacy](https://github.com/tensorflow/privacy)
+* [TensorFlow Privacy](https://github.com/tensorflow/privacy)
 * [IBM Differential Privacy Library](https://github.com/IBM/differential-privacy-library)
 * [Discrete Gaussian](https://github.com/IBM/discrete-gaussian-differential-privacy)
+* [OpenMined](https://github.com/OpenMined/OM-Welcome-Package)
