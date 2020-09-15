@@ -15,6 +15,7 @@ permalink: /resources/
 * [Exposed! A Survey of Attacks on Private Data](https://privacytools.seas.harvard.edu/publications/exposed-survey-attacks-private-data) by [Cynthia Dwork](https://www.microsoft.com/en-us/research/people/dwork/), [Adam Smith](https://cs-people.bu.edu/ads22/), [Thomas Steinke](http://www.thomas-steinke.net/), and [Jonathan Ullman](http://www.ccs.neu.edu/home/jullman/)
 
 ## Courses
+* [Algorithms for Private Data Analysis](http://www.gautamkamath.com/CS860-fa2020.html), taught by [Gautam Kamath](http://www.gautamkamath.com/), Fall 2020
 * [Private Systems](https://columbia.github.io/private-systems-class/), taught by [Roxana Geambasu](https://roxanageambasu.github.io/), Spring 2020
 * [Algorithms in Society](https://docs.google.com/document/d/1MO9DSbJMMnJxgml3uwYRgw2LaXPzUaDGyDM1CU6Z-Tk/), taught by [Adam Smith](https://cs-people.bu.edu/ads22/), Spring 2020
 * [Privacy in the World of Big Data](https://www.korolova.com/teaching/CSCI631/), taught by [Aleksandra Korolova](https://www.korolova.com/), Fall 2019
