@@ -52,14 +52,14 @@ section while noting that
 For readers needing a refresher on PAC learning, the basic element of
 the "probably approximately correct" (PAC) framework [**[Val84]**](https://dl.acm.org/doi/10.1145/1968.1972 "Leslie G Valiant. A theory of the learnable. Communications of the ACM, 1984") is a
 *hypothesis*. Each hypothesis is a function
-\\(h \colon \mathcal{X}\to \{-1,1\}\\) mapping *examples* from some space
+\\(h \colon \mathcal{X}\to \\{-1,1\\}\\) mapping *examples* from some space
 \\(\mathcal{X}\\) to binary labels. A collection of hypotheses is a
 *hypothesis class* \\(\mathcal{H}\\), e.g., thresholds (a.k.a. perceptrons),
 rectangles, conjunctions, and so on. In the *realizable* setting, a
 learner receives examples drawn from some unknown distribution and
-labeled by an unknown \\(h^* \in \mathcal{H}\\). The learner's goal is to
+labeled by an unknown \\(h^\ast \in \mathcal{H}\\). The learner's goal is to
 with high probability ("probably") output a hypothesis that mostly
-matches the labels of \\(h^*\\) on future examples from the unknown example
+matches the labels of \\(h^\ast\\) on future examples from the unknown example
 distribution ("approximately correct"). In the *agnostic* setting,
 examples are not necessarily labeled by any \\(h
 \in \mathcal{H}\\), and the goal is only to output a hypothesis that
@@ -104,7 +104,7 @@ hypothesis class of 1-dimensional thresholds over \\(T\\) points,
 \\(\mathsf{VCD}\left(\mathcal{H}\right)\\) is only 1.
 
 <img src="/images/thresh.png" width="400" alt="Example: a one-dimensional threshold function" style="margin:auto;display: block;" />
-<center>An illustration of 1-dimensional thresholds. A given threshold is determined by some point \\(x^* \in [T]\\): any example \\(x \leq x^*\\) receives label \\(-1\\), and any example \\(x > x^*\\) receives label 1.</center>
+An illustration of 1-dimensional thresholds. A given threshold is determined by some point \\(x^\ast \in [T]\\): any example \\(x \leq x^\ast\\) receives label \\(-1\\), and any example \\(x > x^\ast\\) receives label 1.
 
 A Simple Private PAC Learner
 ============================
@@ -113,7 +113,7 @@ It is straightforward to add a differential privacy constraint to the
 PAC framework: the hypothesis output by the learner must be a
 differentially private function of the labeled examples
 \\((x_1, y_1), \ldots, (x_n, y_n)\\). That is, changing any one of the
-examples --- even to one with an inconsistent label --- must not affect
+examples&nbsp;---&nbsp;even to one with an inconsistent label&nbsp;---&nbsp;must not affect
 the distribution over hypotheses output by the learner by too much.
 
 Since we haven't talked about any other PAC learner, we may as well
@@ -140,7 +140,7 @@ Fortunately for our PAC learning setting, empirical error is not a very
 sensitive scoring function: changing one sample only changes empirical
 error by 1. We can therefore use (negative) empirical error as our
 scoring function \\(u(X,h)\\), apply the exponential mechanism, and get a
-"private Occam's razor". This was exactly what Kasiviswanathan, Lee,
+"private Occam's razor." This was exactly what Kasiviswanathan, Lee,
 Nissim, Raskhodnikova, and Smith [**[KLNRS08]**](https://arxiv.org/abs/0803.0924 "Shiva Prasad Kasiviswanathan, Homin K. Lee, Kobbi Nissim, Sofya Raskhodnikova, and Adam Smith. What Can We Learn Privately? FOCS 2008") did when they introduced
 differentially private PAC learning in 2008. The resulting sample
 complexity bounds differ from the generic Occam's razor only by an
@@ -174,7 +174,7 @@ class \\(\mathcal{H}\\).
 With these assumptions in place, in 2010, Beimel, Kasiviswanathan, and
 Nissim [**[BKN10]**](https://dl.acm.org/doi/10.1007/978-3-642-11799-2_26 "Amos Beimel, Shiva Prasad Kasiviswanathan, and Kobbi Nissim. Bounds on the sample complexity for private learning and private data release. TCC 2010") studied a hypothesis class called \\(\mathsf{Point}_d\\).
 \\(\mathsf{Point}_d\\) consists of \\(2^d\\) hypotheses, one for each vector in
-\\(\{0,1\}^d\\). Taking the set of examples \\(\mathcal{X}\\) to be \\(\{0,1\}^d\\)
+\\(\\{0,1\\}^d\\). Taking the set of examples \\(\mathcal{X}\\) to be \\(\\{0,1\\}^d\\)
 as well, we define each hypothesis in \\(\mathsf{Point}_d\\) to label only
 its associated vector as 1, and the remaining \\(2^d-1\\) examples as
 -1. [**[BKN10]**](https://dl.acm.org/doi/10.1007/978-3-642-11799-2_26 "Amos Beimel, Shiva Prasad Kasiviswanathan, and Kobbi Nissim. Bounds on the sample complexity for private learning and private data release. TCC 2010") showed that the hypothesis class \\(\mathsf{Point}_d\\) requires
@@ -308,9 +308,9 @@ the maximum number of mistakes an adversary can force an *online*
 PAC-learning algorithm to make [**[Lit88]**](https://link.springer.com/article/10.1023/A:1022869011914 "Nick Littlestone. Learning quickly when irrelevant attributes abound: A new linear-threshold algorithm. Machine learning, 1988"). We always have
 \\(\mathsf{VCD}\left(\mathcal{H}\right) \leq \mathsf{LD}\left(\mathcal{H}\right) \leq \log|\mathcal{H}|\\),
 but these inequalities can be strict. For example, denoting by
-\\(\mathsf{Thresh_T}\\) the class of thresholds over \\(\{1, 2, \ldots,
-T\}\\), since an adversary can force \\(\Theta(\log T)\\) wrong answers from
-an online learner binary searching over \\(\{1,2, \ldots, T\}\\),
+\\(\mathsf{Thresh_T}\\) the class of thresholds over \\(\\{1, 2, \ldots,
+T\\}\\), since an adversary can force \\(\Theta(\log T)\\) wrong answers from
+an online learner binary searching over \\(\\{1,2, \ldots, T\\}\\),
 \\(\mathsf{LD}\left(\mathsf{Thresh_T}\right) = \Omega(\log T)\\). In
 contrast, \\(\mathsf{VCD}\left(\mathsf{Thresh_T}\right) = 1\\).
 
@@ -330,12 +330,12 @@ than online PAC learning.
 
 A second paper by Beimel, Nissim, and Stemmer [**[BNS13b]**](https://arxiv.org/abs/1407.2674 "Amos Beimel, Kobbi Nissim, and Uri Stemmer. Private learning and sanitization: Pure vs. approximate differential privacy. APPROX-RANDOM 2013") contrasted this
 \\(\Omega(\log T)\\) lower bound for pure private learning of thresholds
-with with a \\(2^{O(\log^*T)}\\) upper bound for *approximate* private PAC
-learning \\(\mathsf{Thresh_T}\\). Here \\(\log^*\\) denotes the very
+with a \\(2^{O(\log^\ast T)}\\) upper bound for *approximate* private PAC
+learning \\(\mathsf{Thresh_T}\\). Here \\(\log^\ast\\) denotes the very
 slow-growing iterated logarithm, the number of times we must take the
 logarithm of the argument to bring it \\(\leq 1\\). (We're not kidding about
 "very slow-growing" either:
-\\(\log^*(\text{number of atoms in universe}) \approx
+\\(\log^\ast(\text{number of atoms in universe}) \approx
 4\\).) With Feldman and Xiao's result, this separates pure private PAC
 learning from approximate private PAC learning. It also shows that
 representation dimension does *not* characterize approximate private PAC
@@ -375,10 +375,10 @@ Lower Bounds for Approximate Private PAC Learning
 We now dash this hope. In 2015, Bun, Nissim, Stemmer, and
 Vadhan [**[BNSV15]**](https://arxiv.org/abs/1504.07553 "Mark Bun, Kobbi Nissim, Uri Stemmer, and Salil Vadhan. Differentially private release and learning of threshold functions. FOCS 2015") gave the first nontrivial lower bound for approximate
 private PAC learning. They showed that learning \\(\mathsf{Thresh_T}\\) has
-*proper* approximate private sample complexity \\(\Omega(\log^*(T))\\) and
-\\(O(2^{\log^*(T)})\\).
+*proper* approximate private sample complexity \\(\Omega(\log^\ast(T))\\) and
+\\(O(2^{\log^\ast(T)})\\).
 
-We'll at least try to give some intuition for the presence of \\(\log^*\\)
+We'll at least try to give some intuition for the presence of \\(\log^\ast\\)
 in the lower bound. Informally, the lower bound relies on an inductive
 construction of a sequence of hard problems for databases of size
 \\(n=1, 2,
@@ -386,19 +386,19 @@ construction of a sequence of hard problems for databases of size
 databases of size \\(k\\) whose data universe is of of size exponential in
 the size of the data universe for the \\((k-1)^{th}\\) distribution. The
 base case is the uniform distribution over the two singleton databases
-\\(\{0\}\\) and \\(\{1\}\\), and they show how to inductively construct
+\\(\\{0\\}\\) and \\(\\{1\\}\\), and they show how to inductively construct
 successive problems such that a solution for the \\(k^{th}\\) problem
 implies a solution for the \\((k-1)^{th}\\) problem. Unraveling the
 recursive relationship between the problem domain sizes implies a
-general lower bound of roughly \\(\log^*|X|\\) for domain \\(X\\).
+general lower bound of roughly \\(\log^\ast|X|\\) for domain \\(X\\).
 
-The inclusion of \\(\log^*\\) makes this is an extremely mild lower bound.
-However, \\(\log^*(T)\\) can still be arbitrarily larger than 1, so this is
+The inclusion of \\(\log^\ast\\) makes this is an extremely mild lower bound.
+However, \\(\log^\ast(T)\\) can still be arbitrarily larger than 1, so this is
 the first definitive evidence that proper approximate privacy introduces
 a cost over non-private PAC learning.
 
 In 2018, Alon, Livni, Malliaris, and Moran [**[ALMM19]**](https://arxiv.org/abs/1806.00949 "Noga Alon, Roi Livni, Maryanthe Malliaris, and Shay Moran. Private PAC learning implies finite Littlestone dimension. STOC 2019") extended this
-\\(\Omega(\log^*T)\\) lower bound for \\(\mathsf{Thresh_T}\\) to *improper*
+\\(\Omega(\log^\ast T)\\) lower bound for \\(\mathsf{Thresh_T}\\) to *improper*
 approximate privacy. More generally, they gave concrete evidence for the
 importance of thresholds, which have played a seemingly outsize role in
 the work so far. They did so by relating a class' Littlestone dimension
@@ -413,8 +413,8 @@ that any hypothesis class \\(\mathcal{H}\\) contains
 that learning \\(\mathcal{H}\\) is at least as hard as learning
 \\(\mathsf{Thresh_T}\\) with
 \\(T = \log(\mathsf{LD}\left(\mathcal{H}\right))\\). Since
-\\(\log^*(\log(\mathsf{LD}\left(\mathcal{H}\right)))
-= \Omega(\log^*(\mathsf{LD}\left(\mathcal{H}\right)))\\), combining these
+\\(\log^\ast(\log(\mathsf{LD}\left(\mathcal{H}\right)))
+= \Omega(\log^\ast(\mathsf{LD}\left(\mathcal{H}\right)))\\), combining these
 two results puts the following limit on private PAC learning:
 
 > **Theorem 3** ([**[ALMM19]**](https://arxiv.org/abs/1806.00949 "Noga Alon, Roi Livni, Maryanthe Malliaris, and Shay Moran. Private PAC learning implies finite Littlestone dimension. STOC 2019")). The sample complexity to approximate private PAC learn \\(\mathcal{H}\\) is \\(\Omega(\log^\ast(\mathsf{LD}\left(\mathcal{H}\right)))\\).
@@ -438,8 +438,8 @@ reaches back to the 2013 characterization of pure private learning in
 terms of representation dimension by using the covering distribution to
 generate a collection of "experts" for online learning. Again revisiting
 \\(\mathsf{Thresh_T}\\), Kaplan, Ligett, Mansour, Naor, and
-Stemmer [**[KLMNS20]**](https://arxiv.org/abs/1911.10137 "Haim Kaplan, Katrina Ligett, Yishay Mansour, Moni Naor, and Uri Stemmer. Privately learning thresholds: Closing the exponential gap. COLT 2020") significantly reduced the \\(O(2^{\log^*(T)})\\) upper
-bound of [**[BNSV15]**](https://arxiv.org/abs/1504.07553 "Mark Bun, Kobbi Nissim, Uri Stemmer, and Salil Vadhan. Differentially private release and learning of threshold functions. FOCS 2015") to just \\(O((\log^*(T))^{1.5})\\). And Alon, Beimel,
+Stemmer [**[KLMNS20]**](https://arxiv.org/abs/1911.10137 "Haim Kaplan, Katrina Ligett, Yishay Mansour, Moni Naor, and Uri Stemmer. Privately learning thresholds: Closing the exponential gap. COLT 2020") significantly reduced the \\(O(2^{\log^\ast(T)})\\) upper
+bound of [**[BNSV15]**](https://arxiv.org/abs/1504.07553 "Mark Bun, Kobbi Nissim, Uri Stemmer, and Salil Vadhan. Differentially private release and learning of threshold functions. FOCS 2015") to just \\(O((\log^\ast(T))^{1.5})\\). And Alon, Beimel,
 Moran, and Stemmer [**[ABMS20]**](https://arxiv.org/abs/2003.04509 "Noga Alon, Amos Beimel, Shay Moran, and Uri Stemmer. Closure properties for private classification and online prediction. COLT 2020") justified this post's focus on realizable
 private PAC learning by giving a transformation from a realizable
 approximate private PAC learner to an agnostic one at the cost of
@@ -456,7 +456,7 @@ learner and showed how to convert an online learner to a globally stable
 learner to a private learner. Thus, combined with the result of [**[ALMM19]**](https://arxiv.org/abs/1806.00949 "Noga Alon, Roi Livni, Maryanthe Malliaris, and Shay Moran. Private PAC learning implies finite Littlestone dimension. STOC 2019"),
 we now know that the sample complexity of private PAC learning any
 \\(\mathcal{H}\\) is at least
-\\(\Omega(\log^*(\mathsf{LD}\left(\mathcal{H}\right)))\\) and at most
+\\(\Omega(\log^\ast(\mathsf{LD}\left(\mathcal{H}\right)))\\) and at most
 \\(2^{O({\mathsf{LD}\left(\mathcal{H}\right)})}\\). In this sense, online
 learnability characterizes private learnability.
 
@@ -466,7 +466,7 @@ Narrowing the gap between the lower and upper bounds above is an open
 question. Note that we cannot hope to close the gap completely. For the
 lower bound, the current \\(\mathsf{Thresh_T}\\) upper bound implies that no
 general lower bound can be stronger than
-\\(\Omega((\log^*(\mathsf{LD}\left(\mathcal{H}\right)))^{1.5})\\). For the
+\\(\Omega((\log^\ast(\mathsf{LD}\left(\mathcal{H}\right)))^{1.5})\\). For the
 upper bound, there exist hypotheses classes \\(\mathcal{H}\\) with
 \\(\mathsf{VCD}\left(\mathcal{H}\right) = \mathsf{LD}\left(\mathcal{H}\right)\\)
 (e.g., \\(\mathsf{VCD}\left(\mathsf{Point}_d\right) = \mathsf{LD}\left(\mathsf{Point}_d\right)= 1\\)), so since non-private PAC learning requires
@@ -494,7 +494,7 @@ understanding to other models of learning, and now approach these
 questions from a rigorous and grounded point of view.
 
 Congratulations to Mark Bun, Roi Livni, and Shay Moran on their best
-paper award ---- and to the many individuals who paved the way before
+paper award&nbsp;---&nbsp;and to the many individuals who paved the way before
 them!
 
 Acknowledgments
