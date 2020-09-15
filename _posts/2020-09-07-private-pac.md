@@ -17,9 +17,9 @@ ideal reader has some familiarity with PAC learning and differential
 privacy, but significant knowledge of either should not be necessary.
 
 Before we get to the "what" and "how" of private PAC learning, it's worth thinking about the "why." One motivation for this line of work is that it neatly captures a fundamental question: _does privacy in machine learning come at a price?_ Machine learning is now sufficiently successful and widespread for this question to have real import. But to even start to address this question, we need a formalization of machine learning that allows us to reason about possible trade-offs in a rigorous way. Statistical learning theory, and its computational formalization as PAC learning, provide one such clean and well-studied
- model. We can therefore use PAC learning as a testbed whose insights we might then carry to other, less idealized forms of learning.
+ model. We can therefore use PAC learning as a testbed whose insights we might carry to other less idealized forms of learning.
 
-With this motivation in mind, the rest of this post is structured as follows. The first section covers the basics of the PAC model, and subsequent sections gradually build up a chronology of results. When possible, we give short parenthetical sketches of the accompanying techniques
+With this motivation in mind, the rest of this post is structured as follows. The first section covers the basics of the PAC model, and subsequent sections gradually build up a chronology of results. When possible, we give short sketches of the accompanying techniques
 
 ### PAC Learning
 
@@ -27,15 +27,17 @@ We start with a brief overview of PAC learning absent any privacy
 restrictions. Readers familiar with PAC learning can probably skip this
 section while noting that
 
-1.  Occam's razor is a baseline learner using \\(O(\log|\mathcal{H}|)\\)
+1.  (the cardinality version of) Occam's razor is a baseline learner using \\(O(\log|\mathcal{H}|)\\)
     samples,
 
 2.  VC dimension characterizes non-private PAC learning,
 
-3.  we'll focus on realizable PAC learning, and
+3.  we'll focus on the sample complexity of realizable PAC learning, and
 
 4.  we'll usually omit dependencies on accuracy and success probability
-    parameters.
+    parameters, and
+
+5. we'll usually ignore computational efficiency.
 
 For readers needing a refresher on PAC learning, the basic element of
 the "probably approximately correct" (PAC) framework [**[Val84]**](https://dl.acm.org/doi/10.1145/1968.1972 "Leslie G Valiant. A theory of the learnable. Communications of the ACM, 1984") is a
@@ -46,8 +48,7 @@ the "probably approximately correct" (PAC) framework [**[Val84]**](https://dl.a
 rectangles, conjunctions, and so on. In the *realizable* setting, a
 learner receives examples drawn from some unknown distribution and
 labeled by an unknown \\(h^* \in \mathcal{H}\\). The learner's goal is to
-with high probability ("probably") output a hypothesis that gets low
-error labeling future examples from the unknown example distribution
+with high probability ("probably") output a hypothesis that mostly matches the labels of \\(h^\ast\\) on future examples from the unknown example distribution
 ("approximately correct"). In the *agnostic* setting, examples are not
 necessarily labeled by any \\(h \in \mathcal{H}\\), and the goal is only to
 output a hypothesis that approximates the best error of any hypothesis
@@ -58,17 +59,19 @@ setting, this requirement is removed.
 
 In general, we say an algorithm \\((\alpha,\beta)\\)-PAC learns
 \\(\mathcal{H}\\) with sample complexity \\(n\\) if \\(n\\) samples are sufficient
-to obtain error at most \\(\alpha\\) over new examples from the distribution
-with probability at least \\(1-\beta\\). For the purposes of this post, we
+to with probability at least \\(1-\beta\\) obtain error at most \\(\alpha\\) over new examples from the distribution. For the purposes of this post, we
 generally omit these dependencies on \\(\alpha\\) and \\(\beta\\), as they
 typically vary little or not at all when switching between non-private
 and private PAC learning.
 
-We always have a simple baseline learner, often called "Occam's razor":
-iterate over all hypotheses \\(h \in \mathcal{H}\\), check how many of the
-labeled examples \\(h\\) mislabels, and output a hypothesis that mislabels
-the fewest examples. With Occam's razor, \\(O(\log|\mathcal{H}|)\\) samples
-suffice to PAC learn \\(\mathcal{H}\\).
+Fortunately, we always have a simple baseline learner based
+on empirical risk minimization: given a set of labeled
+examples, iterate over all hypotheses \\(h \in \mathcal{H}\\), check how
+many of the labeled examples each $h$ mislabels, and output
+a hypothesis that mislabels the fewest examples. Using
+this learner, which is sometimes called "Occam's razor,"
+\\(O(\log|\mathcal{H}|)\\) samples suffice to PAC learn \\(\mathcal{H}\\).
+
 
 At the same time, \\(|\mathcal{H}|\\) is a pretty coarse measure of
 hypothesis class complexity, as it would immediately rule out learning
@@ -83,7 +86,7 @@ PAC learn with \\(O(\mathsf{VCD}\left(\mathcal{H}\right))\\) samples. In
 fact, the "Fundamental Theorem of Statistical Learning" says that PAC
 learnability (realizable or agnostic) is equivalent to finite VC
 dimension. In this sense, \\(\mathsf{VCD}\left(\mathcal{H}\right)\\) is a
-"correct" measure of how hard it is to PAC learn \\(\mathcal{H}\\). As a
+good measure of how hard it is to PAC learn \\(\mathcal{H}\\). As a
 motivating example that will re-appear later, note that for the
 hypothesis class of 1-dimensional thresholds over \\(T\\) points,
 \\(\log |\mathcal{H}| = \log T\\), while
@@ -97,17 +100,18 @@ hypothesis class of 1-dimensional thresholds over \\(T\\) points,
 It is straightforward to add a differential privacy constraint to the
 PAC framework: the hypothesis output by the learner must be a
 differentially private function of the labeled examples
-\\((x_1, y_1), \ldots, (x_n, y_n)\\). That is, we must be able to change any
-of the examples &mdash; even to one with an inconsistent label &mdash; and still
-have a similar distribution over hypotheses output by the learner.
+\\((x_1, y_1), \ldots, (x_n, y_n)\\). That is, changing any one of the examples &mdash; even to one with an inconsistent label &mdash; must not affect the distribution over hypotheses output by the learner by too much.
 
-Since we haven't talked about any other PAC learner, we may as well
-start with Occam's razor. A private version becomes easy if we view
-Occam's razor in the right light. All Occam's razor is doing is
-assigning a score to each possible output (the hypothesis' empirical
-error) and outputting one with the "best" (lowest) score. This makes
-Occam's razor a candidate for privatization by the *exponential
-mechanism*.
+Since we haven't talked about any other PAC learner, we may
+as well start with the empirical risk minimization-style
+Occam's razor discussed in the previous section, which
+simply selects a hypothesis that minimizes empirical
+error. A private version becomes easy if we view
+this algorithm in the right light. All it is doing is
+assigning a score to each possible output (the hypothesis'
+empirical error) and outputting one with the best (lowest)
+score. This makes it a good candidate for privatization
+by the *exponential mechanism*.
 
 Recall that the exponential mechanism uses a scoring function over
 outputs to release better outputs with higher probability, subject to
@@ -140,50 +144,76 @@ VC dimension characterizes private PAC learning, too?
 
 ### Characterizing Pure Private PAC Learning
 
-The first work on this question considered private learners with two
-restrictions. First, we'll restrict ourselves to learners that satisfy
-*pure* privacy. Recall that pure \\((\varepsilon,0)\\)-differential privacy
-forces output distributions that may only differ by a certain
-\\(e^\varepsilon\\) multiplicative factor (like the exponential mechanism
-above). The strictly weaker notion of approximate
-\\((\varepsilon,\delta)\\)-differential privacy also allows a small additive
-\\(\delta\\) factor. Second, we restrict ourselves to *proper* learners,
-which may only output hypotheses from the learned class \\(\mathcal{H}\\).
+As it turns out, answering this question will take some time. We
+start with a partial negative answer. Specifically, we'll
+see a class with VC dimension 1 and (a restricted form of)
+private sample complexity arbitrarily larger than 1. We'll
+also cover the first in a line of characterization results
+for private PAC learning.
+ 
+We first consider learners that satisfy *pure*
+privacy. Recall that pure \\((\varepsilon,0)\\)-differential
+privacy forces output distributions that may only differ
+by a certain \\(e^\varepsilon\\) multiplicative factor (like the
+exponential mechanism above). The strictly weaker notion
+of approximate \\((\varepsilon,\delta)\\)-differential privacy
+also allows a small additive \\(\delta\\) factor. Second,
+we restrict ourselves to *proper* learners, which
+may only output hypotheses from the learned class \\(\mathcal{H}\\).
 
 With these assumptions in place, in 2010, Beimel, Kasiviswanathan, and
-Nissim [**[BKN10]**](https://dl.acm.org/doi/10.1007/978-3-642-11799-2_26 "Amos Beimel, Shiva Prasad Kasiviswanathan, and Kobbi Nissim. Bounds on the sample complexity for private learning and private data release. TCC 2010") showed that the hypothesis class \\(\mathsf{Point_d}\\) &mdash;
-a class of \\(2^d\\) hypotheses, each associated with a unique binary vector
-\\(\\{-1,1\\}^d\\), labeling only its associated binary vector as 1 &mdash;
-requires \\(\Omega(d)\\) samples for proper pure private PAC learning. Their
-proof used the classic "packing" lower bound method, which powers many
-lower bounds for pure differential privacy. The general packing method
-is to first construct a large collection of databases which are all
-"close enough" to each other but nonetheless all have different "good"
-outputs. Once we have such a collection, we use *group privacy*: as
-databases that differ in one element must have \\(\varepsilon\\)-close
-output distributions under pure privacy, databases that differ in \\(k\\)
-elements must have \\(k\varepsilon\\)-close output distributions. With group
-privacy, since the databases are all close together, the output
-distributions for any two databases in the collection cannot be that
-different. This creates a tension: utility forces the algorithm to
-produce different output distributions for different databases, but
-privacy forces similarity. The packing argument comes down to arguing
-that, unless the databases are large, privacy wins out, and there is
-some database where the algorithm probably produces a bad output. In the
-specific case of \\(\mathsf{Point_d}\\), the packing argument says that
-databases of size \\(o(d)\\) are close enough together, and we have one
-database for each hypothesis in \\(\mathsf{Point_d}\\).
+Nissim [**[BKN10]**](https://dl.acm.org/doi/10.1007/978-3-642-11799-2_26 "Amos Beimel, Shiva Prasad Kasiviswanathan, and Kobbi Nissim. Bounds on the sample complexity for private learning and private data release. TCC 2010") studied
+a hypothesis class called \\(\mathsf{Point_d}\\). \\(\mathsf{Point_d}\\)
+consists of \\(2^d\\) hypotheses, one for each vector
+in \\(\{01\}^d\\). Taking the set of examples \\(\mathcal{X}\\) to
+be \\(\{01\}^d\\) as well, we define each hypothesis in
+\\(\mathsf{Point_d}\\) to label only its associated vector as 1, and
+the remaining \\(2^d-1\\) examples as -1. [**[BKN10]**](https://dl.acm.org/doi/10.1007/978-3-642-11799-2_26 "Amos Beimel, Shiva Prasad Kasiviswanathan, and Kobbi Nissim. Bounds on the sample complexity for private learning and private data release. TCC 2010") showed
+that the hypothesis class \\(\mathsf{Point_d}\\) requires \\(\Omega(d)\\)
+samples for proper pure private PAC learning. In contrast,
+\\(\mathsf{VCD}\left(\mathsf{Point_d}\right) = 1\\), so this \\(\Omega(d)\\) lower bound shows
+us that VC dimension does *not* characterize proper
+pure private PAC learning.
 
-Most importantly, \\(\mathsf{VCD}\left(\mathsf{Point_d}\right) = 1\\), so
-the \\(\Omega(d)\\) lower bound shows us that VC dimension does not
-characterize proper pure private PAC learning.
+This result uses the classic "packing" lower
+bound method, which powers many lower bounds for pure
+differential privacy. The general packing method is to
+first construct a large collection of databases which
+are all "close enough" to each other but nonetheless
+all have different "good" outputs. Once we have such a
+collection, we use *group privacy*. Group privacy is a
+corollary of differential privacy that requires databases
+differing in \\(k\\) elements to have \\(k\varepsilon\\)-close output
+distributions. Because of group privacy, if we start
+with a collection of databases that are close together,
+then the output distributions for any two databases in the
+collection cannot be too different. This creates a tension:
+utility forces the algorithm to produce different output
+distributions for different databases, but privacy forces
+similarity. The packing argument comes down to arguing
+that, unless the databases are large, privacy wins out,
+and when privacy wins out then there is some database
+where the algorithm probably produces a bad output.
 
-[**[BKN10]**](https://dl.acm.org/doi/10.1007/978-3-642-11799-2_26 "Amos Beimel, Shiva Prasad Kasiviswanathan, and Kobbi Nissim. Bounds on the sample complexity for private learning and private data release. TCC 2010") then contrasted this result with *improper* pure private PAC
-learning. They proved that an application of the exponential mechanism
-to a class \\(\mathsf{Point'_d}\\) of hypotheses derived from
-\\(\mathsf{Point_d}\\) &mdash; but *not* necessarily a subset of
-\\(\mathsf{Point_d}\\) &mdash; gives an improper pure private PAC learner with
-sample complexity \\(O(\log d)\\). Moreover, they gave a still more involved
+For \\(\mathsf{Point_d}\\), we sketch the resulting argument as
+follows. Suppose we have an \\(\varepsilon\\)-private PAC learner
+that uses $m$ samples. Then we can define a collection of
+different databases of size \\(m\\), one for each hypothesis
+in \\(\mathsf{Point_d}\\). By group privacy, the output distribution
+for our private PAC learner changes by at most \\(e^{m\varepsilon}\\)
+between any two of the databases in this collection. Thus
+we can pick any \\(h\in \mathsf{Point_d}\\) and know that the
+probability of outputting the wrong hypothesis is at
+least roughly \\(2^d\cdot e^{-m\varepsilon}\\). Since we need
+this probability to be small, rearranging implies \\(m=Omega(d/\varepsilon)\\).
+
+[**[BKN10]**](https://dl.acm.org/doi/10.1007/978-3-642-11799-2_26 "Amos Beimel, Shiva Prasad Kasiviswanathan, and Kobbi Nissim. Bounds on the sample complexity for private learning and private data release. TCC 2010") then contrasted this result with an *improper* pure private PAC learner. This learner
+applies the exponential mechanism to a class \\(\mathsf{Point'_d}\\)
+of hypotheses derived from \\(\mathsf{Point_d}\\) --- but *not*
+necessarily a subset of \\(\mathsf{Point_d}\\) --- gives an improper
+pure private PAC learner with sample complexity \\(O(\log d)\\). Since this learner is improper, it circumvents the
+"one database per hypothesis" step of the packing lower
+bound. Moreover, [**[BKN10]**](https://dl.acm.org/doi/10.1007/978-3-642-11799-2_26 "Amos Beimel, Shiva Prasad Kasiviswanathan, and Kobbi Nissim. Bounds on the sample complexity for private learning and private data release. TCC 2010") gave a still more involved
 improper pure private PAC learner requiring only \\(O(1)\\) samples. This
 separates proper pure private PAC learning from improper pure private
 PAC learning. In contrast, the sample complexities of proper and
