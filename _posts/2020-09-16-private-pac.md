@@ -497,7 +497,7 @@ Congratulations to Mark Bun, Roi Livni, and Shay Moran on their best
 paper award ---- and to the many individuals who paved the way before
 them!
 
-Acknowledgements
+Acknowledgments
 ================
 
 Thanks to Kareem Amin and Clément Canonne for helpful feedback while
