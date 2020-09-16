@@ -123,7 +123,7 @@ minimizes empirical error. A private version becomes easy if we view
 this algorithm in the right light. All it is doing is assigning a score
 to each possible output (the hypothesis' empirical error) and outputting
 one with the best (lowest) score. This makes it a good candidate for
-privatization by the *exponential mechanism*.
+privatization by the *exponential mechanism* [**[MT07]**](https://dl.acm.org/doi/10.1109/FOCS.2007.41 "Frank McSherry, Kunal Talwar. Mechanism Design via Differential Privacy. FOCS 2007.").
 
 Recall that the exponential mechanism uses a scoring function over
 outputs to release better outputs with higher probability, subject to
@@ -132,8 +132,7 @@ requires a scoring function \\(u(X,h)\\) mapping (database, output) pairs to
 real-valued scores and then selects a given output \\(h\\) with probability
 proportional to \\(\exp\left(\tfrac{\varepsilon
 u(X,h)}{2\Delta(u)}\right)\\). Thus a lower \\(\varepsilon\\) (stricter
-privacy requirement) and larger \\(\Delta(u)\\) (scoring function more
-sensitive to changing the database) both lead to a more uniform (more
+privacy requirement) and larger \\(\Delta(u) := \sup_h \sup_{X \sim X'} u(X,h) - u(X',h) \\) (scoring function more sensitive to changing one element in the database \\(X\\) to make \\(X'\\)) both lead to a more uniform (more
 private) output distribution.
 
 Fortunately for our PAC learning setting, empirical error is not a very
