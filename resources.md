@@ -33,6 +33,7 @@ permalink: /resources/
 * [The Theory and Practice of Differential Privacy](https://www.youtube.com/watch?v=4bpFDpT1t7I), by [Salil Vadhan](https://salil.seas.harvard.edu/), [COLT 2020](https://www.colt2020.org/)
 * [The U.S. Census Bureau Tries to be a Good Data Steward in the 21st Century](https://www.youtube.com/watch?v=R_8riuhIw-4), by [John Abowd](https://www.ilr.cornell.edu/people/john-abowd), [ICML 2019](https://icml.cc/Conferences/2019)
 * [Tutorial on Differentially Private Machine Learning](https://vimeo.com/248492174), by [Kamalika Chaudhuri](http://cseweb.ucsd.edu/~kamalika/) and [Anand Sarwate](https://www.ece.rutgers.edu/~asarwate/), [ICML 2017](https://icml.cc/Conferences/2017/)
+* [Differential Privacy in the Wild:  A Tutorial on Current Practices & Open Challenges](http://sigmod2017.org/sigmod-program/#tutorial), by [Ashwin Machanavajjhala](https://users.cs.duke.edu/~ashwin/), [Xi He](https://cs.uwaterloo.ca/~xihe/) and [Michael Hay](https://cs.colgate.edu/~mhay/), [SIGMOD 2017](http://sigmod2017.org/)
 
 ## Workshops (with Videos)
 * [Challenges and New Approaches for Protecting Privacy in Federal Statistical Programs](https://www.nationalacademies.org/event/06-06-2019/challenges-and-new-approaches-for-protecting-privacy-in-federal-statistical-programs-a-workshop), June 2019 at the National Academies
@@ -42,6 +43,7 @@ permalink: /resources/
 
 ## Workshops (without Videos)
 * [Theory and Practice of Differential Privacy (TPDP)](https://tpdp.journalprivacyconfidentiality.org/)
+* [Privacy Preserving Machine Learning (PPML)](https://ppml-workshop.github.io/)
 
 ## Code Libraries
 * [Google's DP Library](https://github.com/google/differential-privacy)
@@ -52,3 +54,7 @@ permalink: /resources/
 * [IBM Differential Privacy Library](https://github.com/IBM/differential-privacy-library)
 * [Discrete Gaussian](https://github.com/IBM/discrete-gaussian-differential-privacy)
 * [OpenMined](https://github.com/OpenMined/OM-Welcome-Package)
+* [Ektelo](https://ektelo.github.io/)
+
+## Other
+* [DPComp](https://www.dpcomp.org/)
