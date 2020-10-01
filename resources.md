@@ -56,5 +56,8 @@ permalink: /resources/
 * [OpenMined](https://github.com/OpenMined/OM-Welcome-Package)
 * [Ektelo](https://ektelo.github.io/)
 
-## Other
+## Tools
 * [DPComp](https://www.dpcomp.org/)
+
+## Other Websites
+* [Trustworthy ML Initiative](https://www.trustworthyml.org/)
