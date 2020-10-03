@@ -3,7 +3,7 @@ layout: post
 title: "Open Problem - Avoiding the Union Bound for Multiple Queries"
 comments: true
 authors: gautamkamath
-timestamp: 12:00:00 -0400
+timestamp: 19:00:00 -0400
 categories: [Open Problems]
 ---
 
