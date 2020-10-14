@@ -11,6 +11,16 @@ timestamp: 00:00:00 -0400
 categories: [Surveys]
 ---
 
+We often see people asking whether or not differential privacy might be overkill.  Why do we need strong privacy protections like differential privacy when we're only releasing approximate, aggregate statistical information about a dataset?  Is it really possible to extract information about specific users from releasing these statistics?  The answer turns out to be a resounding yes!  The textbook by Dwork and Roth [[DR14]](https://www.cis.upenn.edu/~aaroth/privacybook.html) calls this phenomenon the Fundamental Law of Information Recovery:
+ 
+>Giving overly accurate answers to too many questions will inevitably destroy privacy.
+
+So what exactly does this fundamental law mean precisely, and how can we prove it?  We can formalize and prove the law via *reconstruction attacks*, where an attacker can recover secret information from nearly every user in the dataset, simply by observing noisy answers to a modestly large number of (surprisingly simple) queries on the dataset. Reconstruction attacks were introduced in a seminal paper by Dinur and Nissim in 2003 [[DN03]](https://dl.acm.org/doi/10.1145/773153.773173).  Although this paper predates differential privacy by a few years, the discovery of reconstruction attacks directly led to the definition of differential privacy, and shaped a lot of the early research on the topic. We now know that differentially private algorithms can, in some cases, match the limitations on accuracy implied by reconstruction attacks. When this is the case, we have a remarkably sharp transition from a blatant privacy violation when the accuracy is high enough to enable a reconstruction attack, to the strong protection given by differential privacy at the cost of only slightly lower accuracy.
+
+Aside from the theoretical importance of reconstruction attacks, one may wonder if they can be carried out in practice, or if the attack model is unrealistic and can be avoided with some simple workarounds?  In this series of posts, we argue that reconstruction attacks can be quite practical.  In particular, we describe successful attacks by some of this post's authors on a family of systems called *Diffix*, that attempt to prevent reconstruction without introducing as much noise as the reconstruction attacks suggest is necessary. To the best of our knowledge, these attacks represent the first successful attempt to reconstruct data from a commercial statistical-database system that is specifically designed to protect the privacy of the underlying data.  A larger and much more significant demonstration of the practical power of reconstruction attacks was carried out by the US Census Bureau in 2018, motivating the Bureau's adoption of differential privacy for data products derived from the 2020 decennial census [[GAM18]](https://queue.acm.org/detail.cfm?ref=rss&id=3295691).
+
+This series will come in two parts: In the first part, we will review the theory of reconstruction attacks, and present a model for reconstruction attacks that corresponds more directly to an attack than the way they are typically presented.  In the second post, we will describe attacks that were launched against various iterations of the *Diffix* system.
+
 \\\(
 \newcommand{\uni}{\mathcal{X}} % The universe
 \newcommand{\usize}{T} % Universe size
@@ -50,16 +60,6 @@ categories: [Surveys]
 \newcommand{\mat}[1]{#1} % matrix notation: for now nothing
 \\\)
 
-We often see people asking whether or not differential privacy might be overkill.  Why do we need strong privacy protections like differential privacy when we're only releasing approximate, aggregate statistical information about a dataset?  Is it really possible to extract information about specific users from releasing these statistics?  The answer turns out to be a resounding yes!  The textbook by Dwork and Roth [DR14] calls this phenomenon the Fundamental Law of Information Recovery:
- 
->Giving overly accurate answers to too many questions will inevitably destroy privacy.
-
-So what exactly does this fundamental law mean precisely, and how can we prove it?  We can formalize and prove the law via *reconstruction attacks*, where an attacker can recover secret information from nearly every user in the dataset, simply by observing noisy answers to a modestly large number of (surprisingly simple) queries on the dataset. Reconstruction attacks were introduced in a seminal paper by Dinur and Nissim in 2003 [DN03].  Although this paper predates differential privacy by a few years, the discovery of reconstruction attacks directly led to the definition of differential privacy, and shaped a lot of the early research on the topic. We now know that differentially private algorithms can, in some cases, match the limitations on accuracy implied by reconstruction attacks. When this is the case, we have a remarkably sharp transition from a blatant privacy violation when the accuracy is high enough to enable a reconstruction attack, to the strong protection given by differential privacy at the cost of only slightly lower accuracy.
-
-Aside from the theoretical importance of reconstruction attacks, one may wonder if they can be carried out in practice, or if the attack model is unrealistic and can be avoided with some simple workarounds?  In this series of posts, we argue that reconstruction attacks can be quite practical.  In particular, we describe successful attacks by some of this post's authors on a family of systems called *Diffix*, that attempt to prevent reconstruction without introducing as much noise as the reconstruction attacks suggest is necessary. To the best of our knowledge, these attacks represent the first successful attempt to reconstruct data from a commercial statistical-database system that is specifically designed to protect the privacy of the underlying data.  A larger and much more significant demonstration of the practical power of reconstruction attacks was carried out by the US Census Bureau in 2018, motivating the Bureau's adoption of differential privacy for data products derived from the 2020 decennial census [[GAM18]](https://queue.acm.org/detail.cfm?ref=rss&id=3295691).
-
-This series will come in two parts: In the first part, we will review the theory of reconstruction attacks, and present a model for reconstruction attacks that corresponds more directly to an attack than the way they are typically presented.  In the second post, we will describe attacks that were launched against various iterations of the *Diffix* system.
-
 ### Theory ###
 
 This part presents the basic theory of reconstruction attacks.  We'll introduce a model of reconstruction attacks that is a little different from what you would see if you read the papers, and then describe the main results of Dinur and Nissim.  At the end we will briefly mention some variations that have been considered in the nearly two decades since.
@@ -94,30 +94,23 @@ The attack itself is quite simple:
 
 * The attacker chooses the queries \\\(\query_1, \ldots, \query_\qsize\\\) so that the matrix \\\(\qmat_\pds\\\) has as its rows all of \\\(\zo^\dsize\\\). Namely, \\\(\qsize=2^\dsize\\\) and the functions \\\(\queryfunc_1, \ldots, \queryfunc_\qsize\\\) defining the queries take all possible values on \\\(\pbs_1, \ldots, \pbs_\dsize\\\).
 	
-* The attacker receives a vector \\\(\ans\\\) of noisy answers to the queries, where \\\( \|\query_{i}(\ds) - \ans_{i}\| < \acc \dsize \\\) for each query \\\( \query_i \\\).  In matrix notation, this means \\[ \max_{i = 1}^\qsize  |(\qmat_\pds\cdot {\sb})_i -\ans_i|= \| \qmat_\pds \cdot \sb -\ans\|_{\infty}  \leq \alpha \dsize. \\]
+* The attacker receives a vector \\\(\ans\\\) of noisy answers to the queries, where \\\( \|\query_{i}(\ds) - \ans_{i}\| < \acc \dsize \\\) for each query \\\( \query_i \\\).  In matrix notation, this means \\[ \max_{i = 1}^\qsize  |(\qmat\_\pds\cdot {\sb})\_i -\ans_i|= \\| \qmat\_\pds \cdot \sb -\ans\\|\_\infty  \leq \alpha \dsize. \\]
 	Note that, for \\\(\\{0,1\\}\\\)-valued queries, the answers range from \\\(0\\\) to \\\(\dsize\\\), so answers with additive error \\\(\pm 5%\\\) corresponds to \\\(\acc = 0.05\\\). 
 
-* Finally, the attacker outputs any guess \\\(\hat{\sb} = (\hat{\sb}_1, \ldots, \hat{\sb}_n)\\\) of the private bits vector that is consistent with the answers and the additive error bound \\\(\acc\\\). In other words, \\\(\hat{\sb}\\\) just needs to satisfy 
-	\\[
-	\max_{i = 1}^\qsize |\ans_i - (\qmat_\pds\cdot \hat{\sb})_i|= \| \qmat_\pds \cdot \hat\sb - a \|_{\infty} \leq \alpha \dsize
-	\\]
+* Finally, the attacker outputs any guess \\\(\hat{\sb} = (\hat{\sb}\_{1}, \ldots, \hat{\sb}\_{n})\\\) of the private bits vector that is consistent with the answers and the additive error bound \\\(\acc\\\). In other words, \\\(\hat{\sb}\\\) just needs to satisfy \\[\max_{i = 1}^\qsize |\ans_i - (\qmat_\pds\cdot \hat{\sb})_i|= \\| \qmat\_\pds \cdot \hat\sb - a \\|\_{\infty} \leq \alpha \dsize \\]
 	Note that a solution always exists, since the true private bits \\\(\sb\\\) will do.  
 
-Our claim is that any such guess \\\(\hat{b}\\\) in fact agrees with the true private bits $b$ for all but \\\(4\acc \dsize\\\) of the users. The reason is that if \\\(\hat{\sb}\\\) disagreed with more than \\\(4\acc \dsize\\\) of the secret bits, then the answer to some query would have eliminated \\\(\hat{\sb}\\\) from contention.  To see this, fix some \\\(\hat{\sb}\in \zo^\dsize\\\), and let 
-\\\[ S_{01} = \{j: \hat{\sb}_j = 0,  \sb_j = 1\} \textrm{ and } S_{10} = \{j: \hat{\sb}_j = 1,  \sb_j = 0\}\\\] 
-If \\\(\hat{\sb}\\\) and \\\(\sb\\\) disagree on more than \\\(4\acc \dsize\\\) bits, then at least one of these two sets has size larger than \\\(2\acc \dsize\\\). Let us assume that this set is \\\(S_{01}\\\), and we'll deal with the other case by symmetry.  Suppose that the \\\(i\\\)-th row of \\\(\qmat_\pds\\\) is the indicator vector of \\\(S_{01}\\\), i.e., \\\((\qmat_\pds)_{i,j} = 1 \iff j \in S_{01}\\\). We  then have
-\\[
-|(\qmat_{\pds}\cdot {\sb})_i - (\qmat_{\pds}\cdot \hat{\sb})_i|= |S_{01}| > 2 \acc \dsize,
-\\]
+Our claim is that any such guess \\\(\hat{b}\\\) in fact agrees with the true private bits \\\(b\\\) for all but \\\(4\acc \dsize\\\) of the users. The reason is that if \\\(\hat{\sb}\\\) disagreed with more than \\\(4\acc \dsize\\\) of the secret bits, then the answer to some query would have eliminated \\\(\hat{\sb}\\\) from contention.  To see this, fix some \\\(\hat{\sb}\in \zo^\dsize\\\), and let \\\[ S\_{01} = \\\{j: \hat{\sb}\_j = 0,  \sb\_j = 1\\\} \textrm{ and } S\_{10} = \\\{j: \hat{\sb}\_j = 1,  \sb\_j = 0\\\}\\\] 
+If \\\(\hat{\sb}\\\) and \\\(\sb\\\) disagree on more than \\\(4\acc \dsize\\\) bits, then at least one of these two sets has size larger than \\\(2\acc \dsize\\\). Let us assume that this set is \\\(S_{01}\\\), and we'll deal with the other case by symmetry.  Suppose that the \\\(i\\\)-th row of \\\(\qmat_\pds\\\) is the indicator vector of \\\(S_{01}\\\), i.e., \\\[(\qmat\_\pds)\_{i,j} = 1 \iff j \in S\_{01}.\\\] We then have
+\\\[
+|(\qmat\_{\pds}\cdot {\sb})\_i - (\qmat\_{\pds}\cdot \hat{\sb})\_i|= |S\_{01}| > 2 \acc \dsize,
+\\\]
 but, at the same time, if \\\(\hat{\sb}\\\) were output by the attacker, we would have
-\\[
-|(\qmat_{\pds}\cdot {\sb})_i - (\qmat_{\pds}\cdot \hat{\sb})_i|
-\le |\ans_i - (\qmat_\pds\cdot \hat{\sb})_i|
-+ |(\qmat_\pds \cdot \sb)_i - \ans_{i}| \le 2\acc \dsize,
-\\]
+\\\[
+|(\qmat\_{\pds}\cdot {\sb})\_i - (\qmat\_{\pds}\cdot \hat{\sb})\_i| \le |\ans\_i - (\qmat\_\pds\cdot \hat{\sb})\_i| + |(\qmat\_\pds \cdot \sb)\_i - \ans\_{i}| \le 2\acc \dsize, \\\]
 which is a contradiction. An important point to note is that the attacker does not need to know the set \\\(S_{10}\\\), or the corresponding \\\(i\\\)-th row of \\\(\qmat_\pds\\\) and query \\\(\query_i\\\). Since the attacker asks all possible queries determined by the prior information, we can be sure \\\(\query_i\\\) is one of these queries, and an accurate answer to it rules out this particular bad choice of \\\(\hat{\sb}\\\).  To give you something concrete to cherish, we can summarize this discussion in the following theorem.
 
->**Theorem [DN03]:** There is a reconstruction attack that issues \\\(2^n\\\) queries to a dataset of \\\(n\\\) users, obtains answers with error \\\(\alpha n\\\), and reconstructs the secret bits of all but \\\(4 \alpha n\\\) users.
+>**Theorem [[DN03]](https://dl.acm.org/doi/10.1145/773153.773173):** There is a reconstruction attack that issues \\\(2^n\\\) queries to a dataset of \\\(n\\\) users, obtains answers with error \\\(\alpha n\\\), and reconstructs the secret bits of all but \\\(4 \alpha n\\\) users.
 
 #### The Polynomial Dinur-Nissim Attack ####
 
@@ -125,40 +118,38 @@ The exponential Dinur-Nissim attack is quite powerful, as it recovers 80% of the
 
 However, Dinur and Nissim showed that if we obtain *highly accurate* answers---still noisy, but with error smaller than the sampling error---then we can reconstruct the dataset to high accuracy.  We can also make the reconstruction process computationally efficient by using linear programming to replace the exhaustive search over all \\\(2^\dsize\\\) possible vectors of secrets.  Specifically, we change the attack as follows:
 
-* The attacker now chooses \\\(\qsize\\\) *randomly chosen* functions \\\( \varphi_i \from \pbsuni \to \{0,1\} \\\) for a much smaller \\\(\qsize = O(\dsize) \\\). 
+* The attacker now chooses \\\(\qsize\\\) *randomly chosen* functions \\\( \varphi_i \from \pbsuni \to \\{0,1\\} \\\) for a much smaller \\\(\qsize = O(\dsize) \\\). 
 
-* Upon receiving an answer vector \\\(\ans\\\), the attacker now searches for a *real-valued* \\\( \tilde{b} \in [0,1]^{\dsize} \\\) such that \\\( \| \ans - \qmat_\pds \cdot \tilde{b} \|_{\infty} \leq \acc n \\\).  Note that this vector can be found in polynomial time via linear programming.  The attacker then rounds \\\( \tilde{b} \\\) to the nearest vector \\\( \hat{b} \in \{0,1\}^\dsize\\\).
+* Upon receiving an answer vector \\\(\ans\\\), the attacker now searches for a *real-valued* \\\( \tilde{b} \in [0,1]^{\dsize} \\\) such that \\\( \\| \ans - \qmat_\pds \cdot \tilde{b} \\|_{\infty} \leq \acc n \\\).  Note that this vector can be found in polynomial time via linear programming.  The attacker then rounds \\\( \tilde{b} \\\) to the nearest vector \\\( \hat{b} \in \\{0,1\\}^\dsize\\\).
 
-It's now much trickier to analyze this attack and show that it achieves low reconstruction error, and we won't go into details in this post.  However, the key idea is that, because the queries are chosen randomly, \\\( \qmat_\pds \\\) is a random matrix with entries in \\\( \{0,1\} \\\), and we can use the statistical properties of this random matrix to argue that, with high probability,
+It's now much trickier to analyze this attack and show that it achieves low reconstruction error, and we won't go into details in this post.  However, the key idea is that, because the queries are chosen randomly, \\\( \qmat_\pds \\\) is a random matrix with entries in \\\( \\{0,1\\} \\\), and we can use the statistical properties of this random matrix to argue that, with high probability,
 \\[
-\|\qmat_\pds \cdot \sb - \qmat_\pds \cdot \tilde{\sb}\|_\infty^2 \gtrsim
-|\{i: \sb_i \neq \hat{\sb}_i\}|.
+\\|\qmat\_\pds \cdot \sb - \qmat\_\pds \cdot \tilde{\sb}\\|\_\infty^2 \gtrsim |\{i: \sb\_i \neq \hat{\sb}\_i\}|.
 \\]
 By the way we chose \\\(\tilde{\sb}\\\), we have 
 \\[
-\|\qmat_\pds \cdot \sb - \qmat_\pds \cdot \tilde{\sb}\|_\infty
-\le \|\qmat_\pds \cdot \sb - \ans\|_\infty + \| \ans - \qmat_\pds \cdot \tilde{b} \|_{\infty} \leq 2\acc n,
+\\|\qmat\_\pds \cdot \sb - \qmat\_\pds \cdot \tilde{\sb}\\|\_\infty \le \\|\qmat\_\pds \cdot \sb - \ans\\|\_\infty + \\| \ans - \qmat\_\pds \cdot \tilde{b} \\|\_{\infty} \leq 2\acc n,
 \\]
 so, by combining the inequalities we get that the reconstruction error is about \\\( O(\alpha^2 n^2) \\\). Note that, in order to reconstruct 80% of the secret bits using this attack, we now need the error to be \\\( \alpha n  \ll \sqrt{n} \\\), but as long as this condition on the error is satisfied, we will have a highly accurate reconstruction.  Let's add this theorem to your goodie bags:
 
->**Theorem [DN03]:** There is a polynomial-time reconstruction attack that issues \\\(O(n)\\\) random queries to a dataset of \\\(n\\\) users, obtains answer with error \\\(\alpha n\\\), and, with high probability, reconstructs the secret bits of all but \\\( O(\alpha^2 n^2)\\\) users.
+>**Theorem [[DN03]](https://dl.acm.org/doi/10.1145/773153.773173):** There is a polynomial-time reconstruction attack that issues \\\(O(n)\\\) random queries to a dataset of \\\(n\\\) users, obtains answer with error \\\(\alpha n\\\), and, with high probability, reconstructs the secret bits of all but \\\( O(\alpha^2 n^2)\\\) users.
 
 Although we modeled the queries, and thus the matrix \\\(\qmat_\pds\\\) as uniformly random, it's important to note that we really only relied on the fact that 
 \\[
 \|\qmat_\pds \cdot \sb - \qmat_\pds \cdot \tilde{\sb}\|_\infty^2 \gtrsim
 |\{i: \sb_i \neq \hat{\sb}_i\}|,
 \\]
-and we can reconstruct while tolerating the same \\\(\Omega(\sqrt{n})\\\) error for any family of queries that gives rise to a matrix with this property.  Intuitively, any *random-enough* family of queries will have this property.  More specifically, the property is satisfied by any matrix with no small singular values [DY08] or high discrepancy [MN12].  There is a large body of work showing that many specific families of queries lead to reconstruction. For example, we can perform reconstruction using *conjunction queries* that ask for the marginal distribution of small subsets of the attributes [KLSU10].  That is, queries of the form "Count the number of people with blue eyes and brown hair and a birthday in August."  In fairness, there are also families of queries that do not satisfy the property, or only satisfy quantitatively weaker versions of it, such as histograms and threshold queries, and for these queries it is indeed possible to achieve differential privacy with \\\( \ll \sqrt{n} \\\) error.
+and we can reconstruct while tolerating the same \\\(\Omega(\sqrt{n})\\\) error for any family of queries that gives rise to a matrix with this property.  Intuitively, any *random-enough* family of queries will have this property.  More specifically, the property is satisfied by any matrix with no small singular values [[DY08]](https://dl.acm.org/doi/10.1007/978-3-540-85174-5_26) or high discrepancy [[MN12]](https://arxiv.org/abs/1203.5453).  There is a large body of work showing that many specific families of queries lead to reconstruction. For example, we can perform reconstruction using *conjunction queries* that ask for the marginal distribution of small subsets of the attributes [[KLSU10]](https://dl.acm.org/doi/abs/10.1145/1806689.1806795).  That is, queries of the form "count the number of people with blue eyes and brown hair and a birthday in August."  In fairness, there are also families of queries that do not satisfy the property, or only satisfy quantitatively weaker versions of it, such as histograms and threshold queries, and for these queries it is indeed possible to achieve differential privacy with \\\( \ll \sqrt{n} \\\) error.
 
 ### Conclusion ###
 
 This is going to be the end of our technical discussion, but before signing off, let's mention some of the important extensions of this theorem that have been developed over the years:
 
-* We can allow the secret information \\\(\sb\\\) to be integers or real numbers, rather than bits. The queries still return \\\(\qmat_\pds\cdot \sb\\\). The exponential attack then guarantees that, given answers with error \\\(\acc n\\\), the reconstruction \\\(\hat{\sb}\\\) satisfies \\\(\|\hat{\sb}-\sb\|_1 \le 4\acc n\\\). This means, for example, that the reconstructed secrets of all but \\\(4\alpha\\\) users are within \\\(\pm 1\\\) of the true secrets. The polynomial attack guarantees that \\\(\|\hat{\sb}-\sb\|_2^2 \le O(\acc^2 n^2)\\\), which means that the reconstructed secrets are within \\\(\pm 1\\\) for all but \\\(O(\acc^2 n^2)\\\) users.
+* We can allow the secret information \\\(\sb\\\) to be integers or real numbers, rather than bits. The queries still return \\\(\qmat_\pds\cdot \sb\\\). The exponential attack then guarantees that, given answers with error \\\(\acc n\\\), the reconstruction \\\(\hat{\sb}\\\) satisfies \\\(\\|\hat{\sb}-\sb\\|_1 \le 4\acc n\\\). This means, for example, that the reconstructed secrets of all but \\\(4\alpha\\\) users are within \\\(\pm 1\\\) of the true secrets. The polynomial attack guarantees that \\\(\\|\hat{\sb}-\sb\\|_2^2 \le O(\acc^2 n^2)\\\), which means that the reconstructed secrets are within \\\(\pm 1\\\) for all but \\\(O(\acc^2 n^2)\\\) users.
 	
 * It's not crucial that *every* query be answered with error \\\( \ll \sqrt{n} \\\).  If we are willing to settle 
 	for an exponential time attack, then it's enough for only 51% to have small error then we can still reconstruct, 
-	and if at least 75% have small error we can reconstruct in polynomial time [DMT07].
+	and if at least 75% have small error we can reconstruct in polynomial time [[DMT07]](https://dl.acm.org/doi/10.1145/1250790.1250804).
 		
 * The reconstruction attacks still apply to the seemingly more general data model in which the private 
 	dataset \\\(\ds\\\) is a subset of some arbitrary (but public) data universe \\\(\uni\\\).  To see this, note that
@@ -170,7 +161,7 @@ This is going to be the end of our technical discussion, but before signing off,
 * The fact that the polynomial Dinur-Nissim reconstruction attack fails when the error is \\\( \gg \sqrt{n} \\\) 
 	does not mean it's easy to achieve privacy with error of that magnitude.  In fact, the sort of membership 
 	inference attack described above is also possible even when given answers that are much more noisy.  We 
-	refer the reader to the survey [DSSU17] for a somewhat more in-depth survey of reconstruction and membership 
+	refer the reader to the survey [[DSSU17]](https://privacytools.seas.harvard.edu/publications/exposed-survey-attacks-private-data) for a somewhat more in-depth survey of reconstruction and membership 
 	inference attacks.
 
 Many types of queries give rise to the conditions under which reconstruction is possible.  Stay tuned for our next post, where we show how to generate those types of queries in practice against a family of systems known as *Diffix* that are specifically designed to thwart reconstruction.
