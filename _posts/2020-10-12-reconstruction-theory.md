@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Reconstruction Attacks I: Theoretical Foundations"
+title: "The Theory of Reconstruction Attacks"
 comments: true
 authors: 
   - alonicohen
@@ -84,7 +84,7 @@ The nice thing about this type of query is that we can express the answers to a 
 
 #### The Exponential Dinur-Nissim Attack ####
 
-Exact answers to such queries are clearly revealing---if \\\(\qmat_{\pds}\\\) is invertible, \\\(\mat{b}\\\) can be recovered exactly from \\\(\qmat_{\pds}\cdot \sb\\\). For instance, if the \\\(\pbs_i\\\) are distinct, then choosing  \\\(\queryfunc_i(\pbs) = 1\\\) if and only if \\\(\pbs = \pbs_i\\\) directly reveals the \\\(\mat{b}_i\\\).  It is less obvious, however, that an attacker can learn a lot about the private bits even given noisy answers to the queries.
+Exact answers to such queries are clearly revealing, because, if \\\(\qmat_{\pds}\\\) is invertible, then \\\(\mat{b}\\\) can be recovered exactly from \\\(\qmat_{\pds}\cdot \sb\\\). For instance, if the \\\(\pbs_i\\\) are distinct, then choosing  \\\(\queryfunc_i(\pbs) = 1\\\) if and only if \\\(\pbs = \pbs_i\\\) directly reveals the \\\(\mat{b}_i\\\).  It is less obvious, however, that an attacker can learn a lot about the private bits even given noisy answers to the queries.
 
 The first Dinur-Nissim attack shows that this is indeed possible---if the attacker can ask an unbounded number of counting queries, and each query is answered with, for example, 5% error, then the attacker can reconstruct 80% of the secret bits.  This attack requires exponentially many queries to run, making it somewhat impractical, but it is a proof of concept that an attack can reconstruct a large amount of private information even from very noisy statistics. Later we will see how to scale down the attack to use fewer queries at the cost of requiring more accurate answers.
 
@@ -94,8 +94,11 @@ The attack itself is quite simple:
 
 * The attacker chooses the queries \\\(\query_1, \ldots, \query_\qsize\\\) so that the matrix \\\(\qmat_\pds\\\) has as its rows all of \\\(\zo^\dsize\\\). Namely, \\\(\qsize=2^\dsize\\\) and the functions \\\(\queryfunc_1, \ldots, \queryfunc_\qsize\\\) defining the queries take all possible values on \\\(\pbs_1, \ldots, \pbs_\dsize\\\).
 	
-* The attacker receives a vector \\\(\ans\\\) of noisy answers to the queries, where \\\(|\query_i(\ds) - \ans_i| \le \acc \dsize\\\) for each query \\\(\query_i\\\). In matrix notation this means
-	\\[ \max_{i = 1}^\qsize  |(\qmat_\pds\cdot {\sb})_i -\ans_i|= \| \qmat_\pds \cdot \sb -\ans\|_{\infty}  \leq \alpha \dsize. \\]
+* The attacker receives a vector \\\(\ans\\\) of noisy answers to the queries, where \\\( \|\query_{i}(\ds) - \ans_{i}\| < \acc \dsize \\\) for each query \\\( \query_i \\\).  In matrix notation, this means \\\[ \max_{i=1}^{\qsize} \| (\qmat_\pds\cdot \sb)_i -\ans_i \| = \\\]
+
+* \\(|\query_{i}(\ds) - \ans_{i}| \le \acc \dsize\\) for each query \\\(\query_i\\\). In matrix notation this means \\[ \max_{i=1}^{\qsize} \\]
+
+* \\[ \max_{i = 1}^\qsize  |(\qmat_\pds\cdot {\sb})_i -\ans_i|= \| \qmat_\pds \cdot \sb -\ans\|_{\infty}  \leq \alpha \dsize. \\]
 	Note that, for \\\(\\{0,1\\}\\\)-valued queries, the answers range from \\\(0\\\) to \\\(\dsize\\\), so answers with additive error \\\(\pm 5%\\\) corresponds to \\\(\acc = 0.05\\\). 
 
 * Finally, the attacker outputs any guess \\\(\hat{\sb} = (\hat{\sb}_1, \ldots, \hat{\sb}_n)\\\) of the private bits vector that is consistent with the answers and the additive error bound \\\(\acc\\\). In other words, \\\(\hat{\sb}\\\) just needs to satisfy 
