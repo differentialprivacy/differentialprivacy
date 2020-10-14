@@ -94,11 +94,7 @@ The attack itself is quite simple:
 
 * The attacker chooses the queries \\\(\query_1, \ldots, \query_\qsize\\\) so that the matrix \\\(\qmat_\pds\\\) has as its rows all of \\\(\zo^\dsize\\\). Namely, \\\(\qsize=2^\dsize\\\) and the functions \\\(\queryfunc_1, \ldots, \queryfunc_\qsize\\\) defining the queries take all possible values on \\\(\pbs_1, \ldots, \pbs_\dsize\\\).
 	
-* The attacker receives a vector \\\(\ans\\\) of noisy answers to the queries, where \\\( \|\query_{i}(\ds) - \ans_{i}\| < \acc \dsize \\\) for each query \\\( \query_i \\\).  In matrix notation, this means \\\[ \max_{i=1}^{\qsize} \| (\qmat_\pds\cdot \sb)_i -\ans_i \| = \\\]
-
-* \\(|\query_{i}(\ds) - \ans_{i}| \le \acc \dsize\\) for each query \\\(\query_i\\\). In matrix notation this means \\[ \max_{i=1}^{\qsize} \\]
-
-* \\[ \max_{i = 1}^\qsize  |(\qmat_\pds\cdot {\sb})_i -\ans_i|= \| \qmat_\pds \cdot \sb -\ans\|_{\infty}  \leq \alpha \dsize. \\]
+* The attacker receives a vector \\\(\ans\\\) of noisy answers to the queries, where \\\( \|\query_{i}(\ds) - \ans_{i}\| < \acc \dsize \\\) for each query \\\( \query_i \\\).  In matrix notation, this means \\[ \max_{i = 1}^\qsize  |(\qmat_\pds\cdot {\sb})_i -\ans_i|= \| \qmat_\pds \cdot \sb -\ans\|_{\infty}  \leq \alpha \dsize. \\]
 	Note that, for \\\(\\{0,1\\}\\\)-valued queries, the answers range from \\\(0\\\) to \\\(\dsize\\\), so answers with additive error \\\(\pm 5%\\\) corresponds to \\\(\acc = 0.05\\\). 
 
 * Finally, the attacker outputs any guess \\\(\hat{\sb} = (\hat{\sb}_1, \ldots, \hat{\sb}_n)\\\) of the private bits vector that is consistent with the answers and the additive error bound \\\(\acc\\\). In other words, \\\(\hat{\sb}\\\) just needs to satisfy 
