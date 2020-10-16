@@ -57,7 +57,7 @@ From a technical perspective, Diffix consists of three components, which togethe
 
 The final component is Diffix's layered noise.  This noise is comprised of two individual noise terms added together: a *data-dependent* term whose variance is constant[^2] and a *query-dependent* term whose variance depends on the complexity of the query. The data-dependent noise prevents na&iuml;ve averaging attacks. It is a pseudorandom error where the seed of the pseudorandom function depends on individual data records that contribute to the query result. Semantically equivalent queries using different syntax will nonetheless share this error, so simply averaging the responses will not remove this noise.
 
-The query-dependent noise prevents a na&iuml;ve Dinur-Nissim style reconstruction attacks. A noise term of magnitude \\(\Omega(1)\\) is generated deterministically for each condition in the `WHERE` or `HAVING` clause of the SQL query, and the terms are added together.  A Dinur-Nissim query is a random subset of the dataset that contains \\(\Omega(n)\\) records. The straightforward way of specifying such a query is to enumerate the subset record by record using \\(\Omega(n)\\) conditions:[^3]
+The query-dependent noise prevents a na&iuml;ve Dinur--Nissim style reconstruction attacks. A noise term of magnitude \\(\Omega(1)\\) is generated deterministically for each condition in the `WHERE` or `HAVING` clause of the SQL query, and the terms are added together.  A Dinur--Nissim query is a random subset of the dataset that contains \\(\Omega(n)\\) records. The straightforward way of specifying such a query is to enumerate the subset record by record using \\(\Omega(n)\\) conditions:[^3]
 
 ```SQL
 SELECT COUNT(*) FROM loans
