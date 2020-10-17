@@ -11,7 +11,7 @@ timestamp: 00:00:00 -0400
 categories: [Surveys]
 ---
 
-This is the second of two posts describing the theory and practice of linear programming reconstruction attacks.  To read the first post, which covers the theoretical basis of such attacks, [[click here]](https://dp.org).
+This is the second of two posts describing the theory and practice of reconstruction attacks.  To read the first post, which covers the theoretical basis of such attacks, [[click here]](https://dp.org).
 
 ----
 
@@ -52,7 +52,7 @@ If the noise is sampled anew each time a query is made, then repeatedly making t
 As before, there is an intuitive defense: use the same noise for repeated queries.  This defense introduces its own new attacks by making many syntactically-distinct but semantically-equivalent queries.  Those attacks in turn suggest new defenses which suggest new attacks, and so on.  Diffix is, in a sense, the result of this hypothetical arms race.
 
 
-From a technical perspective, Diffix consists of three components, which together are intended to thwart these attacks.  First, Diffix only accepts a limited subset of SQL and will categorically reject any query that does not fit this subset.  These restrictions---including tight restrictions on `JOIN`s and on the number of mathematical functions in a single expression---limit the ability of an adversary to use the full power of SQL to access the database.  The second component is a collection of data-dependent ad-hoc methods to prevent leaking information about individuals or very small subsets of users, including suppressing answers to queries about small numbers of users, flattening outliers.
+From a technical perspective, Diffix consists of three components, which together are intended to thwart these attacks.  First, Diffix only accepts a limited subset of SQL and will categorically reject any query that does not fit this subset.  These restrictions---including tight restrictions on `JOIN`s and on the number of mathematical functions in a single expression---limit the ability of an adversary to use the full power of SQL to access the database.  The second component is a collection of data-dependent ad-hoc methods to prevent leaking information about individuals or very small subsets of users, including suppressing answers to queries about small numbers of users and flattening outliers.
 
 
 The final component is Diffix's layered noise.  This noise is comprised of two individual noise terms added together: a *data-dependent* term whose variance is constant[^2] and a *query-dependent* term whose variance depends on the complexity of the query. The data-dependent noise prevents na&iuml;ve averaging attacks. It is a pseudorandom error where the seed of the pseudorandom function depends on individual data records that contribute to the query result. Semantically equivalent queries using different syntax will nonetheless share this error, so simply averaging the responses will not remove this noise.
@@ -80,9 +80,9 @@ So the challenge is to formulate a large family of such queries that are accepte
 #### The Cohen--Nissim Attack ####
 
 Instead of specifying each row with a separate condition, the Cohen--Nissim attack uses an ad hoc *hash function* to extract entropy from the data itself in order to systematically choose the needed subsets.  
-Suppose we have a list of the values in the database's  `clientId` column, and we want to recover the `loanStatus` secret bit. Rather than explicitly enumerating the `clientId`s for a random subset of the rows to include in each query, we can write a boolean-valued function which evaluates to true on about half of the `clientIds and ask Diffix to include only the rows for which the condition is true.  In this way, instead of first choosing a subset of rows and then asking Diffix about those rows, we choose this function and use its evaluation to specify our random subset.
+Suppose we have a list of the values in the database's  `clientId` column, and we want to recover the `loanStatus` secret bit. Rather than explicitly enumerating the `clientId`s for a random subset of the rows to include in each query, we can write a boolean-valued function which evaluates to true on about half of the `clientId`s and ask Diffix to include only the rows for which the condition is true.  In this way, instead of first choosing a subset of rows and then asking Diffix about those rows, we choose this function and use its evaluation to specify our random subset.
 
-After some experimentation with the language restrictions, Cohen-Nissim settled on the following:
+After some experimentation with the language restrictions, Cohen and Nissim settled on the following:
   ```SQL
 ...
 WHERE FLOOR(100 * ((clientId * 2)^0.7))
@@ -90,7 +90,8 @@ WHERE FLOOR(100 * ((clientId * 2)^0.7))
   ```
 
 Let's see what this does. Let \\(d=d_0.d_1 d_2 d_3 d_4 \dots \\) be the decimal representation of the value \\(d = (\mathtt{clientID}\cdot 2)^{0.7}\\), which appears on both sides of the equality.
-The expression is true if and only if \\(d_3 < 5\\).  To see this, the left hand side evaluates to \\(d_2 = \lfloor 100d \rfloor\\); the right hand side evaluates to \\(d_2\\) or \\(d_2+1\\) depending on whether or not \\(d_3 < 5\\). Replacing 100 with other powers of 10 changes which digit in the decimal expansion is checked.
+The expression is true if and only if \\(d_3 < 5\\).  
+To see this, the left hand side evaluates to \\(d_{0}d_{1}d_{2} = \lfloor 100d \rfloor\\); the right hand side evaluates to \\(d_{0}d_{1}d_{2}\\) if \\(d_3 < 5\\)  or \\(d_{0}d_{1}d_{2}+1\\) if \\(d_3 \geq 5\\). In the former case, the equality condition evaluates to 'true', and in the latter case it evaluates to 'false'. Replacing 100 with other powers of 10 changes which digit in the decimal expansion is checked.
 
 By varying the constants in the SQL query, this single expression yields a whole family of conditions, albeit a very ad-hoc one.  The hope was that, for different primes \\(q\\) and fractional exponents \\(p\\), the individual digits of the decimal representations of \\((\mathtt{clientID}*q)^p\\) would be random enough for reconstruction to work.
 The complete attack queries looked like this:
@@ -147,9 +148,9 @@ SELECT SUM(CAST(SUBSTRING(ssn, 3, 1) AS integer)) FROM rides ....
 
 ```
 
-can be used to recover the 3rd digit from each row's social security number.  Running this attack for each digit then aggregating the individual guesses to construct a guess for each user's entire social security number allows the attack to achieve perfect reconstruction on about 90 percent of the values.  A similar attack worked on the datetime columns, with separate attacks on the value in the seconds position, the minutes position, and so on, and finally piecing these together to correctly reconstruct about 85 percent of the values.
+can be used to recover the 3rd digit from each row's social security number.  Running this attack for each digit then aggregating the individual guesses to construct a guess for each user's entire social security number allows the attack to achieve perfect reconstruction on about 90 percent of the values.  A similar attack worked on the `pickup_datetime` and `dropoff_datetime` columns, with separate attacks on the value in the seconds position, the minutes position, and so on, and finally piecing these together to correctly reconstruct about 85 percent of the values.
 
-Again, Aircloak's response was to restrict the query language.  Both of the successful attacks relied on the use of some arithmetic inside of  a `FLOOR` function to check whether or not a row is included in a particular query. Diffix now forbids the use of arithmetic with *bucketing functions* such as `FLOOR`, `CEIL`, `ROUND`, etc.  This defeats strategies which choose random-ish subsets via hashing, but does not necessarily preclude the extraction of entropy from the data in other ways.
+Again, Aircloak's response was to restrict the query language.  Both of the successful attacks relied on the use of some arithmetic inside of  a `FLOOR` function to check whether or not a row is included in a particular query. Diffix now forbids the use of arithmetic with *bucketing functions* such as `FLOOR`, `CEIL`, `ROUND`, etc.  This defeats strategies which choose random-ish subsets via this kind of hashing, but does not necessarily preclude the extraction of entropy from the data in other ways.
 
 
 
@@ -159,7 +160,7 @@ Again, Aircloak's response was to restrict the query language.  Both of the succ
 #### What's Next? ####
 
 
-We'd again like to thank Aircloak for opening their system to attacks and critiques through the Diffix bounty program.  By being so willing to expose their product in this way, they have provided a test bed for us to bridge the gap between theory and application and demonstrate how a linear reconstruction attack might work in practice.  Vulnerability to these and other attacks are a potential threat to any data privacy system which does not account for the cumulative threat to privacy of may result from many seemingly-innocuous queries, including Diffix. The attacks we describe here only require the attacker have access to some subset of the data with a sufficient amount of entropy, and while more entropy allows for more complete reconstruction, it may be possible to use something potentially very accessible like a list of users' email addresses in this kind of attack to reconstruct a non-trivial amount of the secret data using queries against a system that adds independent noise to each query.  Systems like this fall into the trap of the classic arms race, where a designer builds a system to protect against certain attacks, then a clever and determined adversary defeats the system, and the designer is forced to make revisions.
+We'd again like to thank Aircloak for opening their system to attacks and critiques through the Diffix bounty program.  By being so willing to expose their product in this way, they have provided a test bed for us to bridge the gap between theory and application and demonstrate how a linear reconstruction attack might work in practice.  Vulnerability to these and other attacks are a potential threat to any data privacy system which does not account for the cumulative threat to privacy that may result from many seemingly-innocuous queries, not just Diffix. The attacks we describe here only require the attacker have access to some subset of the data with a sufficient amount of entropy, and while more entropy allows for more complete reconstruction, it may be possible to use something potentially very accessible like a list of users' email addresses in this kind of attack to reconstruct a non-trivial amount of the secret data using queries against a system that adds independent noise to each query.  Systems like this fall into the trap of the classic arms race, where a designer builds a system to protect against certain attacks, then a clever and determined adversary defeats the system, and the designer is forced to make revisions.
 
 
 
