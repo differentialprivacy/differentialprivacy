@@ -3,6 +3,12 @@ clementcanonne:
   homepage: http://www.cs.columbia.edu/~ccanonne/
   image:
   affiliation: IBM Research - Almaden
+  
+alonicohen:
+  name: Aloni Cohen
+  homepage: https://aloni.net/
+  image: 
+  affiliation: Boston University
 
 matthewjoseph:
   name: Matthew Joseph
@@ -22,11 +28,23 @@ audramcmillan:
   image: 
   affiliation: Apple
 
+sashonikolov:
+  name: Sasho Nikolov
+  homepage: http://www.cs.toronto.edu/~anikolov/
+  image: 
+  affiliation: University of Toronto
+
 ryanrogers:
   name: Ryan Rogers
   homepage: https://www.math.upenn.edu/~ryrogers/
   image: 
   affiliation: LinkedIn
+
+zacharyschutzman:
+  name: Zachary Schutzman
+  homepage: https://zachschutzman.com/
+  image: 
+  affiliation: University of Pennsylvania
 
 adamsealfon:
   name: Adam Sealfon
