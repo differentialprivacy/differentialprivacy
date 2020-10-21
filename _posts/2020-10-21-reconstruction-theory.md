@@ -72,7 +72,7 @@ Our goal is to understand whether asking aggregate queries defined by the prior 
 \query(\ds) = \sum_{j=1}^{\dsize} \queryfunc(\pbs_j) \cdot \sb_j.
 \\]
 This is a good time to make one absolutely crucial point about this model, which is that 
->all the users are treated completely symmetrically by the queries, and the attacker caxnnot issue a query that targest a specific user \\\(x_i\\\) by name or a specific subset of users.  The different users are distinguished only by their data.  Nonetheless, we will see how to learn information about specific users from the answers to these queries.
+>all the users are treated completely symmetrically by the queries, and the attacker cannot issue a query that targets a specific user \\\(x_i\\\) by name or a specific subset of users.  The different users are distinguished only by their data.  Nonetheless, we will see how to learn information about specific users from the answers to these queries.
 
 Returning to our example with binary attributes, consider the very natural set of queries that asks for the inner product of the secret bits with each attribute in the prior information, which is a measure of the correlation between these two attributes.  Then each query takes the form \\\(\query_i(\ds) = \sum_{j=1}^{n} \pbs_{j,i} \cdot \sb_{j}\\\).
 
