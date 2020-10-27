@@ -15,13 +15,13 @@ This is the second of two posts describing the theory and practice of reconstruc
 
 ----
 
-In the last post, we discussed how an attacker can use noisy answers to questions about a database to reconstruct private information in the database. The reconstruction attack framework was:
+In the [last post](https://differentialprivacy.org/reconstruction-theory/), we discussed how an attacker can use noisy answers to questions about a database to reconstruct private information in the database. The reconstruction attack framework was:
 
 1. The attacker submits sufficiently random queries that link prior information (which the attacker already knows) to private data (which the attacker wants to learn).
 2. The attacker receives noisy answers to these queries and writes them down as constraints for a linear program to solve for the private bits.
 3. The attacker solves the linear program and rounds the result to recover most of the bits.
 
-Our last post discussed some of this attack's nice theoretical guarantees, and this post matches that with real-world performance. More specifically, we'll cover two successful applications of this attack against a piece of anonymizing SQL software called Diffix.
+Our last post discussed some of this attack's nice theoretical guarantees, and this post matches that with real-world performance. More specifically, we'll cover two successful applications of this attack against a piece of anonymizing SQL software called Diffix which, despite the name, is not differentially private.
 
 ### What is Diffix? ###
 Diffix is a system designed by the startup Aircloak for answering statistical queries over a private database. It is described by its creators as an "anonymizing SQL interface [that] sits in front of your data and enables you to conduct ad hoc analytics --- fully privacy preserving and GDPR-compliant."[^1]  Aircloak's approach is to develop targeted defenses for known vulnerabilities, but to otherwise privilege utility over protecting against unknown vulnerabilities.  They combine this approach with a serious effort to actually find vulnerabilities in Diffix through periodic bug bounties that offer monetary prizes for participants who mount successful attacks.  While this post is critical of the design of Diffix itself, we commend Aircloak for their genuine openness to scrutiny. Indeed, the attacks described in this post were carried out as a part of these bug bounty programs and led to the discovery of several vulnerabilities in the software that have since been addressed. The first attack we describe was carried out by Aloni Cohen and Kobbi Nissim in the first bug bounty program in late 2017 and early 2018.  The second was run by Travis Dick, Matthew Joseph, and Zachary Schutzman in the second bug bounty program during the summer of 2020.
@@ -69,7 +69,7 @@ OR clientId = 2991)
 
 ```
 
-A query with \\(\Omega(n)\\) conditions is answered with noise with standard deviation \\(\Omega(\sqrt{n})\\), enough to thwart the reconstruction algorithms.
+A query with \\(\Omega(n)\\) conditions is answered with noise with standard deviation \\(\Omega(\sqrt{n})\\), enough to thwart efficient reconstruction algorithms.
 
 
 ### Carrying out reconstruction ###
@@ -79,7 +79,7 @@ So the challenge is to formulate a large family of such queries that are accepte
 
 #### The Cohen--Nissim Attack ####
 
-Instead of specifying each row with a separate condition, the Cohen--Nissim attack uses an ad hoc *hash function* to extract entropy from the data itself in order to systematically choose the needed subsets.  
+Instead of specifying each row with a separate condition, the Cohen--Nissim attack[[CN18]](https://arxiv.org/abs/1810.05692) uses an ad hoc *hash function* to extract entropy from the data itself in order to systematically choose the needed subsets.  
 Suppose we have a list of the values in the database's  `clientId` column, and we want to recover the `loanStatus` secret bit. Rather than explicitly enumerating the `clientId`s for a random subset of the rows to include in each query, we can write a boolean-valued function which evaluates to true on about half of the `clientId`s and ask Diffix to include only the rows for which the condition is true.  In this way, instead of first choosing a subset of rows and then asking Diffix about those rows, we choose this function and use its evaluation to specify our random subset.
 
 After some experimentation with the language restrictions, Cohen and Nissim settled on the following:
@@ -111,7 +111,7 @@ The range condition at the end simply selects a subset of the data which is smal
 
 In the course of verifying the attack for the Diffix bounty program, reconstruction was carried out on 4 different ranges of `clientId`s containing 455 records. For each record, the attack correctly determined whether or not the corresponding `loanStatus` was `C`.
 
-Aircloak's response to this attack was to further restrict the query allowed by Diffix.  Columns like `clientId`, where most of the values correspond to a single user, are tagged as 'isolating', and mathematical functions can no longer be used on such columns.  The hope was that this modification would prevent the extraction of entropy from an identifying column via hashing.
+Aircloak's response to this attack was to further restrict the queries allowed by Diffix.  Columns like `clientId`, where most of the values correspond to a single user, are tagged as 'isolating', and mathematical functions can no longer be used on such columns.  The hope was that this modification would prevent the extraction of entropy from an identifying column via hashing.
 
 #### The Dick--Joseph--Schutzman Attack ####
 
@@ -140,7 +140,7 @@ SELECT SUM(passenger_count) FROM rides ...
 Diffix will return return noisy sums over the specified subset for a numeric column like `passenger_count`.  Then, a similar linear program can reconstruct estimates for these values with high accuracy.  For numeric columns like `passenger_count` which take on relatively few distinct values, the attack recovers the exact values with accuracy above 75 percent.  Due to limitations in the Diffix bounty program rules which require perfect reconstruction of a value to be considered 'accurate', we didn't evaluate the performance of the attack on numeric columns with richer values, such as `dropoff_latitude`.
 
 
-Finally, this attack extends to one used to reconstruct string data character-by-character.  A U.S. social security number consists of a string formatted like `xxx-xx-xxxx` with ten unknown digits in three blocks separated by dashes.  There are potentially ten billion different strings that could appear in this column.  However, by exploiting the structure of the data, a separate attack can be run to recover each digit individually using the summation attack, since there are only ten different values each digit could take.  Queries of the form
+Finally, this attack extends to one used to reconstruct string data character-by-character.  A U.S. social security number consists of a string formatted like `xxx-xx-xxxx` with none unknown digits in three blocks separated by dashes.  There are potentially one billion different strings that could appear in this column.  However, by exploiting the structure of the data, a separate attack can be run to recover each digit individually using the summation attack, since there are only ten different values each digit could take.  Queries of the form
 
 ```SQL
 
@@ -160,7 +160,7 @@ Again, Aircloak's response was to restrict the query language.  Both of the succ
 #### What's Next? ####
 
 
-We'd again like to thank Aircloak for opening their system to attacks and critiques through the Diffix bounty program.  By being so willing to expose their product in this way, they have provided a test bed for us to bridge the gap between theory and application and demonstrate how a linear reconstruction attack might work in practice.  Vulnerability to these and other attacks are a potential threat to any data privacy system which does not account for the cumulative threat to privacy that may result from many seemingly-innocuous queries, not just Diffix. The attacks we describe here only require the attacker have access to some subset of the data with a sufficient amount of entropy, and while more entropy allows for more complete reconstruction, it may be possible to use something potentially very accessible like a list of users' email addresses in this kind of attack to reconstruct a non-trivial amount of the secret data using queries against a system that adds independent noise to each query.  Systems like this fall into the trap of the classic arms race, where a designer builds a system to protect against certain attacks, then a clever and determined adversary defeats the system, and the designer is forced to make revisions.
+We'd again like to thank Aircloak for opening their system to attacks and critiques through the Diffix bounty program.  By being so willing to expose their product in this way, they have provided a test bed for us to bridge the gap between theory and application and demonstrate how a linear reconstruction attack might work in practice.  Vulnerability to these and other attacks are a potential threat to any data privacy system which does not account for the cumulative threat to privacy that may result from many seemingly-innocuous queries, not just Diffix. The attacks we describe here only require the attacker have access to some subset of the data with a sufficient amount of entropy, and while more entropy allows for more complete reconstruction, it may be possible to use something potentially very accessible like a list of users' email addresses in this kind of attack to reconstruct a non-trivial amount of the secret data using queries against a system that adds independent noise to each query.  Systems like this fall into the trap of the classic arms race, where a designer builds a system to protect against certain attacks, then a clever and determined adversary defeats the system, and the designer is forced to make revisions.  This cycle may never terminate, leaving us perpetually unsure of when we can be confident that a system is secure enough to trust with sensitive data.
 
 
 
