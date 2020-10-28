@@ -1,0 +1,25 @@
+---
+layout: none
+---
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{ site.name }} - BibTeX entries</title>
+    </head>
+    <body>
+        <p><a href="{{ site.url }}">DifferentialPrivacy.org</a> BibTeX entries</p>
+    </body>
+    {% for post in site.posts %}
+      <p><tt>
+      @misc&#123;<a href="{{ post.url }}" id="{{ post.url | remove:"/" }}">DPorg-{{ post.url | remove:"/" }}</a>,<br/>
+        &nbsp;&nbsp;&nbsp;&nbsp;title=&#123;{{ post.title | xml_escape }}&#125;,<br/>
+        {% if post.authors %}
+        &nbsp;&nbsp;&nbsp;&nbsp;author=&#123;{% for author in post.authors %}{{ site.data.contributors[author].name }}{% if forloop.last == false %} and {% endif %}{% endfor %}&#125;,<br/>
+        {% endif %}
+        &nbsp;&nbsp;&nbsp;&nbsp;howpublished=&#123;DifferentialPrivacy.org&#125,<br/>
+        &nbsp;&nbsp;&nbsp;&nbsp;note=&#123;&#92;url&#123;{{ site.url }}{{ post.url }}&#125;&#125,<br/>
+        &nbsp;&nbsp;&nbsp;&nbsp;year=&#123;{{ post.date | date: "%Y" }}&#125;,<br/>
+        &nbsp;&nbsp;&nbsp;&nbsp;month=&#123;{{ post.date | date: "%B" }}&#125;,<br/>
+    &#125;</tt></p>
+    {% endfor %}
+</html>
