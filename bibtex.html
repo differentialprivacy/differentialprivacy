@@ -16,7 +16,7 @@ layout: none
         {% if post.bibtexauthors %}
         &nbsp;&nbsp;&nbsp;&nbsp;author=&#123;{{ post.bibtexauthors }}&#125;,<br/>
         {% elsif post.authors %}
-        &nbsp;&nbsp;&nbsp;&nbsp;author=&#123;{% for author in post.authors %}{{ site.data.contributors[author].name }}{% if forloop.last == false %} and {% endif %}{% endfor %}&#125;,<br/>
+        &nbsp;&nbsp;&nbsp;&nbsp;author=&#123;{% for author in post.authors %}{% if site.data.contributors[author].bibtexname %}{{ site.data.contributors[author].bibtexname }}{% else %}{{ site.data.contributors[author].name }}{% endif %}{% if forloop.last == false %} and {% endif %}{% endfor %}&#125;,<br/>
         {% endif %}
         &nbsp;&nbsp;&nbsp;&nbsp;howpublished=&#123;DifferentialPrivacy.org&#125,<br/>
         &nbsp;&nbsp;&nbsp;&nbsp;note=&#123;&#92;url&#123;{{ site.url }}{{ post.url }}&#125;&#125,<br/>
