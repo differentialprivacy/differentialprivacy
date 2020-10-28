@@ -13,7 +13,9 @@ layout: none
       <p><tt>
       @misc&#123;<a href="{{ post.url }}" id="{{ post.url | remove:"/" }}">DPorg-{{ post.url | remove:"/" }}</a>,<br/>
         &nbsp;&nbsp;&nbsp;&nbsp;title=&#123;{{ post.title | xml_escape }}&#125;,<br/>
-        {% if post.authors %}
+        {% if post.bibtexauthors %}
+        &nbsp;&nbsp;&nbsp;&nbsp;author=&#123;{{ post.bibtexauthors }}&#125;,<br/>
+        {% elsif post.authors %}
         &nbsp;&nbsp;&nbsp;&nbsp;author=&#123;{% for author in post.authors %}{{ site.data.contributors[author].name }}{% if forloop.last == false %} and {% endif %}{% endfor %}&#125;,<br/>
         {% endif %}
         &nbsp;&nbsp;&nbsp;&nbsp;howpublished=&#123;DifferentialPrivacy.org&#125,<br/>

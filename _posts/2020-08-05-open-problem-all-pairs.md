@@ -3,6 +3,7 @@ layout: post
 title: "Open Problem - Private All-Pairs Distances"
 comments: true
 authors: audramcmillan
+bibtexauthors: "Adam Sealfon"
 timestamp: 14:00:00 -0400
 categories: [Open Problems]
 ---
