@@ -8,7 +8,7 @@ categories: Definitions
 timestamp: 21:00:00 -0400
 ---
 
-There are many variants or flavors of differential privacy (DP) some weaker than others: often, a given variants comes with own guarantees and "conversion theorems" to the others. As an example, "pure" DP has a single parameter $$\varepsilon$$, and corresponds to a very stringent notion of DP:
+There are many variants or flavors of differential privacy (DP) some weaker than others: often, a given variant comes with own guarantees and "conversion theorems" to the others. As an example, "pure" DP has a single parameter $$\varepsilon$$, and corresponds to a very stringent notion of DP:
 
 > An algorithm $$M$$ is $$\varepsilon$$-DP if, for all neighbouring inputs $$D,D'$$ and all measurable $$S$$, \\\( \Pr[ M(D) \in S ] \leq e^\varepsilon\Pr[ M(D) \in S ] \\\).
 
