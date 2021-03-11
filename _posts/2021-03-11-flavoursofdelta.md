@@ -34,7 +34,7 @@ However, those catastrophic failure of privacy, while technically allowed by the
 for every possible output $$y\in\Omega$$. Now, define the random variable $$Z := f(M(D))$$ (implicitly, $$Z$$ depends on $$D,D',M$$). This random variable quantifies how much observing the output of the algorithm $$M$$ helps distinguishing between $$D$$ and $$D'$$.
 
 Now, going a little bit fast, you can check that saying that $$M$$ is $$\varepsilon$$-DP corresponds to the guarantee "_$$\Pr[Z > \varepsilon] = 0$$ for all neighbouring inputs $$D,D'$$._"
-Similarly, $$M$$ being $$(\varepsilon,\delta)$$-DP is the guarantee $$\Pr[Z > \varepsilon] \leq \delta$$.[^1] For instance, the "catastrophic failure of privacy" corresponds to the scenario below, which depicts a possible distribution for $$Z$$: $$Z\leq \varepsilon$$ with probability $$1-\delta$$, but then with probability $$\delta$$ we have $$Z\gg 1$$.
+Similarly, $$M$$ being $$(\varepsilon,\delta)$$-DP is the guarantee $$\Pr[Z > \varepsilon] \leq \delta$$.$${}^{(\dagger)}$$ For instance, the "catastrophic failure of privacy" corresponds to the scenario below, which depicts a possible distribution for $$Z$$: $$Z\leq \varepsilon$$ with probability $$1-\delta$$, but then with probability $$\delta$$ we have $$Z\gg 1$$.
 
 <img src="/images/flavours-delta-fig1.png" width="600" alt="The type of (bad) distribution of Z corresponding to 'our catastrophic failure of privacy'" style="margin:auto;display: block;" />
 
@@ -56,7 +56,7 @@ But why stop at Markov's inequality then, which gives some nice but still weak t
 
 - **Concentrated DP** (CDP)  [**[BS16]**](https://arxiv.org/abs/1605.02065 "Mark Bun and Thomas Steinke. Concentrated Differential Privacy: Simplifications, Extensions, and Lower Bounds. TCC 2016") is an even stronger requirement, which roughly speaking requires the algorithm to be Rényi DP _simultaneously_ for all $$1< \alpha \leq \infty$$. More simply, this is "morally" a requirement on the MGF of $$Z$$ which asks it to be subgaussian.
 
-The above two examples are not just fun but weird variants of DP: they actually capture the baheviour of many well-known differentially private algorithms, and in particular that of the Gaussian mechanism. While the guarantees they provide are less easy to state and interpret than $$\varepsilon$$-DP or $$(\varepsilon,\delta)$$-DP, they are incredibly useful to analyze those algorithms, and enjoy very nice composition properties... and, of course, lead to that smooth tradeoff between $$\varepsilon$$ and $$\delta$$ for $$(\varepsilon,\delta)$$-DP.
+The above two examples are not just fun but weird variants of DP: they actually capture the behaviour of many well-known differentially private algorithms, and in particular that of the Gaussian mechanism. While the guarantees they provide are less easy to state and interpret than $$\varepsilon$$-DP or $$(\varepsilon,\delta)$$-DP, they are incredibly useful to analyze those algorithms, and enjoy very nice composition properties... and, of course, lead to that smooth tradeoff between $$\varepsilon$$ and $$\delta$$ for $$(\varepsilon,\delta)$$-DP.
 
 **To summarize:** 
 - $$\varepsilon$$-DP gives great guarantees, but is a very stringent requirement. Corresponds to the privacy loss random variable supported on $$[-\varepsilon,\varepsilon]$$ (no tails!)
@@ -65,4 +65,4 @@ The above two examples are not just fun but weird variants of DP: they actually 
 
 
 ---
-[^1] The astute reader may notice that this is not _quite_ true. Namely, the guarantee $$\Pr[Z > \varepsilon] \leq \delta$$ on the privacy loss random variable (PLRV) does imply $$(\varepsilon,\delta)$$-differential privacy, but the converse does not hold. See, for instance, Lemma 9 of [**[CKS20]**](https://arxiv.org/abs/2004.00010 "Clément L. Canonne, Gautam Kamath, Thomas Steinke. The Discrete Gaussian for Differential Privacy. NeurIPS 2020") for an exact characterization of $$(\varepsilon,\delta)$$-DP in terms of the PLRV.
+$${}^{(\dagger)}$$ The astute reader may notice that this is not _quite_ true. Namely, the guarantee $$\Pr[Z > \varepsilon] \leq \delta$$ on the privacy loss random variable (PLRV) does imply $$(\varepsilon,\delta)$$-differential privacy, but the converse does not hold. See, for instance, Lemma 9 of [**[CKS20]**](https://arxiv.org/abs/2004.00010 "Clément L. Canonne, Gautam Kamath, Thomas Steinke. The Discrete Gaussian for Differential Privacy. NeurIPS 2020") for an exact characterization of $$(\varepsilon,\delta)$$-DP in terms of the PLRV.
