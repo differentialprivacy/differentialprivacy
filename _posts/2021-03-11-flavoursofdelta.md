@@ -4,7 +4,7 @@ title: What is δ, and what δifference does it make?
 comments: true
 authors: 
     - clementcanonne
-categories: Updates
+categories: Definitions
 timestamp: 21:00:00 -0400
 ---
 
