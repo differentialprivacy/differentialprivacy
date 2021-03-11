@@ -14,7 +14,7 @@ There are many variants or flavours of differential privacy (DP) some weaker tha
 
 By relaxing this a little, one obtains the standard definition of approximate DP, a.k.a. $$(\varepsilon,\delta)$$-DP:
 
-> An algorithm M is $$(\varepsilon,\delta)$$-DP if, for all neighbouring inputs $$D,D'$$ and all measurable $$S$$, \\\( \Pr[ M(D) \in S ] \leq e^\varepsilon\Pr[ M(D') \in S ]+\delta \\\).
+> An algorithm $$M$$ is $$(\varepsilon,\delta)$$-DP if, for all neighbouring inputs $$D,D'$$ and all measurable $$S$$, \\\( \Pr[ M(D) \in S ] \leq e^\varepsilon\Pr[ M(D') \in S ]+\delta \\\).
 
 This definition is very useful, as in many settings achieving the stronger $$\varepsilon$$-DP guarantee (i.e., $$\delta=0$$) is impossible, or comes at a very high utility cost. But how to interpret it? The above definition, on its face, doesn't preclude what one may call "_catastrophic failures of privacy_ 💥:" most of the time, things are great, but with some small probability $$\delta$$ all hell breaks loose. For instance, the following algorithm is $$(\varepsilon,\delta)$$-DP:
 
