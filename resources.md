@@ -45,6 +45,7 @@ permalink: /resources/
 ## Workshops (without Videos)
 * [Theory and Practice of Differential Privacy (TPDP)](https://tpdp.journalprivacyconfidentiality.org/)
 * [Privacy Preserving Machine Learning (PPML)](https://ppml-workshop.github.io/)
+* [Privacy Preserving AI (PPAI)](https://ppai21.github.io/)
 
 ## Code Libraries
 * [Google's DP Library](https://github.com/google/differential-privacy)
