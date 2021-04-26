@@ -100,8 +100,7 @@ From a broader perspective, Shay believes that discovering clean, beautiful math
 And how should one go about identifying such better mathematical models? “Pick the simplest problem that you don’t know how to solve and see where that leads you”, says Shay. One should begin by trying to understand the deficiencies of existing learning models, by identifying simple examples which go beyond these existing models. For example, Livni and Moran [**[LM20]**][LM] exhibit the limitations of PAC-Bayes framework through a simple 1D linear classification problem. Fixing such limitations can often lead one to discover better learning models.
 
 ---
-Thanks to Gautam Kamath, Shay Moran, and Keziah Naggita for helpful conversations and comments.
----
+_Thanks to Gautam Kamath, Shay Moran, and Keziah Naggita for helpful conversations and comments._
 
 
 [A]: https://arxiv.org/abs/1806.00949
@@ -116,4 +115,4 @@ Thanks to Gautam Kamath, Shay Moran, and Keziah Naggita for helpful conversation
 [LM]: https://arxiv.org/abs/2006.13508
 
 [^1]: For a more complete background on the progress in DP PAC learning, we refer the reader to the excellent survey blog post [here](https://differentialprivacy.org/private-pac/).
-[^2] At the times, Shay was additionally affiliated with Princeton University and Google Brain.
+[^2]: At the time, Shay was additionally affiliated with Princeton University and Google Brain.
