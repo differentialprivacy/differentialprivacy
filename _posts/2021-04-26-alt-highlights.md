@@ -5,8 +5,8 @@ comments: true
 authors: 
     - kushbhatia
     - margalitglasgow
-categories: Definitions
-timestamp: 21:00:00 -0400
+categories: [Conference Digests]
+timestamp: 12:00:00 -0400
 ---
 
 Welcome to ALT Highlights, a series of blog posts spotlighting various happenings at the recent conference [ALT 2021](http://algorithmiclearningtheory.org/alt2021/), including plenary talks, tutorials, trends in learning theory, and more! 
