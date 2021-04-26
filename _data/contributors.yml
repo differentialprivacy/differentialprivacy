@@ -1,3 +1,9 @@
+kushbhatia:
+  name: Kush Bhatia
+  homepage: https://people.eecs.berkeley.edu/~kush/
+  image: 
+  affiliation: UC Berkeley
+
 clementcanonne:
   name: Clément Canonne
   homepage: http://www.cs.columbia.edu/~ccanonne/
@@ -9,6 +15,12 @@ alonicohen:
   homepage: https://aloni.net/
   image: 
   affiliation: Boston University
+
+margalitglasgow:
+  name: Margalit Glasgow
+  homepage: https://web.stanford.edu/~mglasgow/
+  image:
+  affiliation: Stanford University
 
 matthewjoseph:
   name: Matthew Joseph
