@@ -39,15 +39,17 @@ They have confused learning that smoking causes cancer---and applying this predi
 The BISG prediction is not about the individual, it does not accompany her as she relocates from one neighborhood to another, it is a statistical relationship between name, geography, and ethnicity.  It is not a privacy compromise, it is science.
 
 Signed:
-* Cynthia Dwork, Professor of Computer Science, Harvard University 
+* Mark Bun, Assistant Professor of Computer Science, Boston University
 * Damien Desfontaines, Privacy Engineer, Google
+* Cynthia Dwork, Professor of Computer Science, Harvard University 
+* Moni Naor, Professor of Computer Science and Applied Mathematics, Weizmann Institute of Science 
 * Kobbi Nissim, Professor of Computer Science, Georgetown University
 * Aaron Roth, Professor of Computer and Information Science, University of Pennsylvania
-* Thomas Steinke, Research Scientist, Google 
 * Adam Smith, Professor of Computer Science, Boston University
+* Thomas Steinke, Research Scientist, Google 
 * Jonathan Ullman, Assistant Professor of Computer Science, Northeastern University
 * Salil Vadhan, Professor of Computer Science and Applied Mathematics, Harvard University
-* Mark Bun, Assistant Professor of Computer Science, Boston University
+
 
 
 Please contact Cynthia Dwork for contact information for authors happy to speak about this on the record.
