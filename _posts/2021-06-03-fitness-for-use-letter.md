@@ -16,7 +16,7 @@ The following letter is a response to some of this feedback and coverage that wa
 
 We are experts on differential privacy and cryptography.  We saw your recent coverage of the [paper](https://alarm-redist.github.io/posts/2021-05-28-census-das/Harvard-DAS-Evaluation.pdf) of Kenny et al. on the impact of the 2020 U.S. Census Disclosure Avoidance System (DAS) on redistricting, and wanted to reach out to you because the paper makes a [common but serious mistake](https://github.com/frankmcsherry/blog/blob/master/posts/2016-06-14.md), from which the authors wrongfully conclude the Census Bureau should not modernize its privacy-protection technology.  Not only do the results not support this conclusion, but they instead show the power of the methodology, known as differential privacy, adopted by the Bureau, precisely the opposite of the authors’ erroneous conclusions. 
 
-Trust is essential; once destroyed it can be nearly impossible to rebuild, and getting privacy wrong in this Census will have an impact on all future government surveys.  The Census Bureau has shown that their 2010 (DAS) does not survive modern privacy threats, and in fact was roughly equivalent to publishing nearly three quarters of the responses.  The Census Bureau’s decision to modernize its Disclosure Avoidance System (DAS) for the 2020 Decennial Census to be differentially private is the correct response to decades of theoretical and empirical work on the privacy risks inherent in releasing large numbers of statistics derived from a dataset.  
+Trust is essential; once destroyed it can be nearly impossible to rebuild, and getting privacy wrong in this Census will have an impact on all future government surveys.  The Census Bureau has shown that their [2010 (DAS) does not survive modern privacy threats](https://desfontain.es/privacy/index.html), and in fact was roughly equivalent to publishing nearly three quarters of the responses.  The Census Bureau’s decision to modernize its Disclosure Avoidance System (DAS) for the 2020 Decennial Census to be differentially private is the correct response to decades of theoretical and empirical work on the privacy risks inherent in releasing large numbers of statistics derived from a dataset.  
 
 The importance of the Census, and the reality that no technology competing with differential privacy exists for meeting their confidentiality obligations, makes it very important that the public and policy makers have accurate information. We imagine you will be reporting on this topic in the future.  Others have [addressed flaws](https://gerrymander.princeton.edu/DAS-evaluation-Kenny-response) in the paper regarding implications for redistricting; we want to provide you with an understanding of the privacy mistake in the study.  
 
@@ -42,7 +42,7 @@ Signed:
 * Mark Bun, Assistant Professor of Computer Science, Boston University
 * Damien Desfontaines, Privacy Engineer, Google
 * Cynthia Dwork, Professor of Computer Science, Harvard University 
-* Moni Naor, Professor of Computer Science and Applied Mathematics, Weizmann Institute of Science 
+* Moni Naor, Professor of Computer Science, The Weizmann Institute of Science 
 * Kobbi Nissim, Professor of Computer Science, Georgetown University
 * Aaron Roth, Professor of Computer and Information Science, University of Pennsylvania
 * Adam Smith, Professor of Computer Science, Boston University
