@@ -4,6 +4,7 @@ title: Statistical Inference is Not a Privacy Violation
 comments: true
 authors: 
     - jonullman
+bibtexauthors: Mark Bun and Damien Desfontaines and Cynthia Dwork and Moni Naor and Kobbi Nissim and Aaron Roth and Adam Smith and Thomas Steinke and Jonathan Ullman and Salil Vadhan
 categories: Outreach Definitions
 timestamp: 18:30:00 -0500
 ---
