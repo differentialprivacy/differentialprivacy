@@ -1,11 +1,17 @@
 ---
 layout: post
-title: Fitness-for-Use is Not a Privacy Violation
+title: Inference is Not a Privacy Violation
 comments: true
 authors: 
     - jonullman
 categories: Outreach Definitions
 timestamp: 16:00:00 -0400
+---
+
+On April 28, 2021, the US Census Bureau [released](https://www.census.gov/programs-surveys/decennial-census/decade/2020/planning-management/process/disclosure-avoidance/2020-das-updates.html) a new demonstration of its differentially private Disclosure Avoidance System (DAS) for the 2020 US Census. The public were given a month to submit feedback before the system is finalized.
+This demonstration data and the feedback has generated a lot of discussion, including media coverage on [National Public Radio](https://www.npr.org/2021/05/19/993247101/for-the-u-s-census-keeping-your-data-anonymous-and-useful-is-a-tricky-balance), in [the Washington Post](https://www.washingtonpost.com/local/social-issues/2020-census-differential-privacy-ipums/2021/06/01/6c94b46e-c30d-11eb-93f5-ee9558eecf4b_story.html), and via [the Associated Press](https://apnews.com/article/business-census-2020-technology-e701e313e841674be6396321343b7e49). The DAS is also the subject of an [ongoing lawsuit](https://www.courtlistener.com/docket/59728874/state-v-united-states-department-of-commerce/).
+The following letter is a response to some of this feedback and coverage that was sent to several journalists.
+
 ---
 
 We are experts on differential privacy and cryptography.  We saw your recent coverage of the [paper](https://alarm-redist.github.io/posts/2021-05-28-census-das/Harvard-DAS-Evaluation.pdf) of Kenny et al. on the impact of the 2020 U.S. Census Disclosure Avoidance System (DAS) on redistricting, and wanted to reach out to you because the paper makes a [common but serious mistake](https://github.com/frankmcsherry/blog/blob/master/posts/2016-06-14.md), from which the authors wrongfully conclude the Census Bureau should not modernize its privacy-protection technology.  Not only do the results not support this conclusion, but they instead show the power of the methodology, known as differential privacy, adopted by the Bureau, precisely the opposite of the authors’ erroneous conclusions. 
