@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Inference is Not a Privacy Violation
+title: Statistical Inference is Not a Privacy Violation
 comments: true
 authors: 
     - jonullman
