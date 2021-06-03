@@ -5,7 +5,7 @@ comments: true
 authors: 
     - jonullman
 categories: Outreach Definitions
-timestamp: 16:00:00 -0400
+timestamp: 18:30:00 -0500
 ---
 
 On April 28, 2021, the US Census Bureau [released](https://www.census.gov/programs-surveys/decennial-census/decade/2020/planning-management/process/disclosure-avoidance/2020-das-updates.html) a new demonstration of its differentially private Disclosure Avoidance System (DAS) for the 2020 US Census. The public were given a month to submit feedback before the system is finalized.
