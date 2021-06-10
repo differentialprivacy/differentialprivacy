@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html>
   <head>
-	{% include analytics.html %}
-
     <title>Differential Privacy{% if page.title %} - {{ page.title }}{% endif %}</title>
 
     {% include meta.html %}
@@ -46,7 +44,37 @@
       {{ content }}
     </div>
 
+    <!--
+    <div class="wrapper-footer">
+      <div class="container">
+        <footer class="footer">
+          {% include svg-icons.html %}
+        </footer>
+      </div>
+    </div>
+    -->
 
+    {% include analytics.html %}
     
+    <!-- {% if page.comments %}
+    <script>
+     
+        var disqus_shortname = "{{ site.disqus }}";
+        var disqus_config = function () {
+            this.page.url = '{{ page.url }}';
+            this.page.identifier = '{{ page.id }}';
+        };
+        var is_disqus_loaded = false;
+        function loadDisqus() {
+          if (!is_disqus_loaded){
+            is_disqus_loaded = true;
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+          }
+            
+        };
+    </script>
+    {% endif %} -->
   </body>
 </html>
