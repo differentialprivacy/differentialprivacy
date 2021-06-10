@@ -3,7 +3,9 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
     <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@DiffPriv" />
     <meta name="twitter:image" content="https://differentialprivacy.org/images/logodp-transparent.png" />
+    <meta name="twitter:image:alt" content="DP.org logo" />
 
     {% if page.excerpt %}
     <meta name="description" content="{{ page.excerpt| strip_html }}" />
@@ -19,4 +21,6 @@
     {% if page.title %}
     <meta property="og:title" content="{{ page.title }}" />
     <meta property="twitter:title" content="{{ page.title }}" />
+    {% else %}
+    <meta property="twitter:title" content="DifferentialPrivacy.org" />
     {% endif %}
