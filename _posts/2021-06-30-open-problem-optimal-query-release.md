@@ -21,9 +21,9 @@ This problem has been studied for both <em>pure differential privacy</em> (\\\(\
 \\\[
 \mathbb{E}( \\\| M(x) - f(x)\\\|\_{\infty} ) \leq \alpha,
 \\\]
-and \\\(\ell_2\\\) error
+and \\\(\ell_2\\\)-error
 \\\[
-\mathbb{E}( \\\| M(x) - f(x)\\\|\_{2} ) \leq \alpha k^{1/2}.
+\mathbb{E}( \\\| M(x) - f(x)\\\|\_{2} ) \leq \alpha k^{1/2},
 \\\]
 giving four variants of the problem.  By now we know tight worst-case upper and lower bounds for two of these variants, and nearly tight bounds (up to logarithmic factors) for a third. The tightest known upper bounds are given in the following table.
 
@@ -33,19 +33,19 @@ giving four variants of the problem.  By now we know tight worst-case upper and 
 
 Our two open problems both involve improving the best known upper bounds for pure differential privacy.
 
->    <b>Open Problem 1:</b> What is the best possible \\\(\ell_\infty\\\)-error for answering a worst-case set of \\\(k\\\) statistical queries over a domain of size \\\(T\\\) subject to \\\((\varepsilon,0)\\\)-differential privacy.
+>    <b>Open Problem 1:</b> What is the best possible \\\(\ell_\infty\\\)-error for answering a worst-case set of \\\(k\\\) statistical queries over a domain of size \\\(T\\\) subject to \\\((\varepsilon,0)\\\)-differential privacy?
 
 We conjecture that the known upper bound in the table can be improved to
 \\\[
-\alpha = \left(\frac{\log k \cdot \log T}{\varepsilon n} \right)^{1/2}
+\alpha = \left(\frac{\log k \cdot \log T}{\varepsilon n} \right)^{1/2},
 \\\]
 which one can show is the best possible [[Har11](https://dataspace.princeton.edu/handle/88435/dsp01vq27zn422), Theorem 4.5.1].
 
 
->    <b>Open Problem 2:</b> What is the best possible \\\(\ell_2\\\)-error for answering a worst-case set of \\\(k\\\) statistical queries over a domain of size \\\(T\\\) subject to \\\((\varepsilon,0)\\\)-differential privacy.
+>    <b>Open Problem 2:</b> What is the best possible \\\(\ell_2\\\)-error for answering a worst-case set of \\\(k\\\) statistical queries over a domain of size \\\(T\\\) subject to \\\((\varepsilon,0)\\\)-differential privacy?
 
 We conjecture that the upper bound can be improved to
 \\\[
-\alpha = \left(\frac{\log T}{\varepsilon n} \right)^{1/2}
+\alpha = \left(\frac{\log T}{\varepsilon n} \right)^{1/2}.
 \\\]
 The construction used in [[Har11](https://dataspace.princeton.edu/handle/88435/dsp01vq27zn422), Theorem 4.5.1] can be analyzed to show this bound is tight. Note, in particular, that this conjecture implies that the tight upper bound has no dependence on the number of queries, similarly to the case of \\\(\ell_2\\\) error and approximate DP.
