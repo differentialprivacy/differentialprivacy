@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Differential Privacy - Why Privacy Needs Composition</title>
+
+        <meta charset="utf-8" />
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@DiffPriv" />
+    <meta name="twitter:image" content="https://differentialprivacy.org/images/logodp-transparent.png" />
+    <meta name="twitter:image:alt" content="DP.org logo" />
+
+    
+    <meta name="description" content="We’re back!  In our last post we discussed some of the subtle pitfalls of formulating the assumptions underlying average-case relaxations of differential privacy.  This time we’re going to look at the composition property of differential privacy—that is, the fact that running two independent differentially private algorithms on your data and combining their outputs is still differentially private. This is a key property of differential privacy and is actually closely related to the worst-case nature of differential privacy.
+" />
+    <meta property="og:description" content="We’re back!  In our last post we discussed some of the subtle pitfalls of formulating the assumptions underlying average-case relaxations of differential privacy.  This time we’re going to look at the composition property of differential privacy—that is, the fact that running two independent differentially private algorithms on your data and combining their outputs is still differentially private. This is a key property of differential privacy and is actually closely related to the worst-case nature of differential privacy.
+" />
+    <meta name="twitter:description" content="We’re back!  In our last post we discussed some of the subtle pitfalls of formulating the assumptions underlying average-case relaxations of differential privacy.  This time we’re going to look at the composition property of differential privacy—that is, the fact that running two independent differentially private algorithms on your data and combining their outputs is still differentially private. This is a key property of differential privacy and is actually closely related to the worst-case nature of differential privacy.
+"/>
+    
+    <meta name="author" content="Differential Privacy" />
+
+    
+    <meta property="og:title" content="Why Privacy Needs Composition" />
+    <meta property="twitter:title" content="Why Privacy Needs Composition" />
+    
+
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+    <link rel="alternate" type="application/rss+xml" title="Differential Privacy - Website for the differential privacy research community" href="/feed.xml" />
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  </head>
+
+  <body>
+    <div class="wrapper-masthead">
+      <div class="container">
+        <header class="masthead clearfix">
+          <!-- no image for now <a href="/" class="site-avatar"><img src="favicon-96x96.png" /></a> -->
+
+          <div class="site-info">
+            <h1 class="site-name"><a href="/"><b><font color="#3d85c6">Differential</font><font color="#b45f06">Privacy</font><font color="#cccccc">.org</font></b></a></h1>
+            <!-- <p class="site-description">Website for the differential privacy research community</p> -->
+          </div>
+
+          <nav>
+            <a href="/">Home</a>
+            <a href="/about">About</a>
+			<a href="/categories">Posts</a>
+			<a href="/resources">Resources</a>
+          </nav>
+        </header>
+      </div>
+    </div>
+
+    <div id="main" role="main" class="container">
+      <article class="post">
+  <h1>Why Privacy Needs Composition</h1>
+
+  <div class="entry">
+    <p>We’re back!  In our last <a href="\average-case-dp">post</a> we discussed some of the subtle pitfalls of formulating the assumptions underlying average-case relaxations of differential privacy.  This time we’re going to look at the composition property of differential privacy—that is, the fact that running two independent differentially private algorithms on your data and combining their outputs is still differentially private. This is a key property of differential privacy and is actually closely related to the worst-case nature of differential privacy.</p>
+
+<p>Composition is really the crucial property that has made differential privacy successful. Data analysis doesn’t happen in a vacuum, and the greatest threat to privacy comes from combining multiple pieces of information. These pieces of information can come from a single source that releases detailed statistics, or they could come from separate sources. So it’s critical to understand how the composition of multiple pieces of information can affect privacy.</p>
+
+<p>In this post we’ll give some examples to illustrate why we need composition, and why composition is challenging for average-case relaxations of differential privacy.  Composition is what allows you to design sophisticated differentially private algorithms out of simple building blocks, and it’s what allows one organization to release differentially private statistics without having to understand the entire ecosystem of related information that has been or will be released.  As we’ll see, the challenges of composing average-case privacy guarantees are also very closely related to the subtleties that arise in thinking about the adversary’s beliefs.</p>
+
+<h3 id="differencing-attacks">Differencing Attacks</h3>
+
+<p>Let’s start with a simple example of composition that was alluded to in our last post.</p>
+
+<p>You’ve just started a new job and signed up for the health insurance provided by your employer. Thus, your employer is able to obtain aggregated data from the insurance provider. In particular, your employer can ask “How many of our employees have submitted claims for condition X?”  However, your employer should not be able to find out whether or not <em>you</em> have condition X. 
+For concreteness, condition X could be a mental health condition, drug addiction, being pregnant, terminal cancer, or an expensive chronic illness. Each of these could result in some kind of employment discrimination.</p>
+
+<p>The employer may find out that 417 employees have condition X.  That’s OK; on its own, this number reveals very little about whether or not <em>you</em> have condition X, as long as your employer is uncertain about how many employees <em>other than you</em> have condition X.  We can formalize this as some kind of average-case or Bayesian privacy guarantee. Thus the health-insurance company is comfortable releasing this number exactly.  But, yesterday, before you started your job, it also seemed reasonable to allow your employer to ask the exact same question, and yesterday the answer was 416. Thus your employer concludes that you have condition X.</p>
+
+<p>In this example, we see how two pieces of information—the count before you started and the count after you started—each of which seems innocuous on its own can be combined to reveal private information. This is a simple example of a <em>differencing attack</em> and composition is important in part because it prevents these attacks.</p>
+
+<p>This example involves only two pieces of information. However, an attack could combine many pieces of information. For example, the counts could be broken down by sex, race/ethnicity, age, location, and tobacco use.<sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup> Additional data may also be obtained from other sources, such as public records, social media, voluntary disclosures, healthcare providers, financial records, employment records, or even illicit sources. The possibilities for attacks grow rapidly as more information is made available. And an employer is only one example of a potential privacy adversary.</p>
+
+<p>The point of this example is that it’s easy to argue that one piece of information is harmless to privacy by making plausible-looking assumptions about the adversary. But this intuition rapidly breaks down once you consider the bigger picture where there are many pieces of information that can complete the puzzle. That’s why we need rigorous methods for understanding privacy and its composition.</p>
+
+<h3 id="quantifying-composition">Quantifying Composition</h3>
+
+<p>How does differential privacy prevent a differencing attack like the one we just discussed? The simplest way is to add a little bit of random noise to each answer. On the first day, instead of releasing the exact count 416, we could release a noisy count, say, 420. Then on the second day, instead of releasing the true count 417, we release another noisy count, say, 415. More precisely, it is common to add noise to counts drawn from a Laplace or Gaussian distribution.  These figures are still close enough to the true values to be useful, but the difference of 1 is now obscured by the noise, so your privacy is protected.</p>
+
+<p>Since the noise is unknown to <em>any</em> potential adversary, it introduces uncertainty that protects the contribution that an individual makes to the count. Taking the difference of two independent noisy counts results in something that is still noisy. However, we must be careful to quantify this privacy guarantee, particularly when it comes to composition.</p>
+
+<p>So, how much noise do we need to add? Let’s go back to the example and suppose the insurance company provides noisy answers where the noise has mean zero and some fixed variance. Your employer could simply ask the same question again and again and each time receive a different noisy answer. Averaging these noisy answers will effectively reduce the variance of the added noise and allow the true answer to be discerned. That leaves us back where we started.</p>
+
+<p>The moral of this revised example is that the scale of the noise must increase if we allow more access to the data, so more questions means more noise in each answer.<sup id="fnref:2" role="doc-noteref"><a href="#fn:2" class="footnote" rel="footnote">2</a></sup> 
+Asking the same question again and again may seem silly. There are easy ways to defend against this and some similar attacks. (E.g., by returning the same answer each time instead of generating fresh noise.) But, unfortunately, the underlying phenomenon cannot be circumvented. One of the seminal works that led to differential privacy <a href="https://dl.acm.org/doi/10.1145/773153.773173" title="Irit Dinur, Kobbi Nissim. Revealing Information While Preserving Privacy. PODS 2003"><strong>[DN03]</strong></a> showed that there is an inherent tradeoff between the number of questions to be answered and the amount of noise that needs to be added to protect privacy. The general attack is simple: Instead of asking the same query again and again, the attacker asks “random” queries.<sup id="fnref:3" role="doc-noteref"><a href="#fn:3" class="footnote" rel="footnote">3</a></sup> This attack only requires basic linear algebra and, importantly, has been demonstrated on real systems <a href="https://arxiv.org/abs/1810.05692" title="Aloni Cohen, Kobbi Nissim. Linear Program Reconstruction in Practice. 2018."><strong>[CN18]</strong></a>.</p>
+
+<h3 id="adaptive-composition">Adaptive Composition</h3>
+
+<p>There are actually two kinds of composition to consider. There is <strong>non-adaptive composition</strong>, where the questions to be asked are pre-specified and thus independent of the data, and there is <strong>adaptive composition</strong>, where the questions may themselves depend on the results of prior access to the data. Adaptive composition arises in an interactive system where queries are submitted one-by-one and each answer is returned before the next query is submitted. So far, we have really only considered non-adaptive composition.</p>
+
+<p>Any interactive system must take adaptive composition into account.  A natural algorithm which asks adaptive questions is gradient descent for minimizing a function that is determined by private data (e.g., for logistic regression on medical records). At each step, the algorithm asks for a gradient of the function, which depends on the private data, at the current point. Then the point is updated according to the reported gradient and the process repeats. Since the updated point depends on the previous answer, the next gradient computation is adaptive.</p>
+
+<p>The good news is that differential privacy can handle adaptive composition just fine.  However, to handle adaptive composition, it’s really important that you have a worst-case privacy definition like differential privacy. As we will see below, average-case variants of differential privacy cannot handle adaptive composition. Intuitively, the problem is that whatever distributional assumption you might make about the data or query a priori is unlikely to hold when you condition on past interactions with the same data or related data.</p>
+
+<p>Here’s a technical example that shows the difficulty of adaptive composition. Our data \(x \in \{-1,+1\}^n\) is a vector of \(n\) bits, one bit per person.<sup id="fnref:4" role="doc-noteref"><a href="#fn:4" class="footnote" rel="footnote">4</a></sup>  Because we’re considering average-case differential privacy, we’ll model this vector as uniformly random.  Consider the following slightly odd algorithm \(M_2(x,v)\)—it takes a vector \(v \in \{-1,+1\}^n\) from the user, and, if the correlation \(\langle x, v \rangle / n\) between \(v\) and \(x\) is smaller than \(\varepsilon/2\), the query returns \(\emptyset\), but, if the correlation between \(v\) and \(x\) is larger than \(\varepsilon/2\), the query returns the dataset \(x\).  In isolation this algorithm satisfies an average-case version of differential privacy, because if \(n\) is large enough and \(x\) is uniformly random, then it’s very unlikely that the user can guess a vector \(v\) that causes this algorithm to output anything other than \(\emptyset\).  This algorithm may seem contrived; it is a simple stand-in for any algorithm that behaves very well most of the time, but fails completely on some rare inputs.</p>
+
+<p>Now, consider another, more familiar differentially private algorithm called randomized response <a href="https://www.jstor.org/stable/2283137?seq=1" title="Stanley Warner. Randomized Response: A Survey Technique for Eliminating Evasive Answer Bias. Journal of the American Statistical Association 1965."><strong>[W65]</strong></a>.  For those not familiar, this algorithm \(M_1(x)\) outputs a vector \(y \in \{-1,+1\}^n\), where \(y_i\) is slightly more likely to be \(x_i\) than \(-x_i\).  Specifically, we set \(y_i = x_i\) with probability \((1+\varepsilon)/2\) and \(y_i = - x_i\) otherwise. This satisfies \(\log(\frac{1+\varepsilon}{1-\varepsilon})\)-differential privacy or, roughly, \(2\varepsilon\)-differential privacy. The upshot is that we obtain a vector \(y\) where the correlation between \(x\) and \(y\) is about \(\varepsilon\), i.e. \(\langle x , y \rangle / n \approx \varepsilon\).</p>
+
+<p>OK, so \(M_1\) and \(M_2\) both satisfy strong average-case versions of differential privacy when the data is uniform, but what about their composition?  Well, the bad news is that running \(y = M_1(x)\) followed by \(M_2(x,y)\) is going to return the dataset \(x\) with probability approaching 100%!  That’s because \(y\) was designed precisely to be a vector with correlation about \(\varepsilon\) with \(x\), and this is exactly the key that gets \(M_2\) to unlock the dataset.</p>
+
+<p>What went wrong here is that, even if \(x\) really is uniformly random, it’s very far from it when conditioned on the output \(y=M_1(x)\). To analyze \(M_2(x,y)\) we must look at the distribution of \(x\) conditioned on \(y\). This distribution is going to be messy and may as well be a worst-case distribution, which means we must leave the realm of average-case privacy.</p>
+
+<h3 id="conclusion">Conclusion</h3>
+<p>Composition guarantees that, as long as each part of your system is differentially private, then the overall system is too. It would be difficult to build sophisticated systems without this property. And it’s what allows one organization to release differentially private statistics without having to worry about what other information might be out there. In short, composition is what allows differential privacy to deal with the complexities of the real world.</p>
+
+<p>It is unlikely that differential privacy would have taken off as a field of research without this composition property. Any proposal for an alternative approach to privacy-preserving data analysis should first be evaluated in terms of how it handles composition.</p>
+
+<p>This post only scratches the surface. In particular, we haven’t talked about the quantitative aspects of composition; that’s where the fun really begins. We will leave you with some pointers to further reading on the topic:</p>
+
+<ul>
+  <li><a href="http://www.annualreviews.org/eprint/E84vbD3Yzw4ff7YPAjnv/full/10.1146/annurev-statistics-060116-054123" title="Cynthia Dwork, Adam Smith, Thomas Steinke, Jonathan Ullman. Exposed! A Survey of Attacks on Private Data. Annual Review of Statistics and its Applications 2017."><strong>[DSSU17]</strong></a> This is a survey of attacks which explains quantitatively the relationship between noise, number of questions, and privacy risks.</li>
+  <li><a href="https://arxiv.org/abs/1311.0776" title="Peter Kairouz, Sewoong Oh, Pramod Viswanath. The Composition Theorem for Differential Privacy. ICML 2015."><strong>[KOV15]</strong></a> <a href="https://arxiv.org/abs/1507.03113" title="Jack Murtagh, Salil Vadhan. The Complexity of Computing the Optimal Composition of Differential Privacy. TCC 2016"><strong>[MV15]</strong></a> <a href="https://arxiv.org/abs/1603.01887" title="Cynthia Dwork, Guy Rothbum. Concentrated Differential Privacy. 2016."><strong>[DR16]</strong></a> <a href="https://arxiv.org/abs/1605.02065" title="Mark Bun, Thomas Steinke. Concentrated Differential Privacy: Simplifications, Extensions, and Lower Bounds. TCC 2016."><strong>[BS16]</strong></a> <a href="https://arxiv.org/abs/1702.07476" title="Ilya Mironov. Renyi Differential Privacy. CSF 2017."><strong>[M17]</strong></a> <a href="https://arxiv.org/abs/1905.02383" title="Jinshuo Dong, Aaron Roth, Weijie Su. Gaussian Differential Privacy. Journal of the Royal Statistical Society: Series B. 2020"><strong>[DRS19]</strong></a> On the positive side, these papers analyze how differential privacy composes, yielding sharp quantitative bounds.</li>
+</ul>
+
+<hr />
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1" role="doc-endnote">
+      <p>A good rule of thumb is that, if the number of released values is much larger than the number of people, then a privacy attack is probably possible. This is analogous to the rule from algebra that, if the number of constraints (released values) is greater than the number of unknown variables (people’s data), then the unknowns can be worked out. <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:2" role="doc-endnote">
+      <p>Exactly quantifying how much noise is needed as the number of questions grows leads to the concept of a “privacy budget.” That is, we must precisely quantify how differential privacy degrades under composition. This is a very deep topic and is something we hope to discuss in future posts. <a href="#fnref:2" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:3" role="doc-endnote">
+      <p>The queries do not need to be random <strong><a href="https://iacr.org/archive/crypto2008/51570469/51570469.pdf" title="Cynthia Dwork, Sergey Yekhanin. New Efficient Attacks on Statistical Disclosure Control Mechanisms. CRYPTO 2008">[DY08]</a></strong>. The queries simply need to be “sufficiently distinct”, which can be formulated precisely as being nearly orthogonal vectors. Random, or even pseudorandom queries (e.g., hash functions), will almost certainly satisfy this property. In general, it is fairly likely that a set of queries will have this property and allow a reconstruction attack; that is, it is hard to <em>avoid</em> this phenomenon. <a href="#fnref:3" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:4" role="doc-endnote">
+      <p>This representation of the dataset as a vector of bits \(x \in \{-1,+1\}^n \) is an abstraction. The entries in the dataset would actually be something like a set of pairs \( ( u_i, x_i ) \) for \(i = 1, \cdots, n \), where \(u_i\) is various information that identifies the individual concerned (name, address, race, date of birth, etc.). <a href="#fnref:4" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+  </div>
+
+  <div class="date">
+      Posted by <a href="http://www.thomas-steinke.net/">Thomas Steinke</a> and <a href="https://www.ccs.neu.edu/home/jullman/">Jonathan Ullman</a> on August 16, 2020.
+  </div>
+  <div class="post-categories">
+    
+	Categories: 
+    
+    <a href="/categories/#Definitions">Definitions</a>
+    
+    
+  </div>
+  
+  <br/>
+
+  
+  <a href="/bibtex/#privacy-composition">[cite this]</a> &nbsp;
+  
+  <!-- 
+<div class="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+
+	    var disqus_shortname = 'differentialprivacy';
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+ -->
+  
+  <span class="disqus-comment-count" data-disqus-url="https://differentialprivacy.org/privacy-composition/"> <!-- Comment count will be inserted here --> </span>
+
+
+  <br/>&nbsp;<br/>
+ <div class="comments-block">
+     <center><button id="show-comments" onclick="disqus();return false;">SHOW COMMENTS</button></center>
+ </div>
+ <noscript>Comments cannot be shown due to javascript being disabled in your browser.</noscript>
+ 
+
+ <div id="disqus_thread"></div>
+ 
+ <script id="dsq-count-scr" src="//differentialprivacy.disqus.com/count.js" async></script>
+ 
+ <script>
+ var disqus_loaded = false;
+ var disqus_shortname = 'differentialprivacy'; //Add your shortname here
+
+ function disqus() {
+
+     if (!disqus_loaded)  {
+         disqus_loaded = true;
+
+         var e = document.createElement("script");
+         e.type = "text/javascript";
+         e.async = true;
+         e.src = "//" + disqus_shortname + ".disqus.com/embed.js";
+         (document.getElementsByTagName("head")[0] ||
+         document.getElementsByTagName("body")[0])
+         .appendChild(e);
+
+         //Hide the button after opening
+         document.getElementById("show-comments").style.display = "none";
+     }
+ }
+
+ //Opens comments when linked to directly
+ var hash = window.location.hash.substr(1);
+ if (hash.length > 8) {
+     if (hash.substring(0, 8) == "comment-") {
+         disqus();
+     }
+ }
+
+ //Remove this if you don't want to load comments for search engines
+ if(/bot|google|baidu|bing|msn|duckduckgo|slurp|yandex/i.test(navigator.userAgent)) {
+    disqus();
+ }
+ </script>
+  
+  
+  <br/>&nbsp;<br/>
+
+  <div>Subscribe to updates from DifferentialPrivacy.org by <a href="https://feedburner.google.com/fb/a/mailverify?uri=DifferentialPrivacy">Email</a>, on <a href="https://twitter.com/DiffPriv">Twitter</a>, or via <a href="/feed.xml">RSS</a>.</div>
+  
+  <br/>&nbsp;<br/>
+</article>
+
+    </div>
+
+    <!--
+    <div class="wrapper-footer">
+      <div class="container">
+        <footer class="footer">
+          
+
+
+
+<a href="https://github.com/differentialprivacy/differentialprivacy"><i class="svg-icon github"></i></a>
+
+
+
+
+<a href="https://www.twitter.com/DiffPriv"><i class="svg-icon twitter"></i></a>
+
+
+
+        </footer>
+      </div>
+    </div>
+    -->
+
+    
+	<!-- Google Analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		ga('create', 'UA-11154678-4', 'auto');
+		ga('send', 'pageview', {
+		  'page': '/privacy-composition/',
+		  'title': 'Why Privacy Needs Composition'
+		});
+	</script>
+	<!-- End Google Analytics -->
+
+
+    
+    <!-- 
+    <script>
+     
+        var disqus_shortname = "differentialprivacy";
+        var disqus_config = function () {
+            this.page.url = '/privacy-composition/';
+            this.page.identifier = '/privacy-composition';
+        };
+        var is_disqus_loaded = false;
+        function loadDisqus() {
+          if (!is_disqus_loaded){
+            is_disqus_loaded = true;
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+          }
+            
+        };
+    </script>
+     -->
+  </body>
+</html>

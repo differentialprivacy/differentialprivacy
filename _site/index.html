@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Differential Privacy - DifferentialPrivacy.org</title>
+
+        <meta charset="utf-8" />
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@DiffPriv" />
+    <meta name="twitter:image" content="https://differentialprivacy.org/images/logodp-transparent.png" />
+    <meta name="twitter:image:alt" content="DP.org logo" />
+
+    
+    <meta name="description" content="Website for the differential privacy research community">
+    <meta property="og:description" content="Website for the differential privacy research community" />
+    <meta name="twitter:description" content="Website for the differential privacy research community"/>
+    
+    <meta name="author" content="Differential Privacy" />
+
+    
+    <meta property="og:title" content="DifferentialPrivacy.org" />
+    <meta property="twitter:title" content="DifferentialPrivacy.org" />
+    
+
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+    <link rel="alternate" type="application/rss+xml" title="Differential Privacy - Website for the differential privacy research community" href="/feed.xml" />
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  </head>
+
+  <body>
+    <div class="wrapper-masthead">
+      <div class="container">
+        <header class="masthead clearfix">
+          <!-- no image for now <a href="/" class="site-avatar"><img src="favicon-96x96.png" /></a> -->
+
+          <div class="site-info">
+            <h1 class="site-name"><a href="/"><b><font color="#3d85c6">Differential</font><font color="#b45f06">Privacy</font><font color="#cccccc">.org</font></b></a></h1>
+            <!-- <p class="site-description">Website for the differential privacy research community</p> -->
+          </div>
+
+          <nav>
+            <a href="/">Home</a>
+            <a href="/about">About</a>
+			<a href="/categories">Posts</a>
+			<a href="/resources">Resources</a>
+          </nav>
+        </header>
+      </div>
+    </div>
+
+    <div id="main" role="main" class="container">
+      <div class="posts">
+  
+    <article class="post">
+
+      <h1><a href="/open-problem-optimal-query-release/">Open Problem - Optimal Query Release for Pure Differential Privacy</a></h1>
+
+      <div class="entry">
+        <p>Releasing large sets of statistical queries is a centerpiece of the theory of differential privacy.  Here, we are given a <em>dataset</em> \(x = (x_1,\dots,x_n) \in [T]^n\), and a set of <em>statistical queries</em> \(f_1,\dots,f_k\), where each query is defined by some bounded function \(f_j : [T] \to [-1,1]\), and (abusing notation) is defined as
+\[
+f_j(x) = \frac{1}{n} \sum_{i=1}^{n} f_j(x_i).
+\]
+We use \(f(x) = (f_1(x),\dots,f_k(x))\) to denote the vector consisting of the true answers to all these queries.
+Our goal is to design an \((\varepsilon, \delta)\)-differentially private algorithm \(M\) that takes a dataset \(x\in [T]^n\) and outputs a random vector \(M(x)\in \mathbb{R}^k\) such that \(\| M(x) - f(x) \|\) is small in expectation for some norm \(\|\cdot\|\). Usually algorithms for this problem also give high probability bounds on the error, but we focus on expected error for simplicity.</p>
+
+      </div>
+
+      <a href="/open-problem-optimal-query-release/" class="read-more">Read More</a>
+    </article>
+  
+    <article class="post">
+
+      <h1><a href="/icml2021/">Conference Digest - ICML 2021</a></h1>
+
+      <div class="entry">
+        <p><a href="https://icml.cc/Conferences/2021">ICML 2021</a>, one of the biggest conferences in machine learning, naturally has a ton of interesting sounding papers on the topic of differential privacy.
+We went through this year’s <a href="https://icml.cc/Conferences/2021/AcceptedPapersInitial">accepted papers</a> and aggregated all the relevant papers we could find.
+In addition, this year features three workshops on the topic of privacy, as well as a tutorial.
+As always, please inform us if we overlooked any papers on differential privacy.</p>
+
+      </div>
+
+      <a href="/icml2021/" class="read-more">Read More</a>
+    </article>
+  
+    <article class="post">
+
+      <h1><a href="/inference-is-not-a-privacy-violation/">Statistical Inference is Not a Privacy Violation</a></h1>
+
+      <div class="entry">
+        <p>On April 28, 2021, the US Census Bureau <a href="https://www.census.gov/programs-surveys/decennial-census/decade/2020/planning-management/process/disclosure-avoidance/2020-das-updates.html">released</a> a new demonstration of its differentially private Disclosure Avoidance System (DAS) for the 2020 US Census. The public were given a month to submit feedback before the system is finalized.
+This demonstration data and the feedback has generated a lot of discussion, including media coverage on <a href="https://www.npr.org/2021/05/19/993247101/for-the-u-s-census-keeping-your-data-anonymous-and-useful-is-a-tricky-balance">National Public Radio</a>, in <a href="https://www.washingtonpost.com/local/social-issues/2020-census-differential-privacy-ipums/2021/06/01/6c94b46e-c30d-11eb-93f5-ee9558eecf4b_story.html">the Washington Post</a>, and via <a href="https://apnews.com/article/business-census-2020-technology-e701e313e841674be6396321343b7e49">the Associated Press</a>. The DAS is also the subject of an <a href="https://www.courtlistener.com/docket/59728874/state-v-united-states-department-of-commerce/">ongoing lawsuit</a>.</p>
+
+      </div>
+
+      <a href="/inference-is-not-a-privacy-violation/" class="read-more">Read More</a>
+    </article>
+  
+    <article class="post">
+
+      <h1><a href="/tpdp21-cfp/">Call for Papers - Workshop on the Theory and Practice of Differential Privacy (TPDP 2021)</a></h1>
+
+      <div class="entry">
+        <p>Work on differential privacy spans a number of different research communities, including theoretical computer science, machine learning, statistics, security, law, databases, cryptography, programming languages, social sciences, and more.
+Each of these communities may choose to publish their work in their own community’s venues, which could result in small groups of differential privacy researchers becoming isolated.
+To alleviate these issues, we have the Workshop on the <a href="https://tpdp.journalprivacyconfidentiality.org/">Theory and Practice of Differential Privacy</a> (TPDP), which is intended to bring these subcommunities together under one roof (well, a virtual one at least for 2020 and 2021).</p>
+
+      </div>
+
+      <a href="/tpdp21-cfp/" class="read-more">Read More</a>
+    </article>
+  
+    <article class="post">
+
+      <h1><a href="/alt-highlights/">ALT Highlights - An Equivalence between Private Learning and Online Learning (ALT '21 Tutorial)</a></h1>
+
+      <div class="entry">
+        <p>Welcome to ALT Highlights, a series of blog posts spotlighting various happenings at the recent conference <a href="http://algorithmiclearningtheory.org/alt2021/">ALT 2021</a>, including plenary talks, tutorials, trends in learning theory, and more! 
+To reach a broad audience, the series will be disseminated as guest posts on different blogs in machine learning and theoretical computer science. 
+Given the topic of this post, we felt <a href="https://differentialprivacy.org/">DifferentialPrivacy.org</a> was a great fit.
+This initiative is organized by the <a href="https://www.let-all.com/">Learning Theory Alliance</a>, and overseen by <a href="http://www.gautamkamath.com/">Gautam Kamath</a>. 
+All posts in ALT Highlights are indexed on the official <a href="https://www.let-all.com/blog/2021/04/20/alt-highlights-2021/">Learning Theory Alliance blog</a>.</p>
+
+      </div>
+
+      <a href="/alt-highlights/" class="read-more">Read More</a>
+    </article>
+  
+    <article class="post">
+
+      <h1><a href="/flavoursofdelta/">What is δ, and what δifference does it make?</a></h1>
+
+      <div class="entry">
+        <p>There are many variants or flavours of differential privacy (DP) some weaker than others: often, a given variant comes with own guarantees and “conversion theorems” to the others. As an example, “pure” DP has a single parameter \(\varepsilon\), and corresponds to a very stringent notion of DP:</p>
+
+      </div>
+
+      <a href="/flavoursofdelta/" class="read-more">Read More</a>
+    </article>
+  
+    <article class="post">
+
+      <h1><a href="/tpdp2020/">Conference Digest - TPDP 2020</a></h1>
+
+      <div class="entry">
+        <p><a href="https://tpdp.journalprivacyconfidentiality.org/2020/">TPDP 2020</a> is a workshop focused on differential privacy. As such, it’s a great place to learn about recent developments in the DP research community.
+It will be held on 13 November and is co-located with <a href="https://www.sigsac.org/ccs/CCS2020/">CCS</a>, but, of course, it’s virtual this year. <a href="https://www.sigsac.org/ccs/CCS2020/registration.html">Registration is only US$35 if you register by Friday, 30 October.</a> Check out the 8 excellent talks and 71 posters below – wow, the workshop has grown!</p>
+
+      </div>
+
+      <a href="/tpdp2020/" class="read-more">Read More</a>
+    </article>
+  
+    <article class="post">
+
+      <h1><a href="/diffix-attack/">Reconstruction Attacks in Practice</a></h1>
+
+      <div class="entry">
+        <p>This is the second of two posts describing the theory and practice of reconstruction attacks.  To read the first post, which covers the theoretical basis of such attacks, <a href="https://differentialprivacy.org/reconstruction-theory/">[click here]</a>.</p>
+
+      </div>
+
+      <a href="/diffix-attack/" class="read-more">Read More</a>
+    </article>
+  
+    <article class="post">
+
+      <h1><a href="/reconstruction-theory/">The Theory of Reconstruction Attacks</a></h1>
+
+      <div class="entry">
+        <p>We often see people asking whether or not differential privacy might be overkill.  Why do we need strong privacy protections like differential privacy when we’re only releasing approximate, aggregate statistical information about a dataset?  Is it really possible to extract information about specific users from releasing these statistics?  The answer turns out to be a resounding yes!  The textbook by Dwork and Roth <a href="https://www.cis.upenn.edu/~aaroth/privacybook.html">[DR14]</a> calls this phenomenon the Fundamental Law of Information Recovery:</p>
+
+<blockquote>
+  <p>Giving overly accurate answers to too many questions will inevitably destroy privacy.</p>
+</blockquote>
+
+      </div>
+
+      <a href="/reconstruction-theory/" class="read-more">Read More</a>
+    </article>
+  
+    <article class="post">
+
+      <h1><a href="/neurips2020/">Conference Digest - NeurIPS 2020</a></h1>
+
+      <div class="entry">
+        <p><a href="https://neurips.cc/Conferences/2020">NeurIPS 2020</a> is the biggest conference on machine learning, with tons of content on differential privacy in many different forms.
+We were able to find two workshops, a competition, and 31 papers. 
+This was just going off the preliminary <a href="https://nips.cc/Conferences/2020/AcceptedPapersInitial">accepted papers list</a>, so it’s possible that we might have missed some papers on differential privacy – please let us know!
+We will update this post later, once all the conference material (papers and videos) are publicly available.</p>
+
+      </div>
+
+      <a href="/neurips2020/" class="read-more">Read More</a>
+    </article>
+  
+    <article class="post">
+
+      <h1><a href="/open-problem-avoid-union/">Open Problem - Avoiding the Union Bound for Multiple Queries</a></h1>
+
+      <div class="entry">
+        <p><strong>Background:</strong> Perhaps the best-studied problem in differential privacy is answering multiple counting queries.
+The standard approach is to add independent, appropriately-calibrated (Laplace or Gaussian) noise to each query result and apply a composition theorem.
+To bound the maximum error over the query answers, one takes a union bound over the independent noise samples.
+However, this is <em>not</em> optimal.
+The problem is to identify the optimal method (up to constant factors).</p>
+
+      </div>
+
+      <a href="/open-problem-avoid-union/" class="read-more">Read More</a>
+    </article>
+  
+    <article class="post">
+
+      <h1><a href="/private-pac/">Differentially Private PAC Learning</a></h1>
+
+      <div class="entry">
+        <p>The study of differentially private PAC learning runs all the way from
+its introduction in 2008 <a href="https://arxiv.org/abs/0803.0924" title="Shiva Prasad Kasiviswanathan, Homin K. Lee, Kobbi Nissim, Sofya Raskhodnikova, and Adam Smith. What Can We Learn Privately? FOCS 2008"><strong>[KLNRS08]</strong></a> to a best paper award at the
+Symposium on Foundations of Computer Science (FOCS) this year <a href="https://arxiv.org/abs/2003.00563" title="Mark Bun, Roi Livni, and Shay Moran. An equivalence between private classification and online prediction. FOCS 2020"><strong>[BLM20]</strong></a>.
+In this post, we’ll recap the history of this line of work, aiming for
+enough detail for a rough understanding of the results and methods.</p>
+
+      </div>
+
+      <a href="/private-pac/" class="read-more">Read More</a>
+    </article>
+  
+    <article class="post">
+
+      <h1><a href="/icml2020/">Conference Digest - ICML 2020</a></h1>
+
+      <div class="entry">
+        <p><a href="https://icml.cc/virtual/2020">ICML 2020</a> is one of the premiere venues in machine learning, and generally features a lot of great work in differentially private machine learning.
+This year is no exception: the relevant papers are listed below to the best of our ability, including links to the full versions of papers, as well as the conference pages (which contain slides and 15 minute videos for each paper).
+As always, please inform us if we overlooked any papers on differential privacy.</p>
+
+      </div>
+
+      <a href="/icml2020/" class="read-more">Read More</a>
+    </article>
+  
+    <article class="post">
+
+      <h1><a href="/colt2020/">Conference Digest - COLT 2020</a></h1>
+
+      <div class="entry">
+        <p><a href="https://www.learningtheory.org/colt2020/">COLT 2020</a> was held online in July, and featured nine papers on differential privacy, as well as a keynote talk by Salil Vadhan.
+While differential privacy has always had a home in the COLT community, it seems like this year was truly exceptional in terms of the number of results.
+We link all the content below, including pointers to the papers, videos on Youtube, and the page on the conference website. 
+Please let us know if we missed any papers on differential privacy, either in the comments below or by email.</p>
+
+      </div>
+
+      <a href="/colt2020/" class="read-more">Read More</a>
+    </article>
+  
+    <article class="post">
+
+      <h1><a href="/privacy-composition/">Why Privacy Needs Composition</a></h1>
+
+      <div class="entry">
+        <p>We’re back!  In our last <a href="\average-case-dp">post</a> we discussed some of the subtle pitfalls of formulating the assumptions underlying average-case relaxations of differential privacy.  This time we’re going to look at the composition property of differential privacy—that is, the fact that running two independent differentially private algorithms on your data and combining their outputs is still differentially private. This is a key property of differential privacy and is actually closely related to the worst-case nature of differential privacy.</p>
+
+      </div>
+
+      <a href="/privacy-composition/" class="read-more">Read More</a>
+    </article>
+  
+    <article class="post">
+
+      <h1><a href="/open-problem-all-pairs/">Open Problem - Private All-Pairs Distances</a></h1>
+
+      <div class="entry">
+        <p><strong>Background:</strong> Suppose we are interested in computing the distance between two vertices in a graph. Under edge or node differential privacy, this problem is not promising because the removal of a single edge can make distances change from 1 to \(n − 1\) or can even disconnect the graph. However, a different setting that makes sense to consider is that of a weighted graph \((G, w)\) whose topology \(G = (V, E)\) is publicly known but edge weight function \(w : E \to \mathbb{R}^+\) must be kept private. (For instance, consider transit times on a road network. The topology of the road network may be publicly available as a map, but the edge weights corresponding to transit times may be based on private GPS locations of individual cars.)</p>
+
+      </div>
+
+      <a href="/open-problem-all-pairs/" class="read-more">Read More</a>
+    </article>
+  
+    <article class="post">
+
+      <h1><a href="/average-case-dp/">The Pitfalls of Average-Case Differential Privacy</a></h1>
+
+      <div class="entry">
+        <p>Differential privacy protects against extremely strong adversaries—even ones who know the entire dataset except for one bit of information about one individual.  Since its inception, people have considered ways to relax the definition to assume a more realistic adversary.  A natural way to do so is to incorporate some distributional assumptions. That is, rather than considering a worst-case dataset, assume the dataset is drawn from some distribution and provide some form of “average-case” or “Bayesian” privacy guarantee with respect to this distribution. This is especially tempting as it is common for statistical analysis to work under distributional assumptions.</p>
+
+      </div>
+
+      <a href="/average-case-dp/" class="read-more">Read More</a>
+    </article>
+  
+    <article class="post">
+
+      <h1><a href="/stoc2020/">Conference Digest - STOC 2020</a></h1>
+
+      <div class="entry">
+        <p><a href="http://acm-stoc.org/stoc2020/">STOC 2020</a> was recently held online, as one of the first major theory conferences during the COVID-19 era.
+It featured four papers on differential privacy, which we list and link below.
+Each one is accompanied by a video from the conference, as well as a longer video if available.
+Please let us know if we missed any papers on differential privacy, either in the comments below or by email.</p>
+
+      </div>
+
+      <a href="/stoc2020/" class="read-more">Read More</a>
+    </article>
+  
+    <article class="post">
+
+      <h1><a href="/trustmodels/">Trust Models, and Notions of Privacy</a></h1>
+
+      <div class="entry">
+        <p>There exist various notions of differential privacy which, while sharing a common core, differ in some key specific aspects. Broadly speaking, vary among a few main axes, such as the type of guarantee they provide, the specific similarity between data they consider, and the trust model they aim to address. This last point will be the focus of this post: <em>which notion of privacy is best suited to the specific scenario at hand?</em></p>
+
+      </div>
+
+      <a href="/trustmodels/" class="read-more">Read More</a>
+    </article>
+  
+    <article class="post">
+
+      <h1><a href="/welcome/">Welcome to DifferentialPrivacy.org!</a></h1>
+
+      <div class="entry">
+        <p>Hello, welcome to this new website! Our goal is to serve as a hub for the differential privacy research community and to promote the work in this area. Please read on to learn more!</p>
+
+      </div>
+
+      <a href="/welcome/" class="read-more">Read More</a>
+    </article>
+  
+</div>
+
+    </div>
+
+    <!--
+    <div class="wrapper-footer">
+      <div class="container">
+        <footer class="footer">
+          
+
+
+
+<a href="https://github.com/differentialprivacy/differentialprivacy"><i class="svg-icon github"></i></a>
+
+
+
+
+<a href="https://www.twitter.com/DiffPriv"><i class="svg-icon twitter"></i></a>
+
+
+
+        </footer>
+      </div>
+    </div>
+    -->
+
+    
+	<!-- Google Analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		ga('create', 'UA-11154678-4', 'auto');
+		ga('send', 'pageview', {
+		  'page': '/',
+		  'title': 'DifferentialPrivacy.org'
+		});
+	</script>
+	<!-- End Google Analytics -->
+
+
+    
+    <!--  -->
+  </body>
+</html>
