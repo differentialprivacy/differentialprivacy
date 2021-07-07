@@ -6,7 +6,7 @@ authors:
   - sashonikolov
   - jonullman
 bibtexauthors: "Aleksandar Nikolov and Jonathan Ullman"
-timestamp: 15:00:00 -0400
+timestamp: 13:45:00 -0400
 categories: [Open Problems]
 ---
 
