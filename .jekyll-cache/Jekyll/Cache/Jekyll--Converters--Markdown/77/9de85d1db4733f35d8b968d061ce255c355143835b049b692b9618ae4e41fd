@@ -1,2 +1,0 @@
-I"6<p>There are many variants or flavours of differential privacy (DP) some weaker than others: often, a given variant comes with own guarantees and “conversion theorems” to the others. As an example, “pure” DP has a single parameter \(\varepsilon\), and corresponds to a very stringent notion of DP:</p>
-:ET

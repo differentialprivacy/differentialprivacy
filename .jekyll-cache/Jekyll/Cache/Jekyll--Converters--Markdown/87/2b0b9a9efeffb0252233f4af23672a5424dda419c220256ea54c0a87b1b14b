@@ -1,2 +1,0 @@
-I"><p>We’re back!  In our last <a href="\average-case-dp">post</a> we discussed some of the subtle pitfalls of formulating the assumptions underlying average-case relaxations of differential privacy.  This time we’re going to look at the composition property of differential privacy—that is, the fact that running two independent differentially private algorithms on your data and combining their outputs is still differentially private. This is a key property of differential privacy and is actually closely related to the worst-case nature of differential privacy.</p>
-:ET
