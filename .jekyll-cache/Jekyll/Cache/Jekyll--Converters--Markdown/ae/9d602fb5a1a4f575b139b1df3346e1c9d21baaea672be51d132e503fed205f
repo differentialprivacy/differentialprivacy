@@ -1,0 +1,6 @@
+I"û<p><strong>Background:</strong> Perhaps the best-studied problem in differential privacy is answering multiple counting queries.
+The standard approach is to add independent, appropriately-calibrated (Laplace or Gaussian) noise to each query result and apply a composition theorem.
+To bound the maximum error over the query answers, one takes a union bound over the independent noise samples.
+However, this is <em>not</em> optimal.
+The problem is to identify the optimal method (up to constant factors).</p>
+:ET

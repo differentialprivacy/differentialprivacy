@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Differential Privacy - Open Problem - Avoiding the Union Bound for Multiple Queries</title>
+
+        <meta charset="utf-8" />
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@DiffPriv" />
+    <meta name="twitter:image" content="https://differentialprivacy.org/images/logodp-transparent.png" />
+    <meta name="twitter:image:alt" content="DP.org logo" />
+
+    
+    <meta name="description" content="Background: Perhaps the best-studied problem in differential privacy is answering multiple counting queries.
+The standard approach is to add independent, appropriately-calibrated (Laplace or Gaussian) noise to each query result and apply a composition theorem.
+To bound the maximum error over the query answers, one takes a union bound over the independent noise samples.
+However, this is not optimal.
+The problem is to identify the optimal method (up to constant factors).
+" />
+    <meta property="og:description" content="Background: Perhaps the best-studied problem in differential privacy is answering multiple counting queries.
+The standard approach is to add independent, appropriately-calibrated (Laplace or Gaussian) noise to each query result and apply a composition theorem.
+To bound the maximum error over the query answers, one takes a union bound over the independent noise samples.
+However, this is not optimal.
+The problem is to identify the optimal method (up to constant factors).
+" />
+    <meta name="twitter:description" content="Background: Perhaps the best-studied problem in differential privacy is answering multiple counting queries.
+The standard approach is to add independent, appropriately-calibrated (Laplace or Gaussian) noise to each query result and apply a composition theorem.
+To bound the maximum error over the query answers, one takes a union bound over the independent noise samples.
+However, this is not optimal.
+The problem is to identify the optimal method (up to constant factors).
+"/>
+    
+    <meta name="author" content="Differential Privacy" />
+
+    
+    <meta property="og:title" content="Open Problem - Avoiding the Union Bound for Multiple Queries" />
+    <meta property="twitter:title" content="Open Problem - Avoiding the Union Bound for Multiple Queries" />
+    
+
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+    <link rel="alternate" type="application/rss+xml" title="Differential Privacy - Website for the differential privacy research community" href="/feed.xml" />
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  </head>
+
+  <body>
+    <div class="wrapper-masthead">
+      <div class="container">
+        <header class="masthead clearfix">
+          <!-- no image for now <a href="/" class="site-avatar"><img src="favicon-96x96.png" /></a> -->
+
+          <div class="site-info">
+            <h1 class="site-name"><a href="/"><b><font color="#3d85c6">Differential</font><font color="#b45f06">Privacy</font><font color="#cccccc">.org</font></b></a></h1>
+            <!-- <p class="site-description">Website for the differential privacy research community</p> -->
+          </div>
+
+          <nav>
+            <a href="/">Home</a>
+            <a href="/about">About</a>
+			<a href="/categories">Posts</a>
+			<a href="/resources">Resources</a>
+          </nav>
+        </header>
+      </div>
+    </div>
+
+    <div id="main" role="main" class="container">
+      <article class="post">
+  <h1>Open Problem - Avoiding the Union Bound for Multiple Queries</h1>
+
+  <div class="entry">
+    <p><strong>Background:</strong> Perhaps the best-studied problem in differential privacy is answering multiple counting queries.
+The standard approach is to add independent, appropriately-calibrated (Laplace or Gaussian) noise to each query result and apply a composition theorem.
+To bound the maximum error over the query answers, one takes a union bound over the independent noise samples.
+However, this is <em>not</em> optimal.
+The problem is to identify the optimal method (up to constant factors).</p>
+
+<p><strong>Problem 1:</strong> Is there a randomized algorithm \(M : \{0,1\}^{n \times k} \rightarrow \mathbb{R}^k\) that is differentially private<sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup> and satisfies
+\[
+\forall x \in \{0, 1\}^{n \times k} \quad \mathbb{E}\left[ \left\|M(x) - \sum_{i=1}^n x_i \right\|_\infty \right] \leq c \sqrt{k}
+\]
+for some constant \( c &gt; 0\) depending only on the privacy parameters?<sup id="fnref:2" role="doc-noteref"><a href="#fn:2" class="footnote" rel="footnote">2</a></sup></p>
+
+<p>Adding independent Gaussian noise to each coordinate/query yields \(c \sqrt{k \log k}\) in place of \(c \sqrt{k}\) above. 
+Steinke and Ullman [<a href="https://arxiv.org/abs/1501.06095">SU17</a>] showed that the union bound can <em>almost</em> be avoided and obtained \(c \sqrt{k \log \log k}\) using correlated noise.
+The algorithm is nonetheless based on independent Gaussian noise, with the added step of using the exponential mechanism to identify high-error answers and correct them.</p>
+
+<p>Note that a \(\Omega(\sqrt{k})\) lower bound is known [<a href="https://arxiv.org/abs/1311.3158">BUV18</a>, <a href="https://arxiv.org/abs/1501.06095">SU17</a>]. By [<a href="http://www.cs.utah.edu/~bhaskara/files/privacy.pdf">BDKT12</a>] it suffices to consider mechanisms \(M\) that add <em>instance-independent noise</em>. That is, \(M(x) = \sum_{i=1}^n x_i + Z\) where \(Z\) is some fixed noise distribution over \(\mathbb{R}^k\) that is independent of \(x\).</p>
+
+<p><strong>Reward:</strong> For a positive solution, an all-you-can-eat sushi dinner at a sushi restaurant of your choice.
+If the solution is an efficiently-sampleable distribution with a closed-form density, alcohol will be included.
+For a negative solution, alcohol only.<sup id="fnref:3" role="doc-noteref"><a href="#fn:3" class="footnote" rel="footnote">3</a></sup></p>
+
+<p><strong>Other related work:</strong> [<a href="https://privacytools.seas.harvard.edu/files/privacytools/files/robust.pdf">DSSUV15</a>, <a href="https://privacytools.seas.harvard.edu/files/privacytools/files/complexityprivacy_1.pdf">Vad17</a>, <a href="https://arxiv.org/abs/1801.09236">AS18</a>]. 
+A very recent work by Ganesh and Zhao [<a href="https://people.eecs.berkeley.edu/~arunganesh/papers/generalizedgaussians.pdf">GZ20</a>] improves the best upper bound from \(c\sqrt{k \log \log k}\) to \(c\sqrt{k \log \log \log k}\).</p>
+
+<p><em>Submitted by <a href="http://www.thomas-steinke.net/">Thomas Steinke</a> and <a href="https://www.ccs.neu.edu/home/jullman/">Jonathan Ullman</a> on April 9, 2019.</em></p>
+
+<hr />
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1" role="doc-endnote">
+      <p>Specifically, \(M\) is either 1-zCDP [<a href="https://arxiv.org/abs/1605.02065">BS16</a>] with \(c\) an absolute constant or, for every \(\delta &gt; 0\), there is an \(M_\delta\) that is \((1, \delta)\)-DP with \(c = c(\delta) = c’ \cdot \sqrt{\log (1/\delta)}\) for an absolute constant \(c’\). <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:2" role="doc-endnote">
+      <p>Here \(x_i \in \{0, 1\}^k \subset \mathbb{R}^k\) denotes the data vector of individual \(i\) and \(x = (x_1, x_2, \dots, x_n) \in \{0,1\}^{n \times k}\). For simplicity, we only consider expected error; high-probability error bounds are an immediate consequence. <a href="#fnref:2" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:3" role="doc-endnote">
+      <p>Restaurant need not necessarily be all-you-can-eat. Maximum redeemable value US$500. <a href="#fnref:3" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+  </div>
+
+  <div class="date">
+      Posted by <a href="http://www.gautamkamath.com/">Gautam Kamath</a> on October  3, 2020.
+  </div>
+  <div class="post-categories">
+    
+	Categories: 
+    
+    <a href="/categories/#Open Problems">Open Problems</a>
+    
+    
+  </div>
+  
+  <br/>
+
+  
+  <a href="/bibtex/#open-problem-avoid-union">[cite this]</a> &nbsp;
+  
+  <!-- 
+<div class="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+
+	    var disqus_shortname = 'differentialprivacy';
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+ -->
+  
+  <span class="disqus-comment-count" data-disqus-url="https://differentialprivacy.org/open-problem-avoid-union/"> <!-- Comment count will be inserted here --> </span>
+
+
+  <br/>&nbsp;<br/>
+ <div class="comments-block">
+     <center><button id="show-comments" onclick="disqus();return false;">SHOW COMMENTS</button></center>
+ </div>
+ <noscript>Comments cannot be shown due to javascript being disabled in your browser.</noscript>
+ 
+
+ <div id="disqus_thread"></div>
+ 
+ <script id="dsq-count-scr" src="//differentialprivacy.disqus.com/count.js" async></script>
+ 
+ <script>
+ var disqus_loaded = false;
+ var disqus_shortname = 'differentialprivacy'; //Add your shortname here
+
+ function disqus() {
+
+     if (!disqus_loaded)  {
+         disqus_loaded = true;
+
+         var e = document.createElement("script");
+         e.type = "text/javascript";
+         e.async = true;
+         e.src = "//" + disqus_shortname + ".disqus.com/embed.js";
+         (document.getElementsByTagName("head")[0] ||
+         document.getElementsByTagName("body")[0])
+         .appendChild(e);
+
+         //Hide the button after opening
+         document.getElementById("show-comments").style.display = "none";
+     }
+ }
+
+ //Opens comments when linked to directly
+ var hash = window.location.hash.substr(1);
+ if (hash.length > 8) {
+     if (hash.substring(0, 8) == "comment-") {
+         disqus();
+     }
+ }
+
+ //Remove this if you don't want to load comments for search engines
+ if(/bot|google|baidu|bing|msn|duckduckgo|slurp|yandex/i.test(navigator.userAgent)) {
+    disqus();
+ }
+ </script>
+  
+  
+  <br/>&nbsp;<br/>
+
+  <div>Subscribe to updates from DifferentialPrivacy.org by <a href="https://feedburner.google.com/fb/a/mailverify?uri=DifferentialPrivacy">Email</a>, on <a href="https://twitter.com/DiffPriv">Twitter</a>, or via <a href="/feed.xml">RSS</a>.</div>
+  
+  <br/>&nbsp;<br/>
+</article>
+
+    </div>
+
+    <!--
+    <div class="wrapper-footer">
+      <div class="container">
+        <footer class="footer">
+          
+
+
+
+<a href="https://github.com/differentialprivacy/differentialprivacy"><i class="svg-icon github"></i></a>
+
+
+
+
+<a href="https://www.twitter.com/DiffPriv"><i class="svg-icon twitter"></i></a>
+
+
+
+        </footer>
+      </div>
+    </div>
+    -->
+
+    
+	<!-- Google Analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		ga('create', 'UA-11154678-4', 'auto');
+		ga('send', 'pageview', {
+		  'page': '/open-problem-avoid-union/',
+		  'title': 'Open Problem - Avoiding the Union Bound for Multiple Queries'
+		});
+	</script>
+	<!-- End Google Analytics -->
+
+
+    
+    <!-- 
+    <script>
+     
+        var disqus_shortname = "differentialprivacy";
+        var disqus_config = function () {
+            this.page.url = '/open-problem-avoid-union/';
+            this.page.identifier = '/open-problem-avoid-union';
+        };
+        var is_disqus_loaded = false;
+        function loadDisqus() {
+          if (!is_disqus_loaded){
+            is_disqus_loaded = true;
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+          }
+            
+        };
+    </script>
+     -->
+  </body>
+</html>

@@ -1,0 +1,97 @@
+I",<p><a href="https://icml.cc/virtual/2020">ICML 2020</a> is one of the premiere venues in machine learning, and generally features a lot of great work in differentially private machine learning.
+This year is no exception: the relevant papers are listed below to the best of our ability, including links to the full versions of papers, as well as the conference pages (which contain slides and 15 minute videos for each paper).
+As always, please inform us if we overlooked any papers on differential privacy.</p>
+
+<h2 id="papers">Papers</h2>
+
+<ul>
+  <li>
+    <p><a href="https://arxiv.org/abs/1909.12732">Alleviating Privacy Attacks via Causal Learning</a> (<a href="https://icml.cc/virtual/2020/poster/6346">page</a>)<br />
+<a href="https://www.microsoft.com/en-us/research/people/shtople/">Shruti Tople</a>, <a href="http://www.amitsharma.in/">Amit Sharma</a>, <a href="https://www.microsoft.com/en-us/research/people/adityan/">Aditya Nori</a></p>
+  </li>
+  <li>
+    <p><a href="https://arxiv.org/abs/1805.10341">An end-to-end Differentially Private Latent Dirichlet Allocation Using a Spectral Algorithm</a> (<a href="https://icml.cc/virtual/2020/poster/6240">page</a>)<br />
+<a href="https://github.com/dpeng817">Chris DeCarolis</a>, <a href="https://twitter.com/exsidius">Mukul Ram</a>, <a href="https://www.cs.umd.edu/people/sesmaeil">Seyed Esmaeili</a>, <a href="https://sites.cs.ucsb.edu/~yuxiangw/">Yu-Xiang Wang</a>, <a href="http://furong-huang.com/">Furong Huang</a></p>
+  </li>
+  <li>
+    <p><a href="https://arxiv.org/abs/1901.09697">Bayesian Differential Privacy for Machine Learning</a> (<a href="https://icml.cc/virtual/2020/poster/6547">page</a>)<br />
+<a href="https://scholar.google.com/citations?user=BCWx7iQAAAAJ">Aleksei Triastcyn</a>, <a href="https://people.epfl.ch/boi.faltings">Boi Faltings</a></p>
+  </li>
+  <li>
+    <p><a href="https://arxiv.org/abs/1911.03030">Certified Data Removal from Machine Learning Models</a> (<a href="https://icml.cc/virtual/2020/poster/5895">page</a>)<br />
+<a href="https://sites.google.com/view/chuanguo">Chuan Guo</a>, <a href="https://www.cs.umd.edu/~tomg/">Tom Goldstein</a>, <a href="https://awnihannun.com/">Awni Hannun</a>, <a href="https://lvdmaaten.github.io/">Laurens van der Maaten</a></p>
+  </li>
+  <li>
+    <p><a href="https://arxiv.org/abs/1911.00038">Context Aware Local Differential Privacy</a> (<a href="https://icml.cc/virtual/2020/poster/5775">page</a>)<br />
+<a href="https://people.ece.cornell.edu/acharya/">Jayadev Acharya</a>, <a href="https://research.google/people/105175/">Kallista Bonawitz</a>, <a href="https://kairouzp.github.io/">Peter Kairouz</a>, <a href="https://research.google/people/106777/">Daniel Ramage</a>, <a href="http://www.zitengsun.com/">Ziteng Sun</a></p>
+  </li>
+  <li>
+    <p><a href="https://arxiv.org/abs/1905.12813">Data-Dependent Differentially Private Parameter Learning for Directed Graphical Models</a> (<a href="https://icml.cc/virtual/2020/poster/6262">page</a>)<br />
+<a href="https://scholar.google.com/citations?user=lWWAZ4YAAAAJ">Amrita Roy Chowdhury</a>, <a href="http://pages.cs.wisc.edu/~thodrek/">Theodoros Rekatsinas</a>, <a href="http://pages.cs.wisc.edu/~jha/">Somesh Jha</a></p>
+  </li>
+  <li>
+    <p><a href="https://arxiv.org/abs/2002.09745">Differentially Private Set Union</a> (<a href="https://icml.cc/virtual/2020/poster/6541">page</a>)<br />
+<a href="https://www.microsoft.com/en-us/research/people/sigopi/">Sivakanth Gopi</a>, <a href="https://www.linkedin.com/in/pankajgulhane/">Pankaj Gulhane</a>, <a href="https://www.microsoft.com/en-us/research/people/jakul/">Janardhan Kulkarni</a>, <a href="https://heyyjudes.github.io/">Judy Hanwen Shen</a>, <a href="https://www.microsoft.com/en-us/research/people/milads/">Milad Shokouhi</a>, <a href="http://www.yekhanin.org/">Sergey Yekhanin</a></p>
+  </li>
+  <li>
+    <p><a href="https://arxiv.org/abs/2002.11651">Fair Learning with Private Demographic Data</a> (<a href="https://icml.cc/virtual/2020/poster/6499">page</a>)<br />
+<a href="https://husseinmozannar.github.io/">Hussein Mozannar</a>, <a href="https://sites.google.com/site/mesrob/home/">Mesrob Ohannessian</a>, <a href="https://ttic.uchicago.edu/~nati/">Nathan Srebro</a></p>
+  </li>
+  <li>
+    <p><a href="https://arxiv.org/abs/2006.15744">Fast and Private Submodular and $k$-Submodular Functions Maximization with Matroid Constraint</a> (<a href="https://icml.cc/virtual/2020/poster/6365">page</a>)<br />
+<a href="https://dblp.org/pid/166/1694.html">Akbar Rafiey</a>, <a href="http://research.nii.ac.jp/~yyoshida/">Yuichi Yoshida</a></p>
+  </li>
+  <li>
+    <p><a href="https://arxiv.org/abs/2006.00706">(Locally) Differentially Private Combinatorial Semi-Bandits</a> (<a href="https://icml.cc/virtual/2020/poster/6315">page</a>)<br />
+<a href="https://scholar.google.com/citations?user=sioumZAAAAAJ">Xiaoyu Chen</a>, <a href="https://scholar.google.com/citations?user=Bw-WdyUAAAAJ">Kai Zheng</a>, <a href="https://twitter.com/zixinjackzhou">Zixin Zhou</a>, <a href="https://scholar.google.com/citations?user=m8m9nD0AAAAJ">Yunchang Yang</a>, <a href="https://www.microsoft.com/en-us/research/people/weic/">Wei Chan</a>, <a href="http://www.liweiwang-pku.com/">Liwei Wang</a></p>
+  </li>
+  <li>
+    <p><a href="https://arxiv.org/abs/2007.05453">New Oracle-Efficient Algorithms for Private Synthetic Data Release</a> (<a href="https://icml.cc/virtual/2020/poster/5814">page</a>)<br />
+<a href="https://sites.google.com/umn.edu/giuseppe-vietri/home">Giuseppe Vietri</a>, <a href="https://scholar.google.com/citations?user=dDVIyEQAAAAJ">Grace Tian</a>, <a href="https://cs-people.bu.edu/mbun/">Mark Bun</a>, <a href="http://www.thomas-steinke.net/">Thomas Steinke</a>, <a href="https://zstevenwu.com/">Zhiwei Steven Wu</a></p>
+  </li>
+  <li>
+    <p><a href="https://proceedings.icml.cc/static/paper_files/icml/2020/1190-Paper.pdf">On Differentially Private Stochastic Convex Optimization with Heavy-tailed Data</a> (<a href="https://icml.cc/virtual/2020/poster/5948">page</a>)<br />
+<a href="http://www.acsu.buffalo.edu/~dwang45/">Di Wang</a>, <a href="https://scholar.google.com/citations?user=e3ZhEDEAAAAJ">Hanshen Xiao</a>, <a href="https://people.csail.mit.edu/devadas/">Srinivas Devadas</a>, <a href="https://cse.buffalo.edu/~jinhui/">Jinhui Xu</a></p>
+  </li>
+  <li>
+    <p><a href="https://arxiv.org/abs/1909.13830">Optimal Differential Privacy Composition for Exponential Mechanisms</a> (<a href="https://icml.cc/virtual/2020/poster/6687">page</a>)<br />
+<a href="https://www.math.upenn.edu/~jinshuo/">Jinshuo Dong</a>, <a href="https://dblp.org/pid/155/9794.html">David Durfee</a>, <a href="https://scholar.google.com/citations?user=jr7gGB4AAAAJ">Ryan Rogers</a></p>
+  </li>
+  <li>
+    <p><a href="https://arxiv.org/abs/1909.01783">Oracle Efficient Private Non-Convex Optimization</a> (<a href="https://icml.cc/virtual/2020/poster/5815">page</a>)<br />
+<a href="https://sethneel.com/">Seth Neel</a>, <a href="https://www.cis.upenn.edu/~aaroth/">Aaron Roth</a>, <a href="https://sites.google.com/umn.edu/giuseppe-vietri/home">Giuseppe Vietri</a>, <a href="https://zstevenwu.com/">Zhiwei Steven Wu</a></p>
+  </li>
+  <li>
+    <p><a href="https://proceedings.icml.cc/static/paper_files/icml/2020/2341-Paper.pdf">Private Counting from Anonymous Messages: Near-Optimal Accuracy with Vanishing Communication Overhead</a> (<a href="https://icml.cc/virtual/2020/poster/6134">page</a>)<br />
+<a href="https://sites.google.com/view/badihghazi/home">Badih Ghazi</a>, <a href="https://sites.google.com/site/ravik53/">Ravi Kumar</a>, <a href="https://pasin30055.github.io/">Pasin Manurangsi</a>, <a href="https://www.itu.dk/people/pagh/">Rasmus Pagh</a></p>
+  </li>
+  <li>
+    <p><a href="https://proceedings.icml.cc/static/paper_files/icml/2020/6298-Paper.pdf">Private Outsourced Bayesian Optimization</a> (<a href="https://icml.cc/virtual/2020/poster/6783">page</a>)<br />
+<a href="https://scholar.google.com/citations?user=7_2XTQ8AAAAJ">Dmitrii Kharkovskii</a>, <a href="https://daizhongxiang.github.io/">Zhongxiang Dai</a>, <a href="https://www.comp.nus.edu.sg/~lowkh/research.html">Bryan Kian Hsiang Low</a></p>
+  </li>
+  <li>
+    <p><a href="https://arxiv.org/abs/2004.10941">Private Query Release Assisted by Public Data</a> (<a href="https://icml.cc/virtual/2020/poster/6329">page</a>)<br />
+<a href="https://sites.google.com/view/rbassily">Raef Bassily</a>, <a href="https://www.ccs.neu.edu/home/albertcheu/">Albert Cheu</a>, <a href="http://www.cs.technion.ac.il/~shaymrn/">Shay Moran</a>, <a href="http://www.cs.toronto.edu/~anikolov/">Aleksandar Nikolov</a>, <a href="https://www.ccs.neu.edu/home/jullman/">Jonathan Ullman</a>, <a href="https://zstevenwu.com/">Zhiwei Steven Wu</a></p>
+  </li>
+  <li>
+    <p><a href="https://proceedings.icml.cc/static/paper_files/icml/2020/2453-Paper.pdf">Private Reinforcement Learning with PAC and Regret Guarantees</a> (<a href="https://icml.cc/virtual/2020/poster/6152">page</a>)<br />
+<a href="https://sites.google.com/umn.edu/giuseppe-vietri/home">Giuseppe Vietri</a>, <a href="https://borjaballe.github.io/">Borja Balle</a>, <a href="https://people.cs.umass.edu/~akshay/">Akshay Krishnamurthy</a>, <a href="https://zstevenwu.com/">Zhiwei Steven Wu</a></p>
+  </li>
+  <li>
+    <p><a href="https://arxiv.org/abs/1910.01327">Privately Detecting Changes in Unknown Distributions</a> (<a href="https://icml.cc/virtual/2020/poster/5854">page</a>)<br />
+<a href="https://sites.gatech.edu/rachel-cummings/">Rachel Cummings</a>, <a href="https://sites.google.com/view/skrehbiel/home">Sara Krehbiel</a>, <a href="https://scholar.google.com/citations?user=ayasb_wAAAAJ">Yuliia Lut</a>, <a href="https://wanrongz.github.io/">Wanrong Zhang</a></p>
+  </li>
+  <li>
+    <p><a href="https://arxiv.org/abs/2002.09463">Privately Learning Markov Random Fields</a> (<a href="https://icml.cc/virtual/2020/poster/5776">page</a>)<br />
+<a href="https://huanyuzhang.github.io/">Huanyu Zhang</a>, <a href="http://www.gautamkamath.com/">Gautam Kamath</a>, <a href="https://www.microsoft.com/en-us/research/people/jakul/">Janardhan Kulkarni</a>, <a href="https://zstevenwu.com/">Zhiwei Steven Wu</a></p>
+  </li>
+  <li>
+    <p><a href="https://arxiv.org/abs/1903.09822">Scalable Differential Privacy with Certified Robustness in Adversarial Learning</a> (<a href="https://icml.cc/virtual/2020/poster/6401">page</a>)<br />
+<a href="https://sites.google.com/site/ihaiphan/">NhatHai Phan</a>, <a href="https://www.cise.ufl.edu/~mythai/">My T. Thai</a>, <a href="https://scholar.google.com/citations?user=OgXtPDIAAAAJ">Han Hu</a>, <a href="http://www.cs.kent.edu/~jin/">Ruoming Jin</a>, <a href="https://research.adobe.com/person/tong-sun/">Tong Sun</a>, <a href="https://ix.cs.uoregon.edu/~dou/">Dejing Dou</a></p>
+  </li>
+  <li>
+    <p><a href="https://arxiv.org/abs/2003.04493">Sharp Composition Bounds for Gaussian Differential Privacy via Edgeworth Expansion</a> (<a href="https://icml.cc/virtual/2020/poster/6734">page</a>)<br />
+<a href="https://enosair.github.io/">Qinqing Zheng</a>, <a href="https://www.math.upenn.edu/~jinshuo/">Jinshuo Dong</a>, <a href="https://www.med.upenn.edu/apps/faculty/index.php/g275/p8939931">Qi Long</a>, <a href="http://www-stat.wharton.upenn.edu/~suw/">Weijie J. Su</a></p>
+  </li>
+</ul>
+:ET

@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Differential Privacy - ALT Highlights - An Equivalence between Private Learning and Online Learning (ALT '21 Tutorial)</title>
+
+        <meta charset="utf-8" />
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@DiffPriv" />
+    <meta name="twitter:image" content="https://differentialprivacy.org/images/logodp-transparent.png" />
+    <meta name="twitter:image:alt" content="DP.org logo" />
+
+    
+    <meta name="description" content="Welcome to ALT Highlights, a series of blog posts spotlighting various happenings at the recent conference ALT 2021, including plenary talks, tutorials, trends in learning theory, and more! 
+To reach a broad audience, the series will be disseminated as guest posts on different blogs in machine learning and theoretical computer science. 
+Given the topic of this post, we felt DifferentialPrivacy.org was a great fit.
+This initiative is organized by the Learning Theory Alliance, and overseen by Gautam Kamath. 
+All posts in ALT Highlights are indexed on the official Learning Theory Alliance blog.
+" />
+    <meta property="og:description" content="Welcome to ALT Highlights, a series of blog posts spotlighting various happenings at the recent conference ALT 2021, including plenary talks, tutorials, trends in learning theory, and more! 
+To reach a broad audience, the series will be disseminated as guest posts on different blogs in machine learning and theoretical computer science. 
+Given the topic of this post, we felt DifferentialPrivacy.org was a great fit.
+This initiative is organized by the Learning Theory Alliance, and overseen by Gautam Kamath. 
+All posts in ALT Highlights are indexed on the official Learning Theory Alliance blog.
+" />
+    <meta name="twitter:description" content="Welcome to ALT Highlights, a series of blog posts spotlighting various happenings at the recent conference ALT 2021, including plenary talks, tutorials, trends in learning theory, and more! 
+To reach a broad audience, the series will be disseminated as guest posts on different blogs in machine learning and theoretical computer science. 
+Given the topic of this post, we felt DifferentialPrivacy.org was a great fit.
+This initiative is organized by the Learning Theory Alliance, and overseen by Gautam Kamath. 
+All posts in ALT Highlights are indexed on the official Learning Theory Alliance blog.
+"/>
+    
+    <meta name="author" content="Differential Privacy" />
+
+    
+    <meta property="og:title" content="ALT Highlights - An Equivalence between Private Learning and Online Learning (ALT '21 Tutorial)" />
+    <meta property="twitter:title" content="ALT Highlights - An Equivalence between Private Learning and Online Learning (ALT '21 Tutorial)" />
+    
+
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+    <link rel="alternate" type="application/rss+xml" title="Differential Privacy - Website for the differential privacy research community" href="/feed.xml" />
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  </head>
+
+  <body>
+    <div class="wrapper-masthead">
+      <div class="container">
+        <header class="masthead clearfix">
+          <!-- no image for now <a href="/" class="site-avatar"><img src="favicon-96x96.png" /></a> -->
+
+          <div class="site-info">
+            <h1 class="site-name"><a href="/"><b><font color="#3d85c6">Differential</font><font color="#b45f06">Privacy</font><font color="#cccccc">.org</font></b></a></h1>
+            <!-- <p class="site-description">Website for the differential privacy research community</p> -->
+          </div>
+
+          <nav>
+            <a href="/">Home</a>
+            <a href="/about">About</a>
+			<a href="/categories">Posts</a>
+			<a href="/resources">Resources</a>
+          </nav>
+        </header>
+      </div>
+    </div>
+
+    <div id="main" role="main" class="container">
+      <article class="post">
+  <h1>ALT Highlights - An Equivalence between Private Learning and Online Learning (ALT '21 Tutorial)</h1>
+
+  <div class="entry">
+    <p>Welcome to ALT Highlights, a series of blog posts spotlighting various happenings at the recent conference <a href="http://algorithmiclearningtheory.org/alt2021/">ALT 2021</a>, including plenary talks, tutorials, trends in learning theory, and more! 
+To reach a broad audience, the series will be disseminated as guest posts on different blogs in machine learning and theoretical computer science. 
+Given the topic of this post, we felt <a href="https://differentialprivacy.org/">DifferentialPrivacy.org</a> was a great fit.
+This initiative is organized by the <a href="https://www.let-all.com/">Learning Theory Alliance</a>, and overseen by <a href="http://www.gautamkamath.com/">Gautam Kamath</a>. 
+All posts in ALT Highlights are indexed on the official <a href="https://www.let-all.com/blog/2021/04/20/alt-highlights-2021/">Learning Theory Alliance blog</a>.</p>
+
+<p>The second post is coverage of <a href="http://www.cs.technion.ac.il/~shaymrn">Shay Moran</a>’s <a href="https://www.youtube.com/watch?v=wk910Aj559A">tutorial</a>, by <a href="https://people.eecs.berkeley.edu/~kush/">Kush Bhatia</a> and <a href="https://web.stanford.edu/~mglasgow/">Margalit Glasgow</a>.</p>
+
+<hr />
+
+<p>The tutorial at ALT was given by <a href="http://www.cs.technion.ac.il/~shaymrn/">Shay Moran</a>, an assistant professor at the Technion in Haifa.
+His <a href="https://www.youtube.com/watch?v=wk910Aj559A">talk</a> focused on recent results showing a deep connection between two important areas in learning theory: online learning and differentially private learning. 
+While online learning is a well-established area that has been studied since the invention of the Perceptron algorithm in 1954, differential privacy (DP) - introduced in the seminal work of Dwork, McSherry, Nissim, and Smith in 2006 <a href="https://journalprivacyconfidentiality.org/index.php/jpc/article/view/405"><strong>[DMNS06]</strong></a> - has received increasing attention in recent years from both theoretical and applied research communities along with industry and the government. 
+This recent interest in differential privacy comes from a need to protect the privacy rights of the individuals, while still allowing one to derive useful conclusions from the dataset.
+Shay, in a sequence of papers with co-authors Noga Alon, Mark Bun, Roi Livni, and Maryanthe Malliaris, revealed a surprising qualitative connection between these two models of learning: a concept class can be learned in an online fashion if and only if this concept class can be learned in an offline fashion by a differentially private algorithm.</p>
+
+<p>The main objectives of this tutorial were to give an in-depth foray into this recent work, and present an opportunity to young researchers to identify interesting research problems at the intersection of these two fields. This line of work (<a href="https://arxiv.org/abs/1806.00949"><strong>[ALMM19]</strong></a>, <a href="https://arxiv.org/abs/2003.00563"><strong>[BLM20]</strong></a>) - which has been primarily featured in general CS Theory conferences, including recently winning a best paper award at FOCS -  introduced several new techniques which could be of use to the machine learning theory community. The first part of this article focuses on the technical challenges of characterizing DP learnability and the solutions used in Shay’s work, which originate from combinatorics and model theory. In the rest of this article, we highlight some of the exciting open directions Shay sees more broadly in learning theory.</p>
+
+<h2 id="background-pac-learning-online-learning-and-dp-pac-learning">Background: PAC Learning, Online Learning, and DP PAC Learning</h2>
+
+<p>We begin by reviewing the classical setting of PAC learning. 
+The goal of PAC learning is to learn some function from a <em>concept class</em> \(\mathcal{H} \), a set of functions from some domain \( \mathcal{X} \) to \( \{0, 1\} \). 
+<img align="right" src="/images/PACLearning.png" style="width:300px;height:300px;" /> 
+In the realizable setting of PAC learning, which we will focus on here, the learner is presented with \( n \) labeled training samples \( \{(x_i, y_i)\}_{i=1}^{n} \) where \( x_i \in \mathcal{X} \) and \( y_i = h(x_i) \) for some function \( h \in \mathcal{H} \). While the learner knows the concept class \( \mathcal{H} \), the function \( h \) is unknown, and after seeing the \( n \) samples, the learner algorithm \( A \) must output some function \( \hat{h}: \mathcal{X} \rightarrow \{0, 1\} \). A concept class is <em>PAC-learnable</em> if there exists an algorithm \( A \) such that for any distribution over samples, as the number of labeled training samples goes to infinity, the probability that \( \hat{h} \) incorrectly labels a new random sample goes to 0. We will say that \( A \) is a <em>proper</em> learner if \( A \) outputs a function in \(\mathcal{H}\), while \( A \) is <em>improper</em> if it may output a function outside of \( \mathcal{H} \). More quantitative measures of learnability concern the exact number of samples \( n \) needed for the learner to correctly predict future labels with nontrivial probability.</p>
+
+<p>DP PAC learning imposes an additional restriction on PAC learning: the learner must output a function which does not reveal too much about any one sample in the input. Formally, we say an algorithm \( A \) is \( (\varepsilon, \delta) \)-DP if for any two neighboring inputs \( X = (X_1, \cdots,  X_i, \cdots, X_n) \) and \( X’ = (X_1, \cdots, X_i’,\cdots, X_n) \) which differ at exactly one sample, for any set \( S \), \( \Pr[A(X) \in S] \leq e^\varepsilon Pr[A(X’) \in S] + \delta \) . A concept class is <em>DP PAC learnable</em> if it can be PAC-learned by a \( (0.1, o(1/n)) \)-DP algorithm \( A \). That is, changing any one training sample \( (x_i, y_i) \) should not affect the distribution over concepts output by \( A \) by too much.</p>
+
+<p>Online learning considers a setting where the samples arrive one-by-one, and the learner must make predictions as this process unfolds. <img align="right" src="/images/OnlineLearning.png" style="width:300px;height:300px;" />Formally, in realizable online learning, at each round \( i = 1,\dots,T \), the learner is presented with a sample \( x_i\). The learner must predict the label, and then the true label \( y_i \) is revealed to the learner. The sequence of examples \( x_i \) and the labels \( y_i \) may be chosen adversarially, but they must be consistent with some function \( h \in \mathcal{H} \). The goal of the learner is to minimize the total number of mistakes made by round \( T \), also called the <em>mistake bound</em>. If there is a learner such that at \( T \rightarrow \infty \), the number of mistakes is \( o(T) \), we say that the class of functions \( \mathcal{H} \) is <em>online learnable</em>. Because of the adversarial nature of the examples, online learning is well known to be much harder than PAC learning, and is possible precisely when the <em>Littlestone Dimension</em> of the concept class is finite. Figure 1 below illustrates the definition of the Littlestone Dimension. One important PAC-learnable concept class which is not online learnable is the infinite class of thresholds on \( \mathbb{R} \): The set of functions \(\{h_t\}_{t \in \mathbb{R}} \) where \( h_t(x) = \textbf{1}(x &gt; t) \).</p>
+
+<p><img src="/images/LD.png" alt="Figure 1: Littlestone Dimension" title="Figure 1: Littlestone Dimension" /></p>
+
+<p><strong>Figure 1</strong>: The Littlestone dimension is the maximum depth of a tree shattered by \( \mathcal{H} \), where each node may contain a unique element from \(\mathcal{X}\). The tree is shattered if each leaf can be labeled by a function in \(\mathcal{H} \) that labels each element on the path to the root according to the value of the edge entering it. In this figure, we show how the set of thresholds on \( [0, 1] \) shatters this tree of depth 3.</p>
+
+<p>It’s worth taking a moment to understand intuitively why learning thresholds might be hard for both an online learner and a DP learner. In an online setting, suppose the adversary chooses the next example to be any value of \( x \) in between all previously 0-labeled examples and all 1-labeled examples. Then no matter what label \( A \) chooses, the adversary can say \( A \) was incorrect. In a DP setting, a simple proper learner that outputs a threshold that makes no errors on the training data will reveal too much information about the samples at the boundary of 0-labeled samples and 1-labeled samples.</p>
+
+<h2 id="a-challenging-question">A Challenging Question</h2>
+
+<p>The journey to characterizing DP PAC learnability started soon after the introduction of DP, in <a href="https://arxiv.org/abs/0803.0924"><strong>[KLNRS08]</strong></a>, where the concept of DP PAC learning was introduced. This work primarily considered the more stringent <em>pure</em> DP-learning, where \( \delta = 0\). This work established that any finite concept class could be learned privately by applying the <em>exponential mechanism</em> (a standard technique in DP) to the empirical error of each candidate concept. Using the exponential mechanism, the learner could output each function \( h \in \mathcal{H}\) with probability proportional to \( \exp(- \varepsilon(\# \text{ of errors h on the training data})) \). This was sufficiently private because the empirical error is not too sensitive to a change of one training sample. Later works <a href="https://arxiv.org/abs/1402.2224"><strong>[BNS14]</strong></a> combinatorially characterized the complexity of pure DP PAC learning in terms of a measure called <em>representation dimension</em>, showing that in some cases where PAC learning was possible, pure DP PAC learning was not. <a href="https://arxiv.org/abs/1504.07553"><strong>[BNSV15]</strong></a> further yielded lower bounds on the limits of proper DP PAC learning.<sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup><br />
+Both pure and proper DP learning though are significantly more stringent than improper DP learning, and proving lower bounds against an improper DP learner posed a serious challenge. Even the following simple-sounding question was unsolved:</p>
+
+<blockquote>
+  <p>Can an improper DP algorithm learn the infinite class of thresholds over [0, 1]? (*)</p>
+</blockquote>
+
+<p>This question stands at the center of Shay’s work, which unfolded while Shay was residing at the Institute for Advanced Study (IAS) at Princeton from 2017 to 2019.<sup id="fnref:2" role="doc-noteref"><a href="#fn:2" class="footnote" rel="footnote">2</a></sup> At the time, Shay was working on understanding the expressivity of limited mutual-information algorithms, that is, algorithms which expose little information about the total input. “If we were to have directly worked on this problem, I believe we wouldn’t have solved it,” Shay says. Instead, they came from the angle of mutual-information, a concept qualitatively similar to DP, but armed with a rich toolkit from 70 years of information theory. One of Shay’s prior works with Raef Bassily, Ido Nachum, Jonathan Shafer, and Amir Yehudayof established lower bounds on the mutual information of any proper algorithm that learns thresholds <a href="https://arxiv.org/abs/1710.05233"><strong>[BMNSY18]</strong></a>, though this didn’t yet address the challenge presented by improper learners.</p>
+
+<p>Unlike most lower bounds in theoretical computer science, proving hardness of learning the infinite class of thresholds on the line against an improper DP algorithm would require coming up with algorithm-specific distributions over samples. That is, instead of showing that one distribution over samples would be impossible to learn for all algorithms — in the way the a uniform distribution over the set in \(\mathcal{X}\) shattered by the concept class is hard to PAC-learn for any algorithm — they would have to come up with a distribution on \(\mathcal{X}\) specific to each candidate learning algorithm. Indeed, if the distribution was known to the learner, it was possible to devise a DP algorithm using the exponential mechanism (again!) which could learn any PAC-learnable concept class. Similar to the case of finite concept classes, here we can apply the exponential mechanism to some finite set of representative functions forming a cover of the concept class.</p>
+
+<h2 id="uncovering-a-solution">Uncovering a Solution</h2>
+
+<p>At the IAS, Shay met his initial team to tackle this obstacle: Noga Alon, a combinatorialist, Roi Livni, a learning theorist, and Maryanthe Malliaris, a model theorist. Shay and Maryanthe would walk together from IAS to their combinatorics class at Princeton taught by Noga and discuss mathematics. While Marayathe studied the abstract mathematical field of model theory, Shay and Maryanthe soon noticed a connection between model theory and machine learning: the Littlestone dimension. “There is applied math, then pure math, and then model theory is way over there,” Shay elaborates. “If theoretical machine learning is between applied math and pure math, model theory is on the other extreme.” This surprising interdisciplinary connection led them to use a result from model theory: a concept class had finite Littlestone Dimension precisely when the concept class had finite threshold dimension (formally, the maximum number of threshold functions that could be embedded in the class). This meant that answering (*) negatively was enough to show that DP PAC learning was as hard as online learning.</p>
+
+<p>The idea for showing a lower bound for improper DP learning of thresholds came from Ramsey Theory, a famous area in combinatorics. Ramsey theory guarantees the existence of structured subsets among large, but arbitrary, combinatorial objects. A toy example of Ramsey Theory is that in any graph on 6 or more nodes, there must be a group of 3 nodes which form either a clique or an independent set. In the case of DP learning thresholds, the learning algorithm \( A \) is the arbitrary (and unstructured) combinatorial object. Ramsey Theory guarantees that for any PAC learner \( A \), there exists some large subset \( \mathcal{X}’ \) of the domain \(\mathcal{X}=[0, 1]\) on which \( A \) is close to behaving “normally”. The next step is to show that behaving normally contradicts differentially privacy. We’ll dig more technically into this argument in the next couple paragraphs. Note that we invent a couple definitions for the sake of exposition (“proper-normal” and “improper-normal”) that don’t appear in <a href="https://arxiv.org/abs/1504.07553"><strong>[BNSV15]</strong></a> or <a href="https://arxiv.org/abs/1806.00949"><strong>[ALMM19]</strong></a>.</p>
+
+<p>Let’s start by seeing how a simpler version of this argument from <a href="https://arxiv.org/abs/1504.07553"><strong>[BNSV15]</strong></a> works to show that proper DP algorithms cannot learn thresholds. Recall that in a proper algorithm, after seeing \( n \) labeled samples, \( A \) must output a threshold. To be a PAC learner, if exactly half of the \( n \) samples are labeled \( 1 \) (which we will call a <em>balanced</em> sample), \( A \) must output a threshold between the smallest and largest sample with constant probability. Indeed, otherwise the empirical error of \( A \) will be too large to even hope to generalize. This implies that for a balanced list of samples \( S = [(x_1, 0), \ldots ,(x_{n/2}, 0), (x_{n/2+1}, 1), \ldots ,(x_n, 1)] \) (ordered by \(x\)-value), there must exist an integer \( k \in [n] \) for which with probability \( \Omega(1/n) \), \(A \) outputs a threshold in between 
+\( x_k \) and \( x_{k+1} \). We’ll say that \( A \) is <em>\(k\)-proper-normal</em> on a set \( \mathcal{X}’ \) if for any balanced sample \( S \) of \( n \) points in \( \mathcal{X}’ \), \( A \) outputs a threshold in between the \(k\)th and \(k+1\)th ordered samples with probability \( \Omega(1/n) \). For example, the naive algorithm that always outputs a threshold between the 0-labeled samples and 1-labeled samples is \(n/2\)-normal on the entire domain \([0, 1]\). Ramsey theory guarantees that there is an arbitrary large subset of the domain \([0, 1]\) on which \(A \) is \(k\)-proper-normal for some \(k\). (See Figure 2).</p>
+
+<p><img src="/images/RamseyTheorem.png" alt="Figure 2: Ramsey's Theorem" title="Figure 2: Ramsey's Theorem" />
+<strong>Figure 2</strong>: Ramsey’s Theorem guarantees a large subset \( \mathcal{X}’ \) on which \( A \) is \( k \)-proper-normal for some \( k \).</p>
+
+<p>The second part of the argument shows that being \( k \)-proper-normal on a large set is in direct conflict with differential privacy. We show this argument in Figure 3 by constructing a set of \( n \) samples \( S^* \) on which \( A \) must output a threshold in many distinct regions with substantial probability.</p>
+
+<p><img src="/images/DP_Construction.png" alt="Figure 3: A Hard Distribution" title="Figure 2: Ramsey's Theorem" /></p>
+
+<p><strong>Figure 3:</strong> A distribution showing the conflict between \(A \) being DP and \(k\)-proper normal. By DP, the behaviour of \(A\) on \(S^* \) must be similar to its behaviour on \(S_i\) for \(i = 1 \ldots \Omega(n).\) Namely, since \(S^* \) and \( S_i \) differ by at most two points, \( A(S^*) \) must output a threshold in \( I_i \) with probability \( p \geq (q - 2\delta)e^{-(2\varepsilon)} \) for each \( i \), where \( q \) is a lower bound on the probability that \( A(S_i) \) outputs a threshold in \( I_i \). Because \( A \) is \(k\)-proper-normal, \( q &gt; c/n \), so \( p = \Omega(1/n) \). This yields a contradiction for \( m &gt;1/p \) because \( A \) cannot simultaneously output a threshold in two of the intervals \( I_i \).</p>
+
+<p>For the case of improper algorithms, Shay and his coauthors considered an alternative notion of normality, which we will term <em>improper-normal</em>. Recall that in this case the output \( A(S) \) of the learner on a sample \( S \) is <em>any function</em> from \( [0, 1] \) to \( \{0, 1\} \) and not necessarly a threshold. We’ll say that \( A \) is \(k\)-improper-normal on a set \( \mathcal{X}’ \) if for any balanced sample \( S = [(x_1, 0), \ldots, (x_{n/2}, 0), (x_{n/2 +1}, 1), \ldots,  (x_n, 1)] \) of \( n \) points in \( \mathcal{X}’, \Pr[A(S)(w) = 1] - \Pr[A(S)(v) = 1] &gt; \Omega(1/n) \) for any \( w \in (x_{k - 1}, x_k) \) and \( v \in  (x_k, x_{k + 1}) \) in \( \mathcal{X}’ \setminus \{x_1, … x_n\} \). To PAC learn, A must be \(k\)-improper-normal for some \(k\) on any set of \(n + 1\) points. Applying the same Ramsey Theorem to a graph with colored hyperedges of size \(n + 1\) shows that there must exist an arbitrarily large set \( \mathcal{X}’ \) on which \( A \) is \(k\)-improper normal for some \( k \). A similar (but more nuanced) argument as before shows that a learner cannot be simultaneously private and \(k\)-improper-normal on some distribution over \( \mathcal{X}’ \).</p>
+
+<p>For the last piece of the puzzle, showing the upper bound converse, Mark Bun, an expert in differential privacy at Princeton at the time, joined in. Beginning in the fall of 2019, Mark, Shay, and Roi worked out an upper bound that showed that any class with finite Littlestone dimension could be learned privately. Their technique introduced a new notion of stability, called <em>global stability</em>, which is a property of algorithms that frequently output the same hypothesis. Given a globally stable PAC learner \( A \), to obtain a DP PAC learner, one can run \( A \) many times and produce a histogram of the output hypotheses, add noise to this histogram for the sake of privacy, and then select the most frequent output hypothesis. The construction for the globally stable learner uses the Standard Optimal Algorithm for online learning as a black box - though the reduction is very computationally intensive and results in a sample complexity depending exponentially on the Littlestone Dimension. This reduction was improved in <a href="https://arxiv.org/abs/2012.03893"><strong>[GGKM20]</strong></a>, where the authors gave a reduction requiring only polynomially many samples in the Littlestone dimension.</p>
+
+<h2 id="outlook">Outlook</h2>
+
+<p>Shay mentions that these results are only a first step towards understanding differentially private PAC learning. This work establishes a deep connection between online learning and DP learning, qualitatively showing that these two problems have similar underlying complexity. Recent works <a href="https://arxiv.org/abs/1905.11311"><strong>[GHM19]</strong></a> have gone a step further and established polynomial time reductions from DP learning to online learning under certain conditions. At the same time, Bun <a href="https://arxiv.org/abs/2007.05665"><strong>[B20]</strong></a> demonstrates a computational gap between the two problems: they exhibit a concept class which is DP PAC learnable in polynomial time, but no algorithm can learn it online in polynomial time and sample complexity.</p>
+
+<p>An interesting question here is whether a polynomial time online learning algorithm implies a polynomial time DP learning algorithm? With regards to sample complexity, tighter quantitative bounds relating the sample complexity of DP learning to the Threshold dimension and the Littlestone Dimension, along with constructive reductions from DP learning to online learning are wide open. An interesting conjecture, also highlighted in the talk, is whether DP PAC learning and PAC learning are actually equivalent up to a \(log*\) factor of the Littlestone dimension? Solving this would mean that for most natural function classes, one need not pay a very high price for private learning as compared to PAC learning.</p>
+
+<p>From a more practical perspective, studying such qualitative equivalences can lay the groundwork allowing one to use the vast existing knowledge in the field of online learning to design better algorithms for DP learning, and vice versa. Despite its abstractness, Shay believes this result still has significance for engineers: “If they want to do something differentially privately, if they already have a good online learning algorithm for this, maybe they can modify it,” Shay says. “It gives some kind of inspiration.”</p>
+
+<p>From a broader perspective, Shay believes that discovering clean, beautiful mathematical models that are more realistic than the PAC learning model and understanding the price one pays for privacy in those models are important directions for future research. One model, highlighted in the tutorial by Shay is that of <em>Universal Learning</em>, introduced in a recent work <a href="https://arxiv.org/abs/2011.04483"><strong>[BHMVY21]</strong></a> with Olivier Bousquet, Steve Hanneke, Ramon van Handel and Amir Yehudayoff. This model considers a learning task with a fixed distribution of samples and studies the hardness of the problem as the number of samples \( n \to \infty \). This setup better captures the practical aspects of modern machine learning and overcomes the limitations of the PAC model, which studies worst-case distributions for each sample size.</p>
+
+<p>And how should one go about identifying such better mathematical models? “Pick the simplest problem that you don’t know how to solve and see where that leads you”, says Shay. One should begin by trying to understand the deficiencies of existing learning models, by identifying simple examples which go beyond these existing models. For example, Livni and Moran <a href="https://arxiv.org/abs/2006.13508"><strong>[LM20]</strong></a> exhibit the limitations of PAC-Bayes framework through a simple 1D linear classification problem. Fixing such limitations can often lead one to discover better learning models.</p>
+
+<hr />
+<p><em>Thanks to Gautam Kamath, Shay Moran, and Keziah Naggita for helpful conversations and comments.</em></p>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1" role="doc-endnote">
+      <p>For a more complete background on the progress in DP PAC learning, we refer the reader to the excellent survey blog post <a href="https://differentialprivacy.org/private-pac/">here</a>. <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:2" role="doc-endnote">
+      <p>At the time, Shay was additionally affiliated with Princeton University and Google Brain. <a href="#fnref:2" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+  </div>
+
+  <div class="date">
+      Posted by <a href="https://people.eecs.berkeley.edu/~kush/">Kush Bhatia</a> and <a href="https://web.stanford.edu/~mglasgow/">Margalit Glasgow</a> on April 26, 2021.
+  </div>
+  <div class="post-categories">
+    
+	Categories: 
+    
+    <a href="/categories/#Conference Digests">Conference Digests</a>
+    
+    
+  </div>
+  
+  <br/>
+
+  
+  <a href="/bibtex/#alt-highlights">[cite this]</a> &nbsp;
+  
+  <!-- 
+<div class="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+
+	    var disqus_shortname = 'differentialprivacy';
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+ -->
+  
+  <span class="disqus-comment-count" data-disqus-url="https://differentialprivacy.org/alt-highlights/"> <!-- Comment count will be inserted here --> </span>
+
+
+  <br/>&nbsp;<br/>
+ <div class="comments-block">
+     <center><button id="show-comments" onclick="disqus();return false;">SHOW COMMENTS</button></center>
+ </div>
+ <noscript>Comments cannot be shown due to javascript being disabled in your browser.</noscript>
+ 
+
+ <div id="disqus_thread"></div>
+ 
+ <script id="dsq-count-scr" src="//differentialprivacy.disqus.com/count.js" async></script>
+ 
+ <script>
+ var disqus_loaded = false;
+ var disqus_shortname = 'differentialprivacy'; //Add your shortname here
+
+ function disqus() {
+
+     if (!disqus_loaded)  {
+         disqus_loaded = true;
+
+         var e = document.createElement("script");
+         e.type = "text/javascript";
+         e.async = true;
+         e.src = "//" + disqus_shortname + ".disqus.com/embed.js";
+         (document.getElementsByTagName("head")[0] ||
+         document.getElementsByTagName("body")[0])
+         .appendChild(e);
+
+         //Hide the button after opening
+         document.getElementById("show-comments").style.display = "none";
+     }
+ }
+
+ //Opens comments when linked to directly
+ var hash = window.location.hash.substr(1);
+ if (hash.length > 8) {
+     if (hash.substring(0, 8) == "comment-") {
+         disqus();
+     }
+ }
+
+ //Remove this if you don't want to load comments for search engines
+ if(/bot|google|baidu|bing|msn|duckduckgo|slurp|yandex/i.test(navigator.userAgent)) {
+    disqus();
+ }
+ </script>
+  
+  
+  <br/>&nbsp;<br/>
+
+  <div>Subscribe to updates from DifferentialPrivacy.org by <a href="https://feedburner.google.com/fb/a/mailverify?uri=DifferentialPrivacy">Email</a>, on <a href="https://twitter.com/DiffPriv">Twitter</a>, or via <a href="/feed.xml">RSS</a>.</div>
+  
+  <br/>&nbsp;<br/>
+</article>
+
+    </div>
+
+    <!--
+    <div class="wrapper-footer">
+      <div class="container">
+        <footer class="footer">
+          
+
+
+
+<a href="https://github.com/differentialprivacy/differentialprivacy"><i class="svg-icon github"></i></a>
+
+
+
+
+<a href="https://www.twitter.com/DiffPriv"><i class="svg-icon twitter"></i></a>
+
+
+
+        </footer>
+      </div>
+    </div>
+    -->
+
+    
+	<!-- Google Analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		ga('create', 'UA-11154678-4', 'auto');
+		ga('send', 'pageview', {
+		  'page': '/alt-highlights/',
+		  'title': 'ALT Highlights - An Equivalence between Private Learning and Online Learning (ALT \'21 Tutorial)'
+		});
+	</script>
+	<!-- End Google Analytics -->
+
+
+    
+    <!-- 
+    <script>
+     
+        var disqus_shortname = "differentialprivacy";
+        var disqus_config = function () {
+            this.page.url = '/alt-highlights/';
+            this.page.identifier = '/alt-highlights';
+        };
+        var is_disqus_loaded = false;
+        function loadDisqus() {
+          if (!is_disqus_loaded){
+            is_disqus_loaded = true;
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+          }
+            
+        };
+    </script>
+     -->
+  </body>
+</html>

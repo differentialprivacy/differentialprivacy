@@ -1,0 +1,7 @@
+I"—<p>Releasing large sets of statistical queries is a centerpiece of the theory of differential privacy.  Here, we are given a <em>dataset</em> \(x = (x_1,\dots,x_n) \in [T]^n\), and a set of <em>statistical queries</em> \(f_1,\dots,f_k\), where each query is defined by some bounded function \(f_j : [T] \to [-1,1]\), and (abusing notation) is defined as
+\[
+f_j(x) = \frac{1}{n} \sum_{i=1}^{n} f_j(x_i).
+\]
+We use \(f(x) = (f_1(x),\dots,f_k(x))\) to denote the vector consisting of the true answers to all these queries.
+Our goal is to design an \((\varepsilon, \delta)\)-differentially private algorithm \(M\) that takes a dataset \(x\in [T]^n\) and outputs a random vector \(M(x)\in \mathbb{R}^k\) such that \(\| M(x) - f(x) \|\) is small in expectation for some norm \(\|\cdot\|\). Usually algorithms for this problem also give high probability bounds on the error, but we focus on expected error for simplicity.</p>
+:ET

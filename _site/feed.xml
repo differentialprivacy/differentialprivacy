@@ -1,0 +1,1377 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Differential Privacy</title>
+    <description>Website for the differential privacy research community</description>
+    <link>https://differentialprivacy.org</link>
+    <atom:link href="https://differentialprivacy.org/feed.xml" rel="self" type="application/rss+xml" />
+    
+      <item>
+        <title>Open Problem - Optimal Query Release for Pure Differential Privacy</title>
+        <description>&lt;p&gt;Releasing large sets of statistical queries is a centerpiece of the theory of differential privacy.  Here, we are given a &lt;em&gt;dataset&lt;/em&gt; \(x = (x_1,\dots,x_n) \in [T]^n\), and a set of &lt;em&gt;statistical queries&lt;/em&gt; \(f_1,\dots,f_k\), where each query is defined by some bounded function \(f_j : [T] \to [-1,1]\), and (abusing notation) is defined as
+\[
+f_j(x) = \frac{1}{n} \sum_{i=1}^{n} f_j(x_i).
+\]
+We use \(f(x) = (f_1(x),\dots,f_k(x))\) to denote the vector consisting of the true answers to all these queries.
+Our goal is to design an \((\varepsilon, \delta)\)-differentially private algorithm \(M\) that takes a dataset \(x\in [T]^n\) and outputs a random vector \(M(x)\in \mathbb{R}^k\) such that \(\| M(x) - f(x) \|\) is small in expectation for some norm \(\|\cdot\|\). Usually algorithms for this problem also give high probability bounds on the error, but we focus on expected error for simplicity.&lt;/p&gt;
+
+&lt;p&gt;This problem has been studied for both &lt;em&gt;pure differential privacy&lt;/em&gt; (\(\delta = 0\)) and &lt;em&gt;appproximate differential privacy&lt;/em&gt; (\(\delta &amp;gt; 0\)), and for both \(\ell_\infty\)-error
+\[
+\mathbb{E}( \| M(x) - f(x)\|_{\infty} ) \leq \alpha,
+\]
+and \(\ell_2\)-error
+\[
+\mathbb{E}( \| M(x) - f(x)\|_{2} ) \leq \alpha k^{1/2},
+\]
+giving four variants of the problem.  By now we know tight worst-case upper and lower bounds for two of these variants, and nearly tight bounds (up to logarithmic factors) for a third. The tightest known upper bounds are given in the following table.&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt;Pure DP&lt;/td&gt;
+      &lt;td&gt;Approx DP&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;\( \ell_2 \)&lt;br /&gt;error&lt;/td&gt;
+      &lt;td&gt;\( \alpha \lesssim \left(\frac{\log^2 k ~\cdot~ \log^{3/2}T}{\varepsilon n} \right)^{1/2} \) &lt;br /&gt; [&lt;a href=&quot;https://arxiv.org/abs/1212.0297&quot;&gt;NTZ13&lt;/a&gt;]&lt;/td&gt;
+      &lt;td&gt;\( \alpha \lesssim \left(\frac{\log^{1/2} T}{\varepsilon n} \right)^{1/2} \) &lt;br /&gt; [&lt;a href=&quot;https://guyrothblum.files.wordpress.com/2014/11/drv10.pdf&quot;&gt;DRV10&lt;/a&gt;]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;\( \ell_\infty \)&lt;br /&gt;error&lt;/td&gt;
+      &lt;td&gt;\( \alpha \lesssim \left(\frac{\log k ~\cdot~ \log T}{\varepsilon n} \right)^{1/3} \)  &lt;br /&gt; [&lt;a href=&quot;https://arxiv.org/abs/1109.2229&quot;&gt;BLR13&lt;/a&gt;]&lt;/td&gt;
+      &lt;td&gt;\( \alpha \lesssim \left(\frac{\log k ~\cdot~ \log^{1/2} T}{\varepsilon n} \right)^{1/2} \) &lt;br /&gt; [&lt;a href=&quot;https://guyrothblum.files.wordpress.com/2014/11/hr10.pdf&quot;&gt;HR10&lt;/a&gt;, &lt;a href=&quot;https://arxiv.org/abs/1107.3731&quot;&gt;GRU12&lt;/a&gt;]&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;The bounds for approximate DP are known to be tight [&lt;a href=&quot;https://arxiv.org/abs/1311.3158&quot;&gt;BUV14&lt;/a&gt;].  Our two open problems both involve improving the best known upper bounds for pure differential privacy.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;b&gt;Open Problem 1:&lt;/b&gt; What is the best possible \(\ell_\infty\)-error for answering a worst-case set of \(k\) statistical queries over a domain of size \(T\) subject to \((\varepsilon,0)\)-differential privacy?&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;We conjecture that the known upper bound in the table can be improved to
+\[
+\alpha = \left(\frac{\log k \cdot \log T}{\varepsilon n} \right)^{1/2},
+\]
+which is known to be the best possible [&lt;a href=&quot;https://dataspace.princeton.edu/handle/88435/dsp01vq27zn422&quot;&gt;Har11&lt;/a&gt;, Theorem 4.5.1].&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;b&gt;Open Problem 2:&lt;/b&gt; What is the best possible \(\ell_2\)-error for answering a worst-case set of \(k\) statistical queries over a domain of size \(T\) subject to \((\varepsilon,0)\)-differential privacy?&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;We conjecture that the upper bound can be improved to
+\[
+\alpha = \left(\frac{\log T}{\varepsilon n} \right)^{1/2}.
+\]
+The construction used in [&lt;a href=&quot;https://dataspace.princeton.edu/handle/88435/dsp01vq27zn422&quot;&gt;Har11&lt;/a&gt;, Theorem 4.5.1] can be analyzed to show this bound would be tight. Note, in particular, that this conjecture implies that the tight upper bound has no dependence on the number of queries, similarly to the case of \(\ell_2\) error and approximate DP.&lt;/p&gt;
+</description>
+        <author>
+        
+            <name>Sasho Nikolov</name>
+        
+            <name>Jonathan Ullman</name>
+        
+        </author>
+        <pubDate>Wed, 30 Jun 2021 19:00:00 -0400</pubDate>
+        <link>https://differentialprivacy.org/open-problem-optimal-query-release/</link>
+        <guid isPermaLink="true">https://differentialprivacy.org/open-problem-optimal-query-release/</guid>
+      </item>
+    
+      <item>
+        <title>Conference Digest - ICML 2021</title>
+        <description>&lt;p&gt;&lt;a href=&quot;https://icml.cc/Conferences/2021&quot;&gt;ICML 2021&lt;/a&gt;, one of the biggest conferences in machine learning, naturally has a ton of interesting sounding papers on the topic of differential privacy.
+We went through this year’s &lt;a href=&quot;https://icml.cc/Conferences/2021/AcceptedPapersInitial&quot;&gt;accepted papers&lt;/a&gt; and aggregated all the relevant papers we could find.
+In addition, this year features three workshops on the topic of privacy, as well as a tutorial.
+As always, please inform us if we overlooked any papers on differential privacy.&lt;/p&gt;
+
+&lt;h2 id=&quot;workshops&quot;&gt;Workshops&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;http://federated-learning.org/fl-icml-2021/&quot;&gt;Federated Learning for User Privacy and Data Confidentiality&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://sites.google.com/view/ml4data&quot;&gt;Machine Learning for Data: Automated Creation, Privacy, Bias&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://tpdp.journalprivacyconfidentiality.org/2021/&quot;&gt;Theory and Practice of Differential Privacy&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;tutorial&quot;&gt;Tutorial&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://icml.cc/Conferences/2021/Schedule?showEvent=10839&quot;&gt;Privacy in Learning: Basics and the Interplay&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://www.microsoft.com/en-us/research/people/huzhang/&quot;&gt;Huishuai Zhang&lt;/a&gt;, &lt;a href=&quot;https://www.microsoft.com/en-us/research/people/weic/&quot;&gt;Wei Chen&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;papers&quot;&gt;Papers&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2009.02668&quot;&gt;A Framework for Private Matrix Analysis in Sliding Window Model&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://sites.google.com/view/jalajupadhyay/home&quot;&gt;Jalaj Upadhyay&lt;/a&gt;, &lt;a href=&quot;https://www.fujitsu.com/us/about/businesspolicy/tech/rd/research-staff/sarvagya.html&quot;&gt;Sarvagya Upadhyay&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Accuracy, Interpretability, and Differential Privacy via Explainable Boosting&lt;br /&gt;
+&lt;a href=&quot;https://scholar.google.com/citations?user=HmxjgMAAAAAJ&quot;&gt;Harsha Nori&lt;/a&gt;, &lt;a href=&quot;https://www.microsoft.com/en-us/research/people/rcaruana/&quot;&gt;Rich Caruana&lt;/a&gt;, &lt;a href=&quot;https://sites.google.com/view/zhiqi-bu&quot;&gt;Zhiqi Bu&lt;/a&gt;, &lt;a href=&quot;https://heyyjudes.github.io/&quot;&gt;Judy Hanwen Shen&lt;/a&gt;, &lt;a href=&quot;https://www.microsoft.com/en-us/research/people/jakul/&quot;&gt;Janardhan Kulkarni&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Differentially Private Aggregation in the Shuffle Model: Almost Central Accuracy in Almost a Single Message&lt;br /&gt;
+&lt;a href=&quot;https://sites.google.com/view/badihghazi/home&quot;&gt;Badih Ghazi&lt;/a&gt;, &lt;a href=&quot;https://sites.google.com/site/ravik53/&quot;&gt;Ravi Kumar&lt;/a&gt;, &lt;a href=&quot;https://pasin30055.github.io/&quot;&gt;Pasin Manurangsi&lt;/a&gt;, &lt;a href=&quot;https://rasmuspagh.net/&quot;&gt;Rasmus Pagh&lt;/a&gt;, &lt;a href=&quot;https://www.linkedin.com/in/amersinha/&quot;&gt;Amer Sinha&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2011.00467&quot;&gt;Differentially Private Bayesian Inference for Generalized Linear Models&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://warwick.ac.uk/fac/sci/dcs/people/u1554597&quot;&gt;Tejas Kulkarni&lt;/a&gt;, &lt;a href=&quot;https://users.aalto.fi/~jalkoj1/&quot;&gt;Joonas Jälkö&lt;/a&gt;, &lt;a href=&quot;https://scholar.google.com/citations?user=Y_EvCPAAAAAJ&quot;&gt;Antti Koskela&lt;/a&gt;, &lt;a href=&quot;https://people.aalto.fi/samuel.kaski&quot;&gt;Samuel Kaski&lt;/a&gt;, &lt;a href=&quot;https://www.cs.helsinki.fi/u/ahonkela/&quot;&gt;Antti Honkela&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Differentially-Private Clustering of Easy Instances&lt;br /&gt;
+&lt;a href=&quot;http://www.cohenwang.com/edith/&quot;&gt;Edith Cohen&lt;/a&gt;, &lt;a href=&quot;http://www.cs.tau.ac.il/~haimk/&quot;&gt;Haim Kaplan&lt;/a&gt;, &lt;a href=&quot;https://www.tau.ac.il/~mansour/&quot;&gt;Yishay Mansour&lt;/a&gt;, &lt;a href=&quot;https://www.uri.co.il/&quot;&gt;Uri Stemmer&lt;/a&gt;, &lt;a href=&quot;https://www.linkedin.com/in/eliad-tsfadia-21482b96/&quot;&gt;Eliad Tsfadia&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2102.08885&quot;&gt;Differentially Private Correlation Clustering&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://cs-people.bu.edu/mbun/&quot;&gt;Mark Bun&lt;/a&gt;, &lt;a href=&quot;https://elias.ba30.eu/&quot;&gt;Marek Elias&lt;/a&gt;, &lt;a href=&quot;https://www.microsoft.com/en-us/research/people/jakul/&quot;&gt;Janardhan Kulkarni&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2105.13287&quot;&gt;Differentially Private Densest Subgraph Detection&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://biocomplexity.virginia.edu/person/dung-nguyen&quot;&gt;Dung Nguyen&lt;/a&gt;, &lt;a href=&quot;https://engineering.virginia.edu/faculty/anil-vullikanti&quot;&gt;Anil Vullikanti&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2102.08244&quot;&gt;Differentially Private Quantiles&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;http://jgillenw.com/&quot;&gt;Jennifer Gillenwater&lt;/a&gt;, &lt;a href=&quot;https://www.majos.net/&quot;&gt;Matthew Joseph&lt;/a&gt;, &lt;a href=&quot;https://www.alexkulesza.com/&quot;&gt;Alex Kulesza&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2103.06641&quot;&gt;Differentially Private Query Release Through Adaptive Projection&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://sergulaydore.github.io/&quot;&gt;Sergul Aydore&lt;/a&gt;, &lt;a href=&quot;https://wibrown.github.io/&quot;&gt;William Brown&lt;/a&gt;, &lt;a href=&quot;https://www.cis.upenn.edu/~mkearns/&quot;&gt;Michael Kearns&lt;/a&gt;, &lt;a href=&quot;http://www-cs-students.stanford.edu/~kngk/&quot;&gt;Krishnaram Kenthapadi&lt;/a&gt;, &lt;a href=&quot;https://www.lucamel.is/&quot;&gt;Luca Melis&lt;/a&gt;, &lt;a href=&quot;https://www.cis.upenn.edu/~aaroth/&quot;&gt;Aaron Roth&lt;/a&gt;, &lt;a href=&quot;https://ankitsiva.xyz/&quot;&gt;Ankit Siva&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Differentially Private Sliced Wasserstein Distance&lt;br /&gt;
+&lt;a href=&quot;http://asi.insa-rouen.fr/enseignants/~arakoto/&quot;&gt;Alain Rakotomamonjy&lt;/a&gt;, &lt;a href=&quot;https://pageperso.lif.univ-mrs.fr/~liva.ralaivola/doku.php&quot;&gt;Liva Ralaivola&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Large Scale Private Learning via Low-rank Reparametrization&lt;br /&gt;
+&lt;a href=&quot;https://scholar.google.com/citations?user=FcRGdiwAAAAJ&quot;&gt;Da Yu&lt;/a&gt;, &lt;a href=&quot;https://www.microsoft.com/en-us/research/people/huzhang/&quot;&gt;Huishuai Zhang&lt;/a&gt;, &lt;a href=&quot;https://www.microsoft.com/en-us/research/people/weic/&quot;&gt;Wei Chen&lt;/a&gt;, Jian Yin, &lt;a href=&quot;https://www.microsoft.com/en-us/research/people/tyliu/&quot;&gt;Tie-Yan Liu&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2102.08598&quot;&gt;Leveraging Public Data for Practical Private Query Release&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://www.linkedin.com/in/terrance-liu-26796974/&quot;&gt;Terrance Liu&lt;/a&gt;, &lt;a href=&quot;https://sites.google.com/umn.edu/giuseppe-vietri/home&quot;&gt;Giuseppe Vietri&lt;/a&gt;, &lt;a href=&quot;http://www.thomas-steinke.net/&quot;&gt;Thomas Steinke&lt;/a&gt;, &lt;a href=&quot;https://www.ccs.neu.edu/home/jullman/&quot;&gt;Jonathan Ullman&lt;/a&gt;, &lt;a href=&quot;https://zstevenwu.com/&quot;&gt;Steven Wu&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2104.09734&quot;&gt;Locally Private k-Means in One Round&lt;/a&gt;&lt;br /&gt;
+Alisa Chang, &lt;a href=&quot;https://sites.google.com/view/badihghazi/home&quot;&gt;Badih Ghazi&lt;/a&gt;, &lt;a href=&quot;https://sites.google.com/site/ravik53/&quot;&gt;Ravi Kumar&lt;/a&gt;, &lt;a href=&quot;https://pasin30055.github.io/&quot;&gt;Pasin Manurangsi&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2102.12099&quot;&gt;Lossless Compression of Efficient Private Local Randomizers&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;http://vtaly.net/&quot;&gt;Vitaly Feldman&lt;/a&gt;, &lt;a href=&quot;http://kunaltalwar.org/&quot;&gt;Kunal Talwar&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2105.08233&quot;&gt;Oneshot Differentially Private Top-k Selection&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://lsa.umich.edu/stats/people/phd-students/qiaogang.html&quot;&gt;Gang Qiao&lt;/a&gt;, &lt;a href=&quot;http://www-stat.wharton.upenn.edu/~suw/&quot;&gt;Weijie Su&lt;/a&gt;, &lt;a href=&quot;https://research.google/people/LiZhang/&quot;&gt;Li Zhang&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2002.12321&quot;&gt;PAPRIKA: Private Online False Discovery Rate Control&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://wanrongz.github.io/&quot;&gt;Wanrong Zhang&lt;/a&gt;, &lt;a href=&quot;http://www.gautamkamath.com/&quot;&gt;Gautam Kamath&lt;/a&gt;, &lt;a href=&quot;https://sites.gatech.edu/rachel-cummings/&quot;&gt;Rachel Cummings&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2103.00039&quot;&gt;Practical and Private (Deep) Learning without Sampling or Shuffling&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://kairouzp.github.io/&quot;&gt;Peter Kairouz&lt;/a&gt;, &lt;a href=&quot;https://research.google/people/author35837/&quot;&gt;Brendan McMahan&lt;/a&gt;, &lt;a href=&quot;https://shs037.github.io/&quot;&gt;Shuang Song&lt;/a&gt;, &lt;a href=&quot;http://www.omthakkar.com/&quot;&gt;Om Thakkar&lt;/a&gt;, &lt;a href=&quot;https://athakurta.squarespace.com/&quot;&gt;Abhradeep Thakurta&lt;/a&gt;, &lt;a href=&quot;https://research.google/people/106689/&quot;&gt;Zheng Xu&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Private Adaptive Gradient Methods for Convex Optimization&lt;br /&gt;
+&lt;a href=&quot;http://web.stanford.edu/~asi/&quot;&gt;Hilal Asi&lt;/a&gt;, &lt;a href=&quot;https://web.stanford.edu/~jduchi/&quot;&gt;John Duchi&lt;/a&gt;, &lt;a href=&quot;https://afallah.lids.mit.edu/&quot;&gt;Alireza Fallah&lt;/a&gt;, &lt;a href=&quot;https://scholar.google.com/citations?user=_JXjrEp9FhYC&quot;&gt;Omid Javidbakht&lt;/a&gt;, &lt;a href=&quot;http://kunaltalwar.org/&quot;&gt;Kunal Talwar&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Private Alternating Least Squares: (Nearly) Optimal Privacy/Utility Trade-off for Matrix Completion&lt;br /&gt;
+Steve Chien, &lt;a href=&quot;https://www.prateekjain.org/&quot;&gt;Prateek Jain&lt;/a&gt;, &lt;a href=&quot;http://walid.krichene.net/&quot;&gt;Walid Krichene&lt;/a&gt;, &lt;a href=&quot;https://scholar.google.com/citations?user=yR-ugIoAAAAJ&quot;&gt;Steffen Rendle&lt;/a&gt;, &lt;a href=&quot;https://shs037.github.io/&quot;&gt;Shuang Song&lt;/a&gt;, &lt;a href=&quot;https://athakurta.squarespace.com/&quot;&gt;Abhradeep Thakurta&lt;/a&gt;, &lt;a href=&quot;https://research.google/people/LiZhang/&quot;&gt;Li Zhang&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2103.01516&quot;&gt;Private Stochastic Convex Optimization: Optimal Rates in L1 Geometry&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;http://web.stanford.edu/~asi/&quot;&gt;Hilal Asi&lt;/a&gt;, &lt;a href=&quot;http://vtaly.net/&quot;&gt;Vitaly Feldman&lt;/a&gt;, &lt;a href=&quot;https://tomerkoren.github.io/&quot;&gt;Tomer Koren&lt;/a&gt;, &lt;a href=&quot;http://kunaltalwar.org/&quot;&gt;Kunal Talwar&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2102.06387&quot;&gt;The Distributed Discrete Gaussian Mechanism for Federated Learning with Secure Aggregation&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://kairouzp.github.io/&quot;&gt;Peter Kairouz&lt;/a&gt;, &lt;a href=&quot;https://kenziyuliu.github.io/&quot;&gt;Ziyu Liu&lt;/a&gt;, &lt;a href=&quot;http://www.thomas-steinke.net/&quot;&gt;Thomas Steinke&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <author>
+        
+            <name>Gautam Kamath</name>
+        
+        </author>
+        <pubDate>Mon, 07 Jun 2021 12:30:00 -0400</pubDate>
+        <link>https://differentialprivacy.org/icml2021/</link>
+        <guid isPermaLink="true">https://differentialprivacy.org/icml2021/</guid>
+      </item>
+    
+      <item>
+        <title>Statistical Inference is Not a Privacy Violation</title>
+        <description>&lt;p&gt;On April 28, 2021, the US Census Bureau &lt;a href=&quot;https://www.census.gov/programs-surveys/decennial-census/decade/2020/planning-management/process/disclosure-avoidance/2020-das-updates.html&quot;&gt;released&lt;/a&gt; a new demonstration of its differentially private Disclosure Avoidance System (DAS) for the 2020 US Census. The public were given a month to submit feedback before the system is finalized.
+This demonstration data and the feedback has generated a lot of discussion, including media coverage on &lt;a href=&quot;https://www.npr.org/2021/05/19/993247101/for-the-u-s-census-keeping-your-data-anonymous-and-useful-is-a-tricky-balance&quot;&gt;National Public Radio&lt;/a&gt;, in &lt;a href=&quot;https://www.washingtonpost.com/local/social-issues/2020-census-differential-privacy-ipums/2021/06/01/6c94b46e-c30d-11eb-93f5-ee9558eecf4b_story.html&quot;&gt;the Washington Post&lt;/a&gt;, and via &lt;a href=&quot;https://apnews.com/article/business-census-2020-technology-e701e313e841674be6396321343b7e49&quot;&gt;the Associated Press&lt;/a&gt;. The DAS is also the subject of an &lt;a href=&quot;https://www.courtlistener.com/docket/59728874/state-v-united-states-department-of-commerce/&quot;&gt;ongoing lawsuit&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;The following is a response from experts on differential privacy and cryptography to the &lt;a href=&quot;https://alarm-redist.github.io/posts/2021-05-28-census-das/Harvard-DAS-Evaluation.pdf&quot;&gt;working paper of Kenny et al.&lt;/a&gt; on the impact of the 2020 U.S. Census Disclosure Avoidance System (DAS) on redistricting.&lt;/p&gt;
+
+&lt;p&gt;This paper makes a &lt;a href=&quot;https://github.com/frankmcsherry/blog/blob/master/posts/2016-06-14.md&quot;&gt;common but serious mistake&lt;/a&gt;, from which the authors wrongfully conclude the Census Bureau should not modernize its privacy-protection technology.  Not only do the results not support this conclusion, but they instead show the power of the methodology, known as differential privacy, adopted by the Bureau, precisely the opposite of the authors’ erroneous conclusions.&lt;/p&gt;
+
+&lt;p&gt;Trust is essential; once destroyed it can be nearly impossible to rebuild, and getting privacy wrong in this Census will have an impact on all future government surveys.  The Census Bureau has shown that their &lt;a href=&quot;https://desfontain.es/privacy/index.html&quot;&gt;2010 (DAS) does not survive modern privacy threats&lt;/a&gt;, and in fact was roughly equivalent to publishing nearly three quarters of the responses.  The Census Bureau’s decision to modernize its Disclosure Avoidance System (DAS) for the 2020 Decennial Census to be differentially private is the correct response to decades of theoretical and empirical work on the privacy risks inherent in releasing large numbers of statistics derived from a dataset.&lt;/p&gt;
+
+&lt;p&gt;The importance of the Census, and the reality that no technology competing with differential privacy exists for meeting their confidentiality obligations, makes it very important that the public and policy makers have accurate information. We imagine you will be reporting on this topic in the future.  Others have &lt;a href=&quot;https://gerrymander.princeton.edu/DAS-evaluation-Kenny-response&quot;&gt;addressed flaws&lt;/a&gt; in the paper regarding implications for redistricting; we want to provide you with an understanding of the privacy mistake in the study.&lt;/p&gt;
+
+&lt;p&gt;To understand the flaw in the paper’s argument, consider the role of smoking in determining cancer risk.  Statistical study of medical data has taught us that smoking causes cancer.   Armed with this knowledge, if we are told that 40 year old Mr. S is a smoker, we can conclude that he has an elevated cancer risk.  The statistical inference of elevated cancer risk—made before Mr. S was born—did not violate Mr. S’s privacy. To conclude otherwise is to define science to be a privacy attack.  This is the mistake made in the paper.&lt;/p&gt;
+
+&lt;p&gt;This is basically what Kenny et al. found.&lt;/p&gt;
+
+&lt;p&gt;The authors looked at three different predictors: one built directly from (swapped) 2010 Census data and the other two built using differential privacy applied to (swapped) 2010 Census data, and evaluated all three “on approximately 5.8 million registered voters included in the North Carolina February 2021 voter file.”  What did they find?&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;“Our analysis shows that across three main racial and ethnic groups, the predictions based on the [differential privacy based] DAS data appear to be as accurate as those based on the 2010 Census data.”&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;This makes perfect sense. Bayesian Improved Surname Geocoding, or BISG, is a statistical method of building a predictor inferring ethnicity (or race) from name and geography.  Here, name and geography play the role of the information as to whether or not one smokes, and the prediction of ethnicity corresponds to the cancer risk prediction.  The predictor is constructed from census data on the ethnic makeup of individual census blocks and statistical information about the popularity of individual surnames within different ethnic groups.  With such a predictor, moving across the country can change the outcome, as can changing one’s name.  But a BISG prediction is not about the individual, it is about the statistical—population-level—relationship between name, geography, and ethnicity.&lt;/p&gt;
+
+&lt;p&gt;The differentially private DAS enabled learning to make statistical inferences about ethnicity from name and geography, without compromising the privacy of any Census respondent, exactly as it was intended to do.  In other words, the paper establishes fitness-for-use of the DAS data for the BISG statistical method!  Because differential privacy permits learning statistical patterns without compromising the privacy of individual members of the dataset, it should not interfere with learning the predictor, which is exactly what the authors found. Returning to our “smoking causes cancer” example, the researchers found that it was just as easy to detect this statistical pattern with a modern disclosure avoidance system in place as it was with the older, less protective system.&lt;/p&gt;
+
+&lt;p&gt;The authors’ conclusions –“ the DAS data may not provide universal privacy protection” – are simply not supported by their findings.&lt;/p&gt;
+
+&lt;p&gt;They have confused learning that smoking causes cancer—and applying this predictor to an individual smoker—with learning medical details of individual patients in the dataset. Change the input to the predictor—replace “smoker” with “non-smoker” or move across the country, for example—and the prediction changes.&lt;/p&gt;
+
+&lt;p&gt;The BISG prediction is not about the individual, it does not accompany her as she relocates from one neighborhood to another, it is a statistical relationship between name, geography, and ethnicity.  It is not a privacy compromise, it is science.&lt;/p&gt;
+
+&lt;p&gt;Signed:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Mark Bun, Assistant Professor of Computer Science, Boston University&lt;/li&gt;
+  &lt;li&gt;Damien Desfontaines, Privacy Engineer, Google&lt;/li&gt;
+  &lt;li&gt;Cynthia Dwork, Professor of Computer Science, Harvard University&lt;/li&gt;
+  &lt;li&gt;Moni Naor, Professor of Computer Science, The Weizmann Institute of Science&lt;/li&gt;
+  &lt;li&gt;Kobbi Nissim, Professor of Computer Science, Georgetown University&lt;/li&gt;
+  &lt;li&gt;Aaron Roth, Professor of Computer and Information Science, University of Pennsylvania&lt;/li&gt;
+  &lt;li&gt;Adam Smith, Professor of Computer Science, Boston University&lt;/li&gt;
+  &lt;li&gt;Thomas Steinke, Research Scientist, Google&lt;/li&gt;
+  &lt;li&gt;Jonathan Ullman, Assistant Professor of Computer Science, Northeastern University&lt;/li&gt;
+  &lt;li&gt;Salil Vadhan, Professor of Computer Science and Applied Mathematics, Harvard University&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Please contact Cynthia Dwork for contact information for authors happy to speak about this on the record.&lt;/p&gt;
+
+</description>
+        <author>
+        
+            <name>Jonathan Ullman</name>
+        
+        </author>
+        <pubDate>Thu, 03 Jun 2021 18:30:00 -0500</pubDate>
+        <link>https://differentialprivacy.org/inference-is-not-a-privacy-violation/</link>
+        <guid isPermaLink="true">https://differentialprivacy.org/inference-is-not-a-privacy-violation/</guid>
+      </item>
+    
+      <item>
+        <title>Call for Papers - Workshop on the Theory and Practice of Differential Privacy (TPDP 2021)</title>
+        <description>&lt;p&gt;Work on differential privacy spans a number of different research communities, including theoretical computer science, machine learning, statistics, security, law, databases, cryptography, programming languages, social sciences, and more.
+Each of these communities may choose to publish their work in their own community’s venues, which could result in small groups of differential privacy researchers becoming isolated.
+To alleviate these issues, we have the Workshop on the &lt;a href=&quot;https://tpdp.journalprivacyconfidentiality.org/&quot;&gt;Theory and Practice of Differential Privacy&lt;/a&gt; (TPDP), which is intended to bring these subcommunities together under one roof (well, a virtual one at least for 2020 and 2021).&lt;/p&gt;
+
+&lt;p&gt;We have just posted the &lt;a href=&quot;https://tpdp.journalprivacyconfidentiality.org/2021/TPDP2021CfP.pdf&quot;&gt;Call for Papers&lt;/a&gt; for &lt;a href=&quot;https://tpdp.journalprivacyconfidentiality.org/2021/&quot;&gt;TPDP 2021&lt;/a&gt;, which will be a workshop affiliated with &lt;a href=&quot;https://icml.cc/Conferences/2021/&quot;&gt;ICML 2021&lt;/a&gt;.
+The submission deadline is Friday, May 28, 2021, Anywhere on Earth (conveniently, two days after the deadline for NeurIPS 2021).
+Submissions are extended abstracts of up to four pages in length, and will undergo a lightweight review process, based mostly on relevance and interest to the differential privacy community.
+The workshop is non-archival, so feel free to submit recent work at any stage of publication.
+Submissions will be on &lt;a href=&quot;https://openreview.net/group?id=ICML.cc/2021/Workshop/TPDP&quot;&gt;OpenReview&lt;/a&gt;, but since submitted work may be preliminary, the process will be “closed” similar to traditional review processes.
+One goal of the workshop is to be inclusive and welcoming to newcomers to the differential privacy community, so please consider participating even if you are new to the field.&lt;/p&gt;
+
+&lt;p&gt;Most papers will be presented as posters at a (virtual) poster session, while a few papers will be selected for spotlight talks.
+There will also be plenary talks by &lt;a href=&quot;https://www.cs.huji.ac.il/~katrina/&quot;&gt;Katrina Ligett&lt;/a&gt; (Hebrew University of Jerusalem) and &lt;a href=&quot;https://www2.math.upenn.edu/~ryrogers/&quot;&gt;Ryan Rogers&lt;/a&gt; (LinkedIn).
+The program co-chairs are &lt;a href=&quot;https://sites.gatech.edu/rachel-cummings/&quot;&gt;Rachel Cummings&lt;/a&gt; and &lt;a href=&quot;http://www.gautamkamath.com/&quot;&gt;myself&lt;/a&gt;.
+Please submit your best work on differential privacy, and hope to see you there!&lt;/p&gt;
+&lt;p align=&quot;center&quot;&gt;
+  &lt;img src=&quot;/images/Ligett.png&quot; /&gt;
+  &lt;img src=&quot;/images/Rogers.png&quot; /&gt; &lt;br /&gt;
+    &lt;i&gt;Invited speakers Katrina Ligett and Ryan Rogers&lt;/i&gt;
+&lt;/p&gt;
+</description>
+        <author>
+        
+            <name>Gautam Kamath</name>
+        
+        </author>
+        <pubDate>Wed, 05 May 2021 10:00:00 -0400</pubDate>
+        <link>https://differentialprivacy.org/tpdp21-cfp/</link>
+        <guid isPermaLink="true">https://differentialprivacy.org/tpdp21-cfp/</guid>
+      </item>
+    
+      <item>
+        <title>ALT Highlights - An Equivalence between Private Learning and Online Learning (ALT &apos;21 Tutorial)</title>
+        <description>&lt;p&gt;Welcome to ALT Highlights, a series of blog posts spotlighting various happenings at the recent conference &lt;a href=&quot;http://algorithmiclearningtheory.org/alt2021/&quot;&gt;ALT 2021&lt;/a&gt;, including plenary talks, tutorials, trends in learning theory, and more! 
+To reach a broad audience, the series will be disseminated as guest posts on different blogs in machine learning and theoretical computer science. 
+Given the topic of this post, we felt &lt;a href=&quot;https://differentialprivacy.org/&quot;&gt;DifferentialPrivacy.org&lt;/a&gt; was a great fit.
+This initiative is organized by the &lt;a href=&quot;https://www.let-all.com/&quot;&gt;Learning Theory Alliance&lt;/a&gt;, and overseen by &lt;a href=&quot;http://www.gautamkamath.com/&quot;&gt;Gautam Kamath&lt;/a&gt;. 
+All posts in ALT Highlights are indexed on the official &lt;a href=&quot;https://www.let-all.com/blog/2021/04/20/alt-highlights-2021/&quot;&gt;Learning Theory Alliance blog&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;The second post is coverage of &lt;a href=&quot;http://www.cs.technion.ac.il/~shaymrn&quot;&gt;Shay Moran&lt;/a&gt;’s &lt;a href=&quot;https://www.youtube.com/watch?v=wk910Aj559A&quot;&gt;tutorial&lt;/a&gt;, by &lt;a href=&quot;https://people.eecs.berkeley.edu/~kush/&quot;&gt;Kush Bhatia&lt;/a&gt; and &lt;a href=&quot;https://web.stanford.edu/~mglasgow/&quot;&gt;Margalit Glasgow&lt;/a&gt;.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;The tutorial at ALT was given by &lt;a href=&quot;http://www.cs.technion.ac.il/~shaymrn/&quot;&gt;Shay Moran&lt;/a&gt;, an assistant professor at the Technion in Haifa.
+His &lt;a href=&quot;https://www.youtube.com/watch?v=wk910Aj559A&quot;&gt;talk&lt;/a&gt; focused on recent results showing a deep connection between two important areas in learning theory: online learning and differentially private learning. 
+While online learning is a well-established area that has been studied since the invention of the Perceptron algorithm in 1954, differential privacy (DP) - introduced in the seminal work of Dwork, McSherry, Nissim, and Smith in 2006 &lt;a href=&quot;https://journalprivacyconfidentiality.org/index.php/jpc/article/view/405&quot;&gt;&lt;strong&gt;[DMNS06]&lt;/strong&gt;&lt;/a&gt; - has received increasing attention in recent years from both theoretical and applied research communities along with industry and the government. 
+This recent interest in differential privacy comes from a need to protect the privacy rights of the individuals, while still allowing one to derive useful conclusions from the dataset.
+Shay, in a sequence of papers with co-authors Noga Alon, Mark Bun, Roi Livni, and Maryanthe Malliaris, revealed a surprising qualitative connection between these two models of learning: a concept class can be learned in an online fashion if and only if this concept class can be learned in an offline fashion by a differentially private algorithm.&lt;/p&gt;
+
+&lt;p&gt;The main objectives of this tutorial were to give an in-depth foray into this recent work, and present an opportunity to young researchers to identify interesting research problems at the intersection of these two fields. This line of work (&lt;a href=&quot;https://arxiv.org/abs/1806.00949&quot;&gt;&lt;strong&gt;[ALMM19]&lt;/strong&gt;&lt;/a&gt;, &lt;a href=&quot;https://arxiv.org/abs/2003.00563&quot;&gt;&lt;strong&gt;[BLM20]&lt;/strong&gt;&lt;/a&gt;) - which has been primarily featured in general CS Theory conferences, including recently winning a best paper award at FOCS -  introduced several new techniques which could be of use to the machine learning theory community. The first part of this article focuses on the technical challenges of characterizing DP learnability and the solutions used in Shay’s work, which originate from combinatorics and model theory. In the rest of this article, we highlight some of the exciting open directions Shay sees more broadly in learning theory.&lt;/p&gt;
+
+&lt;h2 id=&quot;background-pac-learning-online-learning-and-dp-pac-learning&quot;&gt;Background: PAC Learning, Online Learning, and DP PAC Learning&lt;/h2&gt;
+
+&lt;p&gt;We begin by reviewing the classical setting of PAC learning. 
+The goal of PAC learning is to learn some function from a &lt;em&gt;concept class&lt;/em&gt; \(\mathcal{H} \), a set of functions from some domain \( \mathcal{X} \) to \( \{0, 1\} \). 
+&lt;img align=&quot;right&quot; src=&quot;/images/PACLearning.png&quot; style=&quot;width:300px;height:300px;&quot; /&gt; 
+In the realizable setting of PAC learning, which we will focus on here, the learner is presented with \( n \) labeled training samples \( \{(x_i, y_i)\}_{i=1}^{n} \) where \( x_i \in \mathcal{X} \) and \( y_i = h(x_i) \) for some function \( h \in \mathcal{H} \). While the learner knows the concept class \( \mathcal{H} \), the function \( h \) is unknown, and after seeing the \( n \) samples, the learner algorithm \( A \) must output some function \( \hat{h}: \mathcal{X} \rightarrow \{0, 1\} \). A concept class is &lt;em&gt;PAC-learnable&lt;/em&gt; if there exists an algorithm \( A \) such that for any distribution over samples, as the number of labeled training samples goes to infinity, the probability that \( \hat{h} \) incorrectly labels a new random sample goes to 0. We will say that \( A \) is a &lt;em&gt;proper&lt;/em&gt; learner if \( A \) outputs a function in \(\mathcal{H}\), while \( A \) is &lt;em&gt;improper&lt;/em&gt; if it may output a function outside of \( \mathcal{H} \). More quantitative measures of learnability concern the exact number of samples \( n \) needed for the learner to correctly predict future labels with nontrivial probability.&lt;/p&gt;
+
+&lt;p&gt;DP PAC learning imposes an additional restriction on PAC learning: the learner must output a function which does not reveal too much about any one sample in the input. Formally, we say an algorithm \( A \) is \( (\varepsilon, \delta) \)-DP if for any two neighboring inputs \( X = (X_1, \cdots,  X_i, \cdots, X_n) \) and \( X’ = (X_1, \cdots, X_i’,\cdots, X_n) \) which differ at exactly one sample, for any set \( S \), \( \Pr[A(X) \in S] \leq e^\varepsilon Pr[A(X’) \in S] + \delta \) . A concept class is &lt;em&gt;DP PAC learnable&lt;/em&gt; if it can be PAC-learned by a \( (0.1, o(1/n)) \)-DP algorithm \( A \). That is, changing any one training sample \( (x_i, y_i) \) should not affect the distribution over concepts output by \( A \) by too much.&lt;/p&gt;
+
+&lt;p&gt;Online learning considers a setting where the samples arrive one-by-one, and the learner must make predictions as this process unfolds. &lt;img align=&quot;right&quot; src=&quot;/images/OnlineLearning.png&quot; style=&quot;width:300px;height:300px;&quot; /&gt;Formally, in realizable online learning, at each round \( i = 1,\dots,T \), the learner is presented with a sample \( x_i\). The learner must predict the label, and then the true label \( y_i \) is revealed to the learner. The sequence of examples \( x_i \) and the labels \( y_i \) may be chosen adversarially, but they must be consistent with some function \( h \in \mathcal{H} \). The goal of the learner is to minimize the total number of mistakes made by round \( T \), also called the &lt;em&gt;mistake bound&lt;/em&gt;. If there is a learner such that at \( T \rightarrow \infty \), the number of mistakes is \( o(T) \), we say that the class of functions \( \mathcal{H} \) is &lt;em&gt;online learnable&lt;/em&gt;. Because of the adversarial nature of the examples, online learning is well known to be much harder than PAC learning, and is possible precisely when the &lt;em&gt;Littlestone Dimension&lt;/em&gt; of the concept class is finite. Figure 1 below illustrates the definition of the Littlestone Dimension. One important PAC-learnable concept class which is not online learnable is the infinite class of thresholds on \( \mathbb{R} \): The set of functions \(\{h_t\}_{t \in \mathbb{R}} \) where \( h_t(x) = \textbf{1}(x &amp;gt; t) \).&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/LD.png&quot; alt=&quot;Figure 1: Littlestone Dimension&quot; title=&quot;Figure 1: Littlestone Dimension&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Figure 1&lt;/strong&gt;: The Littlestone dimension is the maximum depth of a tree shattered by \( \mathcal{H} \), where each node may contain a unique element from \(\mathcal{X}\). The tree is shattered if each leaf can be labeled by a function in \(\mathcal{H} \) that labels each element on the path to the root according to the value of the edge entering it. In this figure, we show how the set of thresholds on \( [0, 1] \) shatters this tree of depth 3.&lt;/p&gt;
+
+&lt;p&gt;It’s worth taking a moment to understand intuitively why learning thresholds might be hard for both an online learner and a DP learner. In an online setting, suppose the adversary chooses the next example to be any value of \( x \) in between all previously 0-labeled examples and all 1-labeled examples. Then no matter what label \( A \) chooses, the adversary can say \( A \) was incorrect. In a DP setting, a simple proper learner that outputs a threshold that makes no errors on the training data will reveal too much information about the samples at the boundary of 0-labeled samples and 1-labeled samples.&lt;/p&gt;
+
+&lt;h2 id=&quot;a-challenging-question&quot;&gt;A Challenging Question&lt;/h2&gt;
+
+&lt;p&gt;The journey to characterizing DP PAC learnability started soon after the introduction of DP, in &lt;a href=&quot;https://arxiv.org/abs/0803.0924&quot;&gt;&lt;strong&gt;[KLNRS08]&lt;/strong&gt;&lt;/a&gt;, where the concept of DP PAC learning was introduced. This work primarily considered the more stringent &lt;em&gt;pure&lt;/em&gt; DP-learning, where \( \delta = 0\). This work established that any finite concept class could be learned privately by applying the &lt;em&gt;exponential mechanism&lt;/em&gt; (a standard technique in DP) to the empirical error of each candidate concept. Using the exponential mechanism, the learner could output each function \( h \in \mathcal{H}\) with probability proportional to \( \exp(- \varepsilon(\# \text{ of errors h on the training data})) \). This was sufficiently private because the empirical error is not too sensitive to a change of one training sample. Later works &lt;a href=&quot;https://arxiv.org/abs/1402.2224&quot;&gt;&lt;strong&gt;[BNS14]&lt;/strong&gt;&lt;/a&gt; combinatorially characterized the complexity of pure DP PAC learning in terms of a measure called &lt;em&gt;representation dimension&lt;/em&gt;, showing that in some cases where PAC learning was possible, pure DP PAC learning was not. &lt;a href=&quot;https://arxiv.org/abs/1504.07553&quot;&gt;&lt;strong&gt;[BNSV15]&lt;/strong&gt;&lt;/a&gt; further yielded lower bounds on the limits of proper DP PAC learning.&lt;sup id=&quot;fnref:1&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;br /&gt;
+Both pure and proper DP learning though are significantly more stringent than improper DP learning, and proving lower bounds against an improper DP learner posed a serious challenge. Even the following simple-sounding question was unsolved:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Can an improper DP algorithm learn the infinite class of thresholds over [0, 1]? (*)&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;This question stands at the center of Shay’s work, which unfolded while Shay was residing at the Institute for Advanced Study (IAS) at Princeton from 2017 to 2019.&lt;sup id=&quot;fnref:2&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt; At the time, Shay was working on understanding the expressivity of limited mutual-information algorithms, that is, algorithms which expose little information about the total input. “If we were to have directly worked on this problem, I believe we wouldn’t have solved it,” Shay says. Instead, they came from the angle of mutual-information, a concept qualitatively similar to DP, but armed with a rich toolkit from 70 years of information theory. One of Shay’s prior works with Raef Bassily, Ido Nachum, Jonathan Shafer, and Amir Yehudayof established lower bounds on the mutual information of any proper algorithm that learns thresholds &lt;a href=&quot;https://arxiv.org/abs/1710.05233&quot;&gt;&lt;strong&gt;[BMNSY18]&lt;/strong&gt;&lt;/a&gt;, though this didn’t yet address the challenge presented by improper learners.&lt;/p&gt;
+
+&lt;p&gt;Unlike most lower bounds in theoretical computer science, proving hardness of learning the infinite class of thresholds on the line against an improper DP algorithm would require coming up with algorithm-specific distributions over samples. That is, instead of showing that one distribution over samples would be impossible to learn for all algorithms — in the way the a uniform distribution over the set in \(\mathcal{X}\) shattered by the concept class is hard to PAC-learn for any algorithm — they would have to come up with a distribution on \(\mathcal{X}\) specific to each candidate learning algorithm. Indeed, if the distribution was known to the learner, it was possible to devise a DP algorithm using the exponential mechanism (again!) which could learn any PAC-learnable concept class. Similar to the case of finite concept classes, here we can apply the exponential mechanism to some finite set of representative functions forming a cover of the concept class.&lt;/p&gt;
+
+&lt;h2 id=&quot;uncovering-a-solution&quot;&gt;Uncovering a Solution&lt;/h2&gt;
+
+&lt;p&gt;At the IAS, Shay met his initial team to tackle this obstacle: Noga Alon, a combinatorialist, Roi Livni, a learning theorist, and Maryanthe Malliaris, a model theorist. Shay and Maryanthe would walk together from IAS to their combinatorics class at Princeton taught by Noga and discuss mathematics. While Marayathe studied the abstract mathematical field of model theory, Shay and Maryanthe soon noticed a connection between model theory and machine learning: the Littlestone dimension. “There is applied math, then pure math, and then model theory is way over there,” Shay elaborates. “If theoretical machine learning is between applied math and pure math, model theory is on the other extreme.” This surprising interdisciplinary connection led them to use a result from model theory: a concept class had finite Littlestone Dimension precisely when the concept class had finite threshold dimension (formally, the maximum number of threshold functions that could be embedded in the class). This meant that answering (*) negatively was enough to show that DP PAC learning was as hard as online learning.&lt;/p&gt;
+
+&lt;p&gt;The idea for showing a lower bound for improper DP learning of thresholds came from Ramsey Theory, a famous area in combinatorics. Ramsey theory guarantees the existence of structured subsets among large, but arbitrary, combinatorial objects. A toy example of Ramsey Theory is that in any graph on 6 or more nodes, there must be a group of 3 nodes which form either a clique or an independent set. In the case of DP learning thresholds, the learning algorithm \( A \) is the arbitrary (and unstructured) combinatorial object. Ramsey Theory guarantees that for any PAC learner \( A \), there exists some large subset \( \mathcal{X}’ \) of the domain \(\mathcal{X}=[0, 1]\) on which \( A \) is close to behaving “normally”. The next step is to show that behaving normally contradicts differentially privacy. We’ll dig more technically into this argument in the next couple paragraphs. Note that we invent a couple definitions for the sake of exposition (“proper-normal” and “improper-normal”) that don’t appear in &lt;a href=&quot;https://arxiv.org/abs/1504.07553&quot;&gt;&lt;strong&gt;[BNSV15]&lt;/strong&gt;&lt;/a&gt; or &lt;a href=&quot;https://arxiv.org/abs/1806.00949&quot;&gt;&lt;strong&gt;[ALMM19]&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Let’s start by seeing how a simpler version of this argument from &lt;a href=&quot;https://arxiv.org/abs/1504.07553&quot;&gt;&lt;strong&gt;[BNSV15]&lt;/strong&gt;&lt;/a&gt; works to show that proper DP algorithms cannot learn thresholds. Recall that in a proper algorithm, after seeing \( n \) labeled samples, \( A \) must output a threshold. To be a PAC learner, if exactly half of the \( n \) samples are labeled \( 1 \) (which we will call a &lt;em&gt;balanced&lt;/em&gt; sample), \( A \) must output a threshold between the smallest and largest sample with constant probability. Indeed, otherwise the empirical error of \( A \) will be too large to even hope to generalize. This implies that for a balanced list of samples \( S = [(x_1, 0), \ldots ,(x_{n/2}, 0), (x_{n/2+1}, 1), \ldots ,(x_n, 1)] \) (ordered by \(x\)-value), there must exist an integer \( k \in [n] \) for which with probability \( \Omega(1/n) \), \(A \) outputs a threshold in between 
+\( x_k \) and \( x_{k+1} \). We’ll say that \( A \) is &lt;em&gt;\(k\)-proper-normal&lt;/em&gt; on a set \( \mathcal{X}’ \) if for any balanced sample \( S \) of \( n \) points in \( \mathcal{X}’ \), \( A \) outputs a threshold in between the \(k\)th and \(k+1\)th ordered samples with probability \( \Omega(1/n) \). For example, the naive algorithm that always outputs a threshold between the 0-labeled samples and 1-labeled samples is \(n/2\)-normal on the entire domain \([0, 1]\). Ramsey theory guarantees that there is an arbitrary large subset of the domain \([0, 1]\) on which \(A \) is \(k\)-proper-normal for some \(k\). (See Figure 2).&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/RamseyTheorem.png&quot; alt=&quot;Figure 2: Ramsey&apos;s Theorem&quot; title=&quot;Figure 2: Ramsey&apos;s Theorem&quot; /&gt;
+&lt;strong&gt;Figure 2&lt;/strong&gt;: Ramsey’s Theorem guarantees a large subset \( \mathcal{X}’ \) on which \( A \) is \( k \)-proper-normal for some \( k \).&lt;/p&gt;
+
+&lt;p&gt;The second part of the argument shows that being \( k \)-proper-normal on a large set is in direct conflict with differential privacy. We show this argument in Figure 3 by constructing a set of \( n \) samples \( S^* \) on which \( A \) must output a threshold in many distinct regions with substantial probability.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/DP_Construction.png&quot; alt=&quot;Figure 3: A Hard Distribution&quot; title=&quot;Figure 2: Ramsey&apos;s Theorem&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Figure 3:&lt;/strong&gt; A distribution showing the conflict between \(A \) being DP and \(k\)-proper normal. By DP, the behaviour of \(A\) on \(S^* \) must be similar to its behaviour on \(S_i\) for \(i = 1 \ldots \Omega(n).\) Namely, since \(S^* \) and \( S_i \) differ by at most two points, \( A(S^*) \) must output a threshold in \( I_i \) with probability \( p \geq (q - 2\delta)e^{-(2\varepsilon)} \) for each \( i \), where \( q \) is a lower bound on the probability that \( A(S_i) \) outputs a threshold in \( I_i \). Because \( A \) is \(k\)-proper-normal, \( q &amp;gt; c/n \), so \( p = \Omega(1/n) \). This yields a contradiction for \( m &amp;gt;1/p \) because \( A \) cannot simultaneously output a threshold in two of the intervals \( I_i \).&lt;/p&gt;
+
+&lt;p&gt;For the case of improper algorithms, Shay and his coauthors considered an alternative notion of normality, which we will term &lt;em&gt;improper-normal&lt;/em&gt;. Recall that in this case the output \( A(S) \) of the learner on a sample \( S \) is &lt;em&gt;any function&lt;/em&gt; from \( [0, 1] \) to \( \{0, 1\} \) and not necessarly a threshold. We’ll say that \( A \) is \(k\)-improper-normal on a set \( \mathcal{X}’ \) if for any balanced sample \( S = [(x_1, 0), \ldots, (x_{n/2}, 0), (x_{n/2 +1}, 1), \ldots,  (x_n, 1)] \) of \( n \) points in \( \mathcal{X}’, \Pr[A(S)(w) = 1] - \Pr[A(S)(v) = 1] &amp;gt; \Omega(1/n) \) for any \( w \in (x_{k - 1}, x_k) \) and \( v \in  (x_k, x_{k + 1}) \) in \( \mathcal{X}’ \setminus \{x_1, … x_n\} \). To PAC learn, A must be \(k\)-improper-normal for some \(k\) on any set of \(n + 1\) points. Applying the same Ramsey Theorem to a graph with colored hyperedges of size \(n + 1\) shows that there must exist an arbitrarily large set \( \mathcal{X}’ \) on which \( A \) is \(k\)-improper normal for some \( k \). A similar (but more nuanced) argument as before shows that a learner cannot be simultaneously private and \(k\)-improper-normal on some distribution over \( \mathcal{X}’ \).&lt;/p&gt;
+
+&lt;p&gt;For the last piece of the puzzle, showing the upper bound converse, Mark Bun, an expert in differential privacy at Princeton at the time, joined in. Beginning in the fall of 2019, Mark, Shay, and Roi worked out an upper bound that showed that any class with finite Littlestone dimension could be learned privately. Their technique introduced a new notion of stability, called &lt;em&gt;global stability&lt;/em&gt;, which is a property of algorithms that frequently output the same hypothesis. Given a globally stable PAC learner \( A \), to obtain a DP PAC learner, one can run \( A \) many times and produce a histogram of the output hypotheses, add noise to this histogram for the sake of privacy, and then select the most frequent output hypothesis. The construction for the globally stable learner uses the Standard Optimal Algorithm for online learning as a black box - though the reduction is very computationally intensive and results in a sample complexity depending exponentially on the Littlestone Dimension. This reduction was improved in &lt;a href=&quot;https://arxiv.org/abs/2012.03893&quot;&gt;&lt;strong&gt;[GGKM20]&lt;/strong&gt;&lt;/a&gt;, where the authors gave a reduction requiring only polynomially many samples in the Littlestone dimension.&lt;/p&gt;
+
+&lt;h2 id=&quot;outlook&quot;&gt;Outlook&lt;/h2&gt;
+
+&lt;p&gt;Shay mentions that these results are only a first step towards understanding differentially private PAC learning. This work establishes a deep connection between online learning and DP learning, qualitatively showing that these two problems have similar underlying complexity. Recent works &lt;a href=&quot;https://arxiv.org/abs/1905.11311&quot;&gt;&lt;strong&gt;[GHM19]&lt;/strong&gt;&lt;/a&gt; have gone a step further and established polynomial time reductions from DP learning to online learning under certain conditions. At the same time, Bun &lt;a href=&quot;https://arxiv.org/abs/2007.05665&quot;&gt;&lt;strong&gt;[B20]&lt;/strong&gt;&lt;/a&gt; demonstrates a computational gap between the two problems: they exhibit a concept class which is DP PAC learnable in polynomial time, but no algorithm can learn it online in polynomial time and sample complexity.&lt;/p&gt;
+
+&lt;p&gt;An interesting question here is whether a polynomial time online learning algorithm implies a polynomial time DP learning algorithm? With regards to sample complexity, tighter quantitative bounds relating the sample complexity of DP learning to the Threshold dimension and the Littlestone Dimension, along with constructive reductions from DP learning to online learning are wide open. An interesting conjecture, also highlighted in the talk, is whether DP PAC learning and PAC learning are actually equivalent up to a \(log*\) factor of the Littlestone dimension? Solving this would mean that for most natural function classes, one need not pay a very high price for private learning as compared to PAC learning.&lt;/p&gt;
+
+&lt;p&gt;From a more practical perspective, studying such qualitative equivalences can lay the groundwork allowing one to use the vast existing knowledge in the field of online learning to design better algorithms for DP learning, and vice versa. Despite its abstractness, Shay believes this result still has significance for engineers: “If they want to do something differentially privately, if they already have a good online learning algorithm for this, maybe they can modify it,” Shay says. “It gives some kind of inspiration.”&lt;/p&gt;
+
+&lt;p&gt;From a broader perspective, Shay believes that discovering clean, beautiful mathematical models that are more realistic than the PAC learning model and understanding the price one pays for privacy in those models are important directions for future research. One model, highlighted in the tutorial by Shay is that of &lt;em&gt;Universal Learning&lt;/em&gt;, introduced in a recent work &lt;a href=&quot;https://arxiv.org/abs/2011.04483&quot;&gt;&lt;strong&gt;[BHMVY21]&lt;/strong&gt;&lt;/a&gt; with Olivier Bousquet, Steve Hanneke, Ramon van Handel and Amir Yehudayoff. This model considers a learning task with a fixed distribution of samples and studies the hardness of the problem as the number of samples \( n \to \infty \). This setup better captures the practical aspects of modern machine learning and overcomes the limitations of the PAC model, which studies worst-case distributions for each sample size.&lt;/p&gt;
+
+&lt;p&gt;And how should one go about identifying such better mathematical models? “Pick the simplest problem that you don’t know how to solve and see where that leads you”, says Shay. One should begin by trying to understand the deficiencies of existing learning models, by identifying simple examples which go beyond these existing models. For example, Livni and Moran &lt;a href=&quot;https://arxiv.org/abs/2006.13508&quot;&gt;&lt;strong&gt;[LM20]&lt;/strong&gt;&lt;/a&gt; exhibit the limitations of PAC-Bayes framework through a simple 1D linear classification problem. Fixing such limitations can often lead one to discover better learning models.&lt;/p&gt;
+
+&lt;hr /&gt;
+&lt;p&gt;&lt;em&gt;Thanks to Gautam Kamath, Shay Moran, and Keziah Naggita for helpful conversations and comments.&lt;/em&gt;&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot; role=&quot;doc-endnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:1&quot; role=&quot;doc-endnote&quot;&gt;
+      &lt;p&gt;For a more complete background on the progress in DP PAC learning, we refer the reader to the excellent survey blog post &lt;a href=&quot;https://differentialprivacy.org/private-pac/&quot;&gt;here&lt;/a&gt;. &lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:2&quot; role=&quot;doc-endnote&quot;&gt;
+      &lt;p&gt;At the time, Shay was additionally affiliated with Princeton University and Google Brain. &lt;a href=&quot;#fnref:2&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+        <author>
+        
+            <name>Kush Bhatia</name>
+        
+            <name>Margalit Glasgow</name>
+        
+        </author>
+        <pubDate>Mon, 26 Apr 2021 12:00:00 -0400</pubDate>
+        <link>https://differentialprivacy.org/alt-highlights/</link>
+        <guid isPermaLink="true">https://differentialprivacy.org/alt-highlights/</guid>
+      </item>
+    
+      <item>
+        <title>What is δ, and what δifference does it make?</title>
+        <description>&lt;p&gt;There are many variants or flavours of differential privacy (DP) some weaker than others: often, a given variant comes with own guarantees and “conversion theorems” to the others. As an example, “pure” DP has a single parameter \(\varepsilon\), and corresponds to a very stringent notion of DP:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;An algorithm \(M\) is \(\varepsilon\)-DP if, for all neighbouring inputs \(D,D&apos;\) and all measurable \(S\), \( \Pr[ M(D) \in S ] \leq e^\varepsilon\Pr[ M(D’) \in S ] \).&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;By relaxing this a little, one obtains the standard definition of approximate DP, a.k.a. \((\varepsilon,\delta)\)-DP:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;An algorithm \(M\) is \((\varepsilon,\delta)\)-DP if, for all neighbouring inputs \(D,D&apos;\) and all measurable \(S\), \( \Pr[ M(D) \in S ] \leq e^\varepsilon\Pr[ M(D’) \in S ]+\delta \).&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;This definition is very useful, as in many settings achieving the stronger \(\varepsilon\)-DP guarantee (i.e., \(\delta=0\)) is impossible, or comes at a very high utility cost. But how to interpret it? The above definition, on its face, doesn’t preclude what one may call “&lt;em&gt;catastrophic failures of privacy&lt;/em&gt; 💥:” most of the time, things are great, but with some small probability \(\delta\) all hell breaks loose. For instance, the following algorithm is \((\varepsilon,\delta)\)-DP:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Get a sensitive database \(D\) of \(n\) records&lt;/li&gt;
+  &lt;li&gt;Select uniformly at random a fraction \(\delta\) of the database (\(\delta n\) records)&lt;/li&gt;
+  &lt;li&gt;Output that subset of records in the clear 💥&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;(actually, this is even \((0,\delta)\)-DP!). This sounds preposterous, and obviously something that one would want to avoid in practice (lest one wants to face very angry customers or constituents). This is one of the rules of thumb for picking \(\delta\) small enough (or even “cryptographically small”), typically \(\delta \ll 1/n\), so that the records are safe (hard to disclose \(\delta n \ll 1\) records).&lt;/p&gt;
+
+&lt;p&gt;So: good privacy most of the time, but with probably \(\delta\) then all bets are off.&lt;/p&gt;
+
+&lt;p&gt;However, those catastrophic failure of privacy, while technically allowed by the definition of \((\varepsilon,\delta)\)-DP, &lt;strong&gt;are not something that can really happen with the DP algorithms and techniques used both in practice and in theoretical work.&lt;/strong&gt; Before explaining why, let’s see what is the kind of desirable behaviour one would expect: a &lt;em&gt;“smooth, manageable tradeoff of privacy parameters.”&lt;/em&gt; For that discussion, let’s introduce the &lt;em&gt;privacy loss random variable&lt;/em&gt;: given an algorithm M and two neighbouring inputs D,D’, let \(f(y)\) be defined as
+\[
+	f(y) = \log\frac{\Pr[M(D)=y]}{\Pr[M(D’)=y]}
+\]
+for every possible output \(y\in\Omega\). Now, define the random variable \(Z := f(M(D))\) (implicitly, \(Z\) depends on \(D,D&apos;,M\)). This random variable quantifies how much observing the output of the algorithm \(M\) helps distinguishing between \(D\) and \(D&apos;\).&lt;/p&gt;
+
+&lt;p&gt;Now, going a little bit fast, you can check that saying that \(M\) is \(\varepsilon\)-DP corresponds to the guarantee “&lt;em&gt;\(\Pr[Z &amp;gt; \varepsilon] = 0\) for all neighbouring inputs \(D,D&apos;\).&lt;/em&gt;”
+Similarly, \(M\) being \((\varepsilon,\delta)\)-DP is the guarantee \(\Pr[Z &amp;gt; \varepsilon] \leq \delta\).\({}^{(\dagger)}\) For instance, the “catastrophic failure of privacy” corresponds to the scenario below, which depicts a possible distribution for \(Z\): \(Z\leq \varepsilon\) with probability \(1-\delta\), but then with probability \(\delta\) we have \(Z\gg 1\).&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/flavours-delta-fig1.png&quot; width=&quot;600&quot; alt=&quot;The type of (bad) distribution of Z corresponding to &apos;our catastrophic failure of privacy&apos;&quot; style=&quot;margin:auto;display: block;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;What we would like is a smoother thing, where even when \(Z&amp;gt;\varepsilon\) is still remains reasonable and doesn’t immediately become large. A nice behaviour of the tails, ideally something like this:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/flavours-delta-fig2.png&quot; width=&quot;600&quot; alt=&quot;A distribution for Z with nice tails, leading to smooth tradeoffs between ε and δ&quot; style=&quot;margin:auto;display: block;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;For instance, if we had a bound on \(\mathbb{E}[|Z|]\), we could use Markov’s inequality to get, well, &lt;em&gt;something&lt;/em&gt;. For instance, imagine we had \(\mathbb{E}[|Z|]\leq \varepsilon\delta\): then 
+\[
+	\Pr[ |Z| &amp;gt; \varepsilon ] \leq \frac{\mathbb{E}[|Z|]}{\varepsilon }\leq \delta
+\]
+&lt;em&gt;(great! We have \((\varepsilon,\delta)\)-DP)&lt;/em&gt;; but also  \(\Pr[ |Z| &amp;gt; 10\varepsilon ] \leq \frac{\delta}{10}\). Privacy violations do not blow up out of proporxtion immediately, we can trade \(\varepsilon\) for \(\delta\). That seems like the type of behaviour we would like our algorithms to exhibit.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/flavours-delta-fig3.png&quot; width=&quot;600&quot; alt=&quot;The type of privacy guarantees a Markov-type tail bound would give&quot; style=&quot;margin:auto;display: block;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;But why stop at Markov’s inequality then, which gives some nice but still weak tail bounds? Why not ask for &lt;em&gt;stronger&lt;/em&gt;: Chebyshev’s inequality? Subexponential tail bounds? Hell, &lt;em&gt;subgaussian&lt;/em&gt; tail bounds? This is, basically, what some stronger notions of differential privacy than approximate DP give.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Rényi DP&lt;/strong&gt; &lt;a href=&quot;https://arxiv.org/abs/1702.07476&quot; title=&quot;Ilya Mironov. Renyi Differential Privacy. CSF 2017&quot;&gt;&lt;strong&gt;[Mironov17]&lt;/strong&gt;&lt;/a&gt;, for instance, is a guarantee on the moment-generating function (MGF) of the privacy random variable \(Z\): it has two parameters, \(\alpha&amp;gt;1\) and \(\tau\), and requires that \(\mathbb{E}[e^{(\alpha-1)Z}] \leq e^{(\alpha-1)\tau}\) for all neighbouring \(D,D&apos;\). In turn, by applying for instance Markov’s inequality to the MGF of \(Z\), we can control the tail bounds, and get a nice, smooth tradeoff in terms of \((\varepsilon,\delta)\)-DP.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Concentrated DP&lt;/strong&gt; (CDP)  &lt;a href=&quot;https://arxiv.org/abs/1605.02065&quot; title=&quot;Mark Bun and Thomas Steinke. Concentrated Differential Privacy: Simplifications, Extensions, and Lower Bounds. TCC 2016&quot;&gt;&lt;strong&gt;[BS16]&lt;/strong&gt;&lt;/a&gt; is an even stronger requirement, which roughly speaking requires the algorithm to be Rényi DP &lt;em&gt;simultaneously&lt;/em&gt; for all \(1&amp;lt; \alpha \leq \infty\). More simply, this is “morally” a requirement on the MGF of \(Z\) which asks it to be subgaussian.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The above two examples are not just fun but weird variants of DP: they actually capture the behaviour of many well-known differentially private algorithms, and in particular that of the Gaussian mechanism. While the guarantees they provide are less easy to state and interpret than \(\varepsilon\)-DP or \((\varepsilon,\delta)\)-DP, they are incredibly useful to analyze those algorithms, and enjoy very nice composition properties… and, of course, lead to that smooth tradeoff between \(\varepsilon\) and \(\delta\) for \((\varepsilon,\delta)\)-DP.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;To summarize:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;\(\varepsilon\)-DP gives great guarantees, but is a very stringent requirement. Corresponds to the privacy loss random variable supported on \([-\varepsilon,\varepsilon]\) (no tails!)&lt;/li&gt;
+  &lt;li&gt;\((\varepsilon,\delta)\)-DP gives guarantees easy to parse, but on its face allows for very bad behaviours. Corresponds to the privacy loss random variable in \([-\varepsilon,\varepsilon]\) with probability \(1-\delta\) (but outside, all bets are off!)&lt;/li&gt;
+  &lt;li&gt;Rényi DP and Concentrated DP correspond to something in between, controlling the tails of the privacy loss random variable by a guarantee on its MGF. A bit harder to interpret, but capture the behaviour of many DP building blocks can be converted to \((\varepsilon,\delta)\)-DP (with nice trade-offs between \(\varepsilon\) and \(\delta\).&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+&lt;p&gt;\({}^{(\dagger)}\) The astute reader may notice that this is not &lt;em&gt;quite&lt;/em&gt; true. Namely, the guarantee \(\Pr[Z &amp;gt; \varepsilon] \leq \delta\) on the privacy loss random variable (PLRV) does imply \((\varepsilon,\delta)\)-differential privacy, but the converse does not hold. See, for instance, Lemma 9 of &lt;a href=&quot;https://arxiv.org/abs/2004.00010&quot; title=&quot;Clément L. Canonne, Gautam Kamath, Thomas Steinke. The Discrete Gaussian for Differential Privacy. NeurIPS 2020&quot;&gt;&lt;strong&gt;[CKS20]&lt;/strong&gt;&lt;/a&gt; for an exact characterization of \((\varepsilon,\delta)\)-DP in terms of the PLRV.&lt;/p&gt;
+</description>
+        <author>
+        
+            <name>Clément Canonne</name>
+        
+        </author>
+        <pubDate>Thu, 11 Mar 2021 21:00:00 -0400</pubDate>
+        <link>https://differentialprivacy.org/flavoursofdelta/</link>
+        <guid isPermaLink="true">https://differentialprivacy.org/flavoursofdelta/</guid>
+      </item>
+    
+      <item>
+        <title>Conference Digest - TPDP 2020</title>
+        <description>&lt;p&gt;&lt;a href=&quot;https://tpdp.journalprivacyconfidentiality.org/2020/&quot;&gt;TPDP 2020&lt;/a&gt; is a workshop focused on differential privacy. As such, it’s a great place to learn about recent developments in the DP research community.
+It will be held on 13 November and is co-located with &lt;a href=&quot;https://www.sigsac.org/ccs/CCS2020/&quot;&gt;CCS&lt;/a&gt;, but, of course, it’s virtual this year. &lt;a href=&quot;https://www.sigsac.org/ccs/CCS2020/registration.html&quot;&gt;Registration is only US$35 if you register by Friday, 30 October.&lt;/a&gt; Check out the 8 excellent talks and 71 posters below – wow, the workshop has grown!&lt;/p&gt;
+
+&lt;p&gt;Please let us know if there are any errors or omissions.&lt;/p&gt;
+
+&lt;h2 id=&quot;invited-talks&quot;&gt;Invited Talks&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;OpenDP: A Community Effort to Build Trustworthy Differential Privacy Software.&lt;br /&gt;
+ &lt;a href=&quot;https://salil.seas.harvard.edu/&quot;&gt;Salil Vadhan&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Implementation with Base-2 DP or: How I learned to stop worrying and love floating point. 
+ &lt;a href=&quot;https://cilvento.org/&quot;&gt;Christina Ilvento&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;contributed-talks&quot;&gt;Contributed Talks&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2009.09052&quot;&gt;Private Reinforcement Learning with PAC and Regret Guarantees&lt;/a&gt;&lt;br /&gt;
+ Giuseppe Vietri, Borja Balle, Akshay Krishnamurthy, Z. Steven Wu&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2006.07709&quot;&gt;Auditing Differentially Private Machine Learning: How Private is Private SGD?&lt;/a&gt;&lt;br /&gt;
+ Matthew Jagielski, Jonathan Ullman, Alina Oprea&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2006.06783&quot;&gt;Characterizing Private Clipped Gradient Descent on Convex Generalized Linear Problems&lt;/a&gt;&lt;br /&gt;
+ Shuang Song, Om Thakkar, Abhradeep Thakurta&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2004.10941&quot;&gt;Private Query Release Assisted by Public Data&lt;/a&gt;&lt;br /&gt;
+ Raef Bassily, Albert Cheu, Shay Moran, Aleksandar Nikolov, Jonathan Ullman, Z. Steven Wu&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2003.00563&quot;&gt;An Equivalence Between Private Classification and Online Prediction&lt;/a&gt;&lt;br /&gt;
+ Mark Bun, Roi Livni, Shay Moran&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2002.09745&quot;&gt;Differentially Private Set Union&lt;/a&gt;&lt;br /&gt;
+Sivakanth Gopi, Pankaj Gulhane, Janardhan Kulkarni, Judy Hanwen Shen, Milad Shokouhi, Sergey Yekhanin&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;posters&quot;&gt;Posters&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2004.00010&quot;&gt;The Discrete Gaussian for Differential Privacy&lt;/a&gt;&lt;br /&gt;
+Clément Canonne, Gautam Kamath, Thomas Steinke&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2002.09465&quot;&gt;Locally Private Hypothesis Selection&lt;/a&gt;&lt;br /&gt;
+ Sivakanth Gopi, Gautam Kamath, Janardhan Kulkarni, Aleksandar Nikolov, Z. Steven Wu, Huanyu Zhang&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2002.05839&quot;&gt;LinkedIn’s Audience Engagements API: A Privacy Preserving Data Analytics System at Scale&lt;/a&gt;&lt;br /&gt;
+ Ryan Rogers, Subbu Subramaniam, Sean Peng, David Durfee, Seunghyun Lee, Santosh Kumar Kancha, Shraddha Sahay, Parvez Ahammad&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2005.14717&quot;&gt;Differentially Private Decomposable Submodular Maximization&lt;/a&gt;&lt;br /&gt;
+ Anamay Chaturvedi, Huy Nguyen, Lydia Zakynthinou&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2007.11934&quot;&gt;Private Post-GAN Boosting&lt;/a&gt;&lt;br /&gt;
+ Marcel Neunhoeffer, Z. Steven Wu, Cynthia Dwork&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2002.01100&quot;&gt;Efficient, Noise-Tolerant, and Private Learning via Boosting&lt;/a&gt;&lt;br /&gt;
+ Marco Carmosino, Mark Bun, Jessica Sorrell&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2003.04509&quot;&gt;Closure Properties for Private Classification and Online Prediction&lt;/a&gt;&lt;br /&gt;
+by Noga Alon, Amos Beimel, Shay Moran, Uri Stemmer&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2006.12018&quot;&gt;Overlook: Differentially Private Exploratory Visualization for Big Data&lt;/a&gt;&lt;br /&gt;
+Pratiksha Thaker, Mihai Budiu, Parikshit Gopalan, Udi Wieder, Matei Zaharia&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2006.01980&quot;&gt;On the Equivalence between Online and Private Learnability beyond Binary Classification&lt;/a&gt;&lt;br /&gt;
+Young Hun Jung, Baekjin Kim and Ambuj Tewari&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://dettanym.github.io/files/tpdp20_workshop_paper.pdf&quot;&gt;Cache Me If You Can: Accuracy-Aware Inference Engine for Differentially Private Data Exploration&lt;/a&gt;&lt;br /&gt;
+ Miti Mazmudar, Thomas Humphries, Matthew Rafuse, Xi He&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://drops.dagstuhl.de/opus/volltexte/2020/12026/&quot;&gt;Bounded Leakage Differential Privacy&lt;/a&gt;&lt;br /&gt;
+Katrina Ligett, Charlotte Peale, Omer Reingold&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/1909.06322&quot;&gt;A Knowledge Transfer Framework for Differentially Private Sparse Learning&lt;/a&gt;&lt;br /&gt;
+Lingxiao Wang, Quanquan Gu&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Consistent Integer, Non-Negative, Hierarchical Histograms without Integer Programming&lt;br /&gt;
+ Cynthia Dwork, Christina Ilvento&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://www.microsoft.com/en-us/research/uploads/prod/2020/03/intrinsic_privacy_tpdp.pdf&quot;&gt;An Empirical Study on the Intrinsic Privacy of Stochastic Gradient Descent&lt;/a&gt;&lt;br /&gt;
+Stephanie Hyland, Shruti Tople&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2001.03618&quot;&gt;Encode, Shuffle, Analyze Privacy Revisited: Formalizations and Empirical Evaluation&lt;/a&gt;&lt;br /&gt;
+Úlfar Erlingsson, Vitaly Feldman, Ilya Mironov, Ananth Raghunathan, Shuang Song, Kunal Talwar, Abhradeep Thakurta&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Improving Sparse Vector Technique with Renyi Differential Privacy&lt;br /&gt;
+ Yuqing Zhu and Yu-Xiang Wang&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2007.11707&quot;&gt;Breaking the Communication-Privacy-Accuracy Trilemma&lt;/a&gt;&lt;br /&gt;
+Wei-Ning Chen, Peter Kairouz, Ayfer Özgür&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Budget Sharing for Multi-Analyst Differential Privacy&lt;br /&gt;
+ David Pujol, Yikai Wu, Brandon Fain, Ashwin Machanavajjhala&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/1908.07643&quot;&gt;AdaCliP: Adaptive Clipping for Private SGD&lt;/a&gt;&lt;br /&gt;
+ Venkatadheeraj Pichapati, Ananda Theertha Suresh, Felix X. Yu, Sashank J. Reddi, Sanjiv Kumar&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2007.01181&quot;&gt;Private Optimization Without Constraint Violation&lt;/a&gt;&lt;br /&gt;
+ Andrés Muñoz Medina, Umar Syed, Sergei Vassilvitskii, Ellen Vitercik&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/1912.06015&quot;&gt;Efficient Per-Example Gradient Computations in Convolutional Neural Networks&lt;/a&gt;&lt;br /&gt;
+ Gaspar Rochette, Andre Manoel, Eric Tramel&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2007.12674&quot;&gt;Controlling Privacy Loss in Survey Sampling&lt;/a&gt;&lt;br /&gt;
+ Audra McMillan, Mark Bun, Marco Gaboardi, Joerg Drechsler&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Privacy-Preserving Community Detection under the Stochastic Block Model&lt;br /&gt;
+ Jonathan Hehir, Aleksandra Slavkovic, Xiaoyue Niu&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2006.10129&quot;&gt;Smoothed Analysis of Differentially Private and Online Learning&lt;/a&gt;&lt;br /&gt;
+ Nika Haghtalab, Tim Roughgarden, Abhishek Shetty&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2002.09464&quot;&gt;Private Mean Estimation for Heavy-Tailed Distributions&lt;/a&gt;&lt;br /&gt;
+ Gautam Kamath, Vikrant Singhal, Jonathan Ullman&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://link.springer.com/chapter/10.1007%2F978-3-030-57521-2_23&quot;&gt;Private Posterior Inference Consistent with Public Information: a Case Study in Small Area Estimation from Synthetic Census Data&lt;/a&gt;&lt;br /&gt;
+ Jeremy Seeman, Aleksandra Slavkovic, Matthew Reimherr&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2001.09122&quot;&gt;Reasoning About Generalization via Conditional Mutual Information&lt;/a&gt;&lt;br /&gt;
+ Thomas Steinke, Lydia Zakynthinou&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2006.15429&quot;&gt;Understanding Gradient Clipping in Private SGD: A Geometric Perspective&lt;/a&gt;&lt;br /&gt;
+ Xiangyi Chen, Z. Steven Wu, Mingyi Hong&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2007.06605&quot;&gt;Privacy Amplification via Random Check-Ins&lt;/a&gt;&lt;br /&gt;
+ Borja Balle, Peter Kairouz, Brendan McMahan, Om Thakkar, Abhradeep Thakurta&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2010.12603&quot;&gt;Permute-and-flip: a new mechanism for differentially-private selection&lt;/a&gt;&lt;br /&gt;
+ Ryan McKenna, Daniel Sheldon&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2007.02923&quot;&gt;Descent-to-Delete: Gradient-Based Methods for Machine Unlearning&lt;/a&gt;&lt;br /&gt;
+ Seth Neel, Aaron Roth, Saeed Sharifi-Malvajerdi&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2008.06529&quot;&gt;A Better Bound Gives a Hundred Rounds: Enhanced Privacy Guarantees via f-Divergences&lt;/a&gt;&lt;br /&gt;
+Shahab Asoodeh, Jiachun Liao, Flavio Calmon, Oliver Kosut, Lalitha Sankar&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://sites.tufts.edu/vrdi/files/2020/07/Slides-DP-Bhushan-Suwal-JN-Matthews-et-al.pdf&quot;&gt;Census TopDown and the Redistricting Use Case&lt;/a&gt;&lt;br /&gt;
+ Aloni Cohen, Moon Duchin, JN Matthews, Bhushan Suwal, Peter Wayner&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/1911.04014&quot;&gt;Interaction is Necessary for Distributed Learning with Privacy or Communication Constraints&lt;/a&gt;&lt;br /&gt;
+Yuval Dagan, Vitaly Feldman&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2005.10783&quot;&gt;Fisher information under local differential privacy&lt;/a&gt;&lt;br /&gt;
+ Leighton Barnes, Wei-Ning Chen, Ayfer Ozgur&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2004.06830&quot;&gt;Differentially Private Assouad, Fano, and Le Cam&lt;/a&gt;&lt;br /&gt;
+ Jayadev Acharya, Ziteng Sun, Huanyu Zhang&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2007.13660&quot;&gt;Learning discrete distributions: user vs item-level privacy&lt;/a&gt;&lt;br /&gt;
+ Yuhan Liu, Ananda Theertha Suresh, Felix Yu, Sanjiv Kumar, Michael Riley&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/1910.13659&quot;&gt;Efficient Privacy-Preserving Stochastic Nonconvex Optimization&lt;/a&gt;&lt;br /&gt;
+ Lingxiao Wang, Bargav Jayaraman, David Evans, Quanquan Gu&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2007.03813&quot;&gt;Bypassing the Ambient Dimension: Private SGD with Gradient Subspace Identification&lt;/a&gt;&lt;br /&gt;
+ Yingxue Zhou, Zhiwei Steven Wu, Arindam Banerjee&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Differentially private partition selection&lt;br /&gt;
+ Damien Desfontaines, Bryant Gipson, Chinmoy Mandayam, James Voss&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2008.08007&quot;&gt;Differentially Private Clustering: Tight Approximation Ratios&lt;/a&gt;&lt;br /&gt;
+ Badih Ghazi, Ravi Kumar, Pasin Manurangsi&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Let’s not make a fuzz about it&lt;br /&gt;
+ Elisabet Lobo Vesga, Alejandro Russo, Marco Gaboardi&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2002.12321&quot;&gt;PAPRIKA: Private Online False Discovery Rate Control&lt;/a&gt;&lt;br /&gt;
+ Wanrong Zhang, Gautam Kamath, Rachel Cummings&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2009.13689&quot;&gt;Oblivious Sampling Algorithms for Private Data Analysis&lt;/a&gt;&lt;br /&gt;
+ Sajin Sasy, Olga Ohrimenko&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;SOGDB-epsilon: Secure Outsourced Growing Database with Differentially Private Record Update&lt;br /&gt;
+ Chenghong Wang, Kartik Nayak, Ashwin Machanavajjhala&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://invertibleworkshop.github.io/accepted_papers/pdfs/41.pdf&quot;&gt;Differentially Private Normalizing Flows for Privacy-Preserving Density Estimation&lt;/a&gt;&lt;br /&gt;
+ Chris Waites, Rachel Cummings&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://cs.uwaterloo.ca/~hsivasub/pub/TPDP2020.pdf&quot;&gt;Differentially Private Sublinear Average Degree Approximation&lt;/a&gt;&lt;br /&gt;
+ Harry Sivasubramaniam, Haonan Li, Xi He&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://chong-l.github.io/MAPL_TNC_FL_ICML_2020.pdf&quot;&gt;Revisiting Model-Agnostic Private Learning: Faster Rates and Active Learning&lt;/a&gt;&lt;br /&gt;
+ Chong Liu, Yuqing Zhu, Kamalika Chaudhuri, Yu-Xiang Wang&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2006.06618&quot;&gt;CoinPress: Practical Private Mean and Covariance Estimation&lt;/a&gt;&lt;br /&gt;
+ Sourav Biswas, Yihe Dong, Gautam Kamath, Jonathan Ullman&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2004.09481&quot;&gt;Connecting Robust Shuffle Privacy and Pan-Privacy&lt;/a&gt;&lt;br /&gt;
+ Victor Balcer, Albert Cheu, Matthew Joseph, Jieming Mao&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2006.11204&quot;&gt;Differentially Private Variational Autoencoders with Term-wise Gradient Aggregation&lt;/a&gt;&lt;br /&gt;
+ Tsubasa Takahashi, Shun Takagi, Hajime Ono, Tatsuya Komatsu&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2006.07490&quot;&gt;Understanding Unintended Memorization in Federated Learning&lt;/a&gt;&lt;br /&gt;
+ Om Thakkar, Swaroop Ramaswamy, Rajiv Mathews, Francoise Beaufays&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2005.10630&quot;&gt;Near Instance-Optimality in Differential Privacy&lt;/a&gt;&lt;br /&gt;
+ Hilal Asi, John Duchi&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://drive.google.com/file/d/1okHAkjNENiS2WfSKdkUo8B29yE8-Qfof/view&quot;&gt;Implementing differentially private integer partitions via the exponential mechanism&lt;/a&gt; and &lt;a href=&quot;https://drive.google.com/file/d/1OytgB24d1n-xPIWrrKCsVQQdS7rV3tjn/view&quot;&gt;Implementing Sparse Vector&lt;/a&gt;&lt;br /&gt;
+ Christina Ilvento&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2007.05157&quot;&gt;Differentially Private Simple Linear Regression&lt;/a&gt;&lt;br /&gt;
+ Audra McMillan, Daniel Alabi, Jayshree Sarathy, Adam Smith, Salil Vadhan&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2007.05453&quot;&gt;New Oracle-Efficient Algorithms for Private Synthetic Data Release&lt;/a&gt;&lt;br /&gt;
+ Giuseppe Vietri, Grace Tian, Mark Bun, Thomas Steinke, Z. Steven Wu&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2006.07749&quot;&gt;General-Purpose Differentially-Private Confidence Intervals&lt;/a&gt;&lt;br /&gt;
+ Cecilia Ferrando, Shufan Wang, Daniel Sheldon&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Central Limit Theorem and Uncertainty Principles for Differentially Private Query Answering&lt;br /&gt;
+ Jinshuo Dong, Linjun Zhang, Weijie Su&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2006.13501&quot;&gt;Private Stochastic Non-Convex Optimization: Adaptive Algorithms and Tighter Generalization Bounds&lt;/a&gt;&lt;br /&gt;
+ Yingxue Zhou, Xiangyi Chen, Mingyi Hong, Z. Steven Wu, Arindam Banerjee&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/1905.10335&quot;&gt;Minimax Rates of Estimating Approximate Differential Privacy&lt;/a&gt;&lt;br /&gt;
+Xiyang Liu, Sewoong Oh&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2004.07740&quot;&gt;Really Useful Synthetic Data – A Framework to Evaluate the Quality of Differentially Private Synthetic Data&lt;/a&gt;&lt;br /&gt;
+ Christian Arnold, Marcel Neunhoeffer&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/1911.10541&quot;&gt;PAC learning with stable and private predictions&lt;/a&gt;&lt;br /&gt;
+ Yuval Dagan, Vitaly Feldman&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2004.04656&quot;&gt;Computing Local Sensitivities of Counting Queries with Joins&lt;/a&gt;&lt;br /&gt;
+ Yuchao Tao, Xi He, Ashwin Machanavajjhala, Sudeepa Roy&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Efficient Reductions for Differentially Private Multi-objective Regression&lt;br /&gt;
+ Julius Adebayo, Daniel Alabi&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2010.06667&quot;&gt;The Pitfalls of Differentially Private Prediction in Healthcare&lt;/a&gt;&lt;br /&gt;
+ Vinith Suriyakumar, Nicolas Papernot, Anna Goldenberg, Marzyeh Ghassemi&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2007.14191&quot;&gt;Tempered Sigmoid Activations for Deep Learning with Differential Privacy&lt;/a&gt;&lt;br /&gt;
+ Nicolas Papernot, Abhradeep Thakurta, Shuang Song, Steve Chien, Úlfar Erlingsson&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2005.10881&quot;&gt;Revisiting Membership Inference Under Realistic Assumptions&lt;/a&gt;&lt;br /&gt;
+ Bargav Jayaraman, Lingxiao Wang, David Evans, Quanquan Gu&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2009.04013&quot;&gt;Attribute Privacy: Framework and Mechanisms&lt;/a&gt;&lt;br /&gt;
+ Wanrong Zhang, Olga Ohrimenko, Rachel Cummings&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2010.10664&quot;&gt;DuetSGX: Differential Privacy with Secure Hardware&lt;/a&gt;&lt;br /&gt;
+ Phillip Nguyen, Alex Silence, David Darais, Joseph Near&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://pdfs.semanticscholar.org/4319/65b3c5a47cf8bfd30f1c30cd044382e98d68.pdf&quot;&gt;A Programming Framework for OpenDP&lt;/a&gt;&lt;br /&gt;
+ Marco Gaboardi, Michael Hay, Salil Vadhan&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2006.09352&quot;&gt;A One-Pass Private Sketch for Most Machine Learning Tasks&lt;/a&gt;&lt;br /&gt;
+ Benjamin Coleman, Anshumali Shrivastava&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Model-Agnostic Private Learning with Domain Adaptation&lt;br /&gt;
+ Yuqing Zhu, Chong Liu, Yu-Xiang Wang&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+</description>
+        <author>
+        
+            <name>Thomas Steinke</name>
+        
+        </author>
+        <pubDate>Wed, 28 Oct 2020 00:01:00 +0000</pubDate>
+        <link>https://differentialprivacy.org/tpdp2020/</link>
+        <guid isPermaLink="true">https://differentialprivacy.org/tpdp2020/</guid>
+      </item>
+    
+      <item>
+        <title>Reconstruction Attacks in Practice</title>
+        <description>&lt;p&gt;This is the second of two posts describing the theory and practice of reconstruction attacks.  To read the first post, which covers the theoretical basis of such attacks, &lt;a href=&quot;https://differentialprivacy.org/reconstruction-theory/&quot;&gt;[click here]&lt;/a&gt;.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;In the &lt;a href=&quot;https://differentialprivacy.org/reconstruction-theory/&quot;&gt;last post&lt;/a&gt;, we discussed how an attacker can use noisy answers to questions about a database to reconstruct private information in the database. The reconstruction attack framework was:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;The attacker submits sufficiently random queries that link prior information (which the attacker already knows) to private data (which the attacker wants to learn).&lt;/li&gt;
+  &lt;li&gt;The attacker receives noisy answers to these queries and writes them down as constraints for a linear program to solve for the private bits.&lt;/li&gt;
+  &lt;li&gt;The attacker solves the linear program and rounds the result to recover most of the bits.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Our last post discussed some of this attack’s nice theoretical guarantees, and this post matches that with real-world performance. More specifically, we’ll cover two successful applications of this attack against a piece of anonymizing SQL software called Diffix which, despite the name, is not differentially private.&lt;/p&gt;
+
+&lt;h3 id=&quot;what-is-diffix&quot;&gt;What is Diffix?&lt;/h3&gt;
+&lt;p&gt;Diffix is a system designed by the startup Aircloak for answering statistical queries over a private database. It is described by its creators as an “anonymizing SQL interface [that] sits in front of your data and enables you to conduct ad hoc analytics — fully privacy preserving and GDPR-compliant.”&lt;sup id=&quot;fnref:1&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;  Aircloak’s approach is to develop targeted defenses for known vulnerabilities, but to otherwise privilege utility over protecting against unknown vulnerabilities.  They combine this approach with a serious effort to actually find vulnerabilities in Diffix through periodic bug bounties that offer monetary prizes for participants who mount successful attacks.  While this post is critical of the design of Diffix itself, we commend Aircloak for their genuine openness to scrutiny. Indeed, the attacks described in this post were carried out as a part of these bug bounty programs and led to the discovery of several vulnerabilities in the software that have since been addressed. The first attack we describe was carried out by Aloni Cohen and Kobbi Nissim in the first bug bounty program in late 2017 and early 2018.  The second was run by Travis Dick, Matthew Joseph, and Zachary Schutzman in the second bug bounty program during the summer of 2020.&lt;/p&gt;
+
+&lt;p&gt;Before diving into the details of the attacks, we’ll first introduce the basic functionality of Diffix and how it purports to defend against vulnerabilities, including linear reconstruction attacks.  The goal of Diffix is to answer SQL queries, such as:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SELECT COUNT(*) FROM loans
+WHERE loanStatus = &apos;C&apos;
+AND clientId BETWEEN 2000 and 3000
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;on a database while preventing the disclosure of record-level data.&lt;br /&gt;
+A challenge for a system like Diffix is to answer such counting queries while preventing an adversarial user—the attacker—from learning record-level information. As you might remember from the last post, such a system must not provide exact answers to arbitrary queries. Otherwise the attacker could mount a &lt;em&gt;differencing attack&lt;/em&gt;. For example, an attacker who knows that Billy Joel’s &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;clientID&lt;/code&gt; is 2744 could learn the status of the singer’s loan by comparing the answer to the previous query with the answer to:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SELECT COUNT(*) FROM loans
+WHERE loanStatus = &apos;C&apos;
+AND clientId BETWEEN 2000 and 3000
+AND clientId != 2744
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;An intuitive defense is to add noise to the answer—say, Gaussian noise sampled from \(N(0,10)\).
+Now the difference \(\Delta\) in the responses to the two queries is a random variable sampled from \(N(1,20)\) or \(N(0,20)\) depending on whether Joel’s &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;loanStatus&lt;/code&gt; is or isn’t &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;C&lt;/code&gt;.
+With just one sample, the distributions are hard to distinguish.&lt;/p&gt;
+
+&lt;p&gt;Still, this scheme is easily thwarted by &lt;em&gt;averaging attacks&lt;/em&gt;.
+If the noise is sampled anew each time a query is made, then repeatedly making the same pair of queries generates many independent samples from \(N(1,20)\) or \(N(0,20)\), and enough queries would make it possible to distinguish these distributions easily.&lt;/p&gt;
+
+&lt;p&gt;As before, there is an intuitive defense: use the same noise for repeated queries.  This defense introduces its own new attacks by making many syntactically-distinct but semantically-equivalent queries.  Those attacks in turn suggest new defenses which suggest new attacks, and so on.  Diffix is, in a sense, the result of this hypothetical arms race.&lt;/p&gt;
+
+&lt;p&gt;From a technical perspective, Diffix consists of three components, which together are intended to thwart these attacks.  First, Diffix only accepts a limited subset of SQL and will categorically reject any query that does not fit this subset.  These restrictions—including tight restrictions on &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;JOIN&lt;/code&gt;s and on the number of mathematical functions in a single expression—limit the ability of an adversary to use the full power of SQL to access the database.  The second component is a collection of data-dependent ad-hoc methods to prevent leaking information about individuals or very small subsets of users, including suppressing answers to queries about small numbers of users and flattening outliers.&lt;/p&gt;
+
+&lt;p&gt;The final component is Diffix’s layered noise.  This noise is comprised of two individual noise terms added together: a &lt;em&gt;data-dependent&lt;/em&gt; term whose variance is constant&lt;sup id=&quot;fnref:2&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt; and a &lt;em&gt;query-dependent&lt;/em&gt; term whose variance depends on the complexity of the query. The data-dependent noise prevents naïve averaging attacks. It is a pseudorandom error where the seed of the pseudorandom function depends on individual data records that contribute to the query result. Semantically equivalent queries using different syntax will nonetheless share this error, so simply averaging the responses will not remove this noise.&lt;/p&gt;
+
+&lt;p&gt;The query-dependent noise prevents a naïve Dinur–Nissim style reconstruction attacks. A noise term of magnitude \(\Omega(1)\) is generated deterministically for each condition in the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;WHERE&lt;/code&gt; or &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HAVING&lt;/code&gt; clause of the SQL query, and the terms are added together.  A Dinur–Nissim query is a random subset of the dataset that contains \(\Omega(n)\) records. The straightforward way of specifying such a query is to enumerate the subset record by record using \(\Omega(n)\) conditions:&lt;sup id=&quot;fnref:3&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:3&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SELECT COUNT(*) FROM loans
+WHERE loanStatus = &apos;C&apos;
+AND (clientId = 2007
+OR clientId = 2018
+...
+OR clientId = 2991)
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;A query with \(\Omega(n)\) conditions is answered with noise with standard deviation \(\Omega(\sqrt{n})\), enough to thwart efficient reconstruction algorithms.&lt;/p&gt;
+
+&lt;h3 id=&quot;carrying-out-reconstruction&quot;&gt;Carrying out reconstruction&lt;/h3&gt;
+&lt;p&gt;The additional noise per SQL condition  is the main obstacle to running a successful reconstruction attack on a database behind Diffix.  As described above, the noise prevents the naive implementation of the reconstruction algorithm from receiving accurate enough answers to reconstruct the database using a reasonable number of queries.&lt;br /&gt;
+A natural approach is to use very few SQL conditions—ideally, just one—to make random-enough queries, each identifying a subset of the records in the dataset.
+So the challenge is to formulate a large family of such queries that are accepted by Diffix’s restricted subset of SQL, using as few conditions as possible.&lt;/p&gt;
+
+&lt;h4 id=&quot;the-cohennissim-attack&quot;&gt;The Cohen–Nissim Attack&lt;/h4&gt;
+
+&lt;p&gt;Instead of specifying each row with a separate condition, the Cohen–Nissim attack&lt;a href=&quot;https://arxiv.org/abs/1810.05692&quot;&gt;[CN18]&lt;/a&gt; uses an ad hoc &lt;em&gt;hash function&lt;/em&gt; to extract entropy from the data itself in order to systematically choose the needed subsets.&lt;br /&gt;
+Suppose we have a list of the values in the database’s  &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;clientId&lt;/code&gt; column, and we want to recover the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;loanStatus&lt;/code&gt; secret bit. Rather than explicitly enumerating the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;clientId&lt;/code&gt;s for a random subset of the rows to include in each query, we can write a boolean-valued function which evaluates to true on about half of the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;clientId&lt;/code&gt;s and ask Diffix to include only the rows for which the condition is true.  In this way, instead of first choosing a subset of rows and then asking Diffix about those rows, we choose this function and use its evaluation to specify our random subset.&lt;/p&gt;
+
+&lt;p&gt;After some experimentation with the language restrictions, Cohen and Nissim settled on the following:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;...
+WHERE FLOOR(100 * ((clientId * 2)^0.7))
+   = FLOOR(100 * ((clientId * 2)^0.7) + 0.5)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Let’s see what this does. Let \(d=d_0.d_1 d_2 d_3 d_4 \dots \) be the decimal representation of the value \(d = (\mathtt{clientID}\cdot 2)^{0.7}\), which appears on both sides of the equality.
+The expression is true if and only if \(d_3 &amp;lt; 5\).&lt;br /&gt;
+To see this, the left hand side evaluates to \(d_{0}d_{1}d_{2} = \lfloor 100d \rfloor\); the right hand side evaluates to \(d_{0}d_{1}d_{2}\) if \(d_3 &amp;lt; 5\)  or \(d_{0}d_{1}d_{2}+1\) if \(d_3 \geq 5\). In the former case, the equality condition evaluates to ‘true’, and in the latter case it evaluates to ‘false’. Replacing 100 with other powers of 10 changes which digit in the decimal expansion is checked.&lt;/p&gt;
+
+&lt;p&gt;By varying the constants in the SQL query, this single expression yields a whole family of conditions, albeit a very ad-hoc one.  The hope was that, for different primes \(q\) and fractional exponents \(p\), the individual digits of the decimal representations of \((\mathtt{clientID}*q)^p\) would be random enough for reconstruction to work.
+The complete attack queries looked like this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;
+SELECT COUNT(clientId) FROM loans
+WHERE FLOOR(100 * ((clientId * 2)^.7))  
+    = FLOOR(100 * ((clientId * 2)^.7) + 0.5)
+AND clientId BETWEEN 2000 and 3000
+AND loanStatus = &apos;C&apos;
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The range condition at the end simply selects a subset of the data which is small enough for the attack to run quickly on a personal computer but large enough to satisfy the requirements of the Diffix bounty program.  This family of queries allows for a linear program to reconstruct the secret &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;loanStatus&lt;/code&gt; bits with high accuracy.&lt;/p&gt;
+
+&lt;p&gt;In the course of verifying the attack for the Diffix bounty program, reconstruction was carried out on 4 different ranges of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;clientId&lt;/code&gt;s containing 455 records. For each record, the attack correctly determined whether or not the corresponding &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;loanStatus&lt;/code&gt; was &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;C&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Aircloak’s response to this attack was to further restrict the queries allowed by Diffix.  Columns like &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;clientId&lt;/code&gt;, where most of the values correspond to a single user, are tagged as ‘isolating’, and mathematical functions can no longer be used on such columns.  The hope was that this modification would prevent the extraction of entropy from an identifying column via hashing.&lt;/p&gt;
+
+&lt;h4 id=&quot;the-dickjosephschutzman-attack&quot;&gt;The Dick–Joseph–Schutzman Attack&lt;/h4&gt;
+
+&lt;p&gt;Without the ability to directly use a uniquely identifying column from the database itself, we need another way to single out rows of the database.  We can use an idea that’s been around since the 1990s, when  Latanya Sweeney showed&lt;sup id=&quot;fnref:4&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:4&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;4&lt;/a&gt;&lt;/sup&gt; that almost 90 percent of Americans could be identified with only a date of birth, ZIP code, and gender, but of course each of these alone is nowhere near sufficient to isolate a single individual.  We can use this idea and try to evade the modification to Diffix by choosing multiple non-isolating columns which, when taken together, can isolate rows in the database.&lt;/p&gt;
+
+&lt;p&gt;This modified attack uses the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;pickup_latitude&lt;/code&gt; column in the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;taxi&lt;/code&gt; data set as the source of entropy, which is non-isolating, in part because there are a large number of rows where the value is recorded as zero.  We can combine this column with the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;trip_distance&lt;/code&gt; column and run queries of the following form:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;
+SELECT COUNT(*) FROM rides
+WHERE FLOOR(pickup_latitude ^  8.789 + 0.5)
+    = FLOOR(pickup_latitude ^  8.789)
+AND trip_distance IN (0.87, 1.97, 2.75)
+AND payment_type = &apos;CSH&apos;
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This example query is part of an attack to recover the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;payment_type&lt;/code&gt; column, which (for the purposes of this attack) is a binary column containing two values: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CRD&lt;/code&gt; (for credit card payments) and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CSH&lt;/code&gt; (for cash payments).  The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;IN (0.87, 1.97, 2.75)&lt;/code&gt; restricts to a subset of the data with about 450 rows, each with a distinct value for &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;pickup_latitude&lt;/code&gt;.  However, because across the whole database, very few rows have a distinct value in this column, Diffix does not consider it ‘isolating’ and it can be used as Cohen–Nissim used &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;clientId&lt;/code&gt;.  The values in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;pickup_latitude&lt;/code&gt; are recorded to six decimal places of precision and the least significant four of them are essentially random digits.  By choosing an appropriate range for the exponent and using the same trick as in the Cohen–Nissim attack, allows the construction of a Diffix-accepted query which includes around half of the rows in the targeted subset. Using different values for the exponent leads to a large family of queries which allow the attack to be carried out as before with similarly high accuracy of over 95 percent.&lt;/p&gt;
+
+&lt;p&gt;Dick–Joseph–Schutzman additionally extends this attack to recover &lt;em&gt;numerical&lt;/em&gt; rather than just binary secret data.  By using queries of the form&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SELECT SUM(passenger_count) FROM rides ...
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Diffix will return return noisy sums over the specified subset for a numeric column like &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;passenger_count&lt;/code&gt;.  Then, a similar linear program can reconstruct estimates for these values with high accuracy.  For numeric columns like &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;passenger_count&lt;/code&gt; which take on relatively few distinct values, the attack recovers the exact values with accuracy above 75 percent.  Due to limitations in the Diffix bounty program rules which require perfect reconstruction of a value to be considered ‘accurate’, we didn’t evaluate the performance of the attack on numeric columns with richer values, such as &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dropoff_latitude&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Finally, this attack extends to one used to reconstruct string data character-by-character.  A U.S. social security number consists of a string formatted like &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;xxx-xx-xxxx&lt;/code&gt; with none unknown digits in three blocks separated by dashes.  There are potentially one billion different strings that could appear in this column.  However, by exploiting the structure of the data, a separate attack can be run to recover each digit individually using the summation attack, since there are only ten different values each digit could take.  Queries of the form&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;
+SELECT SUM(CAST(SUBSTRING(ssn, 3, 1) AS integer)) FROM rides ....
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;can be used to recover the 3rd digit from each row’s social security number.  Running this attack for each digit then aggregating the individual guesses to construct a guess for each user’s entire social security number allows the attack to achieve perfect reconstruction on about 90 percent of the values.  A similar attack worked on the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;pickup_datetime&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dropoff_datetime&lt;/code&gt; columns, with separate attacks on the value in the seconds position, the minutes position, and so on, and finally piecing these together to correctly reconstruct about 85 percent of the values.&lt;/p&gt;
+
+&lt;p&gt;Again, Aircloak’s response was to restrict the query language.  Both of the successful attacks relied on the use of some arithmetic inside of  a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FLOOR&lt;/code&gt; function to check whether or not a row is included in a particular query. Diffix now forbids the use of arithmetic with &lt;em&gt;bucketing functions&lt;/em&gt; such as &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FLOOR&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CEIL&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ROUND&lt;/code&gt;, etc.  This defeats strategies which choose random-ish subsets via this kind of hashing, but does not necessarily preclude the extraction of entropy from the data in other ways.&lt;/p&gt;
+
+&lt;h4 id=&quot;whats-next&quot;&gt;What’s Next?&lt;/h4&gt;
+
+&lt;p&gt;We’d again like to thank Aircloak for opening their system to attacks and critiques through the Diffix bounty program.  By being so willing to expose their product in this way, they have provided a test bed for us to bridge the gap between theory and application and demonstrate how a linear reconstruction attack might work in practice.  Vulnerability to these and other attacks are a potential threat to any data privacy system which does not account for the cumulative threat to privacy that may result from many seemingly-innocuous queries, not just Diffix. The attacks we describe here only require the attacker have access to some subset of the data with a sufficient amount of entropy, and while more entropy allows for more complete reconstruction, it may be possible to use something potentially very accessible like a list of users’ email addresses in this kind of attack to reconstruct a non-trivial amount of the secret data using queries against a system that adds independent noise to each query.  Systems like this fall into the trap of the classic arms race, where a designer builds a system to protect against certain attacks, then a clever and determined adversary defeats the system, and the designer is forced to make revisions.  This cycle may never terminate, leaving us perpetually unsure of when we can be confident that a system is secure enough to trust with sensitive data.&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot; role=&quot;doc-endnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:1&quot; role=&quot;doc-endnote&quot;&gt;
+      &lt;p&gt;Descriptions of Diffix and Aircloak are based on &lt;a href=&quot;https://www.aircloak.com&quot;&gt;https://www.aircloak.com&lt;/a&gt;, &lt;a href=&quot;https://arxiv.org/pdf/1806.02075.pdf&quot;&gt;https://arxiv.org/pdf/1806.02075.pdf&lt;/a&gt;, &lt;a href=&quot;https://demo.aircloak.com/docs/&quot;&gt;https://demo.aircloak.com/docs/&lt;/a&gt;, and the authors’ participation in the Aircloak bounty program. &lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:2&quot; role=&quot;doc-endnote&quot;&gt;
+      &lt;p&gt;The variance is proportional to the largest effect any single user has on the output. For &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;COUNT&lt;/code&gt; queries, this largest contribution is 1, and for &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SUM&lt;/code&gt; queries, it’s roughly the magnitude of the largest value in the column. &lt;a href=&quot;#fnref:2&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:3&quot; role=&quot;doc-endnote&quot;&gt;
+      &lt;p&gt;Note that Diffix’s syntax restrictions don’t allow disjunctions (using &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;OR&lt;/code&gt;s). An equivalent way of writing this that is allowed by Diffix would use &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;...WHERE ... AND clientId IN (2007, 2018,...)&lt;/code&gt;. For such conditions, Diffix adds a noise layer for each element of the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;IN&lt;/code&gt; condition. &lt;a href=&quot;#fnref:3&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:4&quot; role=&quot;doc-endnote&quot;&gt;
+      &lt;p&gt;Sweeney, Latanya. “Simple demographics often identify people uniquely.” Health (San Francisco) 671.2000 (2000): 1-34. &lt;a href=&quot;#fnref:4&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+        <author>
+        
+            <name>Aloni Cohen</name>
+        
+            <name>Sasho Nikolov</name>
+        
+            <name>Zachary Schutzman</name>
+        
+            <name>Jonathan Ullman</name>
+        
+        </author>
+        <pubDate>Tue, 27 Oct 2020 00:11:38 -0400</pubDate>
+        <link>https://differentialprivacy.org/diffix-attack/</link>
+        <guid isPermaLink="true">https://differentialprivacy.org/diffix-attack/</guid>
+      </item>
+    
+      <item>
+        <title>The Theory of Reconstruction Attacks</title>
+        <description>&lt;p&gt;We often see people asking whether or not differential privacy might be overkill.  Why do we need strong privacy protections like differential privacy when we’re only releasing approximate, aggregate statistical information about a dataset?  Is it really possible to extract information about specific users from releasing these statistics?  The answer turns out to be a resounding yes!  The textbook by Dwork and Roth &lt;a href=&quot;https://www.cis.upenn.edu/~aaroth/privacybook.html&quot;&gt;[DR14]&lt;/a&gt; calls this phenomenon the Fundamental Law of Information Recovery:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Giving overly accurate answers to too many questions will inevitably destroy privacy.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;So what exactly does this fundamental law mean precisely, and how can we prove it?  We can formalize and prove the law via &lt;em&gt;reconstruction attacks&lt;/em&gt;, where an attacker can recover secret information from nearly every user in the dataset, simply by observing noisy answers to a modestly large number of (surprisingly simple) queries on the dataset. Reconstruction attacks were introduced in a seminal paper by Dinur and Nissim in 2003 &lt;a href=&quot;https://dl.acm.org/doi/10.1145/773153.773173&quot;&gt;[DN03]&lt;/a&gt;.  Although this paper predates differential privacy by a few years, the discovery of reconstruction attacks directly led to the definition of differential privacy, and shaped a lot of the early research on the topic. We now know that differentially private algorithms can, in some cases, match the limitations on accuracy implied by reconstruction attacks. When this is the case, we have a remarkably sharp transition from a blatant privacy violation when the accuracy is high enough to enable a reconstruction attack, to the strong protection given by differential privacy at the cost of only slightly lower accuracy.&lt;/p&gt;
+
+&lt;p&gt;Aside from the theoretical importance of reconstruction attacks, one may wonder if they can be carried out in practice, or if the attack model is unrealistic and can be avoided with some simple workarounds?  In this series of posts, we argue that reconstruction attacks can be quite practical.  In particular, we describe successful attacks by some of this post’s authors on a family of systems called &lt;em&gt;Diffix&lt;/em&gt;, that attempt to prevent reconstruction without introducing as much noise as the reconstruction attacks suggest is necessary. To the best of our knowledge, these attacks represent the first successful attempt to reconstruct data from a commercial statistical-database system that is specifically designed to protect the privacy of the underlying data.  A larger and much more significant demonstration of the practical power of reconstruction attacks was carried out by the US Census Bureau in 2018, motivating the Bureau’s adoption of differential privacy for data products derived from the 2020 decennial census &lt;a href=&quot;https://queue.acm.org/detail.cfm?ref=rss&amp;amp;id=3295691&quot;&gt;[GAM18]&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;This series will come in two parts: In this post, we will review the theory of reconstruction attacks, and present a model for reconstruction attacks that corresponds more directly to real attacks than the one that is typically presented.  In the second post, we will describe attacks that were launched against various iterations of the &lt;em&gt;Diffix&lt;/em&gt; system. \(
+\newcommand{\uni}{\mathcal{X}} % The universe
+\newcommand{\usize}{T} % Universe size
+\newcommand{\elem}{x} % Generic universe element. 
+\newcommand{\pbs}{z} %Non-secret bits
+\newcommand{\pbsuni}{\mathcal{Z}}
+\renewcommand{\sb}{b} % Secret bit
+\newcommand{\pds}{Z} %non-secret part of the data set
+\newcommand{\ddim}{d} % Data dimension
+\newcommand{\queries}{Q} % A set/workload of queries
+\newcommand{\qmat}{\mat{Q}} % Query matrix
+\newcommand{\qent}{w} % Entry of the query matrix
+\newcommand{\hist}{h} % Histogram vector
+\newcommand{\mech}{\mathcal{M}} % Generic Mechanism
+\newcommand{\query}{q}
+\newcommand{\queryfunc}{\varphi}
+\newcommand{\ans}{a} % query answer
+\newcommand{\qsize}{k}
+\newcommand{\ds}{X}
+\newcommand{\dsrow}{\elem} % same as elem above
+\newcommand{\dsize}{n}
+\newcommand{\priv}{\eps}
+\newcommand{\privd}{\delta}
+\newcommand{\acc}{\alpha}
+\newcommand{\from}{:}
+\newcommand{\set}[1]{\left{#1\right}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\var}{\mathrm{Var}}
+\newcommand{\I}{\mathbb{I}}
+\newcommand{\tr}{\mathrm{Tr}}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\pmass}{\mathbbm{1}}
+\newcommand{\zo}{\{0,1\}}
+\newcommand{\mat}[1]{#1} % matrix notation: for now nothing
+\)&lt;/p&gt;
+&lt;h3 id=&quot;a-model-of-reconstruction-attacks&quot;&gt;A Model of Reconstruction Attacks&lt;/h3&gt;
+
+&lt;p&gt;This part presents the basic theory of reconstruction attacks.  We’ll introduce a model of reconstruction attacks that is a little different from what you would see if you read the papers, and then describe the main results of Dinur and Nissim.  At the end we will briefly mention some variations that have been considered in the nearly two decades since.&lt;/p&gt;
+
+&lt;p&gt;Let us fix a dataset model, so that we can describe the attack precisely. (These attacks are very flexible and the ideas can usually be adapted to new models, as we’ll see at the end of this part.) We take the dataset to be a collection of \(\dsize\) records \(\ds = \{\elem_1,\dots,\elem_n\}\), each corresponding to the data of a single person.  The attacker’s goal is to learn some piece of secret information about as many individuals as possible, so we think of each record as having the form \(\elem_i = (\pbs_i,\sb_i)\) where \(\pbs_i\) is some identifying information, and \(\sb_i \in \zo\) is some secret. We assume that the secret is binary, although this aspect of the model can be generalized. We can visualize such a dataset as a matrix \([\pds \mid \sb]\) with two blocks as follows:
+\[ \left[ \begin{array}{c|c} \pbs_1 &amp;amp; \sb_1 \\ \vdots &amp;amp; \vdots \\ \pbs_n &amp;amp; \sb_n \end{array} \right] \]
+For a concrete example, suppose each element in the dataset contains \(d\) binary attributes, and the attacker’s goal is to learn the last attribute of each user.  In this case we would write each element as a pair \((\pbs_i, \sb_i)\) where \(\pbs_i \in \zo^{d-1}\) and \(\sb_i \in \zo\).&lt;/p&gt;
+
+&lt;p&gt;Note that this distinction between \(\pbs_i\) and \(\sb_i\) is only in the mind of the attacker, who has some prior information about the users, but is trying to learn some specific secret information.  In order to make the attack simpler to describe, we will also assume that the attacker knows \(\pbs_1,\dots,\pbs_\dsize\), which is everything about the dataset except the secret bits, although this assumption can also be relaxed to a large extent. As a shorthand, we will refer to \(\pbs_1, \ldots, \pbs_\dsize\) as the prior information, and to \(\sb_1, \ldots,\sb_\dsize\) as the secret bits.&lt;/p&gt;
+
+&lt;p&gt;Our goal is to understand whether asking aggregate queries defined by the prior information can allow an attacker to learn non-trivial information about the secret bits.  Perhaps the most basic type of aggregate query we can ask is a &lt;em&gt;counting query&lt;/em&gt;, which is a query that asks what number of the data points satisfy a given property. The Dinur-Nissim attacks assume that the attacker can get approximate answers to a type of counting queries that ask how many data points satisfy some property defined in terms of the prior information, and also have the sensitive bit set to \(1\).  Let us use the notation \(\pbsuni\) for the set of all possible values that the prior information can take. For the purposes of the attack, each query \(\query\) will be specified by a function \(\queryfunc \from \pbsuni \to \zo\) and have the specific form
+\[
+\query(\ds) = \sum_{j=1}^{\dsize} \queryfunc(\pbs_j) \cdot \sb_j.
+\]
+This is a good time to make one absolutely crucial point about this model, which is that&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;all the users are treated completely symmetrically by the queries, and the attacker cannot issue a query that targets a specific user \(x_i\) by name or a specific subset of users.  The different users are distinguished only by their data.  Nonetheless, we will see how to learn information about specific users from the answers to these queries.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Returning to our example with binary attributes, consider the very natural set of queries that asks for the inner product of the secret bits with each attribute in the prior information, which is a measure of the correlation between these two attributes.  Then each query takes the form \(\query_i(\ds) = \sum_{j=1}^{n} \pbs_{j,i} \cdot \sb_{j}\).&lt;/p&gt;
+
+&lt;p&gt;The nice thing about this type of query is that we can express the answers to a set of queries \({\query_1,\dots,\query_\qsize}\) defined by \(\queryfunc_1, \ldots, \queryfunc_\qsize\) as the following matrix-vector product \(\qmat_{\pds}\cdot \mat{b}\):
+\[ \left[ \begin{array}{c}\query_1(\ds) \\ \vdots  \\ \query_\qsize(\ds) \end{array} \right] = \left[ \begin{array}{ccc} \queryfunc_1(\pbs_1) &amp;amp; \dots &amp;amp; \queryfunc_1(\pbs_\dsize) \\ \vdots &amp;amp;  \ddots  &amp;amp; \vdots \\ \queryfunc_\qsize(\pbs_1) &amp;amp;   \dots &amp;amp; \queryfunc_k(\pbs_\dsize)  \end{array} \right] \left[ \begin{array}{c} \sb_1 \\ \vdots  \\ \sb_n  \end{array} \right]
+\]
+so we can study this model using tools from linear algebra.&lt;/p&gt;
+
+&lt;h3 id=&quot;an-inefficient-attack&quot;&gt;An Inefficient Attack&lt;/h3&gt;
+
+&lt;p&gt;Exact answers to such queries are clearly revealing, because, the attacker can use the predicates \[ \queryfunc_i(z) = \begin{cases} 1 &amp;amp; \textrm{if } \pbs = \pbs_i  \\ 0 &amp;amp;  \textrm{otherwise} \end{cases} \] to single out a specific user and receive their bit \(\sb_i\).  It is less obvious, however, that an attacker can learn a lot about the private bits even given noisy answers to the queries.&lt;/p&gt;
+
+&lt;p&gt;The first Dinur-Nissim attack shows that this is indeed possible—if the attacker can ask an unbounded number of counting queries, and each query is answered with, for example, 5% error, then the attacker can reconstruct 80% of the secret bits.  This attack requires exponentially many queries to run, making it somewhat impractical, but it is a proof of concept that an attack can reconstruct a large amount of private information even from very noisy statistics. Later we will see how to scale down the attack to use fewer queries at the cost of requiring more accurate answers.&lt;/p&gt;
+
+&lt;p&gt;The attack itself is quite simple:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;For simplicity, assume all the \(\pbs_1, \ldots, \pbs_\dsize\) are distinct so that each user is uniquely identified by the prior information.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;The attacker chooses the queries \(\query_1, \ldots, \query_\qsize\) so that the matrix \(\qmat_\pds\) has as its rows all of \(\zo^\dsize\). Namely, \(\qsize=2^\dsize\) and the functions \(\queryfunc_1, \ldots, \queryfunc_\qsize\) defining the queries take all possible values on \(\pbs_1, \ldots, \pbs_\dsize\).&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;The attacker receives a vector \(\ans\) of noisy answers to the queries, where \( |\query_{i}(\ds) - \ans_{i}| &amp;lt; \acc \dsize \) for each query \( \query_i \).  In matrix notation, this means \[ \max_{i = 1}^\qsize  |(\qmat_\pds\cdot {\sb})_i -\ans_i|= \| \qmat_\pds \cdot \sb -\ans\|_\infty  \leq \alpha \dsize. \]
+  Note that, for \(\{0,1\}\)-valued queries, the answers range from \(0\) to \(\dsize\), so answers with additive error \(\pm 5\%\) corresponds to \(\acc = 0.05\).&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Finally, the attacker outputs any guess \(\hat{\sb} = (\hat{\sb}_{1}, \ldots, \hat{\sb}_{n})\) of the private bits vector that is consistent with the answers and the additive error bound \(\acc\). In other words, \(\hat{\sb}\) just needs to satisfy \[\max_{i = 1}^\qsize |\ans_i - (\qmat_\pds\cdot \hat{\sb})_i|= \| \qmat_\pds \cdot \hat\sb - a \|_{\infty} \leq \alpha \dsize \]
+  Note that a solution always exists, since the true private bits \(\sb\) will do.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Our claim is that any such guess \(\hat{b}\) in fact agrees with the true private bits \(b\) for all but \(4\acc \dsize\) of the users. The reason is that if \(\hat{\sb}\) disagreed with more than \(4\acc \dsize\) of the secret bits, then the answer to some query would have eliminated \(\hat{\sb}\) from contention.  To see this, fix some \(\hat{\sb}\in \zo^\dsize\), and let \[ S_{01} = \{j: \hat{\sb}_j = 0,  \sb_j = 1\} \textrm{ and } S_{10} = \{j: \hat{\sb}_j = 1,  \sb_j = 0\}\] 
+If \(\hat{\sb}\) and \(\sb\) disagree on more than \(4\acc \dsize\) bits, then at least one of these two sets has size larger than \(2\acc \dsize\). Let us assume that this set is \(S_{01}\), and we’ll deal with the other case by symmetry.  Suppose that the \(i\)-th row of \(\qmat_\pds\) is the indicator vector of \(S_{01}\), i.e., \[(\qmat_\pds)_{i,j} = 1 \iff j \in S_{01}.\] We then have
+\[
+|(\qmat_{\pds}\cdot {\sb})_i - (\qmat_{\pds}\cdot \hat{\sb})_i|= |S_{01}| &amp;gt; 2 \acc \dsize,
+\]
+but, at the same time, if \(\hat{\sb}\) were output by the attacker, we would have
+\[
+|(\qmat_{\pds}\cdot {\sb})_i - (\qmat_{\pds}\cdot \hat{\sb})_i| \le |\ans_i - (\qmat_\pds\cdot \hat{\sb})_i| + |(\qmat_\pds \cdot \sb)_i - \ans_{i}| \le 2\acc \dsize, \]
+which is a contradiction. An important point to note is that the attacker does not need to know the set \(S_{10}\), or the corresponding \(i\)-th row of \(\qmat_\pds\) and query \(\query_i\). Since the attacker asks all possible queries determined by the prior information, we can be sure \(\query_i\) is one of these queries, and an accurate answer to it rules out this particular bad choice of \(\hat{\sb}\).  To give you something concrete to cherish, we can summarize this discussion in the following theorem.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;Theorem &lt;a href=&quot;https://dl.acm.org/doi/10.1145/773153.773173&quot;&gt;[DN03]&lt;/a&gt;:&lt;/strong&gt; There is a reconstruction attack that issues \(2^n\) queries to a dataset of \(n\) users, obtains answers with error \(\alpha n\), and reconstructs the secret bits of all but \(4 \alpha n\) users.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;an-efficient-attack&quot;&gt;An Efficient Attack&lt;/h3&gt;
+
+&lt;p&gt;The exponential Dinur-Nissim attack is quite powerful, as it recovers 80% of the secret bits even from answers with 5% error, but it has the drawback that it requires asking \(2^\dsize\) queries to a dataset with \(\dsize\) users.  Note that this is inherent to some extent.  Suppose we randomly subsample 50% of the dataset and answer the queries using only this subset by rescaling appropriately.  Although this random subsampling does not guarantee any meaningful privacy, clearly no attacker can reconstruct 75% of the secret bits, since some of them are effectively deleted.  However, the guarantees of random sampling tell us that any set of \(\qsize\) queries will be answered with maximum error \( \acc n =  O(\sqrt{n \log \qsize})\), so we can answer \( 2^{\Omega(n)} \) queries with \(5\%\) error while provably preventing this sort of reconstruction.&lt;/p&gt;
+
+&lt;p&gt;However, Dinur and Nissim showed that if we obtain &lt;em&gt;highly accurate&lt;/em&gt; answers—still noisy, but with error smaller than the sampling error—then we can reconstruct the dataset to high accuracy.  We can also make the reconstruction process computationally efficient by using linear programming to replace the exhaustive search over all \(2^\dsize\) possible vectors of secrets.  Specifically, we change the attack as follows:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;The attacker now chooses \(\qsize\) &lt;em&gt;randomly chosen&lt;/em&gt; functions \( \varphi_i \from \pbsuni \to \{0,1\} \) for a much smaller \(\qsize = O(\dsize) \).&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Upon receiving an answer vector \(\ans\), the attacker now searches for a &lt;em&gt;real-valued&lt;/em&gt; \( \tilde{b} \in [0,1]^{\dsize} \) such that \( \| \ans - \qmat_\pds \cdot \tilde{b} \|_{\infty} \leq \acc n \).  Note that this vector can be found efficiently via linear programming.  The attacker then rounds each \( \tilde{b}_{i} \) to the nearest \( \hat{b}_{i} \in \{0,1\}\).&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;It’s now much trickier to analyze this attack and show that it achieves low reconstruction error, and we won’t go into details in this post.  However, the key idea is that, because the queries are chosen randomly, \( \qmat_\pds \) is a random matrix with entries in \( \{0,1\} \), and we can use the statistical properties of this random matrix to argue that, with high probability,
+\[
+\|\qmat_\pds \cdot \sb - \qmat_\pds \cdot \tilde{\sb}\|_\infty^2 \gtrsim |{i: \sb_i \neq \hat{\sb}_i}|.
+\]
+By the way we chose \(\tilde{\sb}\), we have 
+\[
+\|\qmat_\pds \cdot \sb - \qmat_\pds \cdot \tilde{\sb}\|_\infty \le \|\qmat_\pds \cdot \sb - \ans\|_\infty + \| \ans - \qmat_\pds \cdot \tilde{b} \|_{\infty} \leq 2\acc n,
+\]
+so, by combining the inequalities we get that the reconstruction error is about \( O(\alpha^2 n^2) \). Note that, in order to reconstruct 80% of the secret bits using this attack, we now need the error to be \( \alpha n  \ll \sqrt{n} \), but as long as this condition on the error is satisfied, we will have a highly accurate reconstruction.  Let’s add this theorem to your goodie bags:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;Theorem &lt;a href=&quot;https://dl.acm.org/doi/10.1145/773153.773173&quot;&gt;[DN03]&lt;/a&gt;:&lt;/strong&gt; There is an efficient reconstruction attack that issues \(O(n)\) random queries to a dataset of \(n\) users, obtains answer with error \(\alpha n\), and, with high probability, reconstructs the secret bits of all but \( O(\alpha^2 n^2)\) users.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Although we modeled the queries, and thus the matrix \(\qmat_\pds\) as uniformly random, it’s important to note that we really only relied on the fact that 
+\[
+\|\qmat_\pds \cdot \sb - \qmat_\pds \cdot \tilde{\sb}\|_\infty^2 \gtrsim
+|\{i: \sb_i \neq \hat{\sb}_i\}|,
+\]
+and we can reconstruct while tolerating the same \(\Omega(\sqrt{n})\) error for any family of queries that gives rise to a matrix with this property.  Intuitively, any &lt;em&gt;random-enough&lt;/em&gt; family of queries will have this property.  More specifically, the property is satisfied by any matrix with no small singular values &lt;a href=&quot;https://dl.acm.org/doi/10.1007/978-3-540-85174-5_26&quot;&gt;[DY08]&lt;/a&gt; or with large discrepancy &lt;a href=&quot;https://arxiv.org/abs/1203.5453&quot;&gt;[MN12]&lt;/a&gt;.  There is a large body of work showing that many specific families of queries lead to reconstruction. For example, we can perform reconstruction using &lt;em&gt;conjunction queries&lt;/em&gt; that ask for the marginal distribution of small subsets of the attributes &lt;a href=&quot;https://dl.acm.org/doi/abs/10.1145/1806689.1806795&quot;&gt;[KLSU10]&lt;/a&gt;.  That is, queries of the form “count the number of people with blue eyes and brown hair and a birthday in August.”  In fairness, there are also families of queries that do not satisfy the property, or only satisfy quantitatively weaker versions of it, such as histograms and threshold queries, and for these queries it is indeed possible to achieve differential privacy with \( \ll \sqrt{n} \) error.&lt;/p&gt;
+
+&lt;h3 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h3&gt;
+
+&lt;p&gt;This is going to be the end of our technical discussion, but before signing off, let’s mention some of the important extensions of this theorem that have been developed over the years:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;We can allow the secret information \(\sb\) to be integers or real numbers, rather than bits. The queries still return \(\qmat_\pds\cdot \sb\). The exponential attack then guarantees that, given answers with error \(\acc n\), the reconstruction \(\hat{\sb}\) satisfies \(\|\hat{\sb}-\sb\|_1 \le 4\acc n\). This means, for example, that the reconstructed secrets of all but \(4\alpha n\) users are within \(\pm 1\) of the true secrets. The efficient attack guarantees that \(\|\hat{\sb}-\sb\|_2^2 \le O(\acc^2 n^2)\), which means that the reconstructed secrets are within \(\pm 1\) for all but \(O(\acc^2 n^2)\) users.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;It’s not crucial that &lt;em&gt;every&lt;/em&gt; query be answered with error \( \ll \sqrt{n} \).  If we are willing to settle 
+  for an inefficient attack, then we can reconstruct even if only 51% of the queries have small error.  If at least 75% have small error, then we can reconstruct efficiently &lt;a href=&quot;https://dl.acm.org/doi/10.1145/1250790.1250804&quot;&gt;[DMT07]&lt;/a&gt;.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;The reconstruction attacks still apply to the seemingly more general data model in which the private 
+  dataset \(\ds\) is a subset of some arbitrary (but public) data universe \(\uni\).  To see this, note that we can take \(\uni = \{\pbs_1, \ldots, \pbs_\dsize\}\), and we can interpret the secret bits \(\sb_i\) to indicate whether \(\pbs_i\) is an element of \(\ds\). Then the reconstruction attacks allow us to determine, up to some error, which elements of \(\uni\) are contained in \(\ds\). In the setting, the attack is sometimes called &lt;em&gt;membership inference&lt;/em&gt;.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;The fact that the efficient Dinur-Nissim reconstruction attack fails when the error is \( \gg \sqrt{n} \) 
+  does not mean it’s easy to achieve privacy with error of that magnitude.  As we mentioned earlier, we can achieve non-trivial error guarantees for a large number of queries simply by using a random subsample of half of the dataset, which is not a private algorithm in any reasonable sense of the word, as it can reveal everything about the chosen subset.  As this example shows,&lt;/p&gt;
+
+    &lt;blockquote&gt;
+      &lt;p&gt;preventing reconstruction attacks does not mean preserving privacy.&lt;/p&gt;
+    &lt;/blockquote&gt;
+
+    &lt;p&gt;In particular, there are membership-inference attacks that succeed in violating privacy even when the queries are answered with \( \gg \sqrt{n}\) error. We refer the reader to the survey &lt;a href=&quot;https://privacytools.seas.harvard.edu/publications/exposed-survey-attacks-private-data&quot;&gt;[DSSU17]&lt;/a&gt; for a somewhat more in-depth survey of reconstruction and membership-inference attacks.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Many types of queries give rise to the conditions under which reconstruction is possible.  Stay tuned for our next post, where we show how to generate those types of queries in practice against a family of systems known as &lt;em&gt;Diffix&lt;/em&gt; that are specifically designed to thwart reconstruction.&lt;/p&gt;
+</description>
+        <author>
+        
+            <name>Aloni Cohen</name>
+        
+            <name>Sasho Nikolov</name>
+        
+            <name>Zachary Schutzman</name>
+        
+            <name>Jonathan Ullman</name>
+        
+        </author>
+        <pubDate>Wed, 21 Oct 2020 12:30:00 -0400</pubDate>
+        <link>https://differentialprivacy.org/reconstruction-theory/</link>
+        <guid isPermaLink="true">https://differentialprivacy.org/reconstruction-theory/</guid>
+      </item>
+    
+      <item>
+        <title>Conference Digest - NeurIPS 2020</title>
+        <description>&lt;p&gt;&lt;a href=&quot;https://neurips.cc/Conferences/2020&quot;&gt;NeurIPS 2020&lt;/a&gt; is the biggest conference on machine learning, with tons of content on differential privacy in many different forms.
+We were able to find two workshops, a competition, and 31 papers. 
+This was just going off the preliminary &lt;a href=&quot;https://nips.cc/Conferences/2020/AcceptedPapersInitial&quot;&gt;accepted papers list&lt;/a&gt;, so it’s possible that we might have missed some papers on differential privacy – please let us know!
+We will update this post later, once all the conference material (papers and videos) are publicly available.&lt;/p&gt;
+
+&lt;h2 id=&quot;workshops&quot;&gt;Workshops&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://ppml-workshop.github.io/&quot;&gt;Privacy Preserving Machine Learning - PriML and PPML Joint Edition&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;http://icfl.cc/SpicyFL/2020&quot;&gt;International Workshop on Scalability, Privacy, and Security in Federated Learning (SpicyFL 2020)&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;competitions&quot;&gt;Competitions&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.vanderschaar-lab.com/privacy-challenge/&quot;&gt;Hide-and-Seek Privacy Challenge: Synthetic Data Generation vs. Patient Re-identification with Clinical Time-series Data&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;papers&quot;&gt;Papers&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2007.05665&quot;&gt;A Computational Separation between Private Learning and Online Learning&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://cs-people.bu.edu/mbun/&quot;&gt;Mark Bun&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2004.05975&quot;&gt;Adversarially Robust Streaming Algorithms via Differential Privacy&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;http://u.cs.biu.ac.il/~avinatan/&quot;&gt;Avinatan Hasidim&lt;/a&gt;, &lt;a href=&quot;http://www.cs.tau.ac.il/~haimk/&quot;&gt;Haim Kaplan&lt;/a&gt;, &lt;a href=&quot;https://www.tau.ac.il/~mansour/&quot;&gt;Yishay Mansour&lt;/a&gt;, &lt;a href=&quot;https://research.google/people/YossiMatias/&quot;&gt;Yossi Matias&lt;/a&gt;, &lt;a href=&quot;https://www.uri.co.il/&quot;&gt;Uri Stemmer&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2006.07709&quot;&gt;Auditing Differentially Private Machine Learning: How Private is Private SGD?&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://www.ccis.northeastern.edu/home/jagielski/&quot;&gt;Matthew Jagielski&lt;/a&gt;, &lt;a href=&quot;https://www.ccs.neu.edu/home/jullman/&quot;&gt;Jonathan Ullman&lt;/a&gt;, &lt;a href=&quot;https://www.ccs.neu.edu/home/alina/&quot;&gt;Alina Oprea&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://papers.nips.cc/paper/2020/hash/ab452534c5ce28c4fbb0e102d4a4fb2e-Abstract.html&quot;&gt;Bayesian Pseudocoresets&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://www.cl.cam.ac.uk/~dm754/&quot;&gt;Dionysis Manousakas&lt;/a&gt;, &lt;a href=&quot;https://www.stat.ubc.ca/users/zuheng-david-xu&quot;&gt;Zuheng Xu&lt;/a&gt;, &lt;a href=&quot;https://www.cl.cam.ac.uk/~cm542/&quot;&gt;Cecilia Mascolo&lt;/a&gt;, &lt;a href=&quot;https://trevorcampbell.me/&quot;&gt;Trevor Campbell&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2007.11707&quot;&gt;Breaking the Communication-Privacy-Accuracy Trilemma&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://web.stanford.edu/~wnchen/index.html&quot;&gt;Wei-Ning Chen&lt;/a&gt;, &lt;a href=&quot;https://kairouzp.github.io/&quot;&gt;Peter Kairouz&lt;/a&gt;, &lt;a href=&quot;https://web.stanford.edu/~aozgur/&quot;&gt;Ayfer Ozgur&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2006.06618&quot;&gt;CoinPress: Practical Private Mean and Covariance Estimation&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://sravb.github.io/&quot;&gt;Sourav Biswas&lt;/a&gt;, &lt;a href=&quot;https://yihedong.me/&quot;&gt;Yihe Dong&lt;/a&gt;, &lt;a href=&quot;http://www.gautamkamath.com/&quot;&gt;Gautam Kamath&lt;/a&gt;, &lt;a href=&quot;https://www.ccs.neu.edu/home/jullman/&quot;&gt;Jonathan Ullman&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2008.08007&quot;&gt;Differentially Private Clustering: Tight Approximation Ratios&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://sites.google.com/view/badihghazi/home&quot;&gt;Badih Ghazi&lt;/a&gt;, &lt;a href=&quot;https://sites.google.com/site/ravik53/&quot;&gt;Ravi Kumar&lt;/a&gt;, &lt;a href=&quot;https://pasin30055.github.io/&quot;&gt;Pasin Manurangsi&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2010.11425&quot;&gt;Differentially-Private Federated Linear Bandits&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;http://web.mit.edu/dubeya/www/&quot;&gt;Abhimanyu Dubey&lt;/a&gt;, &lt;a href=&quot;https://www.media.mit.edu/people/sandy/overview/&quot;&gt;Alex Pentland&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2010.14658&quot;&gt;Faster Differentially Private Samplers via Rényi Divergence Analysis of Discretized Langevin MCMC&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://people.eecs.berkeley.edu/~arunganesh/&quot;&gt;Arun Ganesh&lt;/a&gt;, &lt;a href=&quot;http://kunaltalwar.org/&quot;&gt;Kunal Talwar&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2006.08265&quot;&gt;GS-WGAN: A Gradient-Sanitized Approach for Learning Differentially Private Generators&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://cispa.de/en/people/dingfan.chen&quot;&gt;Dingfan Chen&lt;/a&gt;, &lt;a href=&quot;https://tribhuvanesh.github.io/&quot;&gt;Tribhuvanesh Orekondy&lt;/a&gt;, &lt;a href=&quot;https://cispa.saarland/group/fritz/&quot;&gt;Mario Fritz&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://papers.nips.cc/paper/2020/hash/e9bf14a419d77534105016f5ec122d62-Abstract.html&quot;&gt;Improving Sparse Vector Technique with Renyi Differential Privacy&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://jeremy43.github.io/&quot;&gt;Yuqing Zhu&lt;/a&gt;, &lt;a href=&quot;https://sites.cs.ucsb.edu/~yuxiangw/&quot;&gt;Yu-Xiang Wang&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2005.10630&quot;&gt;Instance-optimality in differential privacy via approximate inverse sensitivity mechanisms&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;http://web.stanford.edu/~asi/&quot;&gt;Hilal Asi&lt;/a&gt;, &lt;a href=&quot;https://web.stanford.edu/~jduchi/&quot;&gt;John Duchi&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2007.13660&quot;&gt;Learning discrete distributions: user vs item-level privacy&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://www.ece.cornell.edu/research/grad-students/yuhan-liu&quot;&gt;Yuhan Liu&lt;/a&gt;, &lt;a href=&quot;http://theertha.info/&quot;&gt;Ananda Theertha Suresh&lt;/a&gt;, &lt;a href=&quot;http://felixyu.org/&quot;&gt;Felix Xinnan Yu&lt;/a&gt;, &lt;a href=&quot;https://research.google/people/author11555/&quot;&gt;Sanjiv Kumar&lt;/a&gt;, &lt;a href=&quot;https://research.google/people/author125/&quot;&gt;Michael D Riley&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2008.00331&quot;&gt;Learning from Mixtures of Private and Public Populations&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://sites.google.com/view/rbassily&quot;&gt;Raef Bassily&lt;/a&gt;, &lt;a href=&quot;http://www.cs.technion.ac.il/~shaymrn/&quot;&gt;Shay Moran&lt;/a&gt;, &lt;a href=&quot;http://web.cse.ohio-state.edu/~nandi.10/&quot;&gt;Anupama Nandi&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2006.00701&quot;&gt;Locally Differentially Private (Contextual) Bandits Learning&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://scholar.google.com/citations?user=Bw-WdyUAAAAJ&quot;&gt;Kai Zheng&lt;/a&gt;, &lt;a href=&quot;https://tianle.website/&quot;&gt;Tianle Cai&lt;/a&gt;, &lt;a href=&quot;https://www.weiranhuang.com/&quot;&gt;Weiran Huang&lt;/a&gt;, &lt;a href=&quot;http://www.ee.columbia.edu/~zgli/&quot;&gt;Zhenguo Li&lt;/a&gt;, &lt;a href=&quot;http://www.liweiwang-pku.com/&quot;&gt;Liwei Wang&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2005.12601&quot;&gt;Locally private non-asymptotic testing of discrete distributions is faster using interactive mechanisms&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://warwick.ac.uk/fac/sci/statistics/staff/academic-research/berrett/&quot;&gt;Thomas Berrett&lt;/a&gt;, &lt;a href=&quot;http://cbutucea.perso.math.cnrs.fr/&quot;&gt;Cristina Butucea&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2006.01980&quot;&gt;On the Equivalence between Online and Private Learnability beyond Binary Classification&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://scholar.google.com/citations?user=ajqlbHUAAAAJ&quot;&gt;Young Hun Jung&lt;/a&gt;, &lt;a href=&quot;https://scholar.google.com/citations?user=5xt0ba0AAAAJ&amp;amp;hl=en&quot;&gt;Baekjin Kim&lt;/a&gt;, &lt;a href=&quot;https://ambujtewari.github.io/&quot;&gt;Ambuj Tewari&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://proceedings.neurips.cc/paper/2020/hash/21d144c75af2c3a1cb90441bbb7d8b40-Abstract.html&quot;&gt;Optimal Private Median Estimation under Minimal Distributional Assumptions&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://tzamos.com/&quot;&gt;Christos Tzamos&lt;/a&gt;, &lt;a href=&quot;http://www.cs.columbia.edu/~emvlatakis/&quot;&gt;Emmanouil-Vasileios Vlatakis-Gkaragkounis&lt;/a&gt;, &lt;a href=&quot;http://www.mit.edu/~izadik/&quot;&gt;Ilias Zadik&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2010.12603&quot;&gt;Permute-and-Flip: A new mechanism for differentially-private selection&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://people.cs.umass.edu/~rmckenna/&quot;&gt;Ryan McKenna&lt;/a&gt;, &lt;a href=&quot;https://people.cs.umass.edu/~sheldon/&quot;&gt;Daniel Sheldon&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2007.06605&quot;&gt;Privacy Amplification via Random Check-Ins&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://borjaballe.github.io/&quot;&gt;Borja Balle&lt;/a&gt;, &lt;a href=&quot;https://kairouzp.github.io/&quot;&gt;Peter Kairouz&lt;/a&gt;, &lt;a href=&quot;https://scholar.google.com/citations?user=iKPWydkAAAAJ&quot;&gt;Brendan McMahan&lt;/a&gt;, &lt;a href=&quot;https://scholar.google.com/citations?user=iKPWydkAAAAJ&quot;&gt;Om Thakkar&lt;/a&gt;, &lt;a href=&quot;https://athakurta.squarespace.com/&quot;&gt;Abhradeep Thakurta&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/1905.11947&quot;&gt;Private Identity Testing for High-Dimensional Distributions&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;http://www.cs.columbia.edu/~ccanonne/&quot;&gt;Clement Canonne&lt;/a&gt;, &lt;a href=&quot;http://www.gautamkamath.com/&quot;&gt;Gautam Kamath&lt;/a&gt;, &lt;a href=&quot;https://audramarymcmillan.wixsite.com/mysite&quot;&gt;Audra McMillan&lt;/a&gt;, &lt;a href=&quot;https://www.ccs.neu.edu/home/jullman/&quot;&gt;Jonathan Ullman&lt;/a&gt;, &lt;a href=&quot;https://www.ccs.neu.edu/home/lydiazak/&quot;&gt;Lydia Zakynthinou&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2004.07839&quot;&gt;Private Learning of Halfspaces: Simplifying the Construction and Reducing the Sample Complexity&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;http://www.cs.tau.ac.il/~haimk/&quot;&gt;Haim Kaplan&lt;/a&gt;, &lt;a href=&quot;https://www.tau.ac.il/~mansour/&quot;&gt;Yishay Mansour&lt;/a&gt;, &lt;a href=&quot;https://www.uri.co.il/&quot;&gt;Uri Stemmer&lt;/a&gt;, &lt;a href=&quot;https://dblp.org/pid/146/9658.html&quot;&gt;Eliad Tsfadia&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2006.10129&quot;&gt;Smoothed Analysis of Online and Differentially Private Learning&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://www.cs.cornell.edu/~nika/&quot;&gt;Nika Haghtalab&lt;/a&gt;, &lt;a href=&quot;http://timroughgarden.org/&quot;&gt;Tim Roughgarden&lt;/a&gt;, &lt;a href=&quot;https://ashettyv.github.io/&quot;&gt;Abhishek Shetty&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://proceedings.neurips.cc/paper/2020/hash/a0dc078ca0d99b5ebb465a9f1cad54ba-Abstract.html&quot;&gt;Smoothly Bounding User Contributions in Differential Privacy&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://www.epasto.org/&quot;&gt;Alessandro Epasto&lt;/a&gt;, &lt;a href=&quot;https://research.google/people/MohammadMahdian/&quot;&gt;Mohammad Mahdian&lt;/a&gt;, &lt;a href=&quot;https://sites.google.com/view/jieming-mao&quot;&gt;Jieming Mao&lt;/a&gt;, &lt;a href=&quot;https://people.csail.mit.edu/mirrokni/Welcome.html&quot;&gt;Vahab Mirrokni&lt;/a&gt;, &lt;a href=&quot;https://www.linkedin.com/in/lijie-ren-57162633/&quot;&gt;Lijie Ren&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2006.06914&quot;&gt;Stability of Stochastic Gradient Descent on Nonsmooth Convex Losses&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://sites.google.com/view/rbassily&quot;&gt;Raef Bassily&lt;/a&gt;, &lt;a href=&quot;http://vtaly.net/&quot;&gt;Vitaly Feldman&lt;/a&gt;, &lt;a href=&quot;https://sites.google.com/view/cguzman/&quot;&gt;Cristobal Guzman&lt;/a&gt;, &lt;a href=&quot;http://kunaltalwar.org/&quot;&gt;Kunal Talwar&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/1902.03468&quot;&gt;Synthetic Data Generators – Sequential and Private&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://research.google/people/OlivierBousquet/&quot;&gt;Olivier Bousquet&lt;/a&gt;, &lt;a href=&quot;https://www.tau.ac.il/~rlivni/&quot;&gt;Roi Livni&lt;/a&gt;, &lt;a href=&quot;http://www.cs.technion.ac.il/~shaymrn/&quot;&gt;Shay Moran&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2004.00010&quot;&gt;The Discrete Gaussian for Differential Privacy&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;http://www.cs.columbia.edu/~ccanonne/&quot;&gt;Clement Canonne&lt;/a&gt;, &lt;a href=&quot;http://www.gautamkamath.com/&quot;&gt;Gautam Kamath&lt;/a&gt;, &lt;a href=&quot;http://www.thomas-steinke.net/&quot;&gt;Thomas Steinke&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://proceedings.neurips.cc/paper/2020/hash/e3019767b1b23f82883c9850356b71d6-Abstract.html&quot;&gt;The Flajolet-Martin Sketch Itself Preserves Differential Privacy: Private Counting with Minimal Space&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://cs-people.bu.edu/ads22/&quot;&gt;Adam Smith&lt;/a&gt;, &lt;a href=&quot;https://shs037.github.io/&quot;&gt;Shuang Song&lt;/a&gt;, &lt;a href=&quot;https://athakurta.squarespace.com/&quot;&gt;Abhradeep Thakurta&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://proceedings.neurips.cc/paper/2020/hash/08fb104b0f2f838f3ce2d2b3741a12c2-Abstract.html&quot;&gt;Towards Better Generalization of Adaptive Gradient Methods&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://sites.google.com/umn.edu/zhou0877/home&quot;&gt;Yingxue Zhou&lt;/a&gt;, &lt;a href=&quot;https://belhalk.github.io/&quot;&gt;Belhal Karimi&lt;/a&gt;, &lt;a href=&quot;https://www.linkedin.com/in/jinxingyu/&quot;&gt;Jinxing Yu&lt;/a&gt;, &lt;a href=&quot;https://scholar.google.com/citations?user=5SZ4NjAAAAAJ&amp;amp;hl=en&quot;&gt;Zhiqiang Xu&lt;/a&gt;, &lt;a href=&quot;https://www.stat.rutgers.edu/home/pingli/&quot;&gt;Ping Li&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2006.08598&quot;&gt;Towards practical differentially private causal graph discovery&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://wanglun1996.github.io/&quot;&gt;Lun Wang&lt;/a&gt;, Qi Pang, &lt;a href=&quot;https://people.eecs.berkeley.edu/~dawnsong/&quot;&gt;Dawn Song&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2006.15429&quot;&gt;Understanding Gradient Clipping in Private SGD: A Geometric Perspective&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://scholar.google.com/citations?user=M0ki5ZgAAAAJ&quot;&gt;Xiangyi Chen&lt;/a&gt;, &lt;a href=&quot;https://zstevenwu.com/&quot;&gt;Steven Wu&lt;/a&gt;, &lt;a href=&quot;https://people.ece.umn.edu/~mhong/mingyi.html&quot;&gt;Mingyi Hong&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <author>
+        
+            <name>Gautam Kamath</name>
+        
+        </author>
+        <pubDate>Wed, 07 Oct 2020 12:30:00 -0400</pubDate>
+        <link>https://differentialprivacy.org/neurips2020/</link>
+        <guid isPermaLink="true">https://differentialprivacy.org/neurips2020/</guid>
+      </item>
+    
+  </channel>
+</rss>

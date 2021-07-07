@@ -1,0 +1,42 @@
+I"Q<p>There exist various notions of differential privacy which, while sharing a common core, differ in some key specific aspects. Broadly speaking, vary among a few main axes, such as the type of guarantee they provide, the specific similarity between data they consider, and the trust model they aim to address. This last point will be the focus of this post: <em>which notion of privacy is best suited to the specific scenario at hand?</em></p>
+
+<p>We will cover 4 of these notions.</p>
+<ul>
+  <li>(central) differential privacy (DP)</li>
+  <li>local differential privacy (LDP)</li>
+  <li>pan-privacy</li>
+  <li>shuffle privacy</li>
+</ul>
+
+<p>Typically, the world can be divided in a few categories: (i) the users, who hold the data; (ii) the “server,” who runs the algorithm; and (iii) the rest of the world, which does what the rest of the world does. As the name indicates, the <em>trust model</em> boils down to the following simple question: as a user, <strong>who do you trust</strong> with your sensitive data?</p>
+
+<p>In the <em>DP model</em> <strong>[DMNS06]</strong>, the answer is essentially “the server, and nobody else.” Users are happy to provide their data to the server, which runs the algorithm on the resulting dataset; however, the <em>output</em> of that algorithm, which is released to the (untrusted) world, needs to be private, and not reveal sensitive information about any single user.</p>
+
+<p>In the <em>LDP model</em> <strong>[EGS03,KLNRS08]</strong>, the server itself is untrusted, and the answer is “nobody.” Any data communicated by the users must already be private, and even a prying server cannot learn much about any single user. Of course, this is a strictly more stringent privacy model than the central DP one, and this comes at a price: the utility one can obtain from the same amount of data is typically smaller than in the DP model.</p>
+
+<p>The <em>pan-privacy model</em> <strong>[DNPRY10]</strong> introduces the notion of time. Each user contributes their data to the server sequentially, one after the other; once the server is done receiving and processing this data, the output is revealed to the world. The answer to the question then is that users trust the server <em>at the time they send it their data</em>, but maybe not in the future (and they <em>definitely</em> don’t trust the outside world). Put differently, this captures settings where a server can be compromised: at the time a  user sends their data, they trust the server; if the server is compromised at any point in the future, then the data already in the server <em>stays</em> private (but, of course, sending any more data after the server has already been attacked is a bad idea).</p>
+
+<p>Finally, the recent <em>shuffle model</em> of privacy <strong>[CSUZZ19,EFMRTT19]</strong> is in some sense intermediate between the central and local models of DP: users do not trust the server (and, god forbid, they still don’t trust the outside world!); however, they do trust some small blackbox in the middle, whose role is to randomly, well, <em>shuffle</em> the data. That is, when all users send their data to the untrusted server, this box-in-the-middle randomly permutes all the data points, so that the server had no idea who sent which part of the data. This simple-yet-helpful trusted backbox, in turn, can be implemented using e.g., cryptographic primitives; and the goal is to try and provide stronger privacy than in the DP model, while suffering a smaller utility loss than in the stringent LDP model.</p>
+
+<p>It is important to note that <em>there is no right or wrong model</em> of privacy here, and one cannot say that any of the above notion is “better” than the others with regard to both privacy and accuracy. They all aim at modeling different scenarios, and provide incomparable guarantees: depending on your situation, pick the one that fits best.</p>
+
+<hr />
+
+<p><strong>[<a href="https://arxiv.org/abs/1808.01394">CSUZZ19</a>]</strong> Albert Cheu, Adam D. Smith, Jonathan Ullman, David Zeber, Maxim Zhilyaev:
+<em>Distributed Differential Privacy via Shuffling.</em> EUROCRYPT (1) 2019: 375-403</p>
+
+<p><strong>[<a href="https://journalprivacyconfidentiality.org/index.php/jpc/article/view/405">DMNS06</a>]</strong> Cynthia Dwork, Frank McSherry, Kobbi Nissim, Adam D. Smith:
+<em>Calibrating Noise to Sensitivity in Private Data Analysis.</em> TCC 2006: 265-284</p>
+
+<p><strong>[<a href="https://conference.iiis.tsinghua.edu.cn/ICS2010/content/papers/6.html">DNPRY10</a>]</strong> Cynthia Dwork, Moni Naor, Toniann Pitassi, Guy N. Rothblum, Sergey Yekhanin:
+<em>Pan-Private Streaming Algorithms.</em> ICS 2010: 66-80</p>
+
+<p><strong>[<a href="https://arxiv.org/abs/1811.12469">EFMRTT19</a>]</strong> Úlfar Erlingsson, Vitaly Feldman, Ilya Mironov, Ananth Raghunathan, Kunal Talwar, Abhradeep Thakurta:
+<em>Amplification by Shuffling: From Local to Central Differential Privacy via Anonymity.</em> SODA 2019: 2468-2479</p>
+
+<p><strong>[<a href="https://dl.acm.org/doi/10.1145/773153.773174">EGS03</a>]</strong> Alexandre V. Evfimievski, Johannes Gehrke, Ramakrishnan Srikant:
+<em>Limiting privacy breaches in privacy preserving data mining.</em> PODS 2003: 211-222</p>
+
+<p><strong>[<a href="https://arxiv.org/abs/0803.0924">KLNRS08</a>]</strong> Shiva Prasad Kasiviswanathan, Homin K. Lee, Kobbi Nissim, Sofya Raskhodnikova, Adam D. Smith:
+<em>What Can We Learn Privately?</em> FOCS 2008: 531-540</p>
+:ET

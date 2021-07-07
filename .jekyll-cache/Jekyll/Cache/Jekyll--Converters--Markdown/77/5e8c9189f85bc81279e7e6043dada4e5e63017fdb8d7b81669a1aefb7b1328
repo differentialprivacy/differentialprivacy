@@ -1,0 +1,31 @@
+I"
+<p>Hello, welcome to this new website! Our goal is to serve as a hub for the differential privacy research community and to promote the work in this area. Please read on to learn more!</p>
+
+<p>We anticipate posting a variety of content, from announcements to mini-surveys of topics in the differential privacy literature. These are archived on our <a href="https://differentialprivacy.org/categories/">Posts</a> page. 
+We have also assembled a collection of <a href="https://differentialprivacy.org/resources/">Resources</a>, which we hope will help newcomers learn and enter the field.</p>
+
+<p>We have created a <a href="https://groups.google.com/forum/#!forum/differential-privacy-org">mailing list</a> for the differential privacy community. 
+The goal is to create a channel which could reach the entire differential privacy community at once.
+We envision this list being used only to send out announcements of the most broad interest, and as such, it is anticipated to be very low-traffic (≈ 1 post per month). 
+Click <a href="https://groups.google.com/forum/#!forum/differential-privacy-org/join">here</a> to join.</p>
+
+<p>To follow the latest updates on DifferentialPrivacy.org, you can:</p>
+<ol>
+  <li>Follow us on <a href="https://twitter.com/DiffPriv">Twitter</a></li>
+  <li>Subscribe to our <a href="https://differentialprivacy.org/feed.xml">RSS feed</a></li>
+  <li>Sign up for <a href="https://feedburner.google.com/fb/a/mailverify?uri=DifferentialPrivacy">email updates</a> (note: distinct from the Google Groups mailing list)</li>
+  <li>Set this website to be your homepage ;)</li>
+</ol>
+
+<p>This is a community-driven effort and we welcome participation. 
+If you are interested in contributing, please reach out to us (by email or in the comments below). 
+Further details are on <a href="https://differentialprivacy.org/about/">About</a> and <a href="https://github.com/differentialprivacy/differentialprivacy">Github</a>.</p>
+
+<p>To get things started, here is a definition:</p>
+
+<blockquote>
+  <p><strong>Definition 1.</strong> [<a href="https://journalprivacyconfidentiality.org/index.php/jpc/article/view/405">DMNS06</a>, <a href="https://www.iacr.org/archive/eurocrypt2006/40040493/40040493.pdf">DKMMN06</a>]</p>
+
+  <p>A randomized algorithm \(M : \mathcal{X}^n \to \mathcal{Y}\) is \((\varepsilon,\delta)\)-differentially private if, for all \(x,x’ \in \mathcal{X}^n\) differing on a single entry and all measurable \(E \subseteq \mathcal{Y}\), we have \[\mathbb{P}[M(x) \in E] \le e^\varepsilon \cdot \mathbb{P}[M(x’) \in E]  + \delta.\]</p>
+</blockquote>
+:ET

@@ -1,0 +1,6 @@
+I"²<p>We often see people asking whether or not differential privacy might be overkill.  Why do we need strong privacy protections like differential privacy when weâ€™re only releasing approximate, aggregate statistical information about a dataset?  Is it really possible to extract information about specific users from releasing these statistics?  The answer turns out to be a resounding yes!  The textbook by Dwork and Roth <a href="https://www.cis.upenn.edu/~aaroth/privacybook.html">[DR14]</a> calls this phenomenon the Fundamental Law of Information Recovery:</p>
+
+<blockquote>
+  <p>Giving overly accurate answers to too many questions will inevitably destroy privacy.</p>
+</blockquote>
+:ET

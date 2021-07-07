@@ -1,0 +1,115 @@
+I"l%<p><a href="https://icml.cc/Conferences/2021">ICML 2021</a>, one of the biggest conferences in machine learning, naturally has a ton of interesting sounding papers on the topic of differential privacy.
+We went through this year’s <a href="https://icml.cc/Conferences/2021/AcceptedPapersInitial">accepted papers</a> and aggregated all the relevant papers we could find.
+In addition, this year features three workshops on the topic of privacy, as well as a tutorial.
+As always, please inform us if we overlooked any papers on differential privacy.</p>
+
+<h2 id="workshops">Workshops</h2>
+
+<ul>
+  <li>
+    <p><a href="http://federated-learning.org/fl-icml-2021/">Federated Learning for User Privacy and Data Confidentiality</a></p>
+  </li>
+  <li>
+    <p><a href="https://sites.google.com/view/ml4data">Machine Learning for Data: Automated Creation, Privacy, Bias</a></p>
+  </li>
+  <li>
+    <p><a href="https://tpdp.journalprivacyconfidentiality.org/2021/">Theory and Practice of Differential Privacy</a></p>
+  </li>
+</ul>
+
+<h2 id="tutorial">Tutorial</h2>
+
+<ul>
+  <li><a href="https://icml.cc/Conferences/2021/Schedule?showEvent=10839">Privacy in Learning: Basics and the Interplay</a><br />
+<a href="https://www.microsoft.com/en-us/research/people/huzhang/">Huishuai Zhang</a>, <a href="https://www.microsoft.com/en-us/research/people/weic/">Wei Chen</a></li>
+</ul>
+
+<h2 id="papers">Papers</h2>
+
+<ul>
+  <li>
+    <p><a href="https://arxiv.org/abs/2009.02668">A Framework for Private Matrix Analysis in Sliding Window Model</a><br />
+<a href="https://sites.google.com/view/jalajupadhyay/home">Jalaj Upadhyay</a>, <a href="https://www.fujitsu.com/us/about/businesspolicy/tech/rd/research-staff/sarvagya.html">Sarvagya Upadhyay</a></p>
+  </li>
+  <li>
+    <p>Accuracy, Interpretability, and Differential Privacy via Explainable Boosting<br />
+<a href="https://scholar.google.com/citations?user=HmxjgMAAAAAJ">Harsha Nori</a>, <a href="https://www.microsoft.com/en-us/research/people/rcaruana/">Rich Caruana</a>, <a href="https://sites.google.com/view/zhiqi-bu">Zhiqi Bu</a>, <a href="https://heyyjudes.github.io/">Judy Hanwen Shen</a>, <a href="https://www.microsoft.com/en-us/research/people/jakul/">Janardhan Kulkarni</a></p>
+  </li>
+  <li>
+    <p>Differentially Private Aggregation in the Shuffle Model: Almost Central Accuracy in Almost a Single Message<br />
+<a href="https://sites.google.com/view/badihghazi/home">Badih Ghazi</a>, <a href="https://sites.google.com/site/ravik53/">Ravi Kumar</a>, <a href="https://pasin30055.github.io/">Pasin Manurangsi</a>, <a href="https://rasmuspagh.net/">Rasmus Pagh</a>, <a href="https://www.linkedin.com/in/amersinha/">Amer Sinha</a></p>
+  </li>
+  <li>
+    <p><a href="https://arxiv.org/abs/2011.00467">Differentially Private Bayesian Inference for Generalized Linear Models</a><br />
+<a href="https://warwick.ac.uk/fac/sci/dcs/people/u1554597">Tejas Kulkarni</a>, <a href="https://users.aalto.fi/~jalkoj1/">Joonas Jälkö</a>, <a href="https://scholar.google.com/citations?user=Y_EvCPAAAAAJ">Antti Koskela</a>, <a href="https://people.aalto.fi/samuel.kaski">Samuel Kaski</a>, <a href="https://www.cs.helsinki.fi/u/ahonkela/">Antti Honkela</a></p>
+  </li>
+  <li>
+    <p>Differentially-Private Clustering of Easy Instances<br />
+<a href="http://www.cohenwang.com/edith/">Edith Cohen</a>, <a href="http://www.cs.tau.ac.il/~haimk/">Haim Kaplan</a>, <a href="https://www.tau.ac.il/~mansour/">Yishay Mansour</a>, <a href="https://www.uri.co.il/">Uri Stemmer</a>, <a href="https://www.linkedin.com/in/eliad-tsfadia-21482b96/">Eliad Tsfadia</a></p>
+  </li>
+  <li>
+    <p><a href="https://arxiv.org/abs/2102.08885">Differentially Private Correlation Clustering</a><br />
+<a href="https://cs-people.bu.edu/mbun/">Mark Bun</a>, <a href="https://elias.ba30.eu/">Marek Elias</a>, <a href="https://www.microsoft.com/en-us/research/people/jakul/">Janardhan Kulkarni</a></p>
+  </li>
+  <li>
+    <p><a href="https://arxiv.org/abs/2105.13287">Differentially Private Densest Subgraph Detection</a><br />
+<a href="https://biocomplexity.virginia.edu/person/dung-nguyen">Dung Nguyen</a>, <a href="https://engineering.virginia.edu/faculty/anil-vullikanti">Anil Vullikanti</a></p>
+  </li>
+  <li>
+    <p><a href="https://arxiv.org/abs/2102.08244">Differentially Private Quantiles</a><br />
+<a href="http://jgillenw.com/">Jennifer Gillenwater</a>, <a href="https://www.majos.net/">Matthew Joseph</a>, <a href="https://www.alexkulesza.com/">Alex Kulesza</a></p>
+  </li>
+  <li>
+    <p><a href="https://arxiv.org/abs/2103.06641">Differentially Private Query Release Through Adaptive Projection</a><br />
+<a href="https://sergulaydore.github.io/">Sergul Aydore</a>, <a href="https://wibrown.github.io/">William Brown</a>, <a href="https://www.cis.upenn.edu/~mkearns/">Michael Kearns</a>, <a href="http://www-cs-students.stanford.edu/~kngk/">Krishnaram Kenthapadi</a>, <a href="https://www.lucamel.is/">Luca Melis</a>, <a href="https://www.cis.upenn.edu/~aaroth/">Aaron Roth</a>, <a href="https://ankitsiva.xyz/">Ankit Siva</a></p>
+  </li>
+  <li>
+    <p>Differentially Private Sliced Wasserstein Distance<br />
+<a href="http://asi.insa-rouen.fr/enseignants/~arakoto/">Alain Rakotomamonjy</a>, <a href="https://pageperso.lif.univ-mrs.fr/~liva.ralaivola/doku.php">Liva Ralaivola</a></p>
+  </li>
+  <li>
+    <p>Large Scale Private Learning via Low-rank Reparametrization<br />
+<a href="https://scholar.google.com/citations?user=FcRGdiwAAAAJ">Da Yu</a>, <a href="https://www.microsoft.com/en-us/research/people/huzhang/">Huishuai Zhang</a>, <a href="https://www.microsoft.com/en-us/research/people/weic/">Wei Chen</a>, Jian Yin, <a href="https://www.microsoft.com/en-us/research/people/tyliu/">Tie-Yan Liu</a></p>
+  </li>
+  <li>
+    <p><a href="https://arxiv.org/abs/2102.08598">Leveraging Public Data for Practical Private Query Release</a><br />
+<a href="https://www.linkedin.com/in/terrance-liu-26796974/">Terrance Liu</a>, <a href="https://sites.google.com/umn.edu/giuseppe-vietri/home">Giuseppe Vietri</a>, <a href="http://www.thomas-steinke.net/">Thomas Steinke</a>, <a href="https://www.ccs.neu.edu/home/jullman/">Jonathan Ullman</a>, <a href="https://zstevenwu.com/">Steven Wu</a></p>
+  </li>
+  <li>
+    <p><a href="https://arxiv.org/abs/2104.09734">Locally Private k-Means in One Round</a><br />
+Alisa Chang, <a href="https://sites.google.com/view/badihghazi/home">Badih Ghazi</a>, <a href="https://sites.google.com/site/ravik53/">Ravi Kumar</a>, <a href="https://pasin30055.github.io/">Pasin Manurangsi</a></p>
+  </li>
+  <li>
+    <p><a href="https://arxiv.org/abs/2102.12099">Lossless Compression of Efficient Private Local Randomizers</a><br />
+<a href="http://vtaly.net/">Vitaly Feldman</a>, <a href="http://kunaltalwar.org/">Kunal Talwar</a></p>
+  </li>
+  <li>
+    <p><a href="https://arxiv.org/abs/2105.08233">Oneshot Differentially Private Top-k Selection</a><br />
+<a href="https://lsa.umich.edu/stats/people/phd-students/qiaogang.html">Gang Qiao</a>, <a href="http://www-stat.wharton.upenn.edu/~suw/">Weijie Su</a>, <a href="https://research.google/people/LiZhang/">Li Zhang</a></p>
+  </li>
+  <li>
+    <p><a href="https://arxiv.org/abs/2002.12321">PAPRIKA: Private Online False Discovery Rate Control</a><br />
+<a href="https://wanrongz.github.io/">Wanrong Zhang</a>, <a href="http://www.gautamkamath.com/">Gautam Kamath</a>, <a href="https://sites.gatech.edu/rachel-cummings/">Rachel Cummings</a></p>
+  </li>
+  <li>
+    <p><a href="https://arxiv.org/abs/2103.00039">Practical and Private (Deep) Learning without Sampling or Shuffling</a><br />
+<a href="https://kairouzp.github.io/">Peter Kairouz</a>, <a href="https://research.google/people/author35837/">Brendan McMahan</a>, <a href="https://shs037.github.io/">Shuang Song</a>, <a href="http://www.omthakkar.com/">Om Thakkar</a>, <a href="https://athakurta.squarespace.com/">Abhradeep Thakurta</a>, <a href="https://research.google/people/106689/">Zheng Xu</a></p>
+  </li>
+  <li>
+    <p>Private Adaptive Gradient Methods for Convex Optimization<br />
+<a href="http://web.stanford.edu/~asi/">Hilal Asi</a>, <a href="https://web.stanford.edu/~jduchi/">John Duchi</a>, <a href="https://afallah.lids.mit.edu/">Alireza Fallah</a>, <a href="https://scholar.google.com/citations?user=_JXjrEp9FhYC">Omid Javidbakht</a>, <a href="http://kunaltalwar.org/">Kunal Talwar</a></p>
+  </li>
+  <li>
+    <p>Private Alternating Least Squares: (Nearly) Optimal Privacy/Utility Trade-off for Matrix Completion<br />
+Steve Chien, <a href="https://www.prateekjain.org/">Prateek Jain</a>, <a href="http://walid.krichene.net/">Walid Krichene</a>, <a href="https://scholar.google.com/citations?user=yR-ugIoAAAAJ">Steffen Rendle</a>, <a href="https://shs037.github.io/">Shuang Song</a>, <a href="https://athakurta.squarespace.com/">Abhradeep Thakurta</a>, <a href="https://research.google/people/LiZhang/">Li Zhang</a></p>
+  </li>
+  <li>
+    <p><a href="https://arxiv.org/abs/2103.01516">Private Stochastic Convex Optimization: Optimal Rates in L1 Geometry</a><br />
+<a href="http://web.stanford.edu/~asi/">Hilal Asi</a>, <a href="http://vtaly.net/">Vitaly Feldman</a>, <a href="https://tomerkoren.github.io/">Tomer Koren</a>, <a href="http://kunaltalwar.org/">Kunal Talwar</a></p>
+  </li>
+  <li>
+    <p><a href="https://arxiv.org/abs/2102.06387">The Distributed Discrete Gaussian Mechanism for Federated Learning with Secure Aggregation</a><br />
+<a href="https://kairouzp.github.io/">Peter Kairouz</a>, <a href="https://kenziyuliu.github.io/">Ziyu Liu</a>, <a href="http://www.thomas-steinke.net/">Thomas Steinke</a></p>
+  </li>
+</ul>
+:ET

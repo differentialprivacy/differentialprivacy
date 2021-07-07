@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Differential Privacy - Welcome to DifferentialPrivacy.org!</title>
+
+        <meta charset="utf-8" />
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@DiffPriv" />
+    <meta name="twitter:image" content="https://differentialprivacy.org/images/logodp-transparent.png" />
+    <meta name="twitter:image:alt" content="DP.org logo" />
+
+    
+    <meta name="description" content="Hello, welcome to this new website! Our goal is to serve as a hub for the differential privacy research community and to promote the work in this area. Please read on to learn more!
+" />
+    <meta property="og:description" content="Hello, welcome to this new website! Our goal is to serve as a hub for the differential privacy research community and to promote the work in this area. Please read on to learn more!
+" />
+    <meta name="twitter:description" content="Hello, welcome to this new website! Our goal is to serve as a hub for the differential privacy research community and to promote the work in this area. Please read on to learn more!
+"/>
+    
+    <meta name="author" content="Differential Privacy" />
+
+    
+    <meta property="og:title" content="Welcome to DifferentialPrivacy.org!" />
+    <meta property="twitter:title" content="Welcome to DifferentialPrivacy.org!" />
+    
+
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+    <link rel="alternate" type="application/rss+xml" title="Differential Privacy - Website for the differential privacy research community" href="/feed.xml" />
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  </head>
+
+  <body>
+    <div class="wrapper-masthead">
+      <div class="container">
+        <header class="masthead clearfix">
+          <!-- no image for now <a href="/" class="site-avatar"><img src="favicon-96x96.png" /></a> -->
+
+          <div class="site-info">
+            <h1 class="site-name"><a href="/"><b><font color="#3d85c6">Differential</font><font color="#b45f06">Privacy</font><font color="#cccccc">.org</font></b></a></h1>
+            <!-- <p class="site-description">Website for the differential privacy research community</p> -->
+          </div>
+
+          <nav>
+            <a href="/">Home</a>
+            <a href="/about">About</a>
+			<a href="/categories">Posts</a>
+			<a href="/resources">Resources</a>
+          </nav>
+        </header>
+      </div>
+    </div>
+
+    <div id="main" role="main" class="container">
+      <article class="post">
+  <h1>Welcome to DifferentialPrivacy.org!</h1>
+
+  <div class="entry">
+    <p>Hello, welcome to this new website! Our goal is to serve as a hub for the differential privacy research community and to promote the work in this area. Please read on to learn more!</p>
+
+<p>We anticipate posting a variety of content, from announcements to mini-surveys of topics in the differential privacy literature. These are archived on our <a href="https://differentialprivacy.org/categories/">Posts</a> page. 
+We have also assembled a collection of <a href="https://differentialprivacy.org/resources/">Resources</a>, which we hope will help newcomers learn and enter the field.</p>
+
+<p>We have created a <a href="https://groups.google.com/forum/#!forum/differential-privacy-org">mailing list</a> for the differential privacy community. 
+The goal is to create a channel which could reach the entire differential privacy community at once.
+We envision this list being used only to send out announcements of the most broad interest, and as such, it is anticipated to be very low-traffic (≈ 1 post per month). 
+Click <a href="https://groups.google.com/forum/#!forum/differential-privacy-org/join">here</a> to join.</p>
+
+<p>To follow the latest updates on DifferentialPrivacy.org, you can:</p>
+<ol>
+  <li>Follow us on <a href="https://twitter.com/DiffPriv">Twitter</a></li>
+  <li>Subscribe to our <a href="https://differentialprivacy.org/feed.xml">RSS feed</a></li>
+  <li>Sign up for <a href="https://feedburner.google.com/fb/a/mailverify?uri=DifferentialPrivacy">email updates</a> (note: distinct from the Google Groups mailing list)</li>
+  <li>Set this website to be your homepage ;)</li>
+</ol>
+
+<p>This is a community-driven effort and we welcome participation. 
+If you are interested in contributing, please reach out to us (by email or in the comments below). 
+Further details are on <a href="https://differentialprivacy.org/about/">About</a> and <a href="https://github.com/differentialprivacy/differentialprivacy">Github</a>.</p>
+
+<p>To get things started, here is a definition:</p>
+
+<blockquote>
+  <p><strong>Definition 1.</strong> [<a href="https://journalprivacyconfidentiality.org/index.php/jpc/article/view/405">DMNS06</a>, <a href="https://www.iacr.org/archive/eurocrypt2006/40040493/40040493.pdf">DKMMN06</a>]</p>
+
+  <p>A randomized algorithm \(M : \mathcal{X}^n \to \mathcal{Y}\) is \((\varepsilon,\delta)\)-differentially private if, for all \(x,x’ \in \mathcal{X}^n\) differing on a single entry and all measurable \(E \subseteq \mathcal{Y}\), we have \[\mathbb{P}[M(x) \in E] \le e^\varepsilon \cdot \mathbb{P}[M(x’) \in E]  + \delta.\]</p>
+</blockquote>
+
+  </div>
+
+  <div class="date">
+      Posted by <a href="http://www.gautamkamath.com/">Gautam Kamath</a>, <a href="http://www.thomas-steinke.net/">Thomas Steinke</a>, <a href="https://www.ccs.neu.edu/home/jullman/">Jonathan Ullman</a> and <a href="https://zstevenwu.com/">Zhiwei Steven Wu</a> on July 16, 2020.
+  </div>
+  <div class="post-categories">
+    
+	Categories: 
+    
+    <a href="/categories/#Announcements">Announcements</a>
+    
+    
+  </div>
+  
+  <br/>
+
+  
+  <a href="/bibtex/#welcome">[cite this]</a> &nbsp;
+  
+  <!-- 
+<div class="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+
+	    var disqus_shortname = 'differentialprivacy';
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+ -->
+  
+  <span class="disqus-comment-count" data-disqus-url="https://differentialprivacy.org/welcome/"> <!-- Comment count will be inserted here --> </span>
+
+
+  <br/>&nbsp;<br/>
+ <div class="comments-block">
+     <center><button id="show-comments" onclick="disqus();return false;">SHOW COMMENTS</button></center>
+ </div>
+ <noscript>Comments cannot be shown due to javascript being disabled in your browser.</noscript>
+ 
+
+ <div id="disqus_thread"></div>
+ 
+ <script id="dsq-count-scr" src="//differentialprivacy.disqus.com/count.js" async></script>
+ 
+ <script>
+ var disqus_loaded = false;
+ var disqus_shortname = 'differentialprivacy'; //Add your shortname here
+
+ function disqus() {
+
+     if (!disqus_loaded)  {
+         disqus_loaded = true;
+
+         var e = document.createElement("script");
+         e.type = "text/javascript";
+         e.async = true;
+         e.src = "//" + disqus_shortname + ".disqus.com/embed.js";
+         (document.getElementsByTagName("head")[0] ||
+         document.getElementsByTagName("body")[0])
+         .appendChild(e);
+
+         //Hide the button after opening
+         document.getElementById("show-comments").style.display = "none";
+     }
+ }
+
+ //Opens comments when linked to directly
+ var hash = window.location.hash.substr(1);
+ if (hash.length > 8) {
+     if (hash.substring(0, 8) == "comment-") {
+         disqus();
+     }
+ }
+
+ //Remove this if you don't want to load comments for search engines
+ if(/bot|google|baidu|bing|msn|duckduckgo|slurp|yandex/i.test(navigator.userAgent)) {
+    disqus();
+ }
+ </script>
+  
+  
+  <br/>&nbsp;<br/>
+
+  <div>Subscribe to updates from DifferentialPrivacy.org by <a href="https://feedburner.google.com/fb/a/mailverify?uri=DifferentialPrivacy">Email</a>, on <a href="https://twitter.com/DiffPriv">Twitter</a>, or via <a href="/feed.xml">RSS</a>.</div>
+  
+  <br/>&nbsp;<br/>
+</article>
+
+    </div>
+
+    <!--
+    <div class="wrapper-footer">
+      <div class="container">
+        <footer class="footer">
+          
+
+
+
+<a href="https://github.com/differentialprivacy/differentialprivacy"><i class="svg-icon github"></i></a>
+
+
+
+
+<a href="https://www.twitter.com/DiffPriv"><i class="svg-icon twitter"></i></a>
+
+
+
+        </footer>
+      </div>
+    </div>
+    -->
+
+    
+	<!-- Google Analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		ga('create', 'UA-11154678-4', 'auto');
+		ga('send', 'pageview', {
+		  'page': '/welcome/',
+		  'title': 'Welcome to DifferentialPrivacy.org!'
+		});
+	</script>
+	<!-- End Google Analytics -->
+
+
+    
+    <!-- 
+    <script>
+     
+        var disqus_shortname = "differentialprivacy";
+        var disqus_config = function () {
+            this.page.url = '/welcome/';
+            this.page.identifier = '/welcome';
+        };
+        var is_disqus_loaded = false;
+        function loadDisqus() {
+          if (!is_disqus_loaded){
+            is_disqus_loaded = true;
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+          }
+            
+        };
+    </script>
+     -->
+  </body>
+</html>

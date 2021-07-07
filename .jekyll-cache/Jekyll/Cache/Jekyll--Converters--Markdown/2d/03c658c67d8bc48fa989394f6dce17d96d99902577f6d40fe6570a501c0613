@@ -1,0 +1,6 @@
+I"�<p>The study of differentially private PAC learning runs all the way from
+its introduction in 2008 <a href="https://arxiv.org/abs/0803.0924" title="Shiva Prasad Kasiviswanathan, Homin K. Lee, Kobbi Nissim, Sofya Raskhodnikova, and Adam Smith. What Can We Learn Privately? FOCS 2008"><strong>[KLNRS08]</strong></a> to a best paper award at the
+Symposium on Foundations of Computer Science (FOCS) this year <a href="https://arxiv.org/abs/2003.00563" title="Mark Bun, Roi Livni, and Shay Moran. An equivalence between private classification and online prediction. FOCS 2020"><strong>[BLM20]</strong></a>.
+In this post, we’ll recap the history of this line of work, aiming for
+enough detail for a rough understanding of the results and methods.</p>
+:ET

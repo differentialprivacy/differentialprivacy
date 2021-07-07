@@ -28,10 +28,10 @@ and \\\(\ell_2\\\)-error
 giving four variants of the problem.  By now we know tight worst-case upper and lower bounds for two of these variants, and nearly tight bounds (up to logarithmic factors) for a third. The tightest known upper bounds are given in the following table.
 
 |      | Pure DP | Approx DP |
-| \\\( \ell_2 \\\)-error      | \\\( \left(\frac{\log^2 k ~\cdot~ \log^{3/2}T}{\varepsilon n} \right)^{1/2} \\\)  [[NTZ13](https://arxiv.org/abs/1212.0297)]     | \\\( \left(\frac{\log^{1/2} T}{\varepsilon n} \right)^{1/2} \\\)  [[DRV10](https://guyrothblum.files.wordpress.com/2014/11/drv10.pdf)] |
-| \\\( \ell_\infty \\\)-error  | \\\( \left(\frac{\log k ~\cdot~ \log T}{\varepsilon n} \right)^{1/3} \\\)  [[BLR13](https://arxiv.org/abs/1109.2229)]      | \\\( \left(\frac{\log k ~\cdot~ \log^{1/2} T}{\varepsilon n} \right)^{1/2} \\\)  [[HR10](https://guyrothblum.files.wordpress.com/2014/11/hr10.pdf), [GRU12](https://arxiv.org/abs/1107.3731)] |
+| \\\( \ell_2 \\\)<br>error      | \\\( \alpha \lesssim \left(\frac{\log^2 k ~\cdot~ \log^{3/2}T}{\varepsilon n} \right)^{1/2} \\\) <br> [[NTZ13](https://arxiv.org/abs/1212.0297)]     | \\\( \alpha \lesssim \left(\frac{\log^{1/2} T}{\varepsilon n} \right)^{1/2} \\\) <br> [[DRV10](https://guyrothblum.files.wordpress.com/2014/11/drv10.pdf)] |
+| \\\( \ell_\infty \\\)<br>error  | \\\( \alpha \lesssim \left(\frac{\log k ~\cdot~ \log T}{\varepsilon n} \right)^{1/3} \\\)  <br> [[BLR13](https://arxiv.org/abs/1109.2229)]      | \\\( \alpha \lesssim \left(\frac{\log k ~\cdot~ \log^{1/2} T}{\varepsilon n} \right)^{1/2} \\\) <br> [[HR10](https://guyrothblum.files.wordpress.com/2014/11/hr10.pdf), [GRU12](https://arxiv.org/abs/1107.3731)] |
 
-Our two open problems both involve improving the best known upper bounds for pure differential privacy.
+The bounds for approximate DP are known to be tight [[BUV14](https://arxiv.org/abs/1311.3158)].  Our two open problems both involve improving the best known upper bounds for pure differential privacy.
 
 >    <b>Open Problem 1:</b> What is the best possible \\\(\ell_\infty\\\)-error for answering a worst-case set of \\\(k\\\) statistical queries over a domain of size \\\(T\\\) subject to \\\((\varepsilon,0)\\\)-differential privacy?
 
@@ -39,7 +39,7 @@ We conjecture that the known upper bound in the table can be improved to
 \\\[
 \alpha = \left(\frac{\log k \cdot \log T}{\varepsilon n} \right)^{1/2},
 \\\]
-which one can show is the best possible [[Har11](https://dataspace.princeton.edu/handle/88435/dsp01vq27zn422), Theorem 4.5.1].
+which is known to be the best possible [[Har11](https://dataspace.princeton.edu/handle/88435/dsp01vq27zn422), Theorem 4.5.1].
 
 
 >    <b>Open Problem 2:</b> What is the best possible \\\(\ell_2\\\)-error for answering a worst-case set of \\\(k\\\) statistical queries over a domain of size \\\(T\\\) subject to \\\((\varepsilon,0)\\\)-differential privacy?
@@ -48,4 +48,4 @@ We conjecture that the upper bound can be improved to
 \\\[
 \alpha = \left(\frac{\log T}{\varepsilon n} \right)^{1/2}.
 \\\]
-The construction used in [[Har11](https://dataspace.princeton.edu/handle/88435/dsp01vq27zn422), Theorem 4.5.1] can be analyzed to show this bound is tight. Note, in particular, that this conjecture implies that the tight upper bound has no dependence on the number of queries, similarly to the case of \\\(\ell_2\\\) error and approximate DP.
+The construction used in [[Har11](https://dataspace.princeton.edu/handle/88435/dsp01vq27zn422), Theorem 4.5.1] can be analyzed to show this bound would be tight. Note, in particular, that this conjecture implies that the tight upper bound has no dependence on the number of queries, similarly to the case of \\\(\ell_2\\\) error and approximate DP.

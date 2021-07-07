@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Differential Privacy - Trust Models, and Notions of Privacy</title>
+
+        <meta charset="utf-8" />
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@DiffPriv" />
+    <meta name="twitter:image" content="https://differentialprivacy.org/images/logodp-transparent.png" />
+    <meta name="twitter:image:alt" content="DP.org logo" />
+
+    
+    <meta name="description" content="There exist various notions of differential privacy which, while sharing a common core, differ in some key specific aspects. Broadly speaking, vary among a few main axes, such as the type of guarantee they provide, the specific similarity between data they consider, and the trust model they aim to address. This last point will be the focus of this post: which notion of privacy is best suited to the specific scenario at hand?
+" />
+    <meta property="og:description" content="There exist various notions of differential privacy which, while sharing a common core, differ in some key specific aspects. Broadly speaking, vary among a few main axes, such as the type of guarantee they provide, the specific similarity between data they consider, and the trust model they aim to address. This last point will be the focus of this post: which notion of privacy is best suited to the specific scenario at hand?
+" />
+    <meta name="twitter:description" content="There exist various notions of differential privacy which, while sharing a common core, differ in some key specific aspects. Broadly speaking, vary among a few main axes, such as the type of guarantee they provide, the specific similarity between data they consider, and the trust model they aim to address. This last point will be the focus of this post: which notion of privacy is best suited to the specific scenario at hand?
+"/>
+    
+    <meta name="author" content="Differential Privacy" />
+
+    
+    <meta property="og:title" content="Trust Models, and Notions of Privacy" />
+    <meta property="twitter:title" content="Trust Models, and Notions of Privacy" />
+    
+
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+    <link rel="alternate" type="application/rss+xml" title="Differential Privacy - Website for the differential privacy research community" href="/feed.xml" />
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  </head>
+
+  <body>
+    <div class="wrapper-masthead">
+      <div class="container">
+        <header class="masthead clearfix">
+          <!-- no image for now <a href="/" class="site-avatar"><img src="favicon-96x96.png" /></a> -->
+
+          <div class="site-info">
+            <h1 class="site-name"><a href="/"><b><font color="#3d85c6">Differential</font><font color="#b45f06">Privacy</font><font color="#cccccc">.org</font></b></a></h1>
+            <!-- <p class="site-description">Website for the differential privacy research community</p> -->
+          </div>
+
+          <nav>
+            <a href="/">Home</a>
+            <a href="/about">About</a>
+			<a href="/categories">Posts</a>
+			<a href="/resources">Resources</a>
+          </nav>
+        </header>
+      </div>
+    </div>
+
+    <div id="main" role="main" class="container">
+      <article class="post">
+  <h1>Trust Models, and Notions of Privacy</h1>
+
+  <div class="entry">
+    <p>There exist various notions of differential privacy which, while sharing a common core, differ in some key specific aspects. Broadly speaking, vary among a few main axes, such as the type of guarantee they provide, the specific similarity between data they consider, and the trust model they aim to address. This last point will be the focus of this post: <em>which notion of privacy is best suited to the specific scenario at hand?</em></p>
+
+<p>We will cover 4 of these notions.</p>
+<ul>
+  <li>(central) differential privacy (DP)</li>
+  <li>local differential privacy (LDP)</li>
+  <li>pan-privacy</li>
+  <li>shuffle privacy</li>
+</ul>
+
+<p>Typically, the world can be divided in a few categories: (i) the users, who hold the data; (ii) the “server,” who runs the algorithm; and (iii) the rest of the world, which does what the rest of the world does. As the name indicates, the <em>trust model</em> boils down to the following simple question: as a user, <strong>who do you trust</strong> with your sensitive data?</p>
+
+<p>In the <em>DP model</em> <strong>[DMNS06]</strong>, the answer is essentially “the server, and nobody else.” Users are happy to provide their data to the server, which runs the algorithm on the resulting dataset; however, the <em>output</em> of that algorithm, which is released to the (untrusted) world, needs to be private, and not reveal sensitive information about any single user.</p>
+
+<p>In the <em>LDP model</em> <strong>[EGS03,KLNRS08]</strong>, the server itself is untrusted, and the answer is “nobody.” Any data communicated by the users must already be private, and even a prying server cannot learn much about any single user. Of course, this is a strictly more stringent privacy model than the central DP one, and this comes at a price: the utility one can obtain from the same amount of data is typically smaller than in the DP model.</p>
+
+<p>The <em>pan-privacy model</em> <strong>[DNPRY10]</strong> introduces the notion of time. Each user contributes their data to the server sequentially, one after the other; once the server is done receiving and processing this data, the output is revealed to the world. The answer to the question then is that users trust the server <em>at the time they send it their data</em>, but maybe not in the future (and they <em>definitely</em> don’t trust the outside world). Put differently, this captures settings where a server can be compromised: at the time a  user sends their data, they trust the server; if the server is compromised at any point in the future, then the data already in the server <em>stays</em> private (but, of course, sending any more data after the server has already been attacked is a bad idea).</p>
+
+<p>Finally, the recent <em>shuffle model</em> of privacy <strong>[CSUZZ19,EFMRTT19]</strong> is in some sense intermediate between the central and local models of DP: users do not trust the server (and, god forbid, they still don’t trust the outside world!); however, they do trust some small blackbox in the middle, whose role is to randomly, well, <em>shuffle</em> the data. That is, when all users send their data to the untrusted server, this box-in-the-middle randomly permutes all the data points, so that the server had no idea who sent which part of the data. This simple-yet-helpful trusted backbox, in turn, can be implemented using e.g., cryptographic primitives; and the goal is to try and provide stronger privacy than in the DP model, while suffering a smaller utility loss than in the stringent LDP model.</p>
+
+<p>It is important to note that <em>there is no right or wrong model</em> of privacy here, and one cannot say that any of the above notion is “better” than the others with regard to both privacy and accuracy. They all aim at modeling different scenarios, and provide incomparable guarantees: depending on your situation, pick the one that fits best.</p>
+
+<hr />
+
+<p><strong>[<a href="https://arxiv.org/abs/1808.01394">CSUZZ19</a>]</strong> Albert Cheu, Adam D. Smith, Jonathan Ullman, David Zeber, Maxim Zhilyaev:
+<em>Distributed Differential Privacy via Shuffling.</em> EUROCRYPT (1) 2019: 375-403</p>
+
+<p><strong>[<a href="https://journalprivacyconfidentiality.org/index.php/jpc/article/view/405">DMNS06</a>]</strong> Cynthia Dwork, Frank McSherry, Kobbi Nissim, Adam D. Smith:
+<em>Calibrating Noise to Sensitivity in Private Data Analysis.</em> TCC 2006: 265-284</p>
+
+<p><strong>[<a href="https://conference.iiis.tsinghua.edu.cn/ICS2010/content/papers/6.html">DNPRY10</a>]</strong> Cynthia Dwork, Moni Naor, Toniann Pitassi, Guy N. Rothblum, Sergey Yekhanin:
+<em>Pan-Private Streaming Algorithms.</em> ICS 2010: 66-80</p>
+
+<p><strong>[<a href="https://arxiv.org/abs/1811.12469">EFMRTT19</a>]</strong> Úlfar Erlingsson, Vitaly Feldman, Ilya Mironov, Ananth Raghunathan, Kunal Talwar, Abhradeep Thakurta:
+<em>Amplification by Shuffling: From Local to Central Differential Privacy via Anonymity.</em> SODA 2019: 2468-2479</p>
+
+<p><strong>[<a href="https://dl.acm.org/doi/10.1145/773153.773174">EGS03</a>]</strong> Alexandre V. Evfimievski, Johannes Gehrke, Ramakrishnan Srikant:
+<em>Limiting privacy breaches in privacy preserving data mining.</em> PODS 2003: 211-222</p>
+
+<p><strong>[<a href="https://arxiv.org/abs/0803.0924">KLNRS08</a>]</strong> Shiva Prasad Kasiviswanathan, Homin K. Lee, Kobbi Nissim, Sofya Raskhodnikova, Adam D. Smith:
+<em>What Can We Learn Privately?</em> FOCS 2008: 531-540</p>
+
+  </div>
+
+  <div class="date">
+      Posted by <a href="http://www.cs.columbia.edu/~ccanonne/">Clément Canonne</a> on July 17, 2020.
+  </div>
+  <div class="post-categories">
+    
+	Categories: 
+    
+    <a href="/categories/#Definitions">Definitions</a>
+    
+    
+  </div>
+  
+  <br/>
+
+  
+  <a href="/bibtex/#trustmodels">[cite this]</a> &nbsp;
+  
+  <!-- 
+<div class="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+
+	    var disqus_shortname = 'differentialprivacy';
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+ -->
+  
+  <span class="disqus-comment-count" data-disqus-url="https://differentialprivacy.org/trustmodels/"> <!-- Comment count will be inserted here --> </span>
+
+
+  <br/>&nbsp;<br/>
+ <div class="comments-block">
+     <center><button id="show-comments" onclick="disqus();return false;">SHOW COMMENTS</button></center>
+ </div>
+ <noscript>Comments cannot be shown due to javascript being disabled in your browser.</noscript>
+ 
+
+ <div id="disqus_thread"></div>
+ 
+ <script id="dsq-count-scr" src="//differentialprivacy.disqus.com/count.js" async></script>
+ 
+ <script>
+ var disqus_loaded = false;
+ var disqus_shortname = 'differentialprivacy'; //Add your shortname here
+
+ function disqus() {
+
+     if (!disqus_loaded)  {
+         disqus_loaded = true;
+
+         var e = document.createElement("script");
+         e.type = "text/javascript";
+         e.async = true;
+         e.src = "//" + disqus_shortname + ".disqus.com/embed.js";
+         (document.getElementsByTagName("head")[0] ||
+         document.getElementsByTagName("body")[0])
+         .appendChild(e);
+
+         //Hide the button after opening
+         document.getElementById("show-comments").style.display = "none";
+     }
+ }
+
+ //Opens comments when linked to directly
+ var hash = window.location.hash.substr(1);
+ if (hash.length > 8) {
+     if (hash.substring(0, 8) == "comment-") {
+         disqus();
+     }
+ }
+
+ //Remove this if you don't want to load comments for search engines
+ if(/bot|google|baidu|bing|msn|duckduckgo|slurp|yandex/i.test(navigator.userAgent)) {
+    disqus();
+ }
+ </script>
+  
+  
+  <br/>&nbsp;<br/>
+
+  <div>Subscribe to updates from DifferentialPrivacy.org by <a href="https://feedburner.google.com/fb/a/mailverify?uri=DifferentialPrivacy">Email</a>, on <a href="https://twitter.com/DiffPriv">Twitter</a>, or via <a href="/feed.xml">RSS</a>.</div>
+  
+  <br/>&nbsp;<br/>
+</article>
+
+    </div>
+
+    <!--
+    <div class="wrapper-footer">
+      <div class="container">
+        <footer class="footer">
+          
+
+
+
+<a href="https://github.com/differentialprivacy/differentialprivacy"><i class="svg-icon github"></i></a>
+
+
+
+
+<a href="https://www.twitter.com/DiffPriv"><i class="svg-icon twitter"></i></a>
+
+
+
+        </footer>
+      </div>
+    </div>
+    -->
+
+    
+	<!-- Google Analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		ga('create', 'UA-11154678-4', 'auto');
+		ga('send', 'pageview', {
+		  'page': '/trustmodels/',
+		  'title': 'Trust Models, and Notions of Privacy'
+		});
+	</script>
+	<!-- End Google Analytics -->
+
+
+    
+    <!-- 
+    <script>
+     
+        var disqus_shortname = "differentialprivacy";
+        var disqus_config = function () {
+            this.page.url = '/trustmodels/';
+            this.page.identifier = '/trustmodels';
+        };
+        var is_disqus_loaded = false;
+        function loadDisqus() {
+          if (!is_disqus_loaded){
+            is_disqus_loaded = true;
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+          }
+            
+        };
+    </script>
+     -->
+  </body>
+</html>
