@@ -9,8 +9,8 @@ categories: [Open Problems]
 ---
 
 
-A basic and frequent task in data analysis is _selection_ -- given a set of options \\\(\\mathcal{Y}\\),[^1] output the (approximately) best one, where "best" is defined by some loss function \\\(\\ell : \\mathcal{Y} \\times \\mathcal{X}^n \\to \\mathbb{R}\\\) and a dataset \\\(x \\in \\mathcal{X}^n\\\). That is, we want to output some \\\(y \\in \\mathcal{Y}\\\) that approximately minimizes \\\(\\ell(y,x)\\\). Naturally, we are interested in _private selection_ -- i.e., the output should be differentially private in terms of the dataset \\\(x\\\).
-This post discusses algorithms for private selection.
+A basic and frequent task in data analysis is _selection_ -- given a set of options \\\(\\mathcal{Y}\\), output the (approximately) best one, where "best" is defined by some loss function \\\(\\ell : \\mathcal{Y} \\times \\mathcal{X}^n \\to \\mathbb{R}\\\) and a dataset \\\(x \\in \\mathcal{X}^n\\\). That is, we want to output some \\\(y \\in \\mathcal{Y}\\\) that approximately minimizes \\\(\\ell(y,x)\\\). Naturally, we are interested in _private selection_ -- i.e., the output should be differentially private in terms of the dataset \\\(x\\\).
+This post discusses algorithms for private selection -- in particular, an improved privacy analysis of the exponential mechanism.
 
 ## The Exponential Mechanism
 
@@ -89,6 +89,12 @@ Now we have \\\[ \\mathbb{E}[\\exp( - Z)] = \\sum_y \\mathbb{P}[M(x)=y] \\exp(-f
 
 _Q.E.D._
 
+
+> **Corollary 7.** The exponential mechanism (given by Equation 1) is actually \\\(\\frac18 \\varepsilon^2\\\)-concentrated differentially private.
+
+## Beyond the Exponential Mechanism
+
+TODO
 
 ---
 
