@@ -28,7 +28,7 @@ The privacy guarantee of the exponential mechanism is more precisely characteriz
 > **Definition 1 (Bounded Range Privacy).**[^1] 
 > A randomized algorithm \\\(M : \\mathcal{X}^n \\to \\mathcal{Y}\\\) satisfies \\\(\\eta\\\)-bounded range privacy if, for all pairs of inputs \\\(x, x' \\in \\mathcal{X}^n\\\) differing only on the data of a single individual, there exists some \\\(t \\in \\mathbb{R}\\\) such that \\\[\\forall y \\in \\mathcal{Y} ~~~~~ \\log\\left(\\frac{\\mathbb{P}[M(x)=y]}{\\mathbb{P}[M(x')=y]}\\right) \in [t, t+\eta].\\\]
 
-To interpret this definition, we recall the definition of the privacy loss random variable: Define \\\(f : \\mathcal{Y} \\to \\mathbb{R}\\\) by \\\(f(y) = \\log\\left(\\frac{\\mathbb{P}[M(x)=y]}{\\mathbb{P}[M(x')=y]}\\right)\\\). Then the privacy loss random variable \\\(Z \\gets \\mathsf{PrivLoss}(M(x)\\\|M(x'))\\\) is given by \\\(Z = f(M(x))\\\).
+To interpret this definition, we recall the definition of the privacy loss random variable: Define \\\(f : \\mathcal{Y} \\to \\mathbb{R}\\\) by \\\[f(y) = \\log\\left(\\frac{\\mathbb{P}[M(x)=y]}{\\mathbb{P}[M(x')=y]}\\right).\\\] Then the privacy loss random variable \\\(Z \\gets \\mathsf{PrivLoss}(M(x)\\\|M(x'))\\\) is given by \\\(Z = f(M(x))\\\).
 
 Pure \\\(\\varepsilon\\\)-dfferential privacy is equivalent to demanding that the privacy loss is bounded by \\\(\\varepsilon\\\) -- i.e., \\\(\\mathbb{P}[\|Z\|\\le\\varepsilon]=1\\\). Approximate \\\(\(\\varepsilon,\\delta\)\\\)-differential privacy is, roughly, equivalent to demanding that \\\(\\mathbb{P}[Z\\le\\varepsilon]\\ge1-\\delta\\\).[^2]
 
@@ -87,7 +87,7 @@ Applying the lemma to the privacy loss gives \\\[\\forall \\lambda \\in \\mathbb
 The only remaining thing we need is to show is that \\\(\\mathbb{E}[Z] \\le \\frac18 \\eta^2\\\).[^6]
 
 If we set \\\(\\lambda = -1 \\\), then we get \\\( \\mathbb{E}[\\exp( - Z)] \\le \\exp \\left( -\\mathbb{E}[Z] + \\frac{\\eta^2}{8} \\right)\\\), which rearranges to \\\(\\mathbb{E}[Z] \\le \\frac18 \\eta^2 - \\log \\mathbb{E}[\\exp( - Z)]\\\). 
-Now we have \\\[ \\mathbb{E}[\\exp( - Z)] = \\sum_y \\mathbb{P}[M(x)=y] \\exp(-f(y)) = \\sum_y \\mathbb{P}[M(x)=y]  \\cdot \\frac{\\mathbb{P}[M(x')=y]}{\\mathbb{P}[M(x)=y]} = 1.\\\]
+Now we have \\\[ \\mathbb{E}[\\exp( - Z)] \\!=\\! \\sum_y \\mathbb{P}[M(x)\\!=\\!y] \\exp(-f(y)) \\!=\\! \\sum_y \\mathbb{P}[M(x)\\!=\\!y]  \\!\\cdot\\! \\frac{\\mathbb{P}[M(x')\\!=\\!y]}{\\mathbb{P}[M(x)\\!=\\!y]} \\!=\\! 1.\\\]
 &#8718;
 
 This brings us to the TL;DR of this post:
