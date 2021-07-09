@@ -51,7 +51,7 @@ OK, back to the exponential mechanism:
 _Proof._
 We have \\\[e^{f(y)} = \\frac{\\mathbb{P}[M(x)=y]}{\\mathbb{P}[M(x')=y]} = \\frac{\\exp(-\\frac{\\varepsilon}{2\\Delta}\\ell(y,x))}{\\exp(-\\frac{\\varepsilon}{2\\Delta}\\ell(y,x'))} \\cdot \\frac{\\sum_{y'} \\exp(-\\frac{\\varepsilon}{2\\Delta} \\ell(y',x'))}{\\sum_{y'} \\exp(-\\frac{\\varepsilon}{2\\Delta} \\ell(y',x))}.\\\]
 Setting \\\(t = \\log\\left(\\frac{\\sum_{y'} \\exp(-\\frac{\\varepsilon}{2\\Delta} \\ell(y',x'))}{\\sum_{y'} \\exp(-\\frac{\\varepsilon}{2\\Delta} \\ell(y',x))}\\right) - \\frac{\\varepsilon}{2}\\\), we have \\\[ f(y) = \\frac{\\varepsilon}{2\\Delta} (\\ell(y,x')-\\ell(y,x)+\\Delta) + t.\\\]
-By the definition of sensitivity (given in Equation 2), we have \\\( 0 \\le \\ell(y,x')-\\ell(y,x)+\\Delta \\le 2\\Delta\\\), whence \\\(t \\le f(y) \\le t + \\varepsilon\\\). _Q.E.D._
+By the definition of sensitivity (given in Equation 2), we have \\\( 0 \\le \\ell(y,x')-\\ell(y,x)+\\Delta \\le 2\\Delta\\\), whence \\\(t \\le f(y) \\le t + \\varepsilon\\\). &#8718;
 
 Bounded range privacy is nice on its own, but next we're going to relate it to yet another version of differential privacy.
 
@@ -88,8 +88,7 @@ The only remaining thing we need is to show is that \\\(\\mathbb{E}[Z] \\le \\fr
 
 If we set \\\(\\lambda = -1 \\\), then we get \\\( \\mathbb{E}[\\exp( - Z)] \\le \\exp \\left( -\\mathbb{E}[Z] + \\frac{\\eta^2}{8} \\right)\\\), which rearranges to \\\(\\mathbb{E}[Z] \\le \\frac18 \\eta^2 - \\log \\mathbb{E}[\\exp( - Z)]\\\). 
 Now we have \\\[ \\mathbb{E}[\\exp( - Z)] = \\sum_y \\mathbb{P}[M(x)=y] \\exp(-f(y)) = \\sum_y \\mathbb{P}[M(x)=y]  \\cdot \\frac{\\mathbb{P}[M(x')=y]}{\\mathbb{P}[M(x)=y]} = 1.\\\]
-
-_Q.E.D._
+&#8718;
 
 This brings us to the TL;DR of this post:
 
