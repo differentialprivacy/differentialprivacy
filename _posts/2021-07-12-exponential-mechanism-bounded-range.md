@@ -6,7 +6,7 @@ authors:
   - ryanrogers
   - thomassteinke
 timestamp: 10:00:00 -0700
-categories: [Open Problems]
+categories: [Algorithms]
 ---
 
 
