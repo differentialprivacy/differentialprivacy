@@ -10,7 +10,7 @@ categories: [Open Problems]
 
 
 A basic and frequent task in data analysis is _selection_ -- given a set of options \\\(\\mathcal{Y}\\), output the (approximately) best one, where "best" is defined by some loss function \\\(\\ell : \\mathcal{Y} \\times \\mathcal{X}^n \\to \\mathbb{R}\\\) and a dataset \\\(x \\in \\mathcal{X}^n\\\). That is, we want to output some \\\(y \\in \\mathcal{Y}\\\) that approximately minimizes \\\(\\ell(y,x)\\\). Naturally, we are interested in _private selection_ -- i.e., the output should be differentially private in terms of the dataset \\\(x\\\).
-This post discusses algorithms for private selection -- in particular, an improved privacy analysis of the exponential mechanism.
+This post discusses algorithms for private selection -- in particular, an improved privacy analysis of the popular exponential mechanism.
 
 ## The Exponential Mechanism
 
@@ -43,7 +43,7 @@ The second part follows from the fact that the support of the privacy loss \\\([
 
 OK, back to the exponential mechanism:
 
-> **Lemma 3 (Exponential Mechanism is Bounded Range Private).**
+> **Lemma 3 (The Exponential Mechanism is Bounded Range Private).**
 > The exponential mechanism (given in Equation 1 above) satisfies \\\(\\varepsilon\\\)-bounded range privacy.[^3]
 
 _Proof._
