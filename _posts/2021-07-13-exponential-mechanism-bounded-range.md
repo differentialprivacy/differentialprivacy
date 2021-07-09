@@ -97,6 +97,8 @@ This brings us to the TL;DR of this post:
 
 This is great news. Constants matter when applying differential privacy, and we save a factor of 4 in the concentrated differential privacy analysis of the exponential mechanism for free with this analysis.
 
+Combining Lemma 2 with Theorem 5 also gives a simpler proof of the fact that \\\(\\varepsilon\\\)-differential privacy implies \\\(\\frac12 \\varepsilon^2\\\)-concentrated differential privacy [**[BS16]**](https://arxiv.org/abs/1605.02065 "Mark Bun, Thomas Steinke. Concentrated Differential Privacy: Simplifications, Extensions, and Lower Bounds. TCC 2016.").
+
 ## Beyond the Exponential Mechanism
 
 The exponential mechanism is not the only algorithm for private selection. A closely-related algorithm is _report noisy max_: Draw independent noise \\\(\\xi_y\\\) from some distribution for each \\\(y \\in \\mathcal{Y}\\\) then output \\\[M(x) = \\underset{y \\in \\mathcal{Y}}{\\mathrm{argmax}} ~ \\ell(y,x) + \\xi_y.\\\]
