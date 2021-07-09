@@ -37,7 +37,7 @@ Now \\\(\\eta\\\)-bounded range is simply demanding that the privacy loss \\\(Z\
 
 Bounded range and pure differential privacy are equivalent up to a factor of 2 in the parameters:
 
-> **Lemma 2 (Bounded Range Privacy versus Pure Differential Privacy).** 
+> **Lemma 2 (Bounded Range versus Pure Differential Privacy).** 
 > - \\\(\\varepsilon\\\)-differential privacy implies \\\(\\eta\\\)-bounded range with \\\(\\eta \\le 2\\varepsilon\\\).
 > - \\\(\\eta\\\)-bounded range implies \\\(\\varepsilon\\\)-differential privacy with \\\(\\varepsilon \\le \\eta\\\).
 
@@ -46,7 +46,7 @@ The second part follows from the fact that the support of the privacy loss \\\([
 
 OK, back to the exponential mechanism:
 
-> **Lemma 3 (The Exponential Mechanism is Bounded Range Private).**
+> **Lemma 3 (The Exponential Mechanism is Bounded Range).**
 > The exponential mechanism (given in Equation 1 above) satisfies \\\(\\varepsilon\\\)-bounded range .[^3]
 
 _Proof._
@@ -73,7 +73,7 @@ This, of course, applies to the exponential mechaism. A cool fact -- that we wan
 Specifically, \\\(\\eta\\\)-bounded range implies \\\(\\frac18 \\eta^2\\\)-concentrated differential privacy [**[CR21]**](https://arxiv.org/abs/2004.07223 "Mark Cesar, Ryan Rogers. Bounding, Concentrating, and Truncating: Unifying Privacy Loss Composition for Data Analytics. ALT 2021.").
 What follows is a proof of this fact following that of Mark Cesar and Ryan Rogers, but with some simplification.
 
-> **Theorem 5 (Bounded Range Privacy implies Concentrated Differential Privacy).**
+> **Theorem 5 (Bounded Range implies Concentrated Differential Privacy).**
 > If \\\(M\\\) is \\\(\\eta\\\)-bounded range, then it is \\\(\\frac18\\eta^2\\\)-concentrated differentially private.
 
 _Proof._
