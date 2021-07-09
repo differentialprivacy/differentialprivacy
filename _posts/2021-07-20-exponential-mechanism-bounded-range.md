@@ -10,11 +10,13 @@ categories: [Open Problems]
 
 
 A basic and frequent task in data analysis is _selection_ -- given a set of options \\\(\\mathcal{Y}\\), output the (approximately) best one, where "best" is defined by some loss function \\\(\\ell : \\mathcal{Y} \\times \\mathcal{X}^n \\to \\mathbb{R}\\\) and a dataset \\\(x \\in \\mathcal{X}^n\\\). That is, we want to output some \\\(y \\in \\mathcal{Y}\\\) that approximately minimizes \\\(\\ell(y,x)\\\). Naturally, we are interested in _private selection_ -- i.e., the output should be differentially private in terms of the dataset \\\(x\\\).
-This post discusses algorithms for private selection -- in particular, an improved privacy analysis of the popular exponential mechanism.
+This post discusses algorithms for private selection -- in particular, we discuss an improved privacy analysis of the popular exponential mechanism.
 
 ## The Exponential Mechanism
 
 The most well-known algorithm for selection is the [_exponential mechanism_](https://en.wikipedia.org/wiki/Exponential_mechanism_(differential_privacy)) [**[MT07]**](https://doi.org/10.1109/FOCS.2007.66 "Frank McSherry, Kunal Talwar. Mechanism Design via Differential Privacy. FOCS 2007."). Specifically, the exponential mechanism \\\(M : \\mathcal{X}^n \\to \\mathcal{Y} \\\) is a randomized algorithm given by \\\[\\forall x \\in \\mathcal{X}^n ~ \\forall y \\in \\mathcal{Y} ~~~~~ \\mathbb{P}[M(x) = y] = \\frac{\\exp(-\\frac{\\varepsilon}{2\\Delta} \\ell(y,x))}{\\sum_{y' \\in \\mathcal{Y}} \\exp(-\\frac{\\varepsilon}{2\\Delta} \\ell(y',x)) }, \\tag{1}\\\] where \\\(\\Delta\\\) is the sensitivity of the loss function \\\(\\ell\\\) given by \\\[\\Delta = \\sup_{x,x' \\in \\mathcal{X}^n : d(x,x') \\le 1} \\max_{y\\in\\mathcal{Y}} \|\\ell(y,x) - \\ell(y,x')\|,\tag{2}\\\] where the supremum is taken over all datasets \\\(x\\\) and \\\(x'\\\) differing on the data of a single individual (which we denote by \\\(d(x,x')\\le 1\\\)).
+
+In terms of utility, we can easily show that \\\[\\mathbb{E}[\\ell(M(x),x)] \\le \\min_{y \\in \\mathcal{Y}} \\ell(y,x) + \\frac{2\\Delta}{\\varepsilon} \\log \|\\mathcal{Y}\|\\\] for all \\\(x\\\) (and we can also give high probability bounds).
 
 It is easy to show that the exponential mechanism satisfies \\\(\\varepsilon\\\)-differential privacy.
 But there is more to this story! We're going to look at more refined versions of differential privacy.
@@ -67,7 +69,7 @@ Intuitively, concentrated differential privacy requires that the privacy loss is
 OK, back to the exponential mechanism:
 We know that \\\(\\varepsilon\\\)-differential privacy implies \\\(\\frac12 \\varepsilon^2\\\)-concentrated differential privacy [**[BS16]**](https://arxiv.org/abs/1605.02065 "Mark Bun, Thomas Steinke. Concentrated Differential Privacy: Simplifications, Extensions, and Lower Bounds. TCC 2016.").
 This, of course, applies to the exponential mechaism. A cool fact -- that I want to draw more attention to -- is that we can do better! 
-Specifically, \\\(\\eta\\\)-bounded range privacy implies \\\(\\frac18 \\eta^2\\\)-concentrated differential privacy [**[CR21]**](https://arxiv.org/abs/2004.07223 "Mark Cesar, Ryan Rogers. Bounding, Concentrating, and Truncating: Unifying Privacy Loss Composition for Data Analytics. ALT 2021.")
+Specifically, \\\(\\eta\\\)-bounded range privacy implies \\\(\\frac18 \\eta^2\\\)-concentrated differential privacy [**[CR21]**](https://arxiv.org/abs/2004.07223 "Mark Cesar, Ryan Rogers. Bounding, Concentrating, and Truncating: Unifying Privacy Loss Composition for Data Analytics. ALT 2021.").
 What follows is a proof of this fact following that of Mark Cesar and Ryan Rogers.
 
 > **Theorem 5 (Bounded Range Privacy implies Concentrated Differential Privacy).**
@@ -89,12 +91,22 @@ Now we have \\\[ \\mathbb{E}[\\exp( - Z)] = \\sum_y \\mathbb{P}[M(x)=y] \\exp(-f
 
 _Q.E.D._
 
+This brings us to the TL;DR of this post:
 
 > **Corollary 7.** The exponential mechanism (given by Equation 1) is actually \\\(\\frac18 \\varepsilon^2\\\)-concentrated differentially private.
 
+This is great news. Constants matter when applying differential privacy, and we save a factor of 4 in the concentrated differential privacy analysis of the exponential mechanism for free with this analysis.
+
 ## Beyond the Exponential Mechanism
 
-TODO
+The exponential mechanism is not the only algorithm for private selection. A closely-related algorithm is _report noisy max_: Draw independent noise \\\(\\xi_y\\\) from some distribution for each \\\(y \\in \\mathcal{Y}\\\) then output \\\[M(x) = \\underset{y \\in \\mathcal{Y}}{\\mathrm{argmax}} ~ \\ell(y,x) + \\xi_y.\\\]
+
+If the noise distribution is an appropriate [Gumbel distribution](https://en.wikipedia.org/wiki/Gumbel_distribution), then report noisy max is exactly the exponential mechanism. (This equivalence is known as the "Gumbel max trick.")
+
+We can also use the Laplace distribution or the exponential distribution. The exponential distribution is equivalent to the _permute and flip_ algorithm [**[MS20]**](https://arxiv.org/abs/2010.12603 "Ryan McKenna, Daniel Sheldon. Permute-and-Flip: A new mechanism for differentially private selection
+. NeurIPS 2020.") [**[DKSSWXZ21]**](https://arxiv.org/abs/2105.07260 "Zeyu Ding, Daniel Kifer, Sayed M. Saghaian N. E., Thomas Steinke, Yuxin Wang, Yingtai Xiao, Danfeng Zhang. The Permute-and-Flip Mechanism is Identical to Report-Noisy-Max with Exponential Noise. 2021."). However, these algorithms don't enjoy the same improved bounded range and concentrated differential privacy guarantees as the exponential mechanism.
+
+There are also other variants of the selection problem. For example, in some cases we can assume that only a few options have low loss and the rest of the options have high loss -- i.e., there is a gap between the minimum loss and the second-lowest loss (or, more generally, the \\\(k\\\)-th lowest loss). In this case there are algorithms that attain better privacy and/or accuracy guarantees than the exponential mechanism.
 
 ---
 
