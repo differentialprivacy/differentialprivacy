@@ -17,7 +17,7 @@ This post discusses algorithms for private selection -- in particular, we discus
 
 The most well-known algorithm for selection is the [_exponential mechanism_](https://en.wikipedia.org/wiki/Exponential_mechanism_(differential_privacy)) [**[MT07]**](https://doi.org/10.1109/FOCS.2007.66 "Frank McSherry, Kunal Talwar. Mechanism Design via Differential Privacy. FOCS 2007."). Specifically, the exponential mechanism \\\(M : \\mathcal{X}^n \\to \\mathcal{Y} \\\) is a randomized algorithm given by \\\[\\forall x \\in \\mathcal{X}^n ~ \\forall y \\in \\mathcal{Y} ~~~~~ \\mathbb{P}[M(x) = y] = \\frac{\\exp(-\\frac{\\varepsilon}{2\\Delta} \\ell(y,x))}{\\sum_{y' \\in \\mathcal{Y}} \\exp(-\\frac{\\varepsilon}{2\\Delta} \\ell(y',x)) }, \\tag{1}\\\] where \\\(\\Delta\\\) is the sensitivity of the loss function \\\(\\ell\\\) given by \\\[\\Delta = \\sup_{x,x' \\in \\mathcal{X}^n : d(x,x') \\le 1} \\max_{y\\in\\mathcal{Y}} \|\\ell(y,x) - \\ell(y,x')\|,\tag{2}\\\] where the supremum is taken over all datasets \\\(x\\\) and \\\(x'\\\) differing on the data of a single individual (which we denote by \\\(d(x,x')\\le 1\\\)).
 
-In terms of utility, we can easily show that \\\[\\mathbb{E}[\\ell(M(x),x)] \\le \\min_{y \\in \\mathcal{Y}} \\ell(y,x) + \\frac{2\\Delta}{\\varepsilon} \\log \|\\mathcal{Y}\|\\\] for all \\\(x\\\) (and we can also give high probability bounds).
+In terms of utility, we can easily show that [**[BNSSSU16]**](https://arxiv.org/abs/1511.02513 "Raef Bassily, Kobbi Nissim, Adam Smith, Thomas Steinke, Uri Stemmer, Jonathan Ullman. Algorithmic Stability for Adaptive Data Analysis. STOC 2016.") \\\[\\mathbb{E}[\\ell(M(x),x)] \\le \\min_{y \\in \\mathcal{Y}} \\ell(y,x) + \\frac{2\\Delta}{\\varepsilon} \\log \|\\mathcal{Y}\|\\\] for all \\\(x\\\) (and we can also give high probability bounds).
 
 It is easy to show that the exponential mechanism satisfies \\\(\\varepsilon\\\)-differential privacy.
 But there is more to this story! We're going to look at amore refined privacy analysis.
@@ -42,7 +42,7 @@ Bounded range and pure differential privacy are equivalent up to a factor of 2 i
 > - \\\(\\eta\\\)-bounded range implies \\\(\\varepsilon\\\)-differential privacy with \\\(\\varepsilon \\le \\eta\\\).
 
 The first part of the equivalence follows from the fact that pure \\\(\\varepsilon\\\)-differential privacy implies the privacy loss is supported on the interval \\\([-\\varepsilon,\\varepsilon]\\\). Thus, if we set \\\(t=-\\varepsilon\\\) and \\\(\\eta=2\\varepsilon\\\), then \\\([t,t+\\eta] = [-\\varepsilon,\\varepsilon]\\\).
-The second part follows from the fact that the support of the privacy loss \\\([t,t+\\eta]\\\) must straddle \\\(0\\\). That is, the privacy loss cannot be always positive nor always negative, so \\\(0 \\in [t,t+\\eta]\\\) and, hence, \\\([t,t+\\eta] \\subseteq [-\\eta,\\eta]\\\). Otherwise \\\(\\forall y ~ f(y)>0\\\) or \\\(\\forall y ~ f(y)<0\\\) would contradict the fact that \\\(\\sum_{y \\in \\mathcal{Y}} \\mathbb{P}[M(x)=y] = 1\\\) and \\\(\\sum_{y \\in \\mathcal{Y}} \\mathbb{P}[M(x')=y] = 1\\\).
+The second part follows from the fact that the support of the privacy loss \\\([t,t+\\eta]\\\) must straddle \\\(0\\\). That is, the privacy loss cannot be always positive nor always negative, so \\\(0 \\in [t,t+\\eta]\\\) and, hence, \\\([t,t+\\eta] \\subseteq [-\\eta,\\eta]\\\). Otherwise \\\(\\forall y ~ f(y)>0\\\) or \\\(\\forall y ~ f(y)<0\\\)  would imply \\\(\\forall y ~ \\mathbb{P}[M(x)=y]>\\mathbb{P}[M(x')=y]\\\) or \\\(\\forall y ~ \\mathbb{P}[M(x)=y]<\\mathbb{P}[M(x')=y]\\\), contradicting the fact that \\\(\\sum_{y \\in \\mathcal{Y}} \\mathbb{P}[M(x)=y] = 1\\\) and \\\(\\sum_{y \\in \\mathcal{Y}} \\mathbb{P}[M(x')=y] = 1\\\).
 
 OK, back to the exponential mechanism:
 
@@ -58,7 +58,7 @@ Bounded range is fun on its own, but it's not really a useful privacy definition
 
 ## Concentrated Differential Privacy
 
-Concentrated differential privacy [**[BS16]**](https://arxiv.org/abs/1605.02065 "Mark Bun, Thomas Steinke. Concentrated Differential Privacy: Simplifications, Extensions, and Lower Bounds. TCC 2016.") [**[DR16]**](https://arxiv.org/abs/1603.01887 "Cynthia Dwork, Guy N. Rothblum. Concentrated Differential Privacy. 2016.") [**[M17]**](https://arxiv.org/abs/1702.07476 "Ilya Mironov. Rényi Differential Privacy. CCS 2017.") is a relaxation of pure differential privacy with many nice properties. In particular, it composes very cleanly.
+Concentrated differential privacy [**[BS16]**](https://arxiv.org/abs/1605.02065 "Mark Bun, Thomas Steinke. Concentrated Differential Privacy: Simplifications, Extensions, and Lower Bounds. TCC 2016.") and its variants [**[DR16]**](https://arxiv.org/abs/1603.01887 "Cynthia Dwork, Guy N. Rothblum. Concentrated Differential Privacy. 2016.") [**[M17]**](https://arxiv.org/abs/1702.07476 "Ilya Mironov. Rényi Differential Privacy. CCS 2017.") are relaxations of pure differential privacy with many nice properties. In particular, it composes very cleanly.
 
 > **Definition 4 (Concentrated Differential Privacy).**
 > A randomized algorithm \\\(M : \\mathcal{X}^n \\to \\mathcal{Y}\\\) satisfies \\\(\\rho\\\)-concentrated differential privacy if, for all pairs of inputs \\\(x, x' \\in \\mathcal{X}^n\\\) differing only on the data of a single individual, 
