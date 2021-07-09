@@ -1,8 +1,9 @@
 ---
 layout: post
-title: "The Exponential Mechanism and Bounded Range Privacy"
+title: "The Exponential Mechanism & Bounded Range"
 comments: true
 authors:
+  - ryanrogers
   - thomassteinke
 timestamp: 07:00:00 -0700
 categories: [Open Problems]
@@ -19,26 +20,26 @@ The most well-known algorithm for selection is the [_exponential mechanism_](htt
 In terms of utility, we can easily show that \\\[\\mathbb{E}[\\ell(M(x),x)] \\le \\min_{y \\in \\mathcal{Y}} \\ell(y,x) + \\frac{2\\Delta}{\\varepsilon} \\log \|\\mathcal{Y}\|\\\] for all \\\(x\\\) (and we can also give high probability bounds).
 
 It is easy to show that the exponential mechanism satisfies \\\(\\varepsilon\\\)-differential privacy.
-But there is more to this story! We're going to look at more refined versions of differential privacy.
+But there is more to this story! We're going to look at amore refined privacy analysis.
 
-## Bounded Range Privacy
+## Bounded Range
 
-The privacy guarantee of the exponential mechanism is more precisely characterized by _bounded range_ privacy. This was observed and defined by Jinshuo Dong, David Durfee, and Ryan Rogers [**[DR19]**](https://arxiv.org/abs/1905.04273 "David Durfee, Ryan Rogers. Practical Differentially Private Top-k Selection with Pay-what-you-get Composition. NeurIPS 2019") [**[DDR20]**](https://arxiv.org/abs/1909.13830 "Jinshuo Dong, David Durfee, Ryan Rogers. Optimal Differential Privacy Composition for Exponential Mechanisms. ICML 2020.").
+The privacy guarantee of the exponential mechanism is more precisely characterized by _bounded range_. This was observed and defined by David Durfee and Ryan Rogers [**[DR19]**](https://arxiv.org/abs/1905.04273 "David Durfee, Ryan Rogers. Practical Differentially Private Top-k Selection with Pay-what-you-get Composition. NeurIPS 2019") and further analyzed later [**[DDR20]**](https://arxiv.org/abs/1909.13830 "Jinshuo Dong, David Durfee, Ryan Rogers. Optimal Differential Privacy Composition for Exponential Mechanisms. ICML 2020.").
 
-> **Definition 1 (Bounded Range Privacy).**[^1] 
-> A randomized algorithm \\\(M : \\mathcal{X}^n \\to \\mathcal{Y}\\\) satisfies \\\(\\eta\\\)-bounded range privacy if, for all pairs of inputs \\\(x, x' \\in \\mathcal{X}^n\\\) differing only on the data of a single individual, there exists some \\\(t \\in \\mathbb{R}\\\) such that \\\[\\forall y \\in \\mathcal{Y} ~~~~~ \\log\\left(\\frac{\\mathbb{P}[M(x)=y]}{\\mathbb{P}[M(x')=y]}\\right) \in [t, t+\eta].\\\]
+> **Definition 1 (Bounded Range ).**[^1] 
+> A randomized algorithm \\\(M : \\mathcal{X}^n \\to \\mathcal{Y}\\\) satisfies \\\(\\eta\\\)-bounded range if, for all pairs of inputs \\\(x, x' \\in \\mathcal{X}^n\\\) differing only on the data of a single individual, there exists some \\\(t \\in \\mathbb{R}\\\) such that \\\[\\forall y \\in \\mathcal{Y} ~~~~~ \\log\\left(\\frac{\\mathbb{P}[M(x)=y]}{\\mathbb{P}[M(x')=y]}\\right) \in [t, t+\eta].\\\]
 
 To interpret this definition, we recall the definition of the privacy loss random variable: Define \\\(f : \\mathcal{Y} \\to \\mathbb{R}\\\) by \\\[f(y) = \\log\\left(\\frac{\\mathbb{P}[M(x)=y]}{\\mathbb{P}[M(x')=y]}\\right).\\\] Then the privacy loss random variable \\\(Z \\gets \\mathsf{PrivLoss}(M(x)\\\|M(x'))\\\) is given by \\\(Z = f(M(x))\\\).
 
 Pure \\\(\\varepsilon\\\)-dfferential privacy is equivalent to demanding that the privacy loss is bounded by \\\(\\varepsilon\\\) -- i.e., \\\(\\mathbb{P}[\|Z\|\\le\\varepsilon]=1\\\). Approximate \\\(\(\\varepsilon,\\delta\)\\\)-differential privacy is, roughly, equivalent to demanding that \\\(\\mathbb{P}[Z\\le\\varepsilon]\\ge1-\\delta\\\).[^2]
 
-Now \\\(\\eta\\\)-bounded range privacy is simply demanding that the privacy loss \\\(Z\\\) is supported on some interval of length \\\(\\eta\\\). This interval \\\([t,t+\\eta]\\\) may depend on the pair \\\(x,x'\\\).
+Now \\\(\\eta\\\)-bounded range is simply demanding that the privacy loss \\\(Z\\\) is supported on some interval of length \\\(\\eta\\\). This interval \\\([t,t+\\eta]\\\) may depend on the pair \\\(x,x'\\\).
 
-Bounded range privacy and pure differential privacy are equivalent up to a factor of 2 in the parameters.
+Bounded range and pure differential privacy are equivalent up to a factor of 2 in the parameters:
 
 > **Lemma 2 (Bounded Range Privacy versus Pure Differential Privacy).** 
-> - \\\(\\varepsilon\\\)-differential privacy implies \\\(\\eta\\\)-bounded range privacy with \\\(\\eta \\le 2\\varepsilon\\\).
-> - \\\(\\eta\\\)-bounded range privacy implies \\\(\\varepsilon\\\)-differential privacy with \\\(\\varepsilon \\le \\eta\\\).
+> - \\\(\\varepsilon\\\)-differential privacy implies \\\(\\eta\\\)-bounded range with \\\(\\eta \\le 2\\varepsilon\\\).
+> - \\\(\\eta\\\)-bounded range implies \\\(\\varepsilon\\\)-differential privacy with \\\(\\varepsilon \\le \\eta\\\).
 
 The first part of the equivalence follows from the fact that pure \\\(\\varepsilon\\\)-differential privacy implies the privacy loss is supported on the interval \\\([-\\varepsilon,\\varepsilon]\\\). Thus, if we set \\\(t=-\\varepsilon\\\) and \\\(\\eta=2\\varepsilon\\\), then \\\([t,t+\\eta] = [-\\varepsilon,\\varepsilon]\\\).
 The second part follows from the fact that the support of the privacy loss \\\([t,t+\\eta]\\\) must straddle \\\(0\\\). That is, the privacy loss cannot be always positive nor always negative, so \\\(0 \\in [t,t+\\eta]\\\) and, hence, \\\([t,t+\\eta] \\subseteq [-\\eta,\\eta]\\\). Otherwise \\\(\\forall y ~ f(y)>0\\\) or \\\(\\forall y ~ f(y)<0\\\) would contradict the fact that \\\(\\sum_{y \\in \\mathcal{Y}} \\mathbb{P}[M(x)=y] = 1\\\) and \\\(\\sum_{y \\in \\mathcal{Y}} \\mathbb{P}[M(x')=y] = 1\\\).
@@ -46,14 +47,14 @@ The second part follows from the fact that the support of the privacy loss \\\([
 OK, back to the exponential mechanism:
 
 > **Lemma 3 (The Exponential Mechanism is Bounded Range Private).**
-> The exponential mechanism (given in Equation 1 above) satisfies \\\(\\varepsilon\\\)-bounded range privacy.[^3]
+> The exponential mechanism (given in Equation 1 above) satisfies \\\(\\varepsilon\\\)-bounded range .[^3]
 
 _Proof._
 We have \\\[e^{f(y)} = \\frac{\\mathbb{P}[M(x)=y]}{\\mathbb{P}[M(x')=y]} = \\frac{\\exp(-\\frac{\\varepsilon}{2\\Delta}\\ell(y,x))}{\\exp(-\\frac{\\varepsilon}{2\\Delta}\\ell(y,x'))} \\cdot \\frac{\\sum_{y'} \\exp(-\\frac{\\varepsilon}{2\\Delta} \\ell(y',x'))}{\\sum_{y'} \\exp(-\\frac{\\varepsilon}{2\\Delta} \\ell(y',x))}.\\\]
 Setting \\\(t = \\log\\left(\\frac{\\sum_{y'} \\exp(-\\frac{\\varepsilon}{2\\Delta} \\ell(y',x'))}{\\sum_{y'} \\exp(-\\frac{\\varepsilon}{2\\Delta} \\ell(y',x))}\\right) - \\frac{\\varepsilon}{2}\\\), we have \\\[ f(y) = \\frac{\\varepsilon}{2\\Delta} (\\ell(y,x')-\\ell(y,x)+\\Delta) + t.\\\]
 By the definition of sensitivity (given in Equation 2), we have \\\( 0 \\le \\ell(y,x')-\\ell(y,x)+\\Delta \\le 2\\Delta\\\), whence \\\(t \\le f(y) \\le t + \\varepsilon\\\). &#8718;
 
-Bounded range privacy is nice on its own, but next we're going to relate it to yet another version of differential privacy.
+Bounded range is fun on its own, but it's not really a useful privacy definition on its own. Thus we're going to relate it to a relaxed version of differential privacy.
 
 ## Concentrated Differential Privacy
 
@@ -68,17 +69,17 @@ Intuitively, concentrated differential privacy requires that the privacy loss is
 
 OK, back to the exponential mechanism:
 We know that \\\(\\varepsilon\\\)-differential privacy implies \\\(\\frac12 \\varepsilon^2\\\)-concentrated differential privacy [**[BS16]**](https://arxiv.org/abs/1605.02065 "Mark Bun, Thomas Steinke. Concentrated Differential Privacy: Simplifications, Extensions, and Lower Bounds. TCC 2016.").
-This, of course, applies to the exponential mechaism. A cool fact -- that I want to draw more attention to -- is that we can do better! 
-Specifically, \\\(\\eta\\\)-bounded range privacy implies \\\(\\frac18 \\eta^2\\\)-concentrated differential privacy [**[CR21]**](https://arxiv.org/abs/2004.07223 "Mark Cesar, Ryan Rogers. Bounding, Concentrating, and Truncating: Unifying Privacy Loss Composition for Data Analytics. ALT 2021.").
-What follows is a proof of this fact following that of Mark Cesar and Ryan Rogers.
+This, of course, applies to the exponential mechaism. A cool fact -- that we want to draw more attention to -- is that we can do better! 
+Specifically, \\\(\\eta\\\)-bounded range implies \\\(\\frac18 \\eta^2\\\)-concentrated differential privacy [**[CR21]**](https://arxiv.org/abs/2004.07223 "Mark Cesar, Ryan Rogers. Bounding, Concentrating, and Truncating: Unifying Privacy Loss Composition for Data Analytics. ALT 2021.").
+What follows is a proof of this fact following that of Mark Cesar and Ryan Rogers, but with some simplification.
 
 > **Theorem 5 (Bounded Range Privacy implies Concentrated Differential Privacy).**
-> If \\\(M\\\) is \\\(\\eta\\\)-bounded range private, then it is \\\(\\frac18\\eta^2\\\)-concentrated differentially private.
+> If \\\(M\\\) is \\\(\\eta\\\)-bounded range, then it is \\\(\\frac18\\eta^2\\\)-concentrated differentially private.
 
 _Proof._
 Fix datasets \\\(x,x' \\in \\mathcal{X}^n\\\) differing on a single individual's data.
 Let \\\(Z \\gets \\mathsf{PrivLoss}(M(x)\\\|M(x'))\\\) be the privacy loss random variable of the mechanism \\\(M\\\) on this pair of datasets.
-By the definition of bounded range privacy (Definition 1), there exists some \\\(t \\in \\mathbb{R}\\\) such that \\\(Z \\in [t, t+\\eta]\\\) with probability 1.
+By the definition of bounded range (Definition 1), there exists some \\\(t \\in \\mathbb{R}\\\) such that \\\(Z \\in [t, t+\\eta]\\\) with probability 1.
 Now we employ [Hoeffding's Lemma](https://en.wikipedia.org/wiki/Hoeffding%27s_lemma) [**[H63]**](https://doi.org/10.1080%2F01621459.1963.10500830 "Wassily Hoeffding. Probability inequalities for sums of bounded random variables. JASA 1963."):
 > **Lemma 6 (Hoeffding's Lemma).**
 > Let \\\(X\\\) be a random variable supported on the interval \\\([a,b]\\\). Then, for all \\\(\\lambda \\in \\mathbb{R}\\\), we have \\\[\\mathbb{E}[\\exp(\\lambda X)] \\le \\exp \\left( \\mathbb{E}[X] \\cdot \\lambda + \\frac{(b-a)^2}{8} \\cdot \\lambda^2 \\right).\\\]
@@ -92,11 +93,13 @@ Now we have \\\[ \\mathbb{E}[\\exp( - Z)] \\!=\\! \\sum_y \\mathbb{P}[M(x)\\!=\\
 
 This brings us to the TL;DR of this post:
 
-> **Corollary 7.** The exponential mechanism (given by Equation 1) is actually \\\(\\frac18 \\varepsilon^2\\\)-concentrated differentially private.
+> **Corollary 7.** The exponential mechanism (given by Equation 1) is \\\(\\frac18 \\varepsilon^2\\\)-concentrated differentially private.
 
-This is great news. Constants matter when applying differential privacy, and we save a factor of 4 in the concentrated differential privacy analysis of the exponential mechanism for free with this analysis.
+This is great news. The standard analysis only gives \\\(\\frac12 \\varepsilon^2\\\)-concentrated differential privacy. Constants matter when applying differential privacy, and we save a factor of 4 in the concentrated differential privacy analysis of the exponential mechanism for free with this improved analysis.
 
-Combining Lemma 2 with Theorem 5 also gives a simpler proof of the fact that \\\(\\varepsilon\\\)-differential privacy implies \\\(\\frac12 \\varepsilon^2\\\)-concentrated differential privacy [**[BS16]**](https://arxiv.org/abs/1605.02065 "Mark Bun, Thomas Steinke. Concentrated Differential Privacy: Simplifications, Extensions, and Lower Bounds. TCC 2016.").
+Combining Lemma 2 with Theorem 5 also gives a simpler proof of the conversion from pure differential privacy to concentrated differential privacy [**[BS16]**](https://arxiv.org/abs/1605.02065 "Mark Bun, Thomas Steinke. Concentrated Differential Privacy: Simplifications, Extensions, and Lower Bounds. TCC 2016."):
+
+> **Corollary 8.** \\\(\\varepsilon\\\)-differential privacy implies \\\(\\frac12 \\varepsilon^2\\\)-concentrated differential privacy.
 
 ## Beyond the Exponential Mechanism
 
