@@ -86,7 +86,7 @@ Now we employ [Hoeffding's Lemma](https://en.wikipedia.org/wiki/Hoeffding%27s_le
 Applying the lemma to the privacy loss gives \\\[\\forall \\lambda \\in \\mathbb{R} ~~~~~  \\mathbb{E}[\\exp(\\lambda Z)] \\le \\exp \\left( \\mathbb{E}[Z] \\cdot \\lambda + \\frac{\\eta^2}{8} \\cdot \\lambda^2 \\right).\\\]
 The only remaining thing we need is to show is that \\\(\\mathbb{E}[Z] \\le \\frac18 \\eta^2\\\).[^6]
 
-If we set \\\(\\lambda = -1 \\\), then we get \\\( \\mathbb{E}[\\exp( - Z)] \\le \\exp \\left( -\\mathbb{E}[Z] + \\frac{\\eta^2}{8} \\right)\\\), which rearranges to \\\(\\mathbb{E}[Z] \\le \\frac12 \\eta^2 - \\log \\mathbb{E}[\\exp( - Z)]\\\). 
+If we set \\\(\\lambda = -1 \\\), then we get \\\( \\mathbb{E}[\\exp( - Z)] \\le \\exp \\left( -\\mathbb{E}[Z] + \\frac{\\eta^2}{8} \\right)\\\), which rearranges to \\\(\\mathbb{E}[Z] \\le \\frac18 \\eta^2 - \\log \\mathbb{E}[\\exp( - Z)]\\\). 
 Now we have \\\[ \\mathbb{E}[\\exp( - Z)] = \\sum_y \\mathbb{P}[M(x)=y] \\exp(-f(y)) = \\sum_y \\mathbb{P}[M(x)=y]  \\cdot \\frac{\\mathbb{P}[M(x')=y]}{\\mathbb{P}[M(x)=y]} = 1.\\\]
 
 _Q.E.D._
