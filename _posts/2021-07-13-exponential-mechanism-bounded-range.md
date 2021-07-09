@@ -5,7 +5,7 @@ comments: true
 authors:
   - ryanrogers
   - thomassteinke
-timestamp: 07:00:00 -0700
+timestamp: 10:00:00 -0700
 categories: [Open Problems]
 ---
 
