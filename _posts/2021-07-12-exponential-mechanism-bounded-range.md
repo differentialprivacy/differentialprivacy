@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "The Exponential Mechanism & Bounded Range"
+title: "A Better Privacy Analysis of the Exponential Mechanism"
 comments: true
 authors:
   - ryanrogers
@@ -11,7 +11,7 @@ categories: [Algorithms]
 
 
 A basic and frequent task in data analysis is _selection_ -- given a set of options \\\(\\mathcal{Y}\\), output the (approximately) best one, where "best" is defined by some loss function \\\(\\ell : \\mathcal{Y} \\times \\mathcal{X}^n \\to \\mathbb{R}\\\) and a dataset \\\(x \\in \\mathcal{X}^n\\\). That is, we want to output some \\\(y \\in \\mathcal{Y}\\\) that approximately minimizes \\\(\\ell(y,x)\\\). Naturally, we are interested in _private selection_ -- i.e., the output should be differentially private in terms of the dataset \\\(x\\\).
-This post discusses algorithms for private selection -- in particular, we discuss an improved privacy analysis of the popular exponential mechanism.
+This post discusses algorithms for private selection -- in particular, we give an improved privacy analysis of the popular exponential mechanism.
 
 ## The Exponential Mechanism
 
