@@ -26,12 +26,12 @@ But there is more to this story! We're going to look at amore refined privacy an
 
 The privacy guarantee of the exponential mechanism is more precisely characterized by _bounded range_. This was observed and defined by David Durfee and Ryan Rogers [**[DR19]**](https://arxiv.org/abs/1905.04273 "David Durfee, Ryan Rogers. Practical Differentially Private Top-k Selection with Pay-what-you-get Composition. NeurIPS 2019") and further analyzed later [**[DDR20]**](https://arxiv.org/abs/1909.13830 "Jinshuo Dong, David Durfee, Ryan Rogers. Optimal Differential Privacy Composition for Exponential Mechanisms. ICML 2020.").
 
-> **Definition 1 (Bounded Range ).**[^1] 
-> A randomized algorithm \\\(M : \\mathcal{X}^n \\to \\mathcal{Y}\\\) satisfies \\\(\\eta\\\)-bounded range if, for all pairs of inputs \\\(x, x' \\in \\mathcal{X}^n\\\) differing only on the data of a single individual, there exists some \\\(t \\in \\mathbb{R}\\\) such that \\\[\\forall y \\in \\mathcal{Y} ~~~~~ \\log\\left(\\frac{\\mathbb{P}[M(x)=y]}{\\mathbb{P}[M(x')=y]}\\right) \in [t, t+\eta].\\\]
+> **Definition 1 (Bounded Range).**[^1] 
+> A randomized algorithm \\\(M : \\mathcal{X}^n \\to \\mathcal{Y}\\\) satisfies \\\(\\eta\\\)-bounded range if, for all pairs of inputs \\\(x, x' \\in \\mathcal{X}^n\\\) differing only on the data of a single individual, there exists some \\\(t \\in \\mathbb{R}\\\) such that \\\[\\forall y \\in \\mathcal{Y} ~~~~~ \\log\\left(\\frac{\\mathbb{P}[M(x)=y]}{\\mathbb{P}[M(x')=y]}\\right) \in [t, t+\eta].\\\] Here \\\(t\\\) may depend on the pair of input datasets \\\(x,x'\\\), but not on the output \\\(y\\\).
 
-To interpret this definition, we recall the definition of the privacy loss random variable: Define \\\(f : \\mathcal{Y} \\to \\mathbb{R}\\\) by \\\[f(y) = \\log\\left(\\frac{\\mathbb{P}[M(x)=y]}{\\mathbb{P}[M(x')=y]}\\right).\\\] Then the privacy loss random variable \\\(Z \\gets \\mathsf{PrivLoss}(M(x)\\\|M(x'))\\\) is given by \\\(Z = f(M(x))\\\).
+To interpret this definition, we [recall the definition of the privacy loss random variable](/flavoursofdelta/): Define \\\(f : \\mathcal{Y} \\to \\mathbb{R}\\\) by \\\[f(y) = \\log\\left(\\frac{\\mathbb{P}[M(x)=y]}{\\mathbb{P}[M(x')=y]}\\right).\\\] Then the privacy loss random variable \\\(Z \\gets \\mathsf{PrivLoss}(M(x)\\\|M(x'))\\\) is given by \\\(Z = f(M(x))\\\).
 
-Pure \\\(\\varepsilon\\\)-dfferential privacy is equivalent to demanding that the privacy loss is bounded by \\\(\\varepsilon\\\) -- i.e., \\\(\\mathbb{P}[\|Z\|\\le\\varepsilon]=1\\\). Approximate \\\(\(\\varepsilon,\\delta\)\\\)-differential privacy is, roughly, equivalent to demanding that \\\(\\mathbb{P}[Z\\le\\varepsilon]\\ge1-\\delta\\\).[^2]
+Pure \\\(\\varepsilon\\\)-differential privacy is equivalent to demanding that the privacy loss is bounded by \\\(\\varepsilon\\\) -- i.e., \\\(\\mathbb{P}[\|Z\|\\le\\varepsilon]=1\\\). Approximate \\\(\(\\varepsilon,\\delta\)\\\)-differential privacy is, roughly, equivalent to demanding that \\\(\\mathbb{P}[Z\\le\\varepsilon]\\ge1-\\delta\\\).[^2]
 
 Now \\\(\\eta\\\)-bounded range is simply demanding that the privacy loss \\\(Z\\\) is supported on some interval of length \\\(\\eta\\\). This interval \\\([t,t+\\eta]\\\) may depend on the pair \\\(x,x'\\\).
 
@@ -54,7 +54,7 @@ We have \\\[e^{f(y)} = \\frac{\\mathbb{P}[M(x)=y]}{\\mathbb{P}[M(x')=y]} = \\fra
 Setting \\\(t = \\log\\left(\\frac{\\sum_{y'} \\exp(-\\frac{\\varepsilon}{2\\Delta} \\ell(y',x'))}{\\sum_{y'} \\exp(-\\frac{\\varepsilon}{2\\Delta} \\ell(y',x))}\\right) - \\frac{\\varepsilon}{2}\\\), we have \\\[ f(y) = \\frac{\\varepsilon}{2\\Delta} (\\ell(y,x')-\\ell(y,x)+\\Delta) + t.\\\]
 By the definition of sensitivity (given in Equation 2), we have \\\( 0 \\le \\ell(y,x')-\\ell(y,x)+\\Delta \\le 2\\Delta\\\), whence \\\(t \\le f(y) \\le t + \\varepsilon\\\). &#8718;
 
-Bounded range is fun on its own, but it's not really a useful privacy definition on its own. Thus we're going to relate it to a relaxed version of differential privacy.
+Bounded range is not really a useful privacy definition on its own. Thus we're going to relate it to a relaxed version of differential privacy next.
 
 ## Concentrated Differential Privacy
 
@@ -107,10 +107,12 @@ The exponential mechanism is not the only algorithm for private selection. A clo
 
 If the noise distribution is an appropriate [Gumbel distribution](https://en.wikipedia.org/wiki/Gumbel_distribution), then report noisy max is exactly the exponential mechanism. (This equivalence is known as the "Gumbel max trick.")
 
-We can also use the Laplace distribution or the exponential distribution. The exponential distribution is equivalent to the _permute and flip_ algorithm [**[MS20]**](https://arxiv.org/abs/2010.12603 "Ryan McKenna, Daniel Sheldon. Permute-and-Flip: A new mechanism for differentially private selection
+We can also use the Laplace distribution or the exponential distribution. Report noisy max with the exponential distribution is equivalent to the _permute and flip_ algorithm [**[MS20]**](https://arxiv.org/abs/2010.12603 "Ryan McKenna, Daniel Sheldon. Permute-and-Flip: A new mechanism for differentially private selection
 . NeurIPS 2020.") [**[DKSSWXZ21]**](https://arxiv.org/abs/2105.07260 "Zeyu Ding, Daniel Kifer, Sayed M. Saghaian N. E., Thomas Steinke, Yuxin Wang, Yingtai Xiao, Danfeng Zhang. The Permute-and-Flip Mechanism is Identical to Report-Noisy-Max with Exponential Noise. 2021."). However, these algorithms don't enjoy the same improved bounded range and concentrated differential privacy guarantees as the exponential mechanism.
 
-There are also other variants of the selection problem. For example, in some cases we can assume that only a few options have low loss and the rest of the options have high loss -- i.e., there is a gap between the minimum loss and the second-lowest loss (or, more generally, the \\\(k\\\)-th lowest loss). In this case there are algorithms that attain better accuracy than the exponential mechanism under relaxed privacy definitions [**[BKSW19]**](https://arxiv.org/abs/1905.13229 "Mark Bun, Gautam Kamath, Thomas Steinke, Zhiwei Steven Wu. Private Hypothesis Selection. NeurIPS 2019.").
+There are also other variants of the selection problem. For example, in some cases we can assume that only a few options have low loss and the rest of the options have high loss -- i.e., there is a gap between the minimum loss and the second-lowest loss (or, more generally, the \\\(k\\\)-th lowest loss). In this case there are algorithms that attain better accuracy than the exponential mechanism under relaxed privacy definitions [**[CHS14]**](https://arxiv.org/abs/1409.2177 "Kamalika Chaudhuri, Daniel Hsu, Shuang Song. The Large Margin Mechanism for Differentially Private Maximization. NIPS 2014.") [**[BDRS18]**](https://dl.acm.org/doi/10.1145/3188745.3188946 " Mark Bun, Cynthia Dwork, Guy N. Rothblum, Thomas Steinke. Composable and versatile privacy via truncated CDP. STOC 2018.") [**[BKSW19]**](https://arxiv.org/abs/1905.13229 "Mark Bun, Gautam Kamath, Thomas Steinke, Zhiwei Steven Wu. Private Hypothesis Selection. NeurIPS 2019.").
+
+There are a lot of interesting aspects of private selection, including questions for further research! We hope to have further posts about some of these topics.
 
 ---
 
