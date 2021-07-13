@@ -103,7 +103,7 @@ Combining Lemma 2 with Theorem 5 also gives a simpler proof of the conversion fr
 
 ## Beyond the Exponential Mechanism
 
-The exponential mechanism is not the only algorithm for private selection. A closely-related algorithm is _report noisy max_: Draw independent noise \\\(\\xi_y\\\) from some distribution for each \\\(y \\in \\mathcal{Y}\\\) then output \\\[M(x) = \\underset{y \\in \\mathcal{Y}}{\\mathrm{argmax}} ~ \\ell(y,x) + \\xi_y.\\\]
+The exponential mechanism is not the only algorithm for private selection. A closely-related algorithm is _report noisy max/min_:[^7] Draw independent noise \\\(\\xi_y\\\) from some distribution for each \\\(y \\in \\mathcal{Y}\\\) then output \\\[M(x) = \\underset{y \\in \\mathcal{Y}}{\\mathrm{argmin}} ~ \\ell(y,x) - \\xi_y.\\\]
 
 If the noise distribution is an appropriate [Gumbel distribution](https://en.wikipedia.org/wiki/Gumbel_distribution), then report noisy max is exactly the exponential mechanism. (This equivalence is known as the "Gumbel max trick.")
 
@@ -127,3 +127,5 @@ There are a lot of interesting aspects of private selection, including questions
 [^5]: To be precise, if \\\(M(x) = q(x) + \\mathcal{N}(0,\\sigma^2I)\\\), then \\\(M : \\mathcal{X}^n \\to \\mathbb{R}^d\\\) satisfies \\\(\\frac{\\Delta\_2^2}{2\\sigma^2}\\\)-concentrated differential privacy, where \\\(\\Delta\_2 = \\sup\_{x,x'\\in\\mathcal{X}^n : d(x,x')\\le1} \\\|q(x)-q(x')\\\|\_2\\\) is the 2-norm sensitivity of \\\(q:\\mathcal{X}^n \\to \\mathbb{R}^d\\\). Furthermore, the privacy loss of the Gaussian mechanism is itself a Gaussian and it makes the inequality defining concentrated differential privacy (Equation 3) an equality for all \\\(\\lambda\\\)
 
 [^6]: Note that the expectation of the privacy loss is simply the [KL divergence](https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence): \\\(\\mathbb{E}[Z] = \\mathrm{D}\_1( M(x) \\\| M(x') )\\\).
+
+[^7]: We have presented selection here in terms of minimization, but most of the literature is in terms of maximization.
