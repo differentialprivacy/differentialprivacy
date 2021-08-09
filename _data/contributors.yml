@@ -15,6 +15,12 @@ alonicohen:
   homepage: https://aloni.net/
   image: 
   affiliation: Boston University
+  
+daviddurfee:
+  name: David Durfee
+  homepage: https://www.linkedin.com/in/david-durfee-099874174/
+  image:
+  affiliation: LinkedIn
 
 margalitglasgow:
   name: Margalit Glasgow
@@ -53,12 +59,6 @@ ryanrogers:
   image: 
   affiliation: LinkedIn
   
-daviddurfee:
-  name: David Durfee
-  homepage: https://www.linkedin.com/in/david-durfee-099874174/
-  image:
-  affiliation: LinkedIn
-
 zacharyschutzman:
   name: Zachary Schutzman
   homepage: https://zachschutzman.com/
