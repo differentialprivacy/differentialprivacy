@@ -179,9 +179,9 @@ Private-PGM is not the only method available for generating synthetic data from 
 
 One alternative was proposed in the recent [PMW<sup>Pub</sup>](https://arxiv.org/abs/2102.08598){:target="\_blank"} paper and refined by [one team](https://arxiv.org/abs/2106.05131){:target="\_blank"} in the recent NIST competition.  The basic idea is to restrict attention to distributions supported over the domain of some public data.  Distributions in this space can always be tractably represented, as the size of the optimization variable is upper bounded by the number of records in the public dataset.  While the size of the optimization variable does not depend on the structure of the selected queries, there is no guarantee that an optimizer of the original problem exists in this restricted space.  Indeed, the quality of the solution depends crucially on the expressive capacity of the public data domain, as well as how well it matches the true data domain.
 
-### Mixture of Products
+### Relaxed Tabular
 
-An alternative approach was proposed in the recent [RAP](https://arxiv.org/abs/2103.06641){:target="\_blank"} paper and refined in [RAP<sup>softmax</sup>](https://arxiv.org/abs/2106.07153){:target="\_blank"}.  Although not originally presented in this way, these methods essentially search over the space of distributions that can be represented as a *mixture of products*,  or a sum of distributions that factor over each attribute in the domain.  The number of mixture components is a tunable knob that can be set to trade off expressive capacity with computational efficiency.  With a sufficiently large knob size, the true minimizer can be expressed as a mixture of products, but there is no guarantee that gradient-based optimization will converge to it because this representation introduces non-convexity into the problem.  
+An alternative approach was proposed in the recent [RAP](https://arxiv.org/abs/2103.06641){:target="\_blank"} paper.  The key idea is to restrict attention to "pseudo-distributions" that can be represented in a relaxed tabular format.  The format is similar to the one-hot encoding of a discrete dataset, although the entries need not be \\\( 0 \\\) or \\\( 1 \\\), which enables gradient-based optimization to be performed on the cells in this table.  The number of rows is a tunable knob that can be set to trade off expressive capacity with computational efficiency.  With a sufficiently large knob size, the true minimizer of the original problem can be expressed in this way, but there is no guarantee that gradient-based optimization will converge to it because this representation introduces non-convexity.  
 
 ### Generative Networks 
 
@@ -195,18 +195,18 @@ Finally, [GUM](https://arxiv.org/abs/2106.07153) does not search over any space 
 
 There are many alternatives to Private-PGM which make different assumptions to enable scalability.  While Private-PGM can be seen as an exact method, it's scalability can suffer when the number of marginals measured becomes too large, a drawback not suffered as severely by the other methods.  A comprehensive qualitative comparison between Private-PGM and the discussed alternatives is given below.  A direct quantitative comparison between the methods remains an unanswered question.
 
-| | **Private-PGM** | **Public Data** | **Mixture of Products** | **Generative Networks** | **GUM** |
-Solves original problem | <span style="color:green">Yes</span> | <span style="color:red">No</span> | <span style="color:red">No</span> | <span style="color:red">No</span> | <span style="color:red">No</span> | 
-Convexity preserving | <span style="color:green">Yes</span> | <span style="color:green">Yes</span> | <span style="color:red">No</span> |  <span style="color:red">No</span> | <span style="color:green">Yes</span> |
-Open source with simple interface [^3] | <span style="color:green">Yes</span> | <span style="color:red">No</span> | <span style="color:red">No</span> | <span style="color:red">No</span> | <span style="color:red">No</span> |
+| | **Private-PGM** | **Public Data** | **Relaxed Tabular** | **Generative Networks** | **GUM** |
+Solves original problem [^3] | <span style="color:green">Yes</span> | <span style="color:red">No</span> | <span style="color:red">No</span> | <span style="color:red">No</span> | <span style="color:red">No</span> | 
+Convexity preserving [^4] | <span style="color:green">Yes</span> | <span style="color:green">Yes</span> | <span style="color:red">No</span> |  <span style="color:red">No</span> | <span style="color:green">Yes</span> |
 Requires public data | <span style="color:green">No</span> | <span style="color:red">Yes</span> | <span style="color:green">No</span> | <span style="color:green">No</span> | <span style="color:green">No</span> |
 Dependence on number of measurements | <span style="color:red">Exponential (worst case)</span> | <span style="color:green">Polynomial</span> | <span style="color:green">Polynomial</span> | <span style="color:green">Polynomial</span> | <span style="color:green">Polynomial</span> |
 Scales by | Exploiting structure | Restricting search space | Restricting search space | Restricting search space | Local consistency |
 Method for breaking ties | Maximum entropy | None | None | None | None | 
 Supported inputs | <span style="color:green">Differentiable loss function of marginals</span> | <span style="color:green">Differentiable loss function of marginals</span> | <span style="color:green">Differentiable loss function of marginals</span> | <span style="color:green">Differentiable loss function of marginals</span> | <span style="color:red">Noisy marginals</span> | 
 
+[^3]: All other methods restrict the search space in some way to ensure tractability.  While Private-PGM searches over the space of graphical models, which is a subset of all possible distributions, the solution obtained is guaranteed to be an optima of the original problem.
 
-[^3]: Some of these techniques have open source implementations, but the portion of the code corresponding to the generate step is not treated as a standalone entity, but rather a single component of one proposed mechanism.  Combining it with new mechanisms may require modifying the code and interface.
+[^4]: Even if the original loss function \\\( L \\\) is convex with respect to \\\( P \\\), it may or may not be convex with respect to the proposed search space/parameterization.  
 
 # Coming up Next
 
