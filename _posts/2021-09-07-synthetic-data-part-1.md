@@ -25,8 +25,8 @@ Private-PGM was a key component of the first-place solution in the 2018 NIST Dif
 
 After reading this blog post you will:
 
-* Be able to use Private-PGM to design your first synthetic data mechanism.  \\
-* Understand what Private-PGM does, how it works, and what its limitations are. \\
+* Be able to use Private-PGM to design your first synthetic data mechanism. 
+* Understand what Private-PGM does, how it works, and what its limitations are. 
 * Learn about alternatives to Private-PGM for the generate step. 
 * Be ready to compete in the next synthetic data competition!
 
@@ -153,7 +153,6 @@ This example shows that the quality of the synthetic data crucially depends on t
 
 Now that we have described how to use Private-PGM, we will offer some insight into what it does under the hood.  Underlying Private-PGM and several other approaches to generate synthetic data is the following optimization problem:
 
-
 \\\[\hat{P} \in \text{arg} \min\_{P \in \mathcal{S}} L(P, \tilde{Q}) \\tag{1} \label{eq1} \\\]
 
 
@@ -162,9 +161,13 @@ Here, \\\( \tilde{Q} \\\) are the noisy query answers, and \\\( \mathcal{S} \\\)
 \\\( L(P) = \|\| Q(P) - \tilde{Q} \|\|\_2^2, \\\)
 where \\\( Q(P) \\\) are the query answers under \\\( P \\\).  The above problem is known by many names: projection, consistency, maximum likelihood, least squares, etc.  
 
-If the queries \\\( Q \\\) are linear, then this optimization problem is convex, but solving it directly is challenging on high-dimensional domains because the size of \\\( P \\\) is intractably large.  The key observation of Private-PGM is that when \\\( Q \\\) has special structure, so does \\\( \hat{P} \\\).  In particular, if \\\( Q \\\) only depends on \\\( P \\\) through it's low-dimensional marginals, then one of the optimizers is \\\( P\_{\hat{\theta}} \\\), a graphical model parameterized by \\\( \hat{\theta} \\\).  The size of \\\( \hat{\theta} \\\) depends on \\\( Q \\\), and in the worst case is equal to the size of \\\( P \\\) [^6].  However, in many common cases of practical interest, the size of \\\( \hat{\theta} \\\) is exponentially smaller than \\\( P \\\), in which case we can efficiently solve the optimization problem above, finding \\\( \hat{\theta} \\\) and thus a tractable representation of \\\( \hat{P} \\\).  Understanding the relationship between \\\( Q \\\) and the size of \\\( \hat{\theta} \\\) requires some expertise in graphical models.  However, the Private-PGM code allows you to quickly check how big the required graphical model is, based on which cliques were measured.  The size of \\\( \theta \\\) in the example above would be only 944, whereas the size of \\\( P \\\) would be \\\( 6.4 \times 10^{17} \\\).  
+If the queries \\\( Q \\\) are linear, then this optimization problem is convex, but solving it directly is challenging on high-dimensional domains because the size of \\\( P \\\) is intractably large.  There are several methods, including Private-PGM, that attempt to overcome the curse of dimensionality inherent in Problem \ref{eq1}.  With the exception of Private-PGM, these methods scale by solving a relaxation of Problem \ref{eq1} that is tractable to solve.  One way to do this is to restrict the search space of the optimization from all high-dimensional joint distributions, to a subset of joint distributions.  This subset of distributions can be characterized by a smaller parameter vector, which enables tractable optimization over it.  The sections below describe the different (implicit) assumptions each method makes, as well as the consequences of those assumptions.  
 
-[^6]: For example, this worst-case behavior is realized if **all** 2-way marginals are measured.
+### Private-PGM
+
+The key observation of Private-PGM is that when \\\( Q \\\) has special structure, so does \\\( \hat{P} \\\).  In particular, if \\\( Q \\\) only depends on \\\( P \\\) through it's low-dimensional marginals, then one of the optimizers is \\\( P\_{\hat{\theta}} \\\), a graphical model parameterized by \\\( \hat{\theta} \\\).  The size of \\\( \hat{\theta} \\\) depends on \\\( Q \\\), and in the worst case is equal to the size of \\\( P \\\) [^6].  However, in many common cases of practical interest, the size of \\\( \hat{\theta} \\\) is exponentially smaller than \\\( P \\\), in which case we can efficiently solve the optimization problem above, finding \\\( \hat{\theta} \\\) and thus a tractable representation of \\\( \hat{P} \\\).  Understanding the relationship between \\\( Q \\\) and the size of \\\( \hat{\theta} \\\) requires some expertise in graphical models.  However, the Private-PGM code allows you to quickly check how big the required graphical model is, based on which cliques were measured.  The size of \\\( \theta \\\) in the example above would be only 944, whereas the size of \\\( P \\\) would be \\\( 6.4 \times 10^{17} \\\).  
+
+[^6]: For example, this worst-case behavior is realized if **all** 2-way marginals are measured.  While this can be seen as a limitation of Private-PGM, [it is known](http://people.seas.harvard.edu/~salil/research/synthetic-Feb2010.pdf) that generating synthetic data that preserves all 2-way marginals is computationally hard in the worst-case.
 
 {% highlight python %}
 >>> from mbi import GraphicalModel
@@ -177,38 +180,54 @@ If the queries \\\( Q \\\) are linear, then this optimization problem is convex,
 
 The size of the parameter vector increases with the number and size of the selected cliques, but it also depends on the structure of the cliques as well.  This dependence is explained well in a recent paper, [PrivMRF](http://vldb.org/pvldb/vol14/p2190-cai.pdf){:target="\_blank"}.  A more detailed but still accessible overview of Private-PGM is given in another recent paper, [MST](https://arxiv.org/abs/2108.04978){:target="\_blank"}.  
 
-# Alternatives to Private-PGM
-
-Private-PGM is not the only method available for generating synthetic data from noisy measurements.  We briefly describe several other alternatives below, and include a table comparing the different options. These alternatives can be seen as imposing different relaxations on Problem \ref{eq1}, with the relaxed problems being tractable to solve.  They differ primarily in the (implicit) assumptions they make, and the consequences of those assumptions.  
 ### Public Data
 
-One alternative was proposed in the recent [PMW<sup>Pub</sup>](https://arxiv.org/abs/2102.08598){:target="\_blank"} paper and refined by [one team](https://arxiv.org/abs/2106.05131){:target="\_blank"} in the recent NIST competition.  The basic idea is to restrict attention to distributions supported over the domain of some public data.  Distributions in this space can always be tractably represented, as the size of the optimization variable is upper bounded by the number of records in the public dataset.  While the size of the optimization variable does not depend on the structure of the selected queries, there is no guarantee that an optimizer of Problem \ref{eq1} exists in this restricted space.  Indeed, the quality of the solution depends crucially on the expressive capacity of the public data domain, as well as how well it matches the true data domain.
+One alternative was proposed in the recent [PMW<sup>Pub</sup>](https://arxiv.org/abs/2102.08598){:target="\_blank"} paper and refined by [one team](https://arxiv.org/abs/2106.05131){:target="\_blank"} in the recent NIST competition.  The basic idea is to restrict attention to distributions supported over the domain of some public data.  Distributions in this space can always be tractably represented, as the size of the optimization variable is upper bounded by the number of records in the public dataset.  While the size of the optimization variable does not depend on the structure of the selected queries, there is no guarantee that an optimizer of Problem \ref{eq1} exists in this restricted space.  Indeed, the quality of the solution depends crucially on the expressive capacity of the public data domain, as well as how well it matches the true data domain.  This idea was recently implemented and added into the Private-PGM repository under the name ```PublicInference```.  It can be used as a drop-in replacement for ```FactoredInference``` in situations where Private-PGM fails to scale.
+
+{% highlight python %}
+>>> from mbi import PublicInference
+>>> public_data = Dataset.synthetic(data.domain, 1000)
+>>> engine = PublicInference(public_data)
+>>> model = engine.estimate(measurements)
+{% endhighlight %}
 
 ### Relaxed Tabular
 
-An alternative approach was proposed in the recent [RAP](https://arxiv.org/abs/2103.06641){:target="\_blank"} paper.  The key idea is to restrict attention to "pseudo-distributions" that can be represented in a relaxed tabular format.  The format is similar to the one-hot encoding of a discrete dataset, although the entries need not be \\\( 0 \\\) or \\\( 1 \\\), which enables gradient-based optimization to be performed on the cells in this table.  The number of rows is a tunable knob that can be set to trade off expressive capacity with computational efficiency.  With a sufficiently large knob size, the true minimizer of the original problem can be expressed in this way, but there is no guarantee that gradient-based optimization will converge to it because this representation introduces non-convexity.  
+An alternative approach was proposed in the recent [RAP](https://arxiv.org/abs/2103.06641){:target="\_blank"} paper.  The key idea is to restrict attention to "pseudo-distributions" that can be represented in a relaxed tabular format.  The format is similar to the one-hot encoding of a discrete dataset, although the entries need not be \\\( 0 \\\) or \\\( 1 \\\), which enables gradient-based optimization to be performed on the cells in this table.  The number of rows is a tunable knob that can be set to trade off expressive capacity with computational efficiency.  With a sufficiently large knob size, the true minimizer of the original problem can be expressed in this way, but there is no guarantee that gradient-based optimization will converge to it because this representation introduces non-convexity.  This idea was refined into [RAP<sup>softmax</sup>](https://arxiv.org/abs/2106.07153){:target="\_blank"} in follow-up-work, and was recently added to the Private-PGM repository under the name ```MixtureInference```.  It can be used as a drop-in replacement for ```FactoredInference``` in situations where Private-PGM fails to scale.  
+
+{% highlight python %}
+>>> from mbi import MixtureInference
+>>> engine = MixtureInference(data.domain, components=100)
+>>> model = engine.estimate(measurements)
+{% endhighlight %}
+
 
 ### Generative Networks 
 
-Another approach proposed in the recent [GEM](https://arxiv.org/abs/2106.07153){:target="\_blank"} paper is to search over the space of distributions representable as a generative network.  The distribution is implicitly encoded via the parameters of the network, which are learned through gradient-based optimization.  It can be seen as a compact parameterization of a mixture of products with an infinite number of mixture components.  It shares some similarity with the previous approach, although optimization is done indirectly via the network parameters instead of directly over the probabilities in the mixture components.
+Another approach proposed in the recent [GEM](https://arxiv.org/abs/2106.07153){:target="\_blank"} paper is to search over the space of distributions representable as a generative network.  The distribution is implicitly encoded via the parameters of the network, which are learned through gradient-based optimization.  It can be seen as a compact parameterization of a mixture of products with an infinite number of mixture components.  It shares some similarity with the previous approach, although optimization is done indirectly via the network parameters instead of directly over the probabilities in the mixture components.  We hope it can be added to the Private-PGM repository in the future. 
 
 ### Local Consistency
 
-Finally, [GUM](https://arxiv.org/abs/2106.07153) does not search over any space of distributions, but instead imposes *local consistency* constraints on the noisy measurements.  That is, it ensures that noisy marginals are internally consistent on common margins, but does not necessarily require there to be a distribution which realizes those marginals.  Synthetic data is obtained from a post-processing heuristic to translate these locally consistent pseudo-marginals into synthetic tabular data.  This approach was used by team DPSyn in both NIST competitions. 
+Finally, [GUM](https://arxiv.org/abs/2106.07153){:target="\_blank"} and [APPGM](https://arxiv.org/abs/2109.06153){:target="\_blank"} do not search over any space of distributions, but instead impose *local consistency* constraints on the noisy measurements.  That is, they ensure that noisy marginals are internally consistent on common margins, but does not necessarily require there to be a distribution which realizes those marginals.  Synthetic data can be obtained from a post-processing heuristic to translate these locally consistent pseudo-marginals into synthetic tabular data.  This approach was used by team DPSyn in both NIST competitions.  APPGM was recently added to the Private-PGM repository under the name ```LocalInference```.  It can be used as a drop-in replacement for ```FactoredInference``` as follows:
+
+{% highlight python %}
+>>> from mbi import LocalInference
+>>> engine = LocalInference(data.domain)
+>>> model = engine.estimate(measurements)
+{% endhighlight %}
 
 ### Summary
 
-There are many alternatives to Private-PGM which make different assumptions to enable scalability.  While Private-PGM can be seen as an exact method, it's scalability can suffer when the number of marginals measured becomes too large, a drawback not suffered as severely by the other methods.  A comprehensive qualitative comparison between Private-PGM and the discussed alternatives is given below.  A direct quantitative comparison between the methods remains an unanswered question.
+There are many alternatives to Private-PGM which make different assumptions to enable scalability.  While Private-PGM can be seen as an exact method, it's scalability can suffer when the number of marginals measured becomes too large, a drawback not suffered as severely by the other methods.  A comprehensive qualitative comparison between Private-PGM and the discussed alternatives is given below, although no direct quantitative comparison between these methods has been done to date.
 
-| | **Private-PGM** | **Public Data** | **Relaxed Tabular** | **Generative Networks** | **GUM** |
+| | **Private-PGM** | **Public Data** | **Relaxed Tabular** | **Generative Networks** | **GUM / APPGM** |
 Solves Problem \ref{eq1} [^3] | <span style="color:green">Yes</span> | <span style="color:red">No</span> | <span style="color:red">No</span> | <span style="color:red">No</span> | <span style="color:red">No</span> | 
 Convexity preserving [^4] | <span style="color:green">Yes</span> | <span style="color:green">Yes</span> | <span style="color:red">No</span> |  <span style="color:red">No</span> | <span style="color:green">Yes</span> |
 Dependence on number of measurements | <span style="color:red">Exponential (worst case)</span> | <span style="color:green">Polynomial</span> | <span style="color:green">Polynomial</span> | <span style="color:green">Polynomial</span> | <span style="color:green">Polynomial</span> |
 Scales by | Exploiting structure | Restricting search space | Restricting search space | Restricting search space | Local consistency |
 Method for breaking ties [^5] | Maximum entropy | None | None | None | None | 
-Supported inputs | <span style="color:green">Differentiable loss function of marginals</span> | <span style="color:green">Differentiable loss function of marginals</span> | <span style="color:green">Differentiable loss function of marginals</span> | <span style="color:green">Differentiable loss function of marginals</span> | <span style="color:red">Noisy marginals</span> | 
 
-[^3]: All other methods restrict the search space in some way to ensure tractability.  While Private-PGM searches over the space of graphical models, which is a subset of all possible distributions, the solution obtained is guaranteed to be an optima of Problem \ref{eq1}.
+[^3]: All methods restrict the search space in some way to ensure tractability.  While Private-PGM searches over the space of graphical models, which is a subset of all possible distributions, the solution obtained is guaranteed to be an optima of Problem \ref{eq1}.
 
 [^4]: Even if the loss function \\\( L \\\) is convex with respect to \\\( P \\\), it may or may not be convex with respect to the proposed search space/parameterization.  
 
