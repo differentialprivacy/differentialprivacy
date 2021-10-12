@@ -223,12 +223,12 @@ Among the alternatives discussed here, only Direct and ABC can be expected to so
 
 A comprehensive qualitative comparison between ABC and the discussed alternatives is given below, although no direct quantitative comparison between these methods has been done to date.  As such, the best method to use remains an open question, and is may be data dependent.  
 
-|| **Direct** | **PGM** | **Sparse Support** | **Relaxed Tabular** | **Generative Networks** | **Local Consistency** |
-Search space includes optimum | <span style="color:green">Yes</span> | <span style="color:green">Yes</span> | <span style="color:red">No</span> | <span style="color:orange">Maybe</span> (Yes with sufficient #params) |  <span style="color:orange">Maybe</span>   (Yes with sufficient #params) | <span style="color:green">Yes</span> |
-Search space excludes spurious distributions | <span style="color:green">Yes</span> | <span style="color:green">Yes</span> | <span style="color:green">Yes</span> | <span style="color:red">No</span> (unless using softmax) | <span style="color:green">Yes</span> | <span style="color:red">No</span> |
-Convexity preserving [^4] | <span style="color:green">Yes</span> | <span style="color:green">Yes</span> | <span style="color:green">Yes</span> | <span style="color:red">No</span> |  <span style="color:red">No</span> | <span style="color:green">Yes</span> |
-Solves problem \ref{eq1} [^5] | <span style="color:green">Yes</span> | <span style="color:green">Yes</span> | <span style="color:red">No</span> | <span style="color:red">No</span> | <span style="color:red">No</span> | <span style="color:red">No</span> | 
-Factors influencing scalability | <span style="color:red">Size of Entire Domain</span> | <span style="color:orange">Size of Junction Tree</span> | <span style="color:green">Size of Largest Marginal</span> | <span style="color:green">Size of Largest Marginal</span> | <span style="color:green">Size of Largest Marginal</span> | <span style="color:green">Size of Largest Marginal</span> |
+|| **Direct** | **PGM** |  **Relaxed Tabular** | **Generative Networks** | **Local Consistency** |
+Search space includes optimum | <span style="color:green">Yes</span> | <span style="color:green">Yes</span> | <span style="color:orange">Maybe</span> (Yes with sufficient #params) |  <span style="color:orange">Maybe</span>   (Yes with sufficient #params) | <span style="color:green">Yes</span> |
+Search space excludes spurious distributions | <span style="color:green">Yes</span> | <span style="color:green">Yes</span> | <span style="color:red">No</span> (unless using softmax) | <span style="color:green">Yes</span> | <span style="color:red">No</span> |
+Convexity preserving [^4] | <span style="color:green">Yes</span> | <span style="color:green">Yes</span> | <span style="color:red">No</span> |  <span style="color:red">No</span> | <span style="color:green">Yes</span> |
+Solves problem \ref{eq1} [^5] | <span style="color:green">Yes</span> | <span style="color:green">Yes</span> | <span style="color:red">No</span> | <span style="color:red">No</span> | <span style="color:red">No</span> | 
+Factors influencing scalability | <span style="color:red">Size of Entire Domain</span> | <span style="color:orange">Size of Junction Tree</span> | <span style="color:green">Size of Largest Marginal</span> | <span style="color:green">Size of Largest Marginal</span> | <span style="color:green">Size of Largest Marginal</span> |
 
 
 [^4]: Even if the loss function \\\( L \\\) is convex with respect to \\\( P \\\), it may or may not be convex with respect to the proposed search space/parameterization.  
