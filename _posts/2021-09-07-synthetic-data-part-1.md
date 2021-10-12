@@ -221,15 +221,14 @@ Finally, [GUM](https://arxiv.org/abs/2106.07153){:target="\_blank"} and [APPGM](
 
 Among the alternatives discussed here, only Direct and ABC can be expected to solve Problem \ref{eq1}.  ABC scales by exploiting the structure in the marginals measured, whereas other methods scale by restricting the space of distributions considered in a way that does not depend on the measurements taken.  While these ideas are related, there is a subtle but important distinction between them.  ABC can be seen as restricting the search space, but it does so carefully to ensure that the solution obtained still solves the original optimization problem (over the space of all distributions).  The other methods do not share this property, instead the solutions found solve different relaxations of the original optimization problem, and the solutions found will generally be suboptimal in the original problem.  While ABC can be seen as an exact method, it's scalability can suffer when the number of marginals measured becomes too large, a drawback not suffered as severely by the other methods.  When using ABC, it requires some care when selecting marginals to avoid the worst-case behavior, some considerations can be found in [PrivMRF](http://vldb.org/pvldb/vol14/p2190-cai.pdf){:target="\_blank"} and [MST](https://arxiv.org/abs/2108.04978){:target="\_blank"}.
 
-A comprehensive qualitative comparison between ABC and the discussed alternatives is given below, although no direct quantitative comparison between these methods has been done to date.  As such, the best method to use remains an open question, and is may be data dependent.  
+A comprehensive qualitative comparison between alternative methods for Generate is given below, although no direct quantitative comparison between these methods has been done to date.  As such, the best method to use remains an open question, and is may be data dependent.  
 
 || **Direct** | **PGM** |  **Relaxed Tabular** | **Generative Networks** | **Local Consistency** |
-Search space includes optimum | <span style="color:green">Yes</span> | <span style="color:green">Yes</span> | <span style="color:orange">Maybe</span> (Yes with sufficient #params) |  <span style="color:orange">Maybe</span>   (Yes with sufficient #params) | <span style="color:green">Yes</span> |
-Search space excludes spurious distributions | <span style="color:green">Yes</span> | <span style="color:green">Yes</span> | <span style="color:red">No</span> (unless using softmax) | <span style="color:green">Yes</span> | <span style="color:red">No</span> |
-Convexity preserving [^4] | <span style="color:green">Yes</span> | <span style="color:green">Yes</span> | <span style="color:red">No</span> |  <span style="color:red">No</span> | <span style="color:green">Yes</span> |
-Solves problem \ref{eq1} [^5] | <span style="color:green">Yes</span> | <span style="color:green">Yes</span> | <span style="color:red">No</span> | <span style="color:red">No</span> | <span style="color:red">No</span> | 
-Factors influencing scalability | <span style="color:red">Size of Entire Domain</span> | <span style="color:orange">Size of Junction Tree</span> | <span style="color:green">Size of Largest Marginal</span> | <span style="color:green">Size of Largest Marginal</span> | <span style="color:green">Size of Largest Marginal</span> |
-
+Search space includes optimum | Yes | Yes | Maybe (Yes with sufficient #params) |  Maybe (Yes with sufficient #params) | Yes | 
+Search space excludes spurious distributions | Yes | Yes | No (unless using softmax) | Yes | No |
+Convexity Preserving | Yes | Yes | No | No | Yes |
+Solves Problem \ref{eq1} | Yes | Yes | No | No | No |
+Factors influencing scalability | Size of Entire Domain | Size of Junction Tree | Size of Largest Marginal | Size of Largest Marginal | Size of Largest Marginal | 
 
 [^4]: Even if the loss function \\\( L \\\) is convex with respect to \\\( P \\\), it may or may not be convex with respect to the proposed search space/parameterization.  
 
