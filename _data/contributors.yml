@@ -53,6 +53,12 @@ sashonikolov:
   image: 
   affiliation: University of Toronto
 
+npapernot:
+  name: Nicolas Papernot
+  homepage: https://www.papernot.fr
+  image: https://www.papernot.fr/img/nicolas.jpg
+  affiliation: University of Toronto and Vector Institute and Google Research
+
 ryanrogers:
   name: Ryan Rogers
   homepage: https://www.math.upenn.edu/~ryrogers/
@@ -77,6 +83,12 @@ thomassteinke:
   image: http://www.thomas-steinke.net/selfie.jpg
   affiliation: Google Research, Brain Team
 
+athakurta:
+  name: Abhradeep Thakurta
+  homepage: https://athakurta.squarespace.com
+  image:
+  affiliation: Google Research, Brain Team
+
 jonullman:
   name: Jonathan Ullman
   homepage: https://www.ccs.neu.edu/home/jullman/
@@ -88,15 +100,3 @@ stevenwu:
   homepage: https://zstevenwu.com/
   image: https://zstevenwu.com/images/ZSW.jpg
   affiliation: Carnegie Mellon University
-
-npapernot:
-  name: Nicolas Papernot
-  homepage: https://www.papernot.fr
-  image: https://www.papernot.fr/img/nicolas.jpg
-  affiliation: University of Toronto and Vector Institute and Google Research
-
-athakurta:
-  name: Abhradeep Thakurta
-  homepage: https://athakurta.squarespace.com
-  image: 
-  affiliation: Google Research, Brain Team
