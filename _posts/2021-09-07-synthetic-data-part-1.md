@@ -10,97 +10,102 @@ categories: [Tools, Synthetic Data]
 
 ![](/images/select-measure-reconstruct.png)
 
-In the last blog post, we covered the potential pitfalls of synthetic data without formal privacy guarantees, and motivated the need for differentially private synthetic data mechanisms.  Many mechanisms for this problem follow the so-called **select-measure-generate** paradigm.  The three steps underlying the select-measure-generate paradigm are illustrated in the figure above, and explained below.
+In the last blog post, we covered the potential pitfalls of synthetic data without formal privacy guarantees, and motivated the need for differentially private synthetic data mechanisms.  Many mechanisms for this problem follow the so-called **select-measure-generate** paradigm.[^0]  The three steps underlying the select-measure-generate paradigm are illustrated in the figure above, and explained below.
+
+[^0]: For example, [Liu et al., 2021](https://arxiv.org/abs/2106.07153){:target="\_blank"} introduce this framework to unify private query release algorithms that iteratively select measurements (via the exponential mechanism).
 
 1. **Select** a collection of queries to measure --- typically low-dimensional marginals.
 2. **Measure** the selected queries privately using a noise-addition mechanism.
 3. **Generate** synthetic data that best explains the noisy measurements.
 
-Mechanisms in this class differ primarily in their methodology for selecting queries and their algorithm for generating synthetic data from noisy measurements.  The focus of this blog post is the final **Generate** step, and specifically, the open-source **[Marginal-Based Inference (MBI)](https://github.com/ryan112358/private-pgm){:target="_blank"}** repository that implements several generic and scalable solutions to this problem.
-
+Mechanisms in this class differ primarily in their methodology for selecting queries and their algorithm for generating synthetic data from noisy measurements.  The focus of this blog post is the final **Generate** step.  Specifically, we will explore different ways in which one can model data distributions for the purpose of generating synthetic data, outlining the qualitative pros and cons of each method. We will then introduce the **[Marginal-Based Inference (MBI)](https://github.com/ryan112358/private-pgm){:target="_blank"}** repository that provides methods that, given some set of noisy measurements, enables users to generate synthetic data in a generic and scalable way.
 
 Separating the Generate subroutine from the existing synthetic data generation mechanisms greatly simplifies the design space of new differentially private mechanisms.  It allows the mechanism designer to focus on *selecting the queries* to maximize utility of the synthetic data, rather than *how to generate synthetic data* that explain the noisy measurements well.  Both are challenging problems, and MBI provides principled solutions to the latter problem, while exposing a simple interface that can be readily adopted by mechanism designers. 
 
 
-Among the methods implemented in MBI is [PGM](https://arxiv.org/abs/1901.09136){:target="\_blank"}, which was a key component of the first-place solution in the 2018 NIST Differential Privacy [Synthetic Data Competition](https://www.nist.gov/ctl/pscr/open-innovation-prize-challenges/past-prize-challenges/2018-differential-privacy-synthetic){:target="\_blank"} and in both the first and second-place solutions in the follow-up [Temporal Map Competition](https://www.nist.gov/ctl/pscr/open-innovation-prize-challenges/current-and-upcoming-prize-challenges/2020-differential){:target="\_blank"}.[^2]  Other methods implemented in MBI have seen success in the academic settings as well. 
-
-[^2]: Other top-performing mechanisms followed the select-measure-generate paradigm as well, but used other methods for the generate step.
-
 After reading this blog post you will:
 
-* Be able to use MBI to design your first synthetic data mechanism. 
 * Understand how different methods for Generate are related and differ.
+* Be able to use MBI to design your first synthetic data mechanism. 
 * Be ready to compete in the next synthetic data competition!
 
+# The Generate Subproblem: A Unifying View
 
-# Getting Started
+In this section we will introduce the main optimization problem that underlies several methods for the Generate subproblem, and provide a high-level overview of how each method attempts to solve this optimization problem. Let \\\( y = \mathcal{M}(D) \\\) be the noisy measurements obtained from running a privacy mechanism on a discrete dataset \\\( D \\\).  Our goal is to post-process these noise measurements to obtain synthetic data that explains them well.  In particular, we wish to minimize over the space of all *datasets* for one that maximizes the likelihood of the observations \\\( y \\\).[^1]  
 
-We will begin by introducing the basic concepts necessary to understand and develop mechanisms in the select-measure-generate paradigm.  We will accomplish this using real Python code based on the open source MBI repository.
+\\\[ \hat{D} \in \text{arg} \max\_{D \in \mathcal{D}} \log \mathbb{P}[\mathcal{M}(D) = y] \tag{0} \\\]
 
-### Discrete Data
+This is a high-dimensional discrete optimization problem, and is generally infeasible to solve in practice, even in low-dimensional settings.  It is common to consider the relaxed problem that instead optimizes over the set of *probability distributions*:
 
-For the purpose of this blog post, assume we have a preprocessed discrete dataset, such that each attribute \\\( i \\\) can take on values from the set \\\(\\\{0, 1, \dots, n_i-1 \\\} \\\) where \\\( n_i \\\) is the number of possible values for a given column.  The open source MBI repository contains a preprocessed adult dataset.  We can load it in using the following code:
+[^1]: Here we assume that \\\( \mathcal{M} \\\) is a mechanism with a discrete output space.  In practice, this is always the case because any mechanism implemented on a finite computer must have a discrete output space.  For continuous output spaces, interpret the objective function as a log density rather than a log probability.
 
-{% highlight python %}
->>> from mbi import Dataset
->>> data = Dataset.load('adult.csv', 'adult-domain.json')
-{% endhighlight %}
+\\\[ \hat{P} \in \text{arg} \max\_{P \in \mathcal{S}} \log \mathbb{P}[\mathcal{M}(P) = y] \label{eq1} \tag{1} \\\]
 
-The Dataset object is essentially a wrapper for a pandas data frame, with utility functions to compute marginals.  It also keeps track of domain information, or the set of columns along with the number of possible values for each column.   Inspecting this domain object shows that age has 85 possible values, workclass has 9, education-num has 16, etc.
+More generally, we can consider any objective function that measures how well \\\( P \\\) explains \\\( y \\\).  The log-likelihood is a natural choice, although other choices are also possible and used in practice.  In the special-but-common case where the mechanism is an instance of the Gaussian mechanism, we have \\\( \mathcal{M}(D) = f(D) + \mathcal{N}(0, \sigma^2)^k \\\) and \\\( \log \mathbb{P}[\mathcal{M}(P) = y] \propto - \|\| f(P) - y \|\|\_2^2 \\\).  If \\\( f \\\) is a linear function of \\\( P \\\), then Problem \ref{eq1} is simply a quadratic program.  In the subsequent subsections, we will describe different approaches to solve or approximately solve Problem \ref{eq1}.
 
-{% highlight python %}
->>> data.domain
-Domain(age: 85, workclass: 9, fnlwgt: 100, education-num: 16, marital-status: 7, occupation: 15, relationship: 6, race: 5, sex: 2, capital-gain: 100, capital-loss: 100, hours-per-week: 99, native-country: 42, income>50K: 2)
-{% endhighlight %}
+> **Remark 1**: The distribution learned from solving Problem \ref{eq1} will resemble the true data with respect to the statistics measured by \\\( \mathcal{M} \\\).  It may or may not accurately preserve other statistics --- that is data dependent.  
 
-### Marginals
-
-A marginal for a subset of attributes counts the number of records in the dataset that match each setting of possible values.  It is essentially a histogram over a subset of attributes.  Marginals can easily be obtained in MBI using the `project` and `datavector` functions.  For example:
-
-{% highlight python %}
->>> data.project('relationship').datavector()
-array([ 2331.,  7581., 19716., 12583.,  1506.,  5125.])
-{% endhighlight %}
-
-The relationship marginal \\\( \mu \\\) is a length 6 array, where \\\( \mu_j \\\) counts the number of records with relationship \\\( = j \\\).  We can similarly calculate marginals involving more than one attribute as follows:
-
-{% highlight python %}
->>> data.project(['marital-status', 'sex']).datavector(flatten=False)
-array([[ 2480., 19899.],
-       [ 4001.,  2632.],
-       [ 7218.,  8899.],
-       [  931.,   599.],
-       [ 1233.,   285.],
-       [  304.,   324.],
-       [   25.,    12.]])
-{% endhighlight %}
-
-This marginal is a \\\( 7 \times 2 \\\) array \\\( \mu \\\), where \\\( \mu\_{jk} \\\) counts the number of records with marital-status \\\( = j \\\) and sex \\\( = k \\\).  Low-dimensional marginals are particularly useful for differentially private synthetic data for a number of reasons:
-
+> **Remark 2**: The most common statistics to measure are **low-dimensional marginals**.  A marginal for a subset of attributes counts the number of records in the dataset that match each setting of possible values. They are appealing statistics to measure because:
 * They capture low-dimensional structure common in real world data distributions.
-* Each cell in a marginal is a count, a statistic that is fairly robust to noise.   
+* Each cell in a marginal is a count, a statistic that is fairly robust to noise.
 * One individual can only contribute to a single cell of a marginal, so all cells have low sensitivity and can be measured simultaneously with low privacy cost.
+ 
 
-These observations together make low-dimensional marginals an ideal statistic to measure with differential privacy.  We can readily invoke the Gaussian mechanism to privately answer a marginal using standard numpy code, as follows:
+### Direct
 
-{% highlight python %}
->>> marginal = data.project(['marital-status', 'sex']).datavector(flatten=False)
->>> noisy_marginal = marginal + np.random.normal(loc=0, scale=50, size=marginal.shape)
->>> noisy_marginal
-array([[ 2568.2026173 , 19919.00786042],
-       [ 4049.93689921,  2744.04465996],
-       [ 7311.37789951,  8850.13610601],
-       [  978.50442088,   591.43213959],
-       [ 1227.83905741,   305.5299251 ],
-       [  311.20217856,   396.71367535],
-       [   63.05188626,    18.08375082]])
-{% endhighlight %}
+We can attempt to solve Problem \ref{eq1} directly by utilizing any algorithm for solving a convex optimization problem over the probability simplex, such as multiplicative weights.  This method works well in low-dimensional regimes, although quickly becomes intractable for higher-dimensional domains, where it is generally infeasible to even enumerate all the entries of a single distribution \\\( P \\\), let alone optimize over the space of all distributions. 
 
-The computation above is a \\\( \rho \\\)-zCDP for \\\( \rho = \frac{1}{2 \sigma^2} = \frac{1}{5000} \\\) under the add/remove definition of DP.
+There are several methods described below that attempt to overcome the curse of dimensionality inherent in Problem \ref{eq1}.  These methods scale imposing additional assumptions on the mechanism \\\( \mathcal{M} \\\) and/or by relaxing the optimization problem.  A common theme is to restrict attention to a subset of joint distributions which have tractable representations.     The sections below describe these more scalable methods, including the different (implicit) assumptions each method makes, as well as the consequences of those assumptions.  
 
-# Preparing Noisy Measurements 
+### Probabilistic Graphical Models (PGM)
 
-The input to any method for Generate is a collection of noisy measurements.  We show below how to prepare these measurements in a format compatible with the methods for Generate implemented in the MBI repository.  The measurements are represented as a list, where each element of the list is a noisy marginal (represented as a numpy array), along with relevant metadata including the attributes in the marginal and the amount of noise used to answer it.  In the code snippet below, the selected marginals are hard-coded in "cliques", but in general these can be any collection of attribute subsets. 
+The first method we describe is [PGM](https://arxiv.org/abs/1901.09136){:target="\_blank"}, which was a key component of the first-place solution in the 2018 NIST Differential Privacy [Synthetic Data Competition](https://www.nist.gov/ctl/pscr/open-innovation-prize-challenges/past-prize-challenges/2018-differential-privacy-synthetic){:target="\_blank"} and in both the first and second-place solutions in the follow-up [Temporal Map Competition](https://www.nist.gov/ctl/pscr/open-innovation-prize-challenges/current-and-upcoming-prize-challenges/2020-differential){:target="\_blank"}.
+
+PGM scales by restricting attention to distributions that can be represented as a graphical model \\\( P\_{\theta} \\\).  The key observation of PGM is that when \\\( \mathcal{M} \\\) only depends on \\\( P \\\) through it's low-dimensional marginals, then one of the optimizers of Problem \ref{eq1} is a graphical model with parameters \\\( \theta \\\).  In this case, Problem \ref{eq1} is under-determined and typically has infinitely many solutions.  It turns out that the solution found by PGM has maximum entropy among all solutions to the problem --- a very natural way to break ties among equally good solutions. Remarkably, these facts are true for any dataset --- they do not require the underlying data to be generated from a graphical model with the same structure [[MMS21]](https://arxiv.org/abs/2108.04978){:target="\_blank"}.
+
+The parameter vector \\\( \theta \\\) is often much smaller than \\\( P \\\), and we can efficiently optimize it, bypassing the curse of dimensionality in this special case.  The size of \\\( \theta \\\) and in turn the complexity of PGM depends on the mechanism \\\( \mathcal{M} \\\), and in the worst case is the same as the Direct method.[^6]  However, in many common cases of practical interest, the complexity of PGM is exponentially better than that of Direct, in which case we can efficiently solve the optimization problem above, finding \\\( \theta \\\) and thus a tractable representation of \\\( \hat{P} \\\).  The complexity ultimately depends on the size of the junction tree derived from the mechanism \\\( \mathcal{M} \\\), and understanding this relationship requires some expertise in graphical models.  However, if we utilize this understanding to design \\\( \mathcal{M} \\\), we can avoid this worst-case behavior, as [MST](https://arxiv.org/abs/2108.04978){:target="\_blank"} and [PrivMRF](http://vldb.org/pvldb/vol14/p2190-cai.pdf){:target="\_blank"} do.
+
+[^6]: For example, this worst-case behavior is realized if **all** 2-way marginals are measured.  While this can be seen as a limitation of PGM, [it is known](http://people.seas.harvard.edu/~salil/research/synthetic-Feb2010.pdf) that generating synthetic data that preserves all 2-way marginals is computationally hard in the worst-case.
+
+### Relaxed Tabular 
+
+An alternative approach was proposed in the recent [RAP](https://arxiv.org/abs/2103.06641){:target="\_blank"} paper.  The key idea is to restrict attention to "pseudo-distributions" that can be represented in a relaxed tabular format.  The format is similar to the one-hot encoding of a discrete dataset, although the entries need not be \\\( 0 \\\) or \\\( 1 \\\), which enables gradient-based optimization to be performed on the cells in this table.  The number of rows is a tunable knob that can be set to trade off expressive capacity with computational efficiency.  With a sufficiently large knob size, the true minimizer of the original problem can be expressed in this way, but there is no guarantee that gradient-based optimization will converge to it because this representation introduces non-convexity.  Moreover, the search space of this method includes "spurious" distributions, so even the global optimum of relaxed problem would not necessarily solve the original problem.  This idea was refined into [RAP<sup>softmax</sup>](https://arxiv.org/abs/2106.07153){:target="\_blank"} in follow-up-work, which overcomes the latter issue, but does not resolve teh non-convexity issue.  Despite the non-convexity, this method appears to work well in practice.
+
+### Generative Networks 
+
+Among the iterative methods introduced by [Liu et al., 2021](https://arxiv.org/abs/2106.07153){:target="\_blank"} is GEM (Generative networks with the exponential mechanism), an approach inspired by generative adversarial networks. As part of their overall mechanism, Liu et al. propose representing any dataset as mixture of product distributions over attributes in the data domain. They implicitly encode such distributions using a generative neural network with a softmax layer. In concrete terms, given some Gaussian noise \\\( \mathbf{z} \sim \mathcal{N}(0, I) \\\), their **Generate** step outputs \\\( f_\theta(\mathbf{z}) \\\) where \\\( f \\\) is some feedforward neural network parametrized by \\\( \theta \\\). \\\( f_\theta(\mathbf{z}) \\\) represents a collection of marginal distributions for each individual attribute in the domain, which can be used to directly answer any k-way marginal query. Alternatively, one can sample directly from \\\( f_\theta(\mathbf{z}) \\\) if the goal is generate *real* synthetic data.
+
+Note that the size of \\\( \mathbf{z} \\\) can be arbitrarily large, meaning that this generative network approach can theoretically be scaled up to capture any distribution \\\( P \\\). Moreover, like in Aydore et al., 2021, Liu et al., 2021 show that one can achieve strong performance in practical settings even when \\\( \mathbf{z} \\\) is small, making such generative network approaches to scale in terms of both computation and memory. Howevever, as is commonly found in deep learning methods, this optimization problem is nonconvex.
+
+
+### Local Consistency 
+
+Finally, [GUM](https://arxiv.org/abs/2106.07153){:target="\_blank"} and [APPGM](https://arxiv.org/abs/2109.06153){:target="\_blank"} do not search over any space of distributions, but instead impose *local consistency* constraints on the noisy measurements.  These methods relax Problem \ref{eq1} to optimize over the space of pseudo-marginals, rather than distributions.  The pseudo-marginals are required to be internally consistent, but there is no guarantee that there is a distribution which realizes those pseudo-marginals.  As a result, the solution found by these methods need not be feasible in Problem \ref{eq1}.  Nevertheless, we can attempt to generate synthetic data using heuristics to translate these locally consistent pseudo-marginals into synthetic tabular data.  This approach was used by team DPSyn in both NIST competitions.  
+
+### Summary
+
+A qualitative comparison between the discussed methods is given in the table below.[^7]
+
+> **Remark 3**: Among the alternatives discussed here, only Direct and PGM can be expected to solve Problem \ref{eq1}.    The alternatives fail to solve Problem \ref{eq1} in general, either from non-convexity, or from introducing spurious distributions to the search space.  This distinguishing feature of PGM comes at a cost: the complexity can be much higher than the alternatives, and in the worst-case, will not be feasible to run.  In such cases, one of the approximations must be used instead.  
+
+
+[^7]: These approximations were all developed concurrently, and systematic empirical comparisons between them (and PGM) have not been done to date.[^7]  Some experimental comparisons can be found in [[LVW21]](https://arxiv.org/abs/2106.07153){:target="\_blank"} and [[MPSM21]](https://arxiv.org/abs/2109.06153).
+
+
+|| **Direct** | **PGM** |  **Relaxed Tabular** | **Generative Networks** | **Local Consistency** |
+Search space includes optimum | <span style="color:green">Yes</span> | <span style="color:green">Yes</span> | <span style="color:green">Yes</span> |  <span style="color:green">Yes</span> | <span style="color:green">Yes</span> |
+Search space excludes spurious distributions | <span style="color:green">Yes</span> | <span style="color:green">Yes</span> | <span style="color:red">No</span> | <span style="color:green">Yes</span> | <span style="color:red">No</span> |
+Convexity preserving | <span style="color:green">Yes</span> | <span style="color:green">Yes</span> | <span style="color:red">No</span> |  <span style="color:red">No</span> | <span style="color:green">Yes</span> |
+Solves Problem \ref{eq1} | <span style="color:green">Yes</span> | <span style="color:green">Yes</span> | <span style="color:red">No</span> | <span style="color:red">No</span> | <span style="color:red">No</span> | 
+Factors influencing scalability | <span style="color:red">Size of Entire Domain</span> | <span style="color:orange">Size of Junction Tree</span> | <span style="color:green">Size of Largest Marginal</span> | <span style="color:green">Size of Largest Marginal</span> | <span style="color:green">Size of Largest Marginal</span> |
+
+# Generating Synthetic Data with MBI
+
+Now that we have introduced the techniques underlying the Generate step, we will show how to utilize the implementations in the MBI repository to develop end-to-end mechanisms for differentially private synthetic data.  
+
+## Preparing Noisy Measurements 
+
+The input to any method for Generate is a collection of noisy measurements.  We show below how to prepare these measurements in a format compatible with the methods for Generate implemented in the MBI repository.  The measurements are represented as a list, where each element of the list is a noisy marginal (represented as a numpy array), along with relevant metadata including the attributes in the marginal and the amount of noise used to answer it.  In the code snippet below, the selected marginals are hard-coded, but in general this list can be modified to tailor the synthetic data towards a different set of marginals.
 
 {% highlight python %}
 import numpy as np
@@ -110,119 +115,55 @@ from mbi import Dataset
 data = Dataset.load('adult.csv', 'adult-domain.json')
 
 # SELECT the marginals we'd like to measure
-cliques = [('marital-status', 'sex'),
-           ('education-num', 'race'),
-           ('sex', 'hours-per-week'),
-           ('workclass',),
-           ('marital-status', 'occupation', 'income>50K')]
+marginals = [('marital-status', 'sex'),
+             ('education-num', 'race'),
+             ('sex', 'hours-per-week'),
+             ('workclass',),
+             ('marital-status', 'occupation', 'income>50K')]
 
 # MEASURE the marginals and log the noisy answers
 sigma = 50 
 measurements = []
-for cl in cliques:
-    x = data.project(cl).datavector()
+for M in marginals:
+    x = data.project(M).datavector()
     y = x + np.random.normal(loc=0, scale=sigma, size=x.shape)
     I = sparse.eye(x.size)
-    measurements.append( (I, y, sigma, cl) )
+    measurements.append( (I, y, sigma, M) )
 {% endhighlight %}
 
-The above mechanism is a 5-fold composition of \\\( \frac{1}{5000} \\\)-zCDP mechanisms, so the entire mechanism satisfies \\\( \frac{1}{1000} \\\)-zCDP.
+The above code snippit is a 5-fold composition of Gaussian mechanisms with \\\( \sigma = 50 \\\), and hence the entire mechanism is \\\( \frac{5}{2 \sigma^2} = \frac{1}{1000} \\\)-zCDP.
 
-# Generating Synthetic Data from Measurements
+## Generating Synthetic Data from Measurements
 
 Given measurements represented in the format above, we can readily generate synthetic data using one of several methods.  For example, the code snippet below generates synthetic data that approximately matches the noisy measurements: 
 
 {% highlight python %}
-from mbi import FactoredInference
-from mbi import MixtureInference
-from mbi import SparseInference
-from mbi import LocalInference
+from mbi import FactoredInference # PGM
+from mbi import MixtureInference  # Relaxed Tabular + Softmax
+from mbi import SparseInference   # Not Discussed
+from mbi import LocalInference    # Local Consistency
 
-# GENERATE synthetic data using MBI 
+# GENERATE synthetic data using PGM 
 engine = FactoredInference(data.domain, iters=2500)
 model = engine.estimate(measurements)
 synth = model.synthetic_data()
 {% endhighlight %}
 
-```FactoredInference```  is the original method for Generate implemented in MBI, corresponding to the technique known as PGM.  The other Inference methods imported represent novel alternative techniques introduced after the introduction of PGM that can be usd in place of it if desired.  These will be explained in more detail in the [last section](#the-generate-subproblem-a-unifying-view).
 
-Inspecting the (marital-status, sex) marginal reveals that the counts in the synthetic data approximately match the real counts, as desired.
+To generate synthetic data, we have to simply instantiate one of the inference engines imported.  In the code snippet above, we use the FactoredInference engine, which corresponds to the PGM method.  The other inference engines shrae the same interface, and can be used instead in if desired.   
 
-{% highlight python %}
->>> synth.project(['marital-status','sex']).datavector(flatten=False)
-array([[ 2474., 19874.],
-       [ 4050.,  2583.],
-       [ 7211.,  8821.],
-       [  812.,   627.],
-       [ 1271.,   227.],
-       [  435.,   256.],
-       [   59.,    20.]])
-{% endhighlight %}
+> **Remark 4**: By utilizing the inference engines implemented in MBI, end-to-end synthetic data mechanisms can be written with remarkably little code.  This simple example required less than 25 lines of code, and [more complex mechanisms](https://github.com/ryan112358/private-pgm/tree/master/mechanisms){:target="\_blank"} can usually be written in a single file with less than 200 lines of code.  As a result, future research can focus on the orthogonal problem of measurement selection, and new ideas can more rapidly be evaluated and iterated on. 
 
-Some marginals are not preserved as well as others, however. For example, the relationship marginal is uniformly distributed in the synthetic data, but not in the real data.  This is not a failure of the Generate algorithm, but rather an artifact of what queries were selected: since none of the selected marginals include the relationship attribute, it is not surprising that the synthetic data does not preserve its distribution.
+We evaluated the quality of the synthetic data generated by measuring the error of the measured marginals.  Interestingly, the synthetic data has lower error than the noisy marginals, with reductions in error up to 30% for the larger marginals, and around 3% for the smaller ones.  This is not surprising --- by generating synthetic data, we resolve the inconsistencies in the noisy measurements, which reduces error.
 
-{% highlight python %}
->>> data.project(['relationship']).datavector()
-array([ 2331.,  7581., 19716., 12583.,  1506.,  5125.])
+![](/images/smr1.png)
 
->>> synth.project(['relationship']).datavector()
-array([8120., 8120., 8120., 8120., 8120., 8120.])
-{% endhighlight %}
+We can also use the synthetic data to estimate marginals we didn't measure with the Gaussian mechanism.  These estimates may or may not be accurate, it depends on the data and the marginal being estimated.  For example, the error on the (sex, income>50K) marginal is around 0.02, while the error on the (education-num, occupation) marginal is about 0.5.  The fact that the synthetic data is not accurate for some marginals is not a limitation of the method used for Generate, but rather an artifact of what marginals were selected.  Thus, it's clear that selecting the right marginals to measure plays a crucial role in the quality of the synthetic data. This is an important open problem that will be the topic of the next blog post.
 
-This example shows that the quality of the synthetic data crucially depends on the selected queries.  Selecting a good set of queries to measure remains an important open problem that will be the topic of the next blog post.
-
-# The Generate Subproblem: A Unifying View
-
-Now that we have described how to generate synthetic data from noisy measurements using real code, we will offer some insight into what this code does under the hood.  We will provide a unifying view of several approaches to the generate subproblem.  Underlying all of these approaches is the following optimization problem:
-
-\\\[\hat{P} \in \text{arg} \min\_{P \in \mathcal{S}} L(P, \tilde{Q}) \\tag{1} \label{eq1} \\\]
-
-Here, \\\( \tilde{Q} \\\) are the noisy query answers, and \\\( \mathcal{S} \\\) is the set of all distributions over the data domain.  We seek to find a data distribution \\\( \hat{P} \\\) that *best explains* the noisy observations \\\( \tilde{Q} \\\) according to the loss function \\\( L \\\).  Different loss functions are possible, but by default MBI uses the \\\( L_2 \\\) squared loss,
-\\\( L(P) = \|\| Q(P) - \tilde{Q} \|\|\_2^2 \\\).  Intuitively, we seek to find a data distribution \\\( P \\\) such that \\\( Q(P) \\\), the query answers under \\\( P \\\), are close to the noisy query answers \\\( \tilde{Q} \\\), subject to the constraint that \\\( P \\\) is a probability distribution.  
-
-### Direct
-
-If the queries \\\( Q \\\) are linear, then this optimization problem is convex, and hence can be solved in theory.  However, solving it directly is challenging on high-dimensional domains because the size of \\\( P \\\) is equal to the size of the domain, which is often intractably large.  For example, the domain size of the adult dataset considered earlier is  \\\( 6.4 \times 10^{17} \\\).  Writing down a single distribution over this domain is intractable, let alone optimizing over the space of all distributions.  
-
-There are several methods described below that attempt to overcome the curse of dimensionality inherent in Problem \ref{eq1}.  These methods scale by solving a relaxation of Problem \ref{eq1} that is tractable to solve.  One way to do this is to restrict the search space of the optimization from all high-dimensional joint distributions, to a subset of joint distributions.  This subset of distributions can be characterized by a smaller set of parameters, which enables tractable optimization over it.  The sections below describe the different (implicit) assumptions each method makes, as well as the consequences of those assumptions.  
-
-### PGM (```FactoredInference```)
-
-PGM, short for Probabilistic Graphical Model, works by finding a graphical model \\\( P\_{\theta} \\\).  The key observation of PGM is that when \\\( Q \\\) only depends on \\\( P \\\) through it's low-dimensional marginals, then one of the optimizers of Problem \ref{eq1} is a graphical model with parameters \\\( \theta \\\).  Problem \ref{eq1} typically has infinitely many solutions, and it turns out that the solution found by PGM has maximum entropy among all solutions to the problem --- a very natural way to break ties among equally good solutions. Remarkably, these facts are true for any dataset --- they do not require the underlying data to be generated from a graphical model with the same structure.  For more information on this matter, please refer to Section 4.2 of [[MMS21]](https://arxiv.org/abs/2108.04978){:target="\_blank"}.
-
-The complexity of PGM depends on \\\( Q \\\), and in the worst case is the same as the Direct method [^6].  However, in many common cases of practical interest, the complexity of PGM is exponentially better than that of Direct, in which case we can efficiently solve the optimization problem above, finding \\\( \theta \\\) and thus a tractable representation of \\\( \hat{P} \\\).  The complexity of PGM ultimately depends on the size of the junction tree derived from the measured marginals, and understanding the relationship between \\\( Q \\\) and the size of the junction tree requires some expertise in graphical models.  However, the MBI code allows you to quickly check how big the required junction tree is, based on which cliques were measured.  The size of the junction tree in the example above would be only 944, whereas the size of \\\( P \\\) would be \\\( 6.4 \times 10^{17} \\\).  
-
-[^6]: For example, this worst-case behavior is realized if **all** 2-way marginals are measured.  While this can be seen as a limitation of PGM, [it is known](http://people.seas.harvard.edu/~salil/research/synthetic-Feb2010.pdf) that generating synthetic data that preserves all 2-way marginals is computationally hard in the worst-case.
-
-{% highlight python %}
->>> from mbi import GraphicalModel
->>> model = GraphicalModel(data.domain, cliques)
->>> model.size
-944
->>> data.domain.size()
-641263392000000000
-{% endhighlight %}
-
-The size of the junction tree increases with the number and size of the selected cliques, but it also depends on the structure of the cliques as well.  This dependence is explained well in a recent paper, [PrivMRF](http://vldb.org/pvldb/vol14/p2190-cai.pdf){:target="\_blank"}.  A more detailed but still accessible overview of MBI is given in another recent paper, [MST](https://arxiv.org/abs/2108.04978){:target="\_blank"}.  
-
-### Relaxed Tabular (```MixtureInference```)
-
-An alternative approach was proposed in the recent [RAP](https://arxiv.org/abs/2103.06641){:target="\_blank"} paper.  The key idea is to restrict attention to "pseudo-distributions" that can be represented in a relaxed tabular format.  The format is similar to the one-hot encoding of a discrete dataset, although the entries need not be \\\( 0 \\\) or \\\( 1 \\\), which enables gradient-based optimization to be performed on the cells in this table.  The number of rows is a tunable knob that can be set to trade off expressive capacity with computational efficiency.  With a sufficiently large knob size, the true minimizer of the original problem can be expressed in this way, but there is no guarantee that gradient-based optimization will converge to it because this representation introduces non-convexity.  This idea was refined into [RAP<sup>softmax</sup>](https://arxiv.org/abs/2106.07153){:target="\_blank"} in follow-up-work, and was recently added to the MBI repository under the name ```MixtureInference```.  It can be used as a drop-in replacement for ```FactoredInference``` in situations where PGM fails to scale.  
-
-### Generative Networks 
-
-Another approach proposed in the recent [GEM](https://arxiv.org/abs/2106.07153){:target="\_blank"} paper is to search over the space of distributions representable as a generative network.  The distribution is implicitly encoded via the parameters of the network, which are learned through gradient-based optimization.  It can be seen as a compact parameterization of a mixture of products with an infinite number of mixture components.  It shares some similarity with the previous approach, although optimization is done indirectly via the network parameters instead of directly over the probabilities in the mixture components.  We hope it can be added to the MBI repository in the future. 
-
-### Local Consistency (```LocalInference```)
-
-Finally, [GUM](https://arxiv.org/abs/2106.07153){:target="\_blank"} and [APPGM](https://arxiv.org/abs/2109.06153){:target="\_blank"} do not search over any space of distributions, but instead impose *local consistency* constraints on the noisy measurements.  That is, they optimize over the space of pseudo-marginals, rather than distributions.  The pseudo-marginals are required to be internally consistent, but there is no guarantee that there is a distribution which realizes those pseudo-marginals.  Synthetic data can be obtained from a post-processing heuristic to translate these locally consistent pseudo-marginals into synthetic tabular data.  This approach was used by team DPSyn in both NIST competitions.  APPGM was recently added to the MBI repository under the name ```LocalInference```.  It can be used as a drop-in replacement for ```FactoredInference``` in situations where PGM fails to scale.
-
-### Summary
-
-Among the alternatives discussed here, only Direct and MBI can be expected to solve Problem \ref{eq1}.  PGM scales by exploiting the structure in the marginals measured, whereas other methods scale by restricting the space of distributions considered in a way that does not depend on the measurements taken.  While these ideas are related, there is a subtle but important distinction between them.  PGM can be seen as restricting the search space, but it does so carefully to ensure that the solution obtained still solves the original optimization problem (over the space of all distributions).  The other methods do not share this property, instead the solutions found solve different relaxations of the original optimization problem, and the solutions found will generally be suboptimal in the original problem.  This distinguishing property of PGM comes at a cost: it's scalability can suffer when the number of marginals measured becomes too large, a drawback not suffered as severely by the other methods.  When using PGM, some care must be taken when selecting marginals to avoid the worst-case behavior, as is done in two state-of-the-art mechanisms: [PrivMRF](http://vldb.org/pvldb/vol14/p2190-cai.pdf){:target="\_blank"} and [MST](https://arxiv.org/abs/2108.04978){:target="\_blank"}.  
+![](/images/smr2.png)
 
 # Coming up Next
 
-In this blog post, we focused on the **Generate** step of the select-measure-generate paradigm.  By leveraging the MBI repository for this step, you can develop end-to-end mechanisms for synthetic data with surprisingly little code.  In the next blog post, we will focus on state-of-the-art approaches to the **Select** sub-problem.  If you have any comments, questions, or remarks, please feel free to share them in the comments section below.  If you would like to try generating synthetic data with MBI, check out this [jupyter notebook](https://colab.research.google.com/drive/1c8gT5m_GWfQoa_mx8eXh4sPD48Y0z3ML?usp=sharing) on Google Colab!  
+In this blog post, we focused on the **Generate** step of the select-measure-generate paradigm.  In the next blog post, we will focus on state-of-the-art approaches to the **Select** sub-problem.  If you have any comments, questions, or remarks, please feel free to share them in the comments section below.  If you would like to try generating synthetic data with MBI, check out this [jupyter notebook](https://colab.research.google.com/drive/1c8gT5m_GWfQoa_mx8eXh4sPD48Y0z3ML?usp=sharing) on Google Colab!  
 
 ---
