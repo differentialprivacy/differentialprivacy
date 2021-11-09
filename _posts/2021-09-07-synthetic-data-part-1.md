@@ -53,7 +53,7 @@ More generally, we can consider any objective function that measures how well \\
 
 ### Direct
 
-We can attempt to solve Problem \ref{eq1} directly by utilizing any algorithm for solving a convex optimization problem over the probability simplex, such as multiplicative weights.  This method works well in low-dimensional regimes, although quickly becomes intractable for higher-dimensional domains, where it is generally infeasible to even enumerate all the entries of a single distribution \\\( P \\\), let alone optimize over the space of all distributions. 
+We can attempt to solve Problem \ref{eq1} directly by utilizing any algorithm for convex optimization over the probability simplex, such as multiplicative weights.  This method works well in low-dimensional regimes, although quickly becomes intractable for higher-dimensional domains, where it is generally infeasible to even enumerate all the entries of a single distribution \\\( P \\\), let alone optimize over the space of all distributions. 
 
 There are several methods described below that attempt to overcome the curse of dimensionality inherent in Problem \ref{eq1}.  These methods scale imposing additional assumptions on the mechanism \\\( \mathcal{M} \\\) and/or by relaxing the optimization problem.  A common theme is to restrict attention to a subset of joint distributions which have tractable representations.     The sections below describe these more scalable methods, including the different (implicit) assumptions each method makes, as well as the consequences of those assumptions.  
 
@@ -69,7 +69,9 @@ The parameter vector \\\( \theta \\\) is often much smaller than \\\( P \\\), an
 
 ### Relaxed Tabular 
 
-An alternative approach was proposed in the recent [RAP](https://arxiv.org/abs/2103.06641){:target="\_blank"} paper.  The key idea is to restrict attention to "pseudo-distributions" that can be represented in a relaxed tabular format.  The format is similar to the one-hot encoding of a discrete dataset, although the entries need not be \\\( 0 \\\) or \\\( 1 \\\), which enables gradient-based optimization to be performed on the cells in this table.  The number of rows is a tunable knob that can be set to trade off expressive capacity with computational efficiency.  With a sufficiently large knob size, the true minimizer of the original problem can be expressed in this way, but there is no guarantee that gradient-based optimization will converge to it because this representation introduces non-convexity.  Moreover, the search space of this method includes "spurious" distributions, so even the global optimum of relaxed problem would not necessarily solve the original problem.  This idea was refined into [RAP<sup>softmax</sup>](https://arxiv.org/abs/2106.07153){:target="\_blank"} in follow-up-work, which overcomes the latter issue, but does not resolve teh non-convexity issue.  Despite the non-convexity, this method appears to work well in practice.
+An alternative approach was proposed in the recent [RAP](https://arxiv.org/abs/2103.06641){:target="\_blank"} paper.  The key idea is to restrict attention to "pseudo-distributions" that can be represented in a relaxed tabular format.  The format is similar to the one-hot encoding of a discrete dataset, although the entries need not be \\\( 0 \\\) or \\\( 1 \\\), which enables gradient-based optimization to be performed on the cells in this table.  The number of rows is a tunable knob that can be set to trade off expressive capacity with computational efficiency.  With a sufficiently large knob size, the true minimizer of the original problem can be expressed in this way, but there is no guarantee that gradient-based optimization will converge to it because this representation introduces non-convexity.  Moreover, the search space of this method includes "spurious" distributions, so even the global optimum of relaxed problem would not necessarily solve the original problem.[^9]  Despite these drawbacks, this method appears to work well in practice.
+
+[^9]: This idea was refined into [RAP<sup>softmax</sup>](https://arxiv.org/abs/2106.07153){:target="\_blank"} in follow-up-work, which overcomes the latter issue, but does not resolve the non-convexity issue.  
 
 ### Generative Networks 
 
@@ -89,7 +91,7 @@ A qualitative comparison between the discussed methods is given in the table bel
 > **Remark 3**: Among the alternatives discussed here, only Direct and PGM can be expected to solve Problem \ref{eq1}.    The alternatives fail to solve Problem \ref{eq1} in general, either from non-convexity, or from introducing spurious distributions to the search space.  This distinguishing feature of PGM comes at a cost: the complexity can be much higher than the alternatives, and in the worst-case, will not be feasible to run.  In such cases, one of the approximations must be used instead.  
 
 
-[^7]: These approximations were all developed concurrently, and systematic empirical comparisons between them (and PGM) have not been done to date.[^7]  Some experimental comparisons can be found in [[LVW21]](https://arxiv.org/abs/2106.07153){:target="\_blank"} and [[MPSM21]](https://arxiv.org/abs/2109.06153).
+[^7]: These approximations were all developed concurrently, and systematic empirical comparisons between them (and PGM) have not been done to date.  Some experimental comparisons can be found in [[LVW21]](https://arxiv.org/abs/2106.07153){:target="\_blank"} and [[MPSM21]](https://arxiv.org/abs/2109.06153).
 
 
 || **Direct** | **PGM** |  **Relaxed Tabular** | **Generative Networks** | **Local Consistency** |
@@ -131,7 +133,7 @@ for M in marginals:
     measurements.append( (I, y, sigma, M) )
 {% endhighlight %}
 
-The above code snippit is a 5-fold composition of Gaussian mechanisms with \\\( \sigma = 50 \\\), and hence the entire mechanism is \\\( \frac{5}{2 \sigma^2} = \frac{1}{1000} \\\)-zCDP.
+The above code snippet is a 5-fold composition of Gaussian mechanisms with \\\( \sigma = 50 \\\), and hence the entire mechanism is \\\( \frac{5}{2 \sigma^2} = \frac{1}{1000} \\\)-zCDP.
 
 ## Generating Synthetic Data from Measurements
 
@@ -140,8 +142,8 @@ Given measurements represented in the format above, we can readily generate synt
 {% highlight python %}
 from mbi import FactoredInference # PGM
 from mbi import MixtureInference  # Relaxed Tabular + Softmax
-from mbi import SparseInference   # Not Discussed
 from mbi import LocalInference    # Local Consistency
+from mbi import PublicInference   # Not Discussed
 
 # GENERATE synthetic data using PGM 
 engine = FactoredInference(data.domain, iters=2500)
@@ -150,7 +152,7 @@ synth = model.synthetic_data()
 {% endhighlight %}
 
 
-To generate synthetic data, we have to simply instantiate one of the inference engines imported.  In the code snippet above, we use the FactoredInference engine, which corresponds to the PGM method.  The other inference engines shrae the same interface, and can be used instead in if desired.   
+To generate synthetic data, we have to simply instantiate one of the inference engines imported.  In the code snippet above, we use the FactoredInference engine, which corresponds to the PGM method.  The other inference engines share the same interface, and can be used instead if desired.   
 
 > **Remark 4**: By utilizing the inference engines implemented in MBI, end-to-end synthetic data mechanisms can be written with remarkably little code.  This simple example required less than 25 lines of code, and [more complex mechanisms](https://github.com/ryan112358/private-pgm/tree/master/mechanisms){:target="\_blank"} can usually be written in a single file with less than 200 lines of code.  As a result, future research can focus on the orthogonal problem of measurement selection, and new ideas can more rapidly be evaluated and iterated on. 
 
