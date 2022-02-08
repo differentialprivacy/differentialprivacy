@@ -15,6 +15,7 @@ permalink: /resources/
 * [Exposed! A Survey of Attacks on Private Data](https://privacytools.seas.harvard.edu/publications/exposed-survey-attacks-private-data) by [Cynthia Dwork](https://www.microsoft.com/en-us/research/people/dwork/), [Adam Smith](https://cs-people.bu.edu/ads22/), [Thomas Steinke](http://www.thomas-steinke.net/), and [Jonathan Ullman](http://www.ccs.neu.edu/home/jullman/)
 
 ## Courses
+* [Privacy in Statistics and Machine Learning](https://dpcourse.github.io/), taught by [Adam Smith](https://cs-people.bu.edu/ads22/) and [Jonathan Ullman](http://www.ccs.neu.edu/home/jullman/)
 * [Privacy Preserving Machine Learning](http://researchers.lille.inria.fr/abellet/teaching/private_machine_learning_course.html), taught by [Aurélien Bellet](http://researchers.lille.inria.fr/abellet/), Winter 2021 
 * [Algorithms for Private Data Analysis](http://www.gautamkamath.com/CS860-fa2020.html), taught by [Gautam Kamath](http://www.gautamkamath.com/), Fall 2020
 * [Private Systems](https://columbia.github.io/private-systems-class/), taught by [Roxana Geambasu](https://roxanageambasu.github.io/), Spring 2020
