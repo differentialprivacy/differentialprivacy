@@ -5,8 +5,8 @@ comments: true
 authors: 
     - lxuechen
     - tramer
-    - thashim
     - jakul
+    - thashim
 categories: [Surveys]
 timestamp: 09:00:00 -0800
 ---
@@ -53,14 +53,20 @@ Overall, for both vision and language tasks, private learning performance has co
 <p float="left">
   <img src="../images/figure1_classification.png" width="48%" />
   <img src="../images/figure1_generation.png" width="48%" /> 
-  <caption>Privately fine-tuning better (and larger) pre-trained models lead to consistently improving performance for text classification and language generation. Left: text classification on MNLI [25]. Right: language generation on E2E [26].</caption>
+  <caption>Figure 1: Privately fine-tuning better (and larger) pre-trained models lead to consistently improving performance for text classification and language generation. 
+Left: text classification on MNLI [25]. Right: language generation on E2E [26].</caption>
 </p>
 
 ## Conclusion and Outlook
 
 We have surveyed recent works in the literature that obtained highly performant differentially private machine learning models leveraging self-supervised pre-training. Common to these is the trend that the performance of private learning consistently improved with the quality of public pre-training. We therefore anticipate that the general paradigm may be useful in additional settings (e.g., federated learning) and tasks (e.g., private synthetic image generation), and lead to improved private learning results. 
 
-While self-supervised pre-training has led to progress in private deep learning, leveraging pre-trained models certainly doesn’t solve all the privacy problems in machine learning that one may care about. First and foremost, the datasets of machine learning tasks may be sampled from long-tailed distributions [21]. When privately trained on such datasets, a machine learning model may fail to acquire the learning signal necessary to perform accurate predictions for examples on the tail. Using a better pre-trained model does not completely address this fundamental limitation. Second, many machine learning problems are in a domain where public data (even unlabeled data) may be sparse, e.g., medical imaging. Developing refined versions of the pre-train-fine-tune approach for problems from these domains is an interesting avenue for future work. Third, differential privacy may not capture all that’s desired for privacy in reality, and its data assumptions may be strong for certain applications. In particular, the differential privacy guarantee may degrade when there’s correlated data [22], and the guarantee itself does not directly prevent the inference of private data outside the original context [23]. These are fundamental limitations of differential privacy which improvements to differentially private learning don’t touch on. 
+While self-supervised pre-training has led to progress in private deep learning, leveraging pre-trained models certainly doesn’t solve all the privacy-related problems in machine learning that one may care about. First and foremost, the datasets of machine learning tasks may be sampled from long-tailed distributions [21]. When privately trained on such datasets, a machine learning model may fail to acquire the learning signal necessary to perform accurate predictions for examples on the tail [28] or from underrepresented (sub)populations [29]. Using a better pre-trained model does not completely address this fundamental limitation.
+Second, many machine learning problems are in a domain where public data (even unlabeled data) may be sparse, e.g., medical imaging. Developing refined versions of the pre-train-fine-tune approach for problems from these domains is an interesting avenue for future work.
+
+Lastly, differential privacy as one specific definition of privacy  may not capture all that’s desired for privacy in reality. 
+For instance, while differentially private algorithms naturally give machine unlearning guarantees [30, 32], more tailored algorithms tend to be able to improve the capacity of unlearning [31].
+In addition, the assumption on data in differential privacy may be strong for certain applications. In particular, the guarantee may degrade when there’s correlated data [22] and does not directly prevent the inference of private data outside the original context [23]. These are fundamental limitations of differential privacy which improvements to differentially private learning don’t touch on. 
 
 [^1]: Authors of [18] also frame these self-supervised models which are trained on broad data at scale that are adaptable to a wide range of downstream tasks as “foundation models”. 
 
@@ -68,9 +74,13 @@ While self-supervised pre-training has led to progress in private deep learning,
 
 [^3]: Blue and pink sphere avatars borrowed obtained from [18]. Credit to [Drew A. Hudson](https://cs.stanford.edu/~dorarad/). 
 
-[^4]: It’s crucial to use a large batch size, a small clipping norm, an appropriate learning rate, and a reasonably large number of training epochs. 
+[^4]: Hyperparameters that work well for private learning typically aren't those that work best for non-private learning [27]. It’s crucial to use a large batch size, a small clipping norm, an appropriate learning rate, and a reasonably large number of training epochs to obtain the mentioned private learning results. 
 
-[^5]: Since the pre-training data for large language models are oftentimes collected through large scale web scraping (e.g., WebText), a common concern is that certain test instances for downstream tasks may already appear in the pre-training data. Self-supervised pre-training therefore can give models an opportunity to “see” this data even before they are privately fine-tuned. Authors of [17] confirm that there is a 1-6% overlap between the test set of many natural language tasks and the pre-training data they collected (WebText). These numbers suggest that existing private fine-tuning results in the literature could be slightly inflated compared to when the pre-training data didn’t contain any test instance for any downstream task for which evaluation was performed. 
+[^5]: Since the pre-training data for large language models are oftentimes collected through large scale web scraping (e.g., WebText), a common concern is that certain test instances for downstream tasks may already appear in the pre-training data. Self-supervised pre-training therefore can give models an opportunity to “see” this data even before they are privately fine-tuned. Authors of [17] confirm that there is a 1-6% overlap between the test set of many natural language processing tasks and the pre-training data they collected (WebText). These numbers suggest that existing private fine-tuning results in the literature could be slightly inflated compared to when the pre-training data didn’t contain any test instance for any downstream task for which evaluation was performed. 
+
+## Acknowledgements
+
+The authors thank Nicolas Papernot for detailed feedback and edit suggestions. 
 
 ## References
 [1] Rahman MA, Rahman T, Laganière R, Mohammed N, Wang Y. Membership Inference Attack against Differentially Private Deep Learning Model. Trans. Data Priv.. 2018 Apr 1;11(1):61-79.
@@ -124,3 +134,15 @@ While self-supervised pre-training has led to progress in private deep learning,
 [25] Williams A, Nangia N, Bowman SR. A broad-coverage challenge corpus for sentence understanding through inference. arXiv preprint arXiv:1704.05426. 2017 Apr 18.
 
 [26] Novikova J, Dušek O, Rieser V. The E2E dataset: New challenges for end-to-end generation. arXiv preprint arXiv:1706.09254. 2017 Jun 28.
+
+[27] Papernot N, Chien S, Song S, Thakurta A, Erlingsson U. Making the shoe fit: Architectures, initializations, and tuning for learning with privacy.
+
+[28] Suriyakumar VM, Papernot N, Goldenberg A, Ghassemi M. Chasing your long tails: Differentially private prediction in health care settings. InProceedings of the 2021 ACM Conference on Fairness, Accountability, and Transparency 2021 Mar 3 (pp. 723-734).
+
+[29] Bagdasaryan E, Poursaeed O, Shmatikov V. Differential privacy has disparate impact on model accuracy. Advances in Neural Information Processing Systems. 2019;32.
+
+[30] Bourtoule L, Chandrasekaran V, Choquette-Choo CA, Jia H, Travers A, Zhang B, Lie D, Papernot N. Machine unlearning. In2021 IEEE Symposium on Security and Privacy (SP) 2021 May 24 (pp. 141-159). IEEE.
+
+[31] Sekhari A, Acharya J, Kamath G, Suresh AT. Remember what you want to forget: Algorithms for machine unlearning. Advances in Neural Information Processing Systems. 2021 Dec 6;34.
+
+[32] Cao Y, Yang J. Towards making systems forget with machine unlearning. In2015 IEEE Symposium on Security and Privacy 2015 May 17 (pp. 463-480). IEEE.
