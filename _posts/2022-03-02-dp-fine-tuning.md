@@ -11,13 +11,20 @@ categories: [Surveys]
 timestamp: 09:00:00 -0800
 ---
 
-Differential Privacy (DP) is a formal definition of privacy which guarantees that the outcome of a statistical procedure does not vary much regardless of whether an individual input is included or removed from the training dataset. This guarantee is desirable when we are tasked to train machine learning models on private datasets that should not memorize individual inputs. Past works have shown that differentially private models can be resilient to strong membership inference [1] and data reconstruction attacks [2, 3] when the privacy parameter is set to be sufficiently small. See a [prior post](https://differentialprivacy.org/how-to-deploy-ml-with-dp/) for more background on differentially private machine learning.
+Differential Privacy (DP) is a formal definition of privacy which guarantees that the outcome of a statistical procedure does not vary much regardless of whether an individual input is included or removed from the training dataset. 
+This guarantee is desirable when we are tasked to train machine learning models on private datasets that should not memorize individual inputs. 
+Past works have shown that differentially private models can be resilient to strong membership inference [1] and data reconstruction attacks [2, 3] when the privacy parameter is set to be sufficiently small. 
+See a [prior post](https://differentialprivacy.org/how-to-deploy-ml-with-dp/) for more background on differentially private machine learning.
 
-Yet, in practice, most attempts at training differentially private deep learning models on moderately-sized datasets have resulted in large performance drops compared to when training without privacy-protection baked in. These performance drops are oftentimes large enough to discourage the adoption of differential privacy protection into machine learning pipelines altogether. 
+Yet, in practice, most attempts at training differentially private deep learning models on moderately-sized datasets have resulted in large performance drops compared to when training without privacy-protection baked in. 
+These performance drops are oftentimes large enough to discourage the adoption of differential privacy protection into machine learning pipelines altogether. 
 
-To provide a reference of the potential performance hit, the authors of [5] trained from scratch a ResNet-20 on CIFAR-10 with a privacy budget of \\\(\epsilon=8\\\) that has test accuracy barely over 62% (see Table 1 of [5]). Contrast this with the 8.75% error rate (91.25% accuracy) reported for training the exact architecture without enforcing differential privacy [6]. While some works report private learning results better than the above, absent additional data, pre-training, or external knowledge, most improvements have been incremental, and the test accuracy for CIFAR-10 models trained under modest privacy leakage (\\\(\epsilon=3\\\)) has roughly settled to ~70% in the literature [4]. 
+To provide a reference of the potential performance hit, the authors of [5] trained from scratch a ResNet-20 on CIFAR-10 with a privacy budget of \\\(\epsilon=8\\\) that has test accuracy barely over 62% (see Table 1 of [5]). 
+Contrast this with the 8.75% error rate (91.25% accuracy) reported for training the exact architecture without enforcing differential privacy [6]. 
+While some works report private learning results better than the above, absent additional data, pre-training, or external knowledge, most improvements have been incremental, and the test accuracy for CIFAR-10 models trained under modest privacy leakage (\\\(\epsilon=3\\\)) has roughly settled to ~70% in the literature [4]. 
 
-One reason behind the performance drop lies in sample efficiency — differentially private learning generally requires much more data than non-private learning to reach an acceptable level of performance. This also means that learning the high-level features (e.g., syntactic structure in text, edge detectors for images) necessary to perform specific tasks with private data can be much more sample-costly. 
+One reason behind the performance drop lies in sample efficiency — differentially private learning generally requires much more data than non-private learning to reach an acceptable level of performance. 
+This also means that learning the high-level features (e.g., syntactic structure in text, edge detectors for images) necessary to perform specific tasks with private data can be much more sample-costly. 
 
 This blog post surveys results that leverage public self-supervised pre-training to obtain high-performing models through differentially private fine-tuning.
 The pre-train-fine-tune paradigm is straightforward to execute and results in high-performing models under modest privacy budgets for many standard computer vision and natural language processing tasks. 
@@ -27,7 +34,7 @@ Moreover, existing results have shown that private fine-tuning consistently bene
 
 Self-supervised learning is a paradigm which leverages unlabeled data to learn representations that can be useful for a range of downstream tasks.
 Since self-supervised learning doesn't target specific tasks itself, 
-the (pre-)training procedure doesn't require labeled data — in many cases, mildly curated (or even uncurated!) unlabeled data is sufficient for self-supervised pre-training to produce models for subsequent fine-tuning. 
+the (pre-)training procedure doesn't require labeled data — in many cases, mildly curated unlabeled data is sufficient for self-supervised pre-training to produce models for subsequent fine-tuning. 
 So far, there have been two broadly successful instantiations of this learning paradigm in computer vision [9] and natural language processing [7, 8, 13]. 
 We recap the two approaches below.[^1]
 
@@ -44,7 +51,8 @@ With large amounts of unlabeled text data, large and expressive Transformer mode
 Bidirectional Encoder Representations from Transformers (BERT, [8]), produced state-of-the-art (non-private) results (at the time) for a large collection of language understanding tasks when fine-tuned on each. 
 
 ## Fine-Tuning Self-Supervised Models With DP-Optimization
-Self-supervised pre-training is appealing in the context of differentially private machine learning. This is because (1) the mildly curated data needed for pre-training can usually be obtained cheaply from the public domain, and (2) pre-trained models may contain useful domain knowledge that can reduce the sample complexity of subsequent private learning. A reasonable paradigm for private learning that leverages self-supervised pre-training could follow two steps:
+Self-supervised pre-training is appealing in the context of differentially private machine learning. 
+This is because (1) the mildly curated data needed for pre-training can usually be obtained cheaply from the public domain, and (2) pre-trained models may contain useful domain knowledge that can reduce the sample complexity of subsequent private learning. A reasonable paradigm for private learning that leverages self-supervised pre-training could follow two steps:
 
 - collect cheap and public (unlabeled) data from the task domain (e.g., vision, language, etc.) to pre-train a model with self-supervised learning,[^2] and
 - collect moderate amounts of task specific private (labeled) data and fine-tune the pre-trained model under differential privacy to perform the task.[^3]
