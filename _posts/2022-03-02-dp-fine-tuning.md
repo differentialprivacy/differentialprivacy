@@ -107,7 +107,7 @@ These are fundamental limitations of differential privacy which improvements to 
 
 [^2]: Determining whether a data source is public and appropriate for pre-training is an interesting problem that can be difficult to address at times. Data sources that seem public may in fact contain examples which present privacy risks. For instance, the authors of [33] were able to extract personally identifiable information from a GPT-2 model pre-trained on data scraped from the public internet.
 
-[^3]: The idea of privately fine-tuning a publicly pre-trained model certainly isn’t new. One of the first differentially private deep learning papers [19] considered an experiment which fine-tuned convolutional nets on CIFAR-10 which were pre-trained on CIFAR-100. Results on privately fine-tuning *self-supervised* models are, on the other hand, more recent. 
+[^3]: The idea of privately fine-tuning a publicly pre-trained model certainly isn’t new. One of the first differentially private deep learning papers [19] considered an experiment which fine-tuned convolutional nets on CIFAR-10 which were pre-trained on CIFAR-100. Results on privately fine-tuning *self-supervised* models are, on the other hand, more recent. Covering these results is our main focus here.
 
 [^4]: Blue and pink sphere avatars taken from [18]. Credit to [Drew A. Hudson](https://cs.stanford.edu/~dorarad/) for making these. 
 
