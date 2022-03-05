@@ -100,8 +100,7 @@ In addition, the assumption on data in differential privacy may be strong for ce
 
 [^4]: Blue and pink sphere avatars taken from [18]. Credit to [Drew A. Hudson](https://cs.stanford.edu/~dorarad/) for making these. 
 
-[^5]: Hyper-parameters that work well for non-private learning typically aren't those that work best for differentially private learning [27]. 
-It’s crucial to use a large batch size, a small clipping norm, an appropriate learning rate, and a reasonably large number of training epochs to obtain the mentioned private learning results [11]. 
+[^5]: Hyper-parameters that work well for non-private learning typically aren't those that work best for differentially private learning [27]. It’s crucial to use a large batch size, a small clipping norm, an appropriate learning rate, and a reasonably large number of training epochs to obtain the mentioned private learning results [11]. 
 
 [^6]: Since the pre-training data for large language models are oftentimes collected through large scale web scraping (e.g., WebText), a common concern is that certain test instances for downstream tasks may already appear in the pre-training data. Self-supervised pre-training therefore can give models an opportunity to “see” this data even before they are privately fine-tuned. Authors of [17] confirm that there is a 1-6% overlap between the test set of many natural language processing tasks and the pre-training data they collected (WebText). These numbers suggest that existing private fine-tuning results in the literature could be slightly inflated compared to when the pre-training data didn’t contain any test instance for any downstream task for which evaluation was performed. 
 
