@@ -54,11 +54,11 @@ Bidirectional Encoder Representations from Transformers (BERT, [8]), produced st
 Self-supervised pre-training is appealing in the context of differentially private machine learning. 
 This is because (1) the mildly curated data needed for pre-training can usually be obtained cheaply from the public domain, and (2) pre-trained models may contain useful domain knowledge that can reduce the sample complexity of subsequent private learning. A reasonable paradigm for private learning that leverages self-supervised pre-training could follow two steps:
 
-1. collect cheap and public (unlabeled) data from the task domain (e.g., vision, language, etc.) to pre-train a model with self-supervised learning,[^2] and
-2. collect moderate amounts of task specific private (labeled) data and fine-tune the pre-trained model under differential privacy to perform the task.[^3]
+1. collect cheap and public (unlabeled) data from the task domain (e.g., vision, language, etc.) to pre-train a model with self-supervised learning, and
+2. collect moderate amounts of task specific private (labeled) data and fine-tune the pre-trained model under differential privacy to perform the task.[^2]
 
 To date, some of the best differentially private deep learning results in the literature have resulted from instantiating this paradigm [4, 11, 12].
-Below, we review works which capitalize on self-supervised pre-training for differentially private machine learning by fine-tuning pre-trained models with an iterative gradient method like DP-SGD [19, 20].[^4]
+Below, we review works which capitalize on self-supervised pre-training for differentially private machine learning by fine-tuning pre-trained models with an iterative gradient method like DP-SGD [19, 20].[^3]
 ![](/images/fine-tuning-paradigm.png)
 
 **Private fine-tuning with SimCLR features:** 
@@ -68,14 +68,14 @@ These test accuracies are very close to some standard non-private results attain
 
 **Privately fine-tuning BERT variants and GPT-2:** 
 The authors of [11, 12, 16] showed that with appropriate hyper-parameters, fine-tuning BERT variants and GPT-2 with DP-optimization results in high-performing private models for text classification and language generation — even on datasets of modest sizes and under modest privacy budgets. Notably, some of these models attain a task performance close to non-private models from previous years in the literature. 
-These results also exceed many non-private learning results from the pre-BERT and pre-GPT years.[^5]
+These results also exceed many non-private learning results from the pre-BERT and pre-GPT years.[^4]
 
 More interestingly, the authors showed that the larger (and thus better) the pre-trained model, the better the private fine-tuning performance gets. 
 This empirical observation in private fine-tuning of large Transformers is qualitatively different from what’s implied by the usual minimax optimal rates derived for vanilla private learning with convex loss functions under approximate differential privacy [14, 15]. 
 This discrepancy between experimental results for training large models and the theory for learning with convex losses suggests there is more to be understood.
 
 Overall, for both vision and language tasks, private learning performance has consistently improved with the improvement in the quality of pre-training, 
-where the latter is roughly measured by the non-private fine-tuning performance.[^6]
+where the latter is roughly measured by the non-private fine-tuning performance.[^5]
 
 <p float="left">
   <img src="../images/figure1_classification.png" width="48%" />
@@ -90,7 +90,12 @@ We surveyed recent works in the literature that obtained highly performant priva
 Common to these results is the trend that the performance of private learning consistently improved with the quality of public pre-training. 
 We therefore anticipate that the general paradigm may be useful in additional settings (e.g., federated learning) and tasks (e.g., private synthetic image generation), and lead to better private learning results. 
 
-While self-supervised pre-training has led to progress in private deep learning, leveraging pre-trained models alone will not address several fundamental challenges to differentially private learning.
+We have thus far assumed that the data for public pre-training can be cheaply obtained.
+This, however, does not imply that determining whether a particular source of data is appropriate for public pre-training is an easy problem.
+Using publicly available data is not necessarily risk-free in terms of privacy.
+For instance, the authors of [33] were able to extract personally identifiable information from a GPT-2 model pre-trained on data scraped from the public internet.
+
+Self-supervised pre-training has led to progress in private deep learning, but leveraging pre-trained models alone will not address several fundamental challenges to differentially private learning.
 First and foremost, the datasets of machine learning tasks may be sampled from long-tailed distributions [21]. 
 When privately trained on such datasets, a machine learning model may fail to acquire the learning signal necessary to perform accurate predictions for examples on the tail [28] or from underrepresented (sub)populations [29]. 
 Second, many machine learning problems are in a domain where public data (even unlabeled data) may be sparse, e.g., medical imaging. 
@@ -103,17 +108,15 @@ Inappropriately defined example boundaries can create correlated records which c
 Moreover, differential privacy guarantees won't directly prevent the inference of private data outside the original context [23]. 
 These are fundamental limitations of differential privacy which improvements to differentially private learning won't touch on. 
 
-[^1]: Authors of [18] framed these self-supervised models which are trained on broad data at scale that are adaptable to a wide range of downstream tasks as “foundation models”. 
+[^1]: Authors of [18] framed these self-supervised models which are trained on broad data at scale that are adaptable to a wide range of downstream tasks as “foundation models”.
 
-[^2]: Determining whether a data source is public and appropriate for pre-training is an interesting problem that can be difficult to address at times. Data sources that seem public may in fact contain examples which present privacy risks. For instance, the authors of [33] were able to extract personally identifiable information from a GPT-2 model pre-trained on data scraped from the public internet.
+[^2]: The idea of privately fine-tuning a publicly pre-trained model certainly isn’t new. One of the first differentially private deep learning papers [19] considered an experiment which fine-tuned convolutional nets on CIFAR-10 which were pre-trained on CIFAR-100. Results on privately fine-tuning *self-supervised* models are, on the other hand, more recent. Covering these results is our main focus here.
 
-[^3]: The idea of privately fine-tuning a publicly pre-trained model certainly isn’t new. One of the first differentially private deep learning papers [19] considered an experiment which fine-tuned convolutional nets on CIFAR-10 which were pre-trained on CIFAR-100. Results on privately fine-tuning *self-supervised* models are, on the other hand, more recent. Covering these results is our main focus here.
+[^3]: Blue and pink sphere avatars taken from [18]. Credit to [Drew A. Hudson](https://cs.stanford.edu/~dorarad/) for making these. 
 
-[^4]: Blue and pink sphere avatars taken from [18]. Credit to [Drew A. Hudson](https://cs.stanford.edu/~dorarad/) for making these. 
+[^4]: Hyper-parameters that work well for non-private learning typically aren't those that work best for differentially private learning [27]. It’s crucial to use a large batch size, a small clipping norm, an appropriate learning rate, and a reasonably large number of training epochs to obtain the mentioned private learning results [11]. 
 
-[^5]: Hyper-parameters that work well for non-private learning typically aren't those that work best for differentially private learning [27]. It’s crucial to use a large batch size, a small clipping norm, an appropriate learning rate, and a reasonably large number of training epochs to obtain the mentioned private learning results [11]. 
-
-[^6]: Since the pre-training data for large language models are oftentimes collected through large scale web scraping (e.g., WebText), a common concern is that some train and test instances for downstream tasks may already appear in the pre-training data. Self-supervised pre-training therefore can give models an opportunity to “see” this data even before they are privately fine-tuned. Authors of [17] confirm that there is a 1-6% overlap between the test set of many natural language processing tasks and the pre-training data they collected (WebText). These numbers suggest that existing private fine-tuning results in the literature could be slightly inflated compared to when the pre-training data didn’t contain any test instance for any downstream task for which evaluation was performed. 
+[^5]: Since the pre-training data for large language models are oftentimes collected through large scale web scraping (e.g., WebText), a common concern is that some train and test instances for downstream tasks may already appear in the pre-training data. Self-supervised pre-training therefore can give models an opportunity to “see” this data even before they are privately fine-tuned. Authors of [17] confirm that there is a 1-6% overlap between the test set of many natural language processing tasks and the pre-training data they collected (WebText). These numbers suggest that existing private fine-tuning results in the literature could be slightly inflated compared to when the pre-training data didn’t contain any test instance for any downstream task for which evaluation was performed. 
 
 ## Acknowledgements
 
