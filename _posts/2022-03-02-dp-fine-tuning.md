@@ -41,24 +41,26 @@ We recap the two approaches below.[^1]
 **Contrastive pre-training for vision:** 
 One class of self-supervised methods in computer vision (SimCLR, [9]) performs pre-training through contrastive learning. 
 Algorithms of this type produce embeddings for images with the goal of creating different embeddings for semantically different images and similar embeddings for similar ones. 
-Concretely, the algorithm used in SimCLR forces models to produce similar embeddings for an image and its augmented siblings (e.g., image rotated by x degrees), but different embeddings for separate images (and their augmentations). 
+Concretely, the algorithm used in SimCLR forces models to produce similar embeddings for an image and its augmented siblings (e.g., image rotated by x degrees), 
+and different embeddings for separate images (and their augmentations). 
 The SimCLR framework with large scale models and compute led to state-of-the-art (non-private) ImageNet fine-tuning results at the time of their writing. 
 
 **Masked language modeling and autoregressive language modeling for text:** 
 Masked Language Modeling (MLM) and Auto-regressive Language Modeling (ALM) are two self-supervised pre-training approaches. 
 While the former asks models to predict deliberately masked out tokens from a piece of text, the latter asks models to simply predict the next token in a sequence. 
 With large amounts of unlabeled text data, large and expressive Transformer models [24], and lots of compute, both approaches produce powerful models that are good starting points for downstream fine-tuning. 
-Bidirectional Encoder Representations from Transformers (BERT, [8]), produced state-of-the-art (non-private) results (at the time) for a large collection of language understanding tasks when fine-tuned on each. 
+For instance, Bidirectional Encoder Representations from Transformers (BERT, [8]), produced state-of-the-art (non-private) results (at the time) for a large collection of language understanding tasks when fine-tuned on each. 
 
 ## Fine-Tuning Self-Supervised Models With DP-Optimization
 Self-supervised pre-training is appealing in the context of differentially private machine learning. 
-This is because (1) the mildly curated data needed for pre-training can usually be obtained cheaply from the public domain, and (2) pre-trained models may contain useful domain knowledge that can reduce the sample complexity of subsequent private learning. A reasonable paradigm for private learning that leverages self-supervised pre-training could follow two steps:
+This is because (i) the mildly curated data needed for pre-training can usually be obtained cheaply from the public domain, and (ii) pre-trained models may contain useful domain knowledge that can reduce the sample complexity of subsequent private learning. 
+A paradigm for private learning that leverages self-supervised pre-training could follow two steps:
 
-1. collect cheap and public (unlabeled) data from the task domain (e.g., vision, language, etc.) to pre-train a model with self-supervised learning, and
-2. collect moderate amounts of task specific private (labeled) data and fine-tune the pre-trained model under differential privacy to perform the task.[^2]
+- collect cheap and public (unlabeled) data from the task domain (e.g., vision, language, etc.) to pre-train a model with self-supervised learning, and
+- collect moderate amounts of task specific private (labeled) data and fine-tune the pre-trained model under differential privacy to perform the task.[^2]
 
 To date, some of the best differentially private deep learning results in the literature have resulted from instantiating this paradigm [4, 11, 12].
-Below, we review works which capitalize on self-supervised pre-training for differentially private machine learning by fine-tuning pre-trained models with an iterative gradient method like DP-SGD [19, 20].[^3]
+Below, we review works which capitalize on self-supervised pre-training by differentially privately fine-tuning pre-trained models with an iterative gradient method like DP-SGD [19, 20].[^3]
 ![](/images/fine-tuning-paradigm.png)
 
 **Private fine-tuning with SimCLR features:** 
@@ -75,7 +77,7 @@ This empirical observation in private fine-tuning of large Transformers is quali
 This discrepancy between experimental results for training large models and the theory for learning with convex losses suggests there is more to be understood.
 
 Overall, for both vision and language tasks, private learning performance has consistently improved with the improvement in the quality of pre-training, 
-where the latter is roughly measured by the non-private fine-tuning performance.[^5]
+where the latter is measured by the non-private fine-tuning performance.[^5]
 
 <p float="left">
   <img src="../images/figure1_classification.png" width="48%" />
@@ -102,7 +104,7 @@ Second, many machine learning problems are in a domain where public data (even u
 Developing refined versions of the pre-train-fine-tune approach for problems from these domains is an interesting avenue for future work.
 
 Lastly, differential privacy as one specific definition of privacy may not capture all that’s desired for privacy in reality. 
-For instance, while differentially private algorithms naturally give machine unlearning guarantees [30, 32], tailored unlearning algorithms tend to improve the capacity of unlearning [31].
+For instance, while differentially private algorithms naturally give machine unlearning guarantees [30, 32], tailored unlearning algorithms tend to have higher capacities of unlearning [31].
 In addition, what constitutes a record in the differential privacy framework can oftentimes be unclear. 
 Inappropriately defined example boundaries can create correlated records which cause differential privacy guarantees to degrade [22].
 Moreover, differential privacy guarantees won't directly prevent the inference of private data outside the original context [23]. 
@@ -116,7 +118,7 @@ These are fundamental limitations of differential privacy which improvements to 
 
 [^4]: Hyper-parameters that work well for non-private learning typically aren't those that work best for differentially private learning [27]. It’s crucial to use a large batch size, a small clipping norm, an appropriate learning rate, and a reasonably large number of training epochs to obtain the mentioned private learning results [11]. 
 
-[^5]: Since the pre-training data for large language models are oftentimes collected through large scale web scraping (e.g., WebText), a common concern is that some train and test instances for downstream tasks may already appear in the pre-training data. Self-supervised pre-training therefore can give models an opportunity to “see” this data even before they are privately fine-tuned. Authors of [17] confirm that there is a 1-6% overlap between the test set of many natural language processing tasks and the pre-training data they collected (WebText). These numbers suggest that existing private fine-tuning results in the literature could be slightly inflated compared to when the pre-training data didn’t contain any test instance for any downstream task for which evaluation was performed. 
+[^5]: Since the pre-training data for large language models are oftentimes collected through large scale web scraping (e.g., WebText), a common concern is that some training and test instances for downstream tasks may already appear in the pre-training data. Self-supervised pre-training therefore can give models an opportunity to “see” this data even before they are privately fine-tuned. Authors of [17] confirmed that there is a 1-6% overlap between the test set of many natural language processing tasks and the pre-training data they collected (WebText); these common tasks, however, don't include those studied by authors of [11]. These numbers suggest that existing private fine-tuning results in the literature could be slightly inflated compared to when the pre-training data didn’t contain any instance for any downstream task for which evaluation was performed. 
 
 ## Acknowledgements
 
