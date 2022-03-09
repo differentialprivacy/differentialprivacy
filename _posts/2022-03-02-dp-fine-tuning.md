@@ -19,8 +19,8 @@ See a [prior post](https://differentialprivacy.org/how-to-deploy-ml-with-dp/) fo
 Yet, in practice, most attempts at training differentially private deep learning models on moderately-sized datasets have resulted in large performance drops compared to when training without privacy-protection baked in. 
 These performance drops are oftentimes large enough to discourage the adoption of differential privacy protection into machine learning pipelines altogether. 
 
-To provide a reference of the potential performance hit, the authors of [[5](https://arxiv.org/abs/2102.12677)] trained from scratch a ResNet-20 on CIFAR-10 with a privacy budget of \\\(\epsilon=8\\\) that has test accuracy barely over 62% (see their Table 1). 
-Contrast this with the 8.75% error rate (91.25% accuracy) reported for training the exact architecture without enforcing differential privacy [[6](https://openaccess.thecvf.com/content_cvpr_2016/html/He_Deep_Residual_Learning_CVPR_2016_paper.html)]. 
+To provide a reference of the potential performance hit, the authors of [[5](https://arxiv.org/abs/2102.12677)] trained a ResNet-20 from scratch on CIFAR-10 with a privacy budget of \\\(\epsilon=8\\\) that has test accuracy barely over 62% (see their Table 1). 
+Contrast this with the 8.75% error rate (91.25% accuracy) reported for training the same architecture without enforcing differential privacy [[6](https://openaccess.thecvf.com/content_cvpr_2016/html/He_Deep_Residual_Learning_CVPR_2016_paper.html)]. 
 While some works report private learning results better than the above, absent additional data, pre-training, or external knowledge, most improvements have been incremental, and the test accuracy for CIFAR-10 models trained under modest privacy leakage (\\\(\epsilon=3\\\)) has roughly settled to ~70% in the literature [[4](https://arxiv.org/abs/2011.11660)]. 
 
 One reason behind the performance drop lies in sample efficiency — differentially private learning generally requires much more data than non-private learning to reach an acceptable level of performance. 
@@ -41,9 +41,9 @@ We recap the two approaches below.[^1]
 **Contrastive pre-training for vision:** 
 One class of self-supervised methods in computer vision (SimCLR, [[9](http://proceedings.mlr.press/v119/chen20j.html)]) performs pre-training through contrastive learning. 
 Algorithms of this type produce embeddings for images with the goal of creating different embeddings for semantically different images and similar embeddings for similar ones. 
-Concretely, the algorithm used in SimCLR forces models to produce similar embeddings for an image and its augmented siblings (e.g., image rotated by x degrees), 
+Concretely, the algorithm used in SimCLR forces models to produce similar embeddings for an image and its augmented siblings (e.g., image rotated by some degrees), 
 and different embeddings for separate images (and their augmentations). 
-The SimCLR framework with large scale models and compute led to state-of-the-art (non-private) ImageNet fine-tuning results at the time of their writing. 
+The SimCLR framework with large scale models and compute led to state-of-the-art (non-private) ImageNet fine-tuning results at the time of its writing. 
 
 **Masked language modeling and autoregressive language modeling for text:** 
 Masked Language Modeling (MLM) and Auto-regressive Language Modeling (ALM) are two self-supervised pre-training approaches. 
@@ -57,7 +57,7 @@ This is because (i) the mildly curated data needed for pre-training can usually 
 A paradigm for private learning that leverages self-supervised pre-training could follow two steps:
 
 - collect cheap and public (unlabeled) data from the task domain (e.g., vision, language, etc.) to pre-train a model with self-supervised learning, and
-- collect moderate amounts of task specific private (labeled) data and fine-tune the pre-trained model under differential privacy to perform the task.[^2]
+- collect moderate amounts of task-specific private (labeled) data and fine-tune the pre-trained model under differential privacy to perform the task.[^2]
 
 To date, some of the best differentially private deep learning results in the literature have resulted from instantiating this paradigm [[4](https://arxiv.org/abs/2011.11660), [11](https://arxiv.org/abs/2110.05679), [12](https://arxiv.org/abs/2110.06500)].
 Below, we review works which capitalize on self-supervised pre-training by differentially privately fine-tuning pre-trained models with an iterative gradient method like DP-SGD [[19](https://dl.acm.org/doi/abs/10.1145/2976749.2978318), [20](https://ieeexplore.ieee.org/abstract/document/6736861)].[^3]
@@ -84,7 +84,7 @@ where the latter is measured by the non-private fine-tuning performance.[^5]
   <img src="../images/figure1_classification.png" width="48%" />
   <img src="../images/figure1_generation.png" width="48%" /> 
   <caption>Figure 1: Privately fine-tuning better (and larger) pre-trained models lead to consistently improving performance for text classification and language generation. 
-Left: text classification on MNLI [[25](https://arxiv.org/abs/1704.05426)]. Right: language generation on E2E [[26](https://arxiv.org/abs/1706.09254)].</caption>
+Left: text classification on MNLI <a href="https://arxiv.org/abs/1704.05426">[25]</a>. Right: language generation on E2E <a href="https://arxiv.org/abs/1706.09254">[26]</a>.</caption>
 </p>
 
 ## Conclusion and Outlook
