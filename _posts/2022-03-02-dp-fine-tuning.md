@@ -65,20 +65,20 @@ Below, we review works which capitalize on self-supervised pre-training by diffe
 
 **Private fine-tuning with SimCLR features:** 
 The authors of [[4](https://arxiv.org/abs/2011.11660)] fine-tuned a linear model on top of the embedding vectors produced by SimCLRv2 from the CIFAR-10 dataset. Under a privacy budget of \\\(\epsilon=2\\\), 
-these models reached an average test accuracy of 92.7%. This number can be further improved to ~94% with the use of larger and wider pre-trained models in the SimCLRv2 family. 
-These test accuracies are very close to some standard non-private results attained by an off-the-shelf ResNet [[6](https://openaccess.thecvf.com/content_cvpr_2016/html/He_Deep_Residual_Learning_CVPR_2016_paper.html)]. 
+these models reached an average test accuracy of 92.7%. This number can be further improved to ~94% with the use of larger and wider pre-trained models in the SimCLRv2 family.[^4] 
+These test accuracies are very close to some standard non-private results attained by an off-the-shelf ResNet architecture [[6](https://openaccess.thecvf.com/content_cvpr_2016/html/He_Deep_Residual_Learning_CVPR_2016_paper.html)]. 
 
 **Privately fine-tuning BERT variants and GPT-2:** 
 The authors of [[11](https://arxiv.org/abs/2110.05679), [12](https://arxiv.org/abs/2110.06500), [16](http://proceedings.mlr.press/v139/yu21f.html)] showed that with appropriate hyper-parameters, fine-tuning BERT variants and GPT-2 with DP-optimization results in high-performing private models for text classification and language generation — even on datasets of modest sizes and under modest privacy budgets. 
 Notably, some of these models attain a task performance close to non-private models from previous years in the literature. 
-These results also exceed many non-private learning results from the pre-BERT and pre-GPT years.[^4]
+These results also exceed many non-private learning results from the pre-BERT and pre-GPT years.[^5]
 
 More interestingly, the authors showed that the larger (and thus better) the pre-trained model, the better the private fine-tuning performance gets. 
 This empirical observation in private fine-tuning of large Transformers is qualitatively different from what’s implied by the usual minimax optimal rates derived for vanilla private learning with convex loss functions under approximate differential privacy [[14](https://ieeexplore.ieee.org/abstract/document/6979031), [15](https://proceedings.neurips.cc/paper/2019/hash/3bd8fdb090f1f5eb66a00c84dbc5ad51-Abstract.html)]. 
-This discrepancy between experimental results for training large models and the theory for learning with convex losses suggests there is more to be understood.
+This discrepancy between experimental results for training large models and the theory for learning with convex losses suggests there is more to be understood.[^6]
 
 Overall, for both vision and language tasks, private learning performance has consistently improved with the improvement in the quality of pre-training, 
-where the latter is measured by the non-private fine-tuning performance.[^5]
+where the latter is measured by the non-private fine-tuning performance.[^7]
 
 <p float="left">
   <img src="../images/figure1_classification.png" width="48%" />
@@ -111,15 +111,19 @@ Inappropriately defined example boundaries can create correlated records which c
 Moreover, differential privacy guarantees won't directly prevent the inference of private data outside the original context [[23](https://heinonline.org/hol-cgi-bin/get_pdf.cgi?handle=hein.journals/washlr79&section=16)]. 
 These are fundamental limitations of differential privacy which improvements to differentially private learning won't touch on.
 
-[^1]: Authors of [[18](https://arxiv.org/abs/2108.07258)] framed these self-supervised models which are trained on broad data at scale that are adaptable to a wide range of downstream tasks as “foundation models”.
+[^1]: Authors of [[18](https://arxiv.org/abs/2108.07258)] framed these self-supervised models which are trained on broad data at scale that are adaptable to a wide range of downstream tasks as “foundation models.”
 
 [^2]: The idea of privately fine-tuning a publicly pre-trained model certainly isn’t new. One of the first differentially private deep learning papers [[19](https://arxiv.org/abs/1607.00133)] considered an experiment which fine-tuned convolutional nets on CIFAR-10 which were pre-trained on CIFAR-100. Results on privately fine-tuning *self-supervised* models are, on the other hand, more recent. Covering these results is our main focus here.
 
 [^3]: Blue and pink sphere avatars taken from [[18](https://arxiv.org/abs/2108.07258)]. Credit to [Drew A. Hudson](https://cs.stanford.edu/~dorarad/) for making these. 
 
-[^4]: Hyper-parameters that work well for non-private learning typically aren't those that work best for differentially private learning [[27](https://openreview.net/pdf?id=rJg851rYwH)]. It’s crucial to use a large batch size, a small clipping norm, an appropriate learning rate, and a reasonably large number of training epochs to obtain the mentioned private learning results [[11](https://arxiv.org/abs/2110.05679)]. 
+[^4]: Unpublished result.
 
-[^5]: Since the pre-training data for large language models are oftentimes collected through large scale web scraping (e.g., WebText), a common concern is that some training and test instances for downstream tasks may already appear in the pre-training data. Self-supervised pre-training therefore can give models an opportunity to “see” this data even before they are privately fine-tuned. Authors of [[17](https://d4mucfpksywv.cloudfront.net/better-language-models/language_models_are_unsupervised_multitask_learners.pdf)] confirmed that there is a 1-6% overlap between the test set of many natural language processing tasks and the pre-training data they collected (WebText); these common tasks, however, don't include those studied by authors of [[11](https://arxiv.org/abs/2110.05679)]. The numbers suggest a possibility that existing private fine-tuning results in the literature could be slightly inflated compared to when the pre-training data didn’t contain any instance for any downstream task for which evaluation was performed. 
+[^5]: Hyper-parameters that work well for non-private learning typically aren't those that work best for differentially private learning [[27](https://openreview.net/pdf?id=rJg851rYwH)]. It’s crucial to use a large batch size, a small clipping norm, an appropriate learning rate, and a reasonably large number of training epochs to obtain the mentioned private learning results [[11](https://arxiv.org/abs/2110.05679)]. 
+
+[^6]: In practice, past works have presented mixed results on whether larger models would yield better performance. While some showed that using more filters in a convolutional network can degrade the performance of private learning after some threshold [[27](https://openreview.net/pdf?id=rJg851rYwH)], others showed that a larger model can outperform a smaller model from a different model family [[4](https://arxiv.org/abs/2011.11660)]. Note these results are conditioned on their particular hyperparameter choices. 
+
+[^7]: Since the pre-training data for large language models are oftentimes collected through large scale web scraping (e.g., WebText), a common concern is that some training and test instances for downstream tasks may already appear in the pre-training data. Self-supervised pre-training therefore can give models an opportunity to “see” this data even before they are privately fine-tuned. Authors of [[17](https://d4mucfpksywv.cloudfront.net/better-language-models/language_models_are_unsupervised_multitask_learners.pdf)] confirmed that there is a 1-6% overlap between the test set of many natural language processing tasks and the pre-training data they collected (WebText); these common tasks, however, don't include those studied by authors of [[11](https://arxiv.org/abs/2110.05679)]. The numbers suggest a possibility that existing private fine-tuning results in the literature could be slightly inflated compared to when the pre-training data didn’t contain any instance for any downstream task for which evaluation was performed. 
 
 ## Acknowledgements
 
