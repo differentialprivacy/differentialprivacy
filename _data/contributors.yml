@@ -28,6 +28,12 @@ margalitglasgow:
   image:
   affiliation: Stanford University
 
+thashim:
+  name: Tatsunori Hashimoto
+  homepage: https://thashim.github.io/
+  image:
+  affiliation: Stanford University
+
 matthewjoseph:
   name: Matthew Joseph
   homepage: https://www.majos.net/
@@ -39,6 +45,18 @@ gautamkamath:
   homepage: http://www.gautamkamath.com/
   image: http://www.gautamkamath.com/gautam.jpg
   affiliation: University of Waterloo
+
+jakul:
+  name: Janardhan Kulkarni
+  homepage: https://www.microsoft.com/en-us/research/people/jakul/
+  image:
+  affiliation: Microsoft Research
+
+lxuechen:
+  name: Xuechen Li
+  homepage: https://www.lxuechen.com/
+  image:
+  affiliation: Stanford University
 
 terranceliu:
   name: Terrance Liu
@@ -101,6 +119,12 @@ athakurta:
   image:
   affiliation: Google Research, Brain Team
 
+tramer:
+  name: Florian Tramèr
+  homepage: https://floriantramer.com/
+  image:
+  affiliation: Google
+
 jonullman:
   name: Jonathan Ullman
   homepage: https://www.ccs.neu.edu/home/jullman/
@@ -112,27 +136,3 @@ stevenwu:
   homepage: https://zstevenwu.com/
   image: https://zstevenwu.com/images/ZSW.jpg
   affiliation: Carnegie Mellon University
-
-lxuechen:
-  name: Xuechen Li
-  homepage: https://www.lxuechen.com/
-  image:
-  affiliation: Stanford University
-
-tramer:
-  name: Florian Tramèr
-  homepage: https://floriantramer.com/
-  image:
-  affiliation: Google
-
-thashim:
-  name: Tatsunori Hashimoto
-  homepage: https://thashim.github.io/
-  image:
-  affiliation: Stanford University
-
-jakul:
-  name: Janardhan Kulkarni
-  homepage: https://www.microsoft.com/en-us/research/people/jakul/
-  image:
-  affiliation: Microsoft Research
