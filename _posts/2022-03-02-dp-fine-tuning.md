@@ -8,7 +8,7 @@ authors:
     - jakul
     - thashim
 categories: [Surveys]
-timestamp: 09:00:00 -0800
+timestamp: 11:00:00 -0800
 ---
 
 Differential Privacy (DP) is a formal definition of privacy which guarantees that the outcome of a statistical procedure does not vary much regardless of whether an individual input is included or removed from the training dataset. 
