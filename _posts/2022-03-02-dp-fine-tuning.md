@@ -84,7 +84,7 @@ where the latter is measured by the non-private fine-tuning performance.[^7]
   <img src="../images/figure1_classification.png" width="48%" />
   <img src="../images/figure1_generation.png" width="48%" /> 
   <caption>Figure 1: Privately fine-tuning better (and larger) pre-trained models lead to consistently improving performance for text classification and language generation. 
-Left: text classification on MNLI <a href="https://arxiv.org/abs/1704.05426">[25]</a>. Right: language generation on E2E <a href="https://arxiv.org/abs/1706.09254">[26]</a>.</caption>
+Left: text classification on MNLI [<a href="https://arxiv.org/abs/1704.05426">25</a>]. Right: language generation on E2E [<a href="https://arxiv.org/abs/1706.09254">26</a>].</caption>
 </p>
 
 ## Conclusion and Outlook
