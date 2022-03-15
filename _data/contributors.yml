@@ -1,7 +1,7 @@
 kushbhatia:
   name: Kush Bhatia
   homepage: https://people.eecs.berkeley.edu/~kush/
-  image: 
+  image:
   affiliation: UC Berkeley
 
 clementcanonne:
@@ -9,13 +9,13 @@ clementcanonne:
   homepage: http://www.cs.columbia.edu/~ccanonne/
   image:
   affiliation: IBM Research - Almaden
-  
+
 alonicohen:
   name: Aloni Cohen
   homepage: https://aloni.net/
-  image: 
+  image:
   affiliation: Boston University
-  
+
 daviddurfee:
   name: David Durfee
   homepage: https://www.linkedin.com/in/david-durfee-099874174/
@@ -25,6 +25,12 @@ daviddurfee:
 margalitglasgow:
   name: Margalit Glasgow
   homepage: https://web.stanford.edu/~mglasgow/
+  image:
+  affiliation: Stanford University
+
+thashim:
+  name: Tatsunori Hashimoto
+  homepage: https://thashim.github.io/
   image:
   affiliation: Stanford University
 
@@ -39,7 +45,19 @@ gautamkamath:
   homepage: http://www.gautamkamath.com/
   image: http://www.gautamkamath.com/gautam.jpg
   affiliation: University of Waterloo
- 
+
+jakul:
+  name: Janardhan Kulkarni
+  homepage: https://www.microsoft.com/en-us/research/people/jakul/
+  image:
+  affiliation: Microsoft Research
+
+lxuechen:
+  name: Xuechen Li
+  homepage: https://www.lxuechen.com/
+  image:
+  affiliation: Stanford University
+
 terranceliu:
   name: Terrance Liu
   homepage: https://www.linkedin.com/in/terrance-liu-26796974
@@ -51,18 +69,18 @@ ryanmckenna:
   homepage: https://people.cs.umass.edu/~rmckenna/
   image:
   affiliation: UMass Amherst
- 
+
 audramcmillan:
   name: Audra McMillan
   homepage: https://audramarymcmillan.wixsite.com/mysite
-  image: 
+  image:
   affiliation: Apple
 
 sashonikolov:
   name: Sasho Nikolov
   bibtexname: Aleksandar Nikolov
   homepage: http://www.cs.toronto.edu/~anikolov/
-  image: 
+  image:
   affiliation: University of Toronto
 
 npapernot:
@@ -74,13 +92,13 @@ npapernot:
 ryanrogers:
   name: Ryan Rogers
   homepage: https://www.math.upenn.edu/~ryrogers/
-  image: 
+  image:
   affiliation: LinkedIn
-  
+
 zacharyschutzman:
   name: Zachary Schutzman
   homepage: https://zachschutzman.com/
-  image: 
+  image:
   affiliation: University of Pennsylvania
 
 adamsealfon:
@@ -101,12 +119,18 @@ athakurta:
   image:
   affiliation: Google Research, Brain Team
 
+tramer:
+  name: Florian Tramèr
+  homepage: https://floriantramer.com/
+  image:
+  affiliation: Google
+
 jonullman:
   name: Jonathan Ullman
   homepage: https://www.ccs.neu.edu/home/jullman/
   image:
   affiliation: Northeastern University
-  
+
 stevenwu:
   name: Zhiwei Steven Wu
   homepage: https://zstevenwu.com/
