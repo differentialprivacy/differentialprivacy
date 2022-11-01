@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Composition
+title: Composition Basics
 comments: true
 authors: 
     - thomassteinke
