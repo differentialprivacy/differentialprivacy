@@ -13,6 +13,7 @@ permalink: /resources/
 * [A Primer on Private Statistics](https://arxiv.org/abs/2005.00010), by [Gautam Kamath](http://www.gautamkamath.com/) and [Jonathan Ullman](http://www.ccs.neu.edu/home/jullman/)
 * [Differential Privacy: A Primer for a Non-Technical Audience](https://salil.seas.harvard.edu/files/salil/files/differential_privacy_primer_nontechnical_audience.pdf), by [Alexandra Wood](https://cyber.harvard.edu/people/awood) et al.
 * [Exposed! A Survey of Attacks on Private Data](https://privacytools.seas.harvard.edu/publications/exposed-survey-attacks-private-data) by [Cynthia Dwork](https://www.microsoft.com/en-us/research/people/dwork/), [Adam Smith](https://cs-people.bu.edu/ads22/), [Thomas Steinke](http://www.thomas-steinke.net/), and [Jonathan Ullman](http://www.ccs.neu.edu/home/jullman/)
+* [Composition of Differential Privacy & Privacy Amplification by Subsampling](https://arxiv.org/abs/2210.00597), by [Thomas Steinke](http://www.thomas-steinke.net/)
 
 ## Courses
 * [Privacy in Statistics and Machine Learning](https://dpcourse.github.io/), taught by [Adam Smith](https://cs-people.bu.edu/ads22/) and [Jonathan Ullman](http://www.ccs.neu.edu/home/jullman/)
@@ -42,6 +43,7 @@ permalink: /resources/
 * [Data Privacy: Foundations and Applications](https://simons.berkeley.edu/programs/privacy2019), Spring 2019 at the Simons Institute for the Theory of Computing
 * [Mathematical Foundations of Data Privacy](https://www.birs.ca/events/2018/5-day-workshops/18w5189), May 2018 at the Banff International Research Station
 * [Differential Privacy: From Theory to Practice](http://cyber.biu.ac.il/event/the-7th-biu-winter-school/), February 2017 at Bar Ilan University
+* [Workshop on Differential Privacy and Statistical Data Analysis](http://www.fields.utoronto.ca/activities/22-23/privacy), July 2022 at the Fields Institute.
 
 ## Workshops (without Videos)
 * [Theory and Practice of Differential Privacy (TPDP)](https://tpdp.journalprivacyconfidentiality.org/)
@@ -58,6 +60,7 @@ permalink: /resources/
 * [Discrete Gaussian](https://github.com/IBM/discrete-gaussian-differential-privacy)
 * [OpenMined](https://github.com/OpenMined/OM-Welcome-Package)
 * [Ektelo](https://ektelo.github.io/)
+* [Tumult Analytics](https://www.tmlt.dev/)
 
 ## Tools
 * [DPComp](https://www.dpcomp.org/)
