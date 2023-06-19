@@ -11,16 +11,11 @@ timestamp: 21:00:00 -0400
 ---
 
 
-\\\(
-\newcommand{\mecha}{\mathcal{M}}
-\newcommand{\mech}[1]{\mecha\left(#1\right)}
-\\\)
 Consider a simple query counting the number of people in various mutually exclusive groups.
 In the differential privacy literature, it is typical to assume that each of these groups should be subject to the same privacy loss: the noise added to each count has the same magnitude, and everyone gets the same privacy guarantees.
 However, in settings where these groups have vastly different population sizes, larger populations may be willing to accept more error in exchange for stronger privacy protections.
 In particular, in many use cases, *relative* error (the noisy count is within 5\% of the true value) matters more than absolute error (the noisy count is at a distance of at most 100 of the true value).
 This leads to a natural question: can we use this fact to develop a mechanism that improves the privacy guarantees of individuals in larger groups, subject to a constraint on relative error?
-
 
 ### Problem definition
 
@@ -28,12 +23,12 @@ Our goal is to obtain a mechanism which minimizes the overall privacy loss for e
 To formalize this goal, we first define a notion of per-group privacy we call group-wise zero-concentrated differential privacy as follows.
 
 **Definition.** *Group-wise zero-concentrated differential privacy.*
-Assume possible datasets consist of records from domain \\(U\\), and \\(U\\) can be partitioned into \\(k\\) fixed, disjoint groups \\(U_1\\), \dots, \\(U_k\\). Let \\(v : \mathcal{D} \rightarrow \mathbb{R}^k\\) be a function associating a dataset to a vector of privacy budgets (one per group). We say a mechanism \\(\mecha\\) satisfies \\(v\\)-group-wise zero-concentrated differential privacy (zCDP) if for any two datasets \\(D\\), \\(D'\\) differing in the addition or removal of a record in \\(U_i\\), and for all \\(\alpha>1\\), we have:
+Assume possible datasets consist of records from domain \\(U\\), and \\(U\\) can be partitioned into \\(k\\) fixed, disjoint groups \\(U_1\\), \dots, \\(U_k\\). Let \\(v : \mathcal{D} \rightarrow \mathbb{R}^k\\) be a function associating a dataset to a vector of privacy budgets (one per group). We say a mechanism \\(\mathcal{M}\\) satisfies \\(v\\)-group-wise zero-concentrated differential privacy (zCDP) if for any two datasets \\(D\\), \\(D'\\) differing in the addition or removal of a record in \\(U_i\\), and for all \\(\alpha>1\\), we have:
 \\[
-D_\alpha\left(\mech{D}||\mech{D'}\right) & \le \alpha \cdot {v(D)}_i
+D_\alpha\left(\mathcal{M}(D||\mathcal{M}(D')\right) & \le \alpha \cdot {v(D)}_i
 \\]
 \\[
-D_\alpha\left(\mech{D'}||\mech{D}\right) & \le \alpha \cdot {v(D)}_i
+D_\alpha\left(\mathcal{M}(D')||\mathcal{M}(D)\right) & \le \alpha \cdot {v(D)}_i
 \\]
 where \\(D_\alpha\\) is the Rényi divergence of order \\(\alpha\\).
 
@@ -47,7 +42,7 @@ For larger groups that can accept more noise, this means adding more noise to ac
 **Problem.**
 Let \\(r \in (0,1]\\) be an acceptable level of relative error, and \\(k\\) be the number of distinct, mutually-exclusive partitions of domain \\(X\\).
 Given a dataset \\(D\\), let \\(x(D)\\) be a vector containing the count of records in each partition.
-The objective is to find a mechanism \\(\mecha\\) which takes in \\(r\\), \\(k\\), and \\(D\\) and outputs \\(\hat{x}(D)\\) such that \\(E\left[\left|{x(D)}_i-{\hat{x}(D)}_i\right|\right]<r\cdot {x(D)}_i\\) for all \\(i\\), and satisfies \\(v\\)-group-wise zCDP where \\(v(D)_i\\) is as small as possible for all \\(i\\).
+The objective is to find a mechanism \\(\mathcal{M}\\) which takes in \\(r\\), \\(k\\), and \\(D\\) and outputs \\(\hat{x}(D)\\) such that \\(E\left[\left|{x(D)}_i-{\hat{x}(D)}_i\right|\right]<r\cdot {x(D)}_i\\) for all \\(i\\), and satisfies \\(v\\)-group-wise zCDP where \\(v(D)_i\\) is as small as possible for all \\(i\\).
 <br>
 To prevent pathological mechanisms that optimize for specific datasets, we add two constraints to the problem: the privacy guarantee \\(v(D)_i\\) should only depend on \\(x(D)_i\\), and should be nonincreasing with \\(x(D)_i\\).
 

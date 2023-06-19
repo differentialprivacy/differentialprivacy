@@ -148,15 +148,3 @@ stevenwu:
   homepage: https://zstevenwu.com/
   image: https://zstevenwu.com/images/ZSW.jpg
   affiliation: Carnegie Mellon University
-
-damiendesfontaines:
-  name: Damien Desfontaines
-  homepage: https://desfontain.es/serious.html
-  image: https://desfontain.es/headshot.png
-  affiliation: Tumult Labs
-
-davidpujol:
-  name: David Pujol
-  homepage: https://users.cs.duke.edu/~dpujol/
-  image: https://users.cs.duke.edu/~dpujol/headshot.jpg
-  affiliation: Tumult Labs
