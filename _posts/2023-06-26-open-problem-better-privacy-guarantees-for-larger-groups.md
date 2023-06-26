@@ -23,13 +23,13 @@ Our goal is to obtain a mechanism which minimizes the overall privacy loss for e
 To formalize this goal, we first define a notion of per-group privacy we call group-wise zero-concentrated differential privacy as follows.
 
 **Definition.** *Group-wise zero-concentrated differential privacy.*
-Assume possible datasets consist of records from domain \\(U\\), and \\(U\\) can be partitioned into \\(k\\) fixed, disjoint groups \\(U_1\\), \dots, \\(U_k\\). Let \\(v : \mathcal{D} \rightarrow \mathbb{R}^k\\) be a function associating a dataset to a vector of privacy budgets (one per group). We say a mechanism \\(\mathcal{M}\\) satisfies \\(v\\)-group-wise zero-concentrated differential privacy (zCDP) if for any two datasets \\(D\\), \\(D'\\) differing in the addition or removal of a record in \\(U_i\\), and for all \\(\alpha>1\\), we have:
-\\[
+Assume possible datasets consist of records from domain \\(U\\), and \\(U\\) can be partitioned into \\(k\\) fixed, disjoint groups \\(U_1\\), ..., \\(U_k\\). Let \\(v : \mathcal{D} \rightarrow \mathbb{R}^k\\) be a function associating a dataset to a vector of privacy budgets (one per group). We say a mechanism \\(\mathcal{M}\\) satisfies \\(v\\)-group-wise zero-concentrated differential privacy (zCDP) if for any two datasets \\(D\\), \\(D'\\) differing in the addition or removal of a record in \\(U_i\\), and for all \\(\alpha>1\\), we have:
+\\\[
 D_\alpha\left(\mathcal{M}(D||\mathcal{M}(D')\right) & \le \alpha \cdot {v(D)}_i
-\\]
-\\[
+\\\]
+\\\[
 D_\alpha\left(\mathcal{M}(D')||\mathcal{M}(D)\right) & \le \alpha \cdot {v(D)}_i
-\\]
+\\\]
 where \\(D_\alpha\\) is the Rényi divergence of order \\(\alpha\\).
 
 This definition is similar to *tailored DP*, defined in [[LP15](https://eprint.iacr.org/2014/982.pdf)]: each individual gets a different privacy guarantee, depending on which group they belong to;
