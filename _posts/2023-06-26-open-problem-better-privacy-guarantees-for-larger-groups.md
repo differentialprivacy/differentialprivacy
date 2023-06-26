@@ -24,13 +24,13 @@ To formalize this goal, we first define a notion of per-group privacy we call gr
 
 **Definition.** *Group-wise zero-concentrated differential privacy.*
 Assume possible datasets consist of records from domain \\(U\\), and \\(U\\) can be partitioned into \\(k\\) fixed, disjoint groups \\(U_1\\), ..., \\(U_k\\). Let \\(v : \mathcal{D} \rightarrow \mathbb{R}^k\\) be a function associating a dataset to a vector of privacy budgets (one per group). We say a mechanism \\(\mathcal{M}\\) satisfies \\(v\\)-group-wise zero-concentrated differential privacy (zCDP) if for any two datasets \\(D\\), \\(D'\\) differing in the addition or removal of a record in \\(U_i\\), and for all \\(\alpha>1\\), we have:
-\\\[
-D_\alpha\left(\mathcal{M}(D||\mathcal{M}(D')\right) & \le \alpha \cdot {v(D)}_i
-\\\]
-\\\[
-D_\alpha\left(\mathcal{M}(D')||\mathcal{M}(D)\right) & \le \alpha \cdot {v(D)}_i
-\\\]
-where \\(D_\alpha\\) is the Rényi divergence of order \\(\alpha\\).
+\\[
+D\_\alpha\left(\mathcal{M}(D||\mathcal{M}(D')\right) & \le \alpha \cdot {v(D)}\_i
+\\]
+\\[
+D\_\alpha\left(\mathcal{M}(D')||\mathcal{M}(D)\right) & \le \alpha \cdot {v(D)}\_i
+\\]
+where \\(D\_\alpha\\) is the Rényi divergence of order \\(\alpha\\).
 
 This definition is similar to *tailored DP*, defined in [[LP15](https://eprint.iacr.org/2014/982.pdf)]: each individual gets a different privacy guarantee, depending on which group they belong to;
 this guarantee also depends on how many people are in this group.
@@ -76,13 +76,13 @@ We would like to show that this algorithm also satisfies a stronger group-wise z
 
 This makes intuitive sense: line 5 adds additional Gaussian noise without using the private data directly.
 Since the noise scale in line 5 is proportional to the total count in line 4, we expect the privacy guarantee to be significantly stronger for large groups with more noise.
-Further, we can verify experimentally that when the data magnitude is large compared to the noise, the output distribution for each group is close to a Gaussian distribution; a comparison using 1,000,000 sample outputs can be found in Figure 1.
+Further, we can verify experimentally that when the data magnitude is large compared to the noise, the output distribution for each group is close to a Gaussian distribution.
+
+The below figure illustrates this finding.
+We plot 1,000,000 sample outputs of Algorithm 1 (red) with parameters \\(\sigma^2 = 100\\) and \\(r= 0.3\\), and compare it to the best fit Gaussian distribution (black outline) with mean \\(10,002.6\\) and standard deviation of \\(2995.1\\).
 
 <p float="center">
   <img src="../images/two-stage-noise-gaussian.png" width="70%" />
-  <caption>
-    Figure 1: Output distribution of Algorithm 1 (red) over 1M samples with parameters \\(\sigma^2 = 100\\) and \\(r= 0.3\\). Compared to the best fit Gaussian distribution (black outline) with mean \\(10,002.6\\) and standard deviation of \\(2995.1\\).
-  </caption>
 </p>
 
 With parameters such as these, the output of the mechanism looks and behaves like a Gaussian distribution, which should be ideal to characterize the zCDP guarantee.
