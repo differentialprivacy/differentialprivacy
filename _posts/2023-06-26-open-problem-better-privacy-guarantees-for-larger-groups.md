@@ -14,7 +14,7 @@ timestamp: 21:00:00 -0400
 Consider a simple query counting the number of people in various mutually exclusive groups.
 In the differential privacy literature, it is typical to assume that each of these groups should be subject to the same privacy loss: the noise added to each count has the same magnitude, and everyone gets the same privacy guarantees.
 However, in settings where these groups have vastly different population sizes, larger populations may be willing to accept more error in exchange for stronger privacy protections.
-In particular, in many use cases, *relative* error (the noisy count is within 5\% of the true value) matters more than absolute error (the noisy count is at a distance of at most 100 of the true value).
+In particular, in many use cases, *relative* error (the noisy count is within 5% of the true value) matters more than absolute error (the noisy count is at a distance of at most 100 of the true value).
 This leads to a natural question: can we use this fact to develop a mechanism that improves the privacy guarantees of individuals in larger groups, subject to a constraint on relative error?
 
 ### Problem definition
@@ -48,7 +48,7 @@ To prevent pathological mechanisms that optimize for specific datasets, we add t
 
 Since the relative error thresholds are proportional to the population size, each population can tolerate a different amount of noise.
 This means that to minimize the privacy loss for each group, the mechanism must add noise of different scales to each group.
-Of course, directly using \\(x(D)_i\\) to determine the scale of the noise for group \\(i\\) leads to a privacy loss which is data dependent, similarly to e.g. PATE [[PAEGT17](https://openreview.net/forum?id=HkwoSDPg)], and as such should be treated as a protected value. %Alternatively one could use a private mechanism to measure a noisy version of the true count and determine additional noise using that noisy value.
+Of course, directly using \\(x(D)_i\\) to determine the scale of the noise for group \\(i\\) leads to a privacy loss which is data dependent, similarly to e.g. PATE [[PAEGT17](https://openreview.net/forum?id=HkwoSDPg)], and as such should be treated as a protected value.
 
 
 ### An example mechanism
@@ -62,8 +62,8 @@ This mechanism is outlined in Algorithm 1.
 *Adding data-dependent noise as a post-processing step.*
 <br>
 Require: A dataset \\(D\\) where each data point belongs to one of \\(k\\) groups, a privacy parameter \\(\rho\\), and a relative error rate \\(r\\).
-1. *Let* \\(\sigma^2 = 1/(2\rho)\\)
-2. **For** \\(i=1\\) to \\(k\\)} **do**
+1. Let \\(\sigma^2 = 1/(2\rho)\\)
+2. **For** \\(i=1\\) to \\(k\\) **do**
 3. \\(\qquad\\) Let \\(x_i\\) be the number of people in \\(D\\) in group \\(i\\)
 4. \\(\qquad\\) Sample \\(X_i \sim \mathcal{N}(x_i, \sigma^2)\\)
 5. \\(\qquad\\) Sample \\(Y_i \sim \mathcal{N}_{k}(X_i, (rX_i)^2)\\)
@@ -81,9 +81,8 @@ Further, we can verify experimentally that when the data magnitude is large comp
 The below figure illustrates this finding.
 We plot 1,000,000 sample outputs of Algorithm 1 (red) with parameters \\(\sigma^2 = 100\\) and \\(r= 0.3\\), and compare it to the best fit Gaussian distribution (black outline) with mean \\(10,002.6\\) and standard deviation of \\(2995.1\\).
 
-<p float="center">
-  <img src="../images/two-stage-noise-gaussian.png" width="70%" />
-</p>
+<img src="../images/two-stage-noise-gaussian.png" width="70%" alt="A comparison between sample outputs of Algorithm 1 and the best-fit Gaussian distribution, showing that both match very closely." style="margin:auto;display: block;"/>
+
 
 With parameters such as these, the output of the mechanism looks and behaves like a Gaussian distribution, which should be ideal to characterize the zCDP guarantee.
 However, it is difficult to directly quantify this guarantee, due to the changing variance which is also a random variable.
