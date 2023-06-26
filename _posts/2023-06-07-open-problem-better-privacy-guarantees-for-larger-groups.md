@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Open problem: Better privacy guarantees for larger groups
+title: Open problem - Better privacy guarantees for larger groups
 comments: true
 authors: 
     - davidpujol
