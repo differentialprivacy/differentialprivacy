@@ -11,18 +11,18 @@ categories: [Algorithms]
 The most well-known and widely-used method for achieving differential privacy is to compute the true function value \\\(f(x)\\\) and then add Laplace or Gaussian noise scaled to the _global sensitivity_ of \\\(f\\\). 
 This may be overly conservative. In this post we'll show how we can do better.
 
-The global sensitivity of a function \\\(f : \\mathcal{X}^\* \to \\mathbb{R}\\\) is defined by \\\[ \mathsf{GS}\_f := \\sup\_\{x,x'\\in\\mathcal{X}^\* : \\mathrm{dist}(x,x') \\le 1\} \|f(x)-f(x')\|,\\\] where \\\(\\mathrm{dist}(x,x')\\le 1\\\) denotes that \\\(x\\\) and \\\(x'\\\) are neighbouring datasets (i.e. they differ only by the addition or removal of one person's data); more generally, \\\(\\mathrm{dist}(\\cdot,\\cdot)\\\) is the corresponding metric on datasets.
+The global sensitivity of a function \\\(f : \\mathcal{X}^\* \to \\mathbb{R}\\\) is defined by \\\[ \mathsf{GS}\_f := \\sup\_\{x,x'\\in\\mathcal{X}^\* : \\mathrm{dist}(x,x') \\le 1\} \|f(x)-f(x')\|, \\tag{1}\\\] where \\\(\\mathrm{dist}(x,x')\\le 1\\\) denotes that \\\(x\\\) and \\\(x'\\\) are neighbouring datasets (i.e. they differ only by the addition or removal of one person's data); more generally, \\\(\\mathrm{dist}(\\cdot,\\cdot)\\\) is the corresponding metric on datasets.
 
 The global sensitivity considers datasests that have nothing to do with the dataset at hand and which could be completely unrealistic.
 Many functions have infinite global sensitivity, but, on reasonably nice datasets, their _local sensitivity_ is much lower.
 
 ## Local Sensitivity
 
-The local sensitivity of a function \\\(f : \\mathcal{X}^\* \to \\mathbb{R}\\\) at \\\(x \\in \\mathcal{X}^\*\\\) at distance \\\(k\\\) is defined by \\\[\\mathsf{LS}^k\_f(x) := \\sup\_\{x'\\in\\mathcal{X}^\* : \\mathrm{dist}(x,x') \\le k\} \|f(x)-f(x')\|.\\\]
+The local sensitivity of a function \\\(f : \\mathcal{X}^\* \to \\mathbb{R}\\\) at \\\(x \\in \\mathcal{X}^\*\\\) at distance \\\(k\\\) is defined by \\\[\\mathsf{LS}^k\_f(x) := \\sup\_\{x'\\in\\mathcal{X}^\* : \\mathrm{dist}(x,x') \\le k\} \|f(x)-f(x')\|. \\tag{2}\\\]
 \(Usually, we fix \\\(k=1\\\) and we may drop the superscript: \\\(\\mathsf{LS}\_f(x) := \\mathsf{LS}\_t^1(x)\\\).\)
 
 As a concrete example, the median has infinite global sensitivity, but for realistic data the local sensitivity is quite reasonable. 
-Specifically, \\\[\\mathsf{LS}^k\_{\\mathrm{median}}(x\_1, \\cdots, x\_n) = \\max\\left\\\{ \\left\|x\_{\(\\tfrac{n+1}{2}\)}-x\_{\(\\tfrac{n+1}{2}+k\)}\\right\|, \\left\|x\_{\(\\tfrac{n+1}{2}\)}-x\_{\(\\tfrac{n+1}{2}-k\)}\\right\| \\right\\\},\\\] where \\\( x\_{(1)} \\le x\_{(2)} \\le \\cdots \\le x\_{(n)}\\\) denotes the input in [sorted order](https://en.wikipedia.org/wiki/Order_statistic) and \\\(n\\\) is assumed to be odd, so, in particular, \\\(\\mathrm{median}(x\_1, \\cdots, x\_n) = x\_{\(\\tfrac{n+1}{2}\)}\\\).
+Specifically, \\\[\\mathsf{LS}^k\_{\\mathrm{median}}(x\_1, \\cdots, x\_n) = \\max\\left\\\{ \\left\|x\_{\(\\tfrac{n+1}{2}\)}-x\_{\(\\tfrac{n+1}{2}+k\)}\\right\|, \\left\|x\_{\(\\tfrac{n+1}{2}\)}-x\_{\(\\tfrac{n+1}{2}-k\)}\\right\| \\right\\\},\\tag{3}\\\] where \\\( x\_{(1)} \\le x\_{(2)} \\le \\cdots \\le x\_{(n)}\\\) denotes the input in [sorted order](https://en.wikipedia.org/wiki/Order_statistic) and \\\(n\\\) is assumed to be odd, so, in particular, \\\(\\mathrm{median}(x\_1, \\cdots, x\_n) = x\_{\(\\tfrac{n+1}{2}\)}\\\).
 For example, if \\\(X\_1, \\cdots X\_n\\\) are i.i.d. samples from a standard Gaussian and \\\(k \\ll n\\\), then \\\(\\mathsf{LS}^k\_{\\mathrm{median}}(X\_1, \\cdots, X\_n) \le O(k/n)\\\) with high probability.
 
 ## Using Local Sensitivity
@@ -50,10 +50,62 @@ But we do not make any assumptions about the global sensitivity of the function.
 
 For simplicity we will assume that \\\(\\mathcal{Y}\\\) is finite and that \\\(f\\\) is [surjective](https://en.wikipedia.org/wiki/Surjective_function).[^4]
 
-Now we define a loss function \\\(\ell : \mathcal{X}^\* \times \mathcal{Y} \to \mathbb{Z}\_{\ge0}\\\) by \\\[\ell(x,y) := \\min\\left\\\{ \mathrm{dist}(x,\tilde{x}) : f(\tilde{x})=y \\right\\\}.\\\]
+Now we define a loss function \\\(\ell : \mathcal{X}^\* \times \mathcal{Y} \to \mathbb{Z}\_{\ge0}\\\) by \\\[\ell(x,y) := \\min\\left\\\{ \mathrm{dist}(x,\tilde{x}) : f(\tilde{x})=y \\right\\\}.\\tag{4}\\\]
+In other words, \\\(\\ell(x,y)\\\) measures how many entries of \\\(x\\\) we need to add or remove until \\\(f(x)=y\\\). 
+Yet another way to think of it is that \\\(\\ell(x,y)\\\) is the distance from the point \\\(x\\\) to the set \\\(f^{-1}(y)\\\). (Hence the name inverse sensitivity.)
+
 The loss is minimized by the desired answer: \\\(\ell(x,f(x))=0\\\). Intuitively, the loss \\\(\ell(x,y)\\\) increases as \\\(y\\\) moves further from \\\(f(x)\\\). So approximately minimizing this loss should produce a good approximation to \\\(f(x)\\\), as desired.
 
-The trick is that this loss always has bounded global sensitivity -- \\\(\\mathsf{GS}\_\\ell \\le 1\\\) -- no matter what the sensitivity of \\\(f\\\) is!
+The trick is that this loss always has bounded global sensitivity -- i.e., \\\(\\mathsf{GS}\_\\ell \\le 1\\\) -- no matter what the sensitivity of \\\(f\\\) is!
+
+> **Lemma 1.** Let \\\(f : \\mathcal{X}^\* \to \\mathcal{Y}^*\\\) be arbitrary and define \\\(\ell : \mathcal{X}^\* \times \mathcal{Y} \to \mathbb{Z}\_{\ge0}\\\) by \\\(\ell(x,y) := \\min\\left\\\{ \mathrm{dist}(x,\tilde{x}) : f(\tilde{x})=y \\right\\\}.\\\) Then, for all \\\(x,x'\\in\\mathcal{X}^\*\\\) with \\\(\\mathrm{dist}(x,x')\\le 1\\\) and all \\\(y \\in \\mathcal{Y}\\\), we have \\\(\|\\ell(x,y)-\\ell(x',y)\|\\le 1\\\).
+
+> _Proof._ 
+> Fix \\\(x,x'\\in\\mathcal{X}^\*\\\) with \\\(\\mathrm{dist}(x,x')\\le 1\\\) and \\\(y \\in \\mathcal{Y}\\\).
+> Let \\\(\\widehat{x} \\in\\mathcal{X}^\*\\\) satisfy \\\(\ell(x,y)=\\mathrm{dist}(x,\widehat{x})\\\) and \\\(f(\widehat{x})=y\\\).
+> By definition, \\\[\ell(x',y) = \\min\\left\\\{ \mathrm{dist}(x',\tilde{x}) : f(\tilde{x})=y \\right\\\} \le \\mathrm{dist}(x',\widehat{x}).\\\]
+> By the triangle inequality, \\\[\\mathrm{dist}(x',\widehat{x}) \le \\mathrm{dist}(x',x)+\\mathrm{dist}(x,\widehat{x}) \le 1 + \ell(x,y).\\\]
+> Thus \\\(\ell(x',y) \le \\ell(x,y)+1\\\) and, by symmetry, \\\(\ell(x,y) \le \\ell(x',y)+1\\\), as required. &#8718;
+
+This means that we can run the exponential mechanism [[MT07](https://ieeexplore.ieee.org/document/4389483 "Frank McSherry, Kunal Talwar. Mechanism Design via Differential Privacy. FOCS 2007.")] to select from \\\(\\mathcal{Y}\\\) using the loss \\\(\\ell\\\).[^5] That is, the inverse sensitivity mechanism is defined by 
+\\\[\\forall y \\in \\mathcal{Y} ~~~~~ \\mathbb{P}\[M(x)=y\] = \\frac{\\exp\\left\(-\frac{\\varepsilon}{2}\\ell(x,y)\\right)}{\sum_{y'\\in\\mathcal{Y}}\\exp\\left\(-\frac{\\varepsilon}{2}\\ell(x,y')\\right)}.\\tag{5}\\\] 
+By the properties of the exponential mechanism and Lemma 1, \\\(M\\\) satisfies differential privacy:
+
+> **Theorem 2. (Privacy of the Inverse Sensitivity Mechanism)** Let \\\(M : \\mathcal{X}^\* \to \\mathcal{Y}\\\) be as defined in Equation 5 with the loss from Equation 4. Then \\\(M\\\) satisfies \\\(\\varepsilon\\\)-differential privacy ([and \\\(\\frac18\\varepsilon^2\\\)-zCDP](/exponential-mechanism-bounded-range/)).
+
+## Utility Guarantee
+
+The privacy guarantee of the inverse sensitivity mechanism is easy and, in particular, it doesn't depend on the properties of \\\(f\\\).
+This means that the utility will need to depend on the properties of \\\(f\\\).
+
+By the properties of the exponential mechanism, we can guaranatee that the output has low loss:
+
+> **Lemma 3.** Let \\\(M : \\mathcal{X}^\* \to \\mathcal{Y}\\\) be as defined in Equation 5 with the loss from Equation 4. For all inputs \\\(x \\in \\mathcal{X}^\*\\\) and all \\\(\\beta\\in(0,1)\\\), we have \\\[\\mathbb{P}\\left\[\\ell(x,M(x)) < \\frac2\\varepsilon\\log\\left\(\\frac{\|\\mathcal{Y}\|}{\\beta}\\right\) \\right\] \ge 1-\beta.\\tag{6}\\\]
+
+> _Proof._
+> Let \\\(B_x = \\left\\{ y \in \\mathcal{Y} : \\ell(x,y) \\ge \\frac2\\varepsilon\\log\\left\(\\frac{\|\\mathcal{Y}\|}{\\beta}\\right\) \\right\\}\\\) be the subset of \\\(\\mathcal{Y}\\\) with high loss.
+> Then \\\[ \\mathbb{P}\[M(x)\\in B_x\] = \\frac{\\sum_{y \in B_x} \\exp\\left\(-\frac{\\varepsilon}{2}\\ell(x,y)\\right)}{\sum_{y'\\in\\mathcal{Y}}\\exp\\left\(-\frac{\\varepsilon}{2}\\ell(x,y')\\right)} \\\]\\\[ \\le \\frac{\|B_x\| \cdot \\exp\\left\(-\frac{\\varepsilon}{2}\\frac2\\varepsilon\\log\\left\(\\frac{\|\\mathcal{Y}\|}{\\beta}\\right\) \\right)}{\\exp\\left\(-\frac{\\varepsilon}{2}\\ell(x,f(x))\\right)}\\\]\\[= \frac{\|B_x\| \cdot \frac{\beta}{\|\mathcal{Y}\|}}{1} \le \beta, \\\] as required. &#8718;
+
+Now we need to translate this loss bound into something easier to interpret -- local sensitivity.
+
+Suppose \\\(y \\gets M(x)\\\). Then we have some loss \\\(k=\\ell(x,y)\\\). What this means is that there exists \\\(\\tilde{x}\\in\\mathcal{X}^\*\\\) with \\\(f(\\tilde{x})=y\\\) and \\\(\\mathrm{dist}(x,\\tilde{x})\\le k\\\). By the definition of local sensitivity, \\\(\|f(x)-y\| = \|f(x)-f(\\tilde{x})\| \\le \\mathsf{LS}\_f^k(x)\\\). This means we can translate the loss guarantee of Lemma 3 into an accuracy guarantee in terms of local sensitivity:
+
+> **Theorem 4. (Utility of the Inverse Sensitivity Mechanism)** Let \\\(M : \\mathcal{X}^\* \to \\mathcal{Y}\\\) be as defined in Equation 5 with the loss from Equation 4. For all inputs \\\(x \\in \\mathcal{X}^\*\\\) and all \\\(\\beta\\in(0,1)\\\), we have \\\[\\mathbb{P}\\left\[\\left\|M(x)-f(x)\\right\| \\le \\mathsf{LS}\_f^k(x) \\right\] \ge 1-\beta,\\tag{7}\\\] where \\\(k=\\left\\lfloor\\frac2\\varepsilon\\log\\left\(\\frac{\|\\mathcal{Y}\|}{\\beta}\\right\)\\right\\rfloor\\\).
+
+We can tie this back to our concrete example of the median. Per Equation 3, \\\[\\mathsf{LS}^k\_{\\mathrm{median}}(x\_1, \\cdots, x\_n) \\le \\left\|x\_{\(\\tfrac{n+1}{2}+k\)}-x\_{\(\\tfrac{n+1}{2}-k\)}\\right\| .\\\]
+Thus the error guarantee of Theorem 4 for the median would scale with the spread of the data. E.g., if \\\(k=\tfrac{n+1}{4}\\\), then  \\\(\\mathsf{LS}^k\_{\\mathrm{median}}(x\_1, \\cdots, x\_n)\\\) is at most the interquartile range of the data.
+
+## Conclusion
+
+In this post we've covered the inverse sensitivity mechanism and showed that it is private regardless of the sensitivity of the function \\\(f\\\) and we showed that it gives error guarantees that scale with the local sensitivity of \\\(f\\\), rather than its global sensitivity.
+
+The inverse sensitivity mechanism is a simple demonstration that there is more to differential privacy than simply adding noise scaled to global sensitivity; there are many more techniques in the literature.
+
+The inverse sensitivity mechanism has two main limitations. First, it is, in general, not computationally efficient. Computing the loss function is intractible for an arbitrary \\\(f\\\) (but can be done efficiently for simple examples like the median). Second, the \\\(\\log\|\\mathcal{Y}\|\\\) term in the accuracy guarantee is problematic when the output space is large, such as when we have high-dimensional outputs. 
+While there are other techniques that can be used instead of inverse sensitivity, they suffer from some of the same limitations. Thus finding ways around these limitations is the subject of [active research](/colt23-bsp/).
+
+We leave you with a riddle: What can we do if even the local sensitivity of our function is unbounded? For example, suppose we want to approximate \\\(f(x) = \\max\_i x_i\\\). Surprisingly, there are still things we can do and we intend to write a follow-up post on this.
+
 
 ---
 
@@ -64,3 +116,5 @@ The trick is that this loss always has bounded global sensitivity -- \\\(\\maths
 [^3]: Properly attributing the inverse sensitivity mechanism is difficult. The  earliest published instance of the inverse sensitivity mechanism of which we are aware of is from 2011 [[MMNW11](https://www.cs.columbia.edu/~rwright/Publications/pods11.pdf "Darakhshan Mir, S. Muthukrishnan, Aleksandar Nikolov, Rebecca N. Wright. Pan-private algorithms via statistics on sketches. PODS 2011.") &sect;3.1]; but this was not novel even then. Asi and Duchi [[AD20](https://arxiv.org/abs/2005.10630 "Hilal Asi, John Duchi. Near Instance-Optimality in Differential Privacy. 2020.") &sect;1.2] state that McSherry and Talwar [[MT07](https://ieeexplore.ieee.org/document/4389483 "Frank McSherry, Kunal Talwar. Mechanism Design via Differential Privacy. FOCS 2007.")] considered it in 2007. In any case, the idea was only named in 2020 [[AD20](https://arxiv.org/abs/2005.10630 "Hilal Asi, John Duchi. Near Instance-Optimality in Differential Privacy. 2020.")].
 
 [^4]: Assuming that the output space \\\(\\mathcal{Y}\\\) is finite is a significant assumption. While it can be relaxed, it is to some extent an unavoidabile limitation of the technique. To apply the inverse sensitivity mechanism to the median we must discretize and bound the inputs; bounding the inputs does impose a finite global sensitivity, but the dependence on the bound is logarithmic, so the bound can be a large.
+
+[^5]: Note that we can use other selection algorithms, such as permute-and-flip [[MS20](https://arxiv.org/abs/2010.12603 "Ryan McKenna, Daniel Sheldon. Permute-and-Flip: A new mechanism for differentially private selection. NeurIPS 2020.")] or report-noisy-max [[DKSSWXZ21](https://arxiv.org/abs/2105.07260 "Zeyu Ding, Daniel Kifer, Sayed M. Saghaian N. E., Thomas Steinke, Yuxin Wang, Yingtai Xiao, Danfeng Zhang. The Permute-and-Flip Mechanism is Identical to Report-Noisy-Max with Exponential Noise. 2021.")] or gap-max [[CHS14](https://arxiv.org/abs/1409.2177 "Kamalika Chaudhuri, Daniel Hsu, Shuang Song. The Large Margin Mechanism for Differentially Private Maximization. NIPS 2014."),[BDRS18](https://dl.acm.org/doi/10.1145/3188745.3188946 " Mark Bun, Cynthia Dwork, Guy N. Rothblum, Thomas Steinke. Composable and versatile privacy via truncated CDP. STOC 2018."),[BKSW19](https://arxiv.org/abs/1905.13229 "Mark Bun, Gautam Kamath, Thomas Steinke, Zhiwei Steven Wu. Private Hypothesis Selection. NeurIPS 2019.")].
