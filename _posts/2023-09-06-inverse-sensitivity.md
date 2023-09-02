@@ -19,7 +19,8 @@ Many functions have infinite global sensitivity, but, on reasonably nice dataset
 ## Local Sensitivity
 
 The local sensitivity of a function \\\(f : \\mathcal{X}^\* \to \\mathbb{R}\\\) at \\\(x \\in \\mathcal{X}^\*\\\) at distance \\\(k\\\) is defined by \\\[\\mathsf{LS}^k\_f(x) := \\sup\_\{x'\\in\\mathcal{X}^\* : \\mathrm{dist}(x,x') \\le k\} \|f(x)-f(x')\|. \\tag{2}\\\]
-\(Usually, we fix \\\(k=1\\\) and we may drop the superscript: \\\(\\mathsf{LS}\_f(x) := \\mathsf{LS}\_t^1(x)\\\).\)
+Often, we fix \\\(k=1\\\) and we may drop the superscript: \\\(\\mathsf{LS}\_f(x) := \\mathsf{LS}\_t^1(x)\\\).
+Note that the local sensitivity is always at most the global sensitivity: \\\(\\mathsf{LS}\_f^k(x) \\le k \\cdot \\mathsf{GS}\_f\\\)
 
 As a concrete example, the median has infinite global sensitivity, but for realistic data the local sensitivity is quite reasonable. 
 Specifically, \\\[\\mathsf{LS}^k\_{\\mathrm{median}}(x\_1, \\cdots, x\_n) = \\max\\left\\\{ \\left\|x\_{\(\\tfrac{n+1}{2}\)}-x\_{\(\\tfrac{n+1}{2}+k\)}\\right\|, \\left\|x\_{\(\\tfrac{n+1}{2}\)}-x\_{\(\\tfrac{n+1}{2}-k\)}\\right\| \\right\\\},\\tag{3}\\\] where \\\( x\_{(1)} \\le x\_{(2)} \\le \\cdots \\le x\_{(n)}\\\) denotes the input in [sorted order](https://en.wikipedia.org/wiki/Order_statistic) and \\\(n\\\) is assumed to be odd, so, in particular, \\\(\\mathrm{median}(x\_1, \\cdots, x\_n) = x\_{\(\\tfrac{n+1}{2}\)}\\\).
@@ -97,6 +98,10 @@ Suppose \\\(y \\gets M(x)\\\). Then we have some loss \\\(k=\\ell(x,y)\\\). What
 
 We can tie this back to our concrete example of the median. Per Equation 3, \\\[\\mathsf{LS}^k\_{\\mathrm{median}}(x\_1, \\cdots, x\_n) \\le \\left\|x\_{\(\\tfrac{n+1}{2}+k\)}-x\_{\(\\tfrac{n+1}{2}-k\)}\\right\| .\\\]
 Thus the error guarantee of Theorem 4 for the median would scale with the spread of the data. E.g., if \\\(k=\tfrac{n+1}{4}\\\), then  \\\(\\mathsf{LS}^k\_{\\mathrm{median}}(x\_1, \\cdots, x\_n)\\\) is at most the interquartile range of the data.
+
+How does this compare with the usual global sensitivity approach?
+The \\\(\\varepsilon\\\)-differentially private Laplace mechanism is given by \\\(\\widehat{M}(x)=f(x)+\mathsf{Laplace}(\\mathsf{GS}\_f/\varepsilon)\\\). For all \\\(x \\in \\mathcal{X}^\*\\\) and all \\\(\\beta\\in(0,1)\\\), we have the utility guarantee \\\[\\mathbb{P}\\left\[\\left\|\\widehat{M}(x)-f(x)\\right\| \\le \\mathsf{GS}\_f \\cdot \\frac1\\varepsilon \\log(1/2\\beta) \\right\] \ge 1-\beta.\\tag{8}\\\]
+Comparing Equations 7 and 8, we see that neither guarantee dominates the other. On one hand, the local sensitivity can be much smaller than the global sensitivity. On the other hand, we pick up a dependence on \\\(\\log\|\\mathcal{Y}\|\\\) and an extra factor of 2 in \\\(\\varepsilon\\\).
 
 ## Conclusion
 
