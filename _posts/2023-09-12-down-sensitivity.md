@@ -62,6 +62,8 @@ Given a monotone function \\\(f : \\mathcal{X}^\* \\to \\mathbb{R}\\\), we defin
 In other words, \\\(\\ell(x,y)\\\) measures how many entries of \\\(x\\\) we need to remove to decrease the function value until \\\(f\(x\) \\le y\\\). 
 Yet another way to think of it is that \\\(\\ell(x,y)\\\) is the distance from the point \\\(x\\\) to the set \\\(f^{-1}((-\\infty,y]) \\cap \\{ \\tilde{x} : \\tilde{x} \\subseteq x \\} \\\). 
 
+|<img src="../images/shiftedinverseloss.png" width="100%" alt="Plot of the loss corresponding to the maximum where the dataset exactly matches Binomial(5,0.5). This is a decreasing function with steps. There is also a vertical line indicating the true maximum value."/> Figure 1: Visualization of the loss \\\(\\ell(x,y)\\\) corresponding to \\\(f(x)=\\max\_i x\_i\\\) for a dataset representing the distribution \\\(\\mathrm{Binomial}(5,1/2)\\\) i.e. the true maximum is \\\(5\\\) and the dataset is \\\(x=\(0,\\underbrace{1,1,1,1,1}\_{5\times},\\underbrace{2,2,\\cdots,2}\_{10\times},\\underbrace{3,3,\\cdots,3}\_{10\times},\\underbrace{4,4,4,4,4}\_{5\times},5)\\\).|
+
 The key property we need is that this loss has bounded sensitivity. We split the proof into Lemmas 1 and 2.
 
 > **Lemma 1.**
@@ -113,7 +115,6 @@ Overall we have the following guarantee.
 > Note that \\\( \\mathrm{dist}\(x , x'' \) = \| x \\setminus x'' \| = \| x \\setminus x' \| \\le \\mathrm{dist}\(x , x' \).\\\)
 > Combining inequalities gives \\\(\\ell\(x,y\) \\le \\ell\(x' , y\) + \\mathrm{dist}\(x , x' \)\\\). The other direction is symmetric.
 > &#8718;
-
 
 ## The Shifted Inverse Sensitivity Mechanism
 
