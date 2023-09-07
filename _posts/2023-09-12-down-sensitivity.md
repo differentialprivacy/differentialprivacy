@@ -148,11 +148,23 @@ An additional limitation is that we need the monotonicity assumption. But, as di
 Applying the exponential mechanism to find \\\(y\\\) with \\\(\\ell(x,y)\\approx\\tau\\\) yields a clean guarantee in Theorem 4. However, there are other methods we can apply which may be simpler[^4] and give better asymptotic guarantees.
 
 Observe that the loss \\\(\\ell(x,y)\\\) is a decreasing function of \\\(y\\\). The exponential mechanism does not exploit this structure.
-A very natural alternative algorithm is to perform binary search.
-```
-Let \\\(\\mathcal{Y} = \\{y\_0 \\le y\_1 \\le \\cdots \\le y\_m \\}\\\).
+A very natural alternative algorithm is to perform binary search.[^5]
 
-``` 
+We describe the algorithm in pseudocode and briefly analyze it: The input is the loss \\\(\\ell\\\) defined in Equation 4, the dataset \\\(x\\\), an ordered enumeration of the set of outputs \\\(\\mathcal{Y} = \\{y\_1 \\le y\_2 \\le \\cdots \\le y\_m \\}\\\), and parameters \\\(\\sigma,\\tau>0\\\).
+```python
+def shifted_inverse_sensitivity(loss, x, Y, sigma, tau)
+     i_min = 0
+     i_max = len(Y) - 1
+     while i_min + 1 < i_max:
+          k = (i_min + i_max) // 2
+          v = loss(x, Y[k]) + laplace(sigma)
+          if v <= tau:
+               i_max = k
+          else:
+               i_min = k
+     return Y[i_min]
+```
+Since each iteration satisfies \\\(\\frac1\\sigma\\\)-differential privacy and there are at most \\\(\\lceil \\log\_2 \|\\mathcal{Y}\| \\rceil-1\\\) iterations, the algorithm satisfies \\\(\\varepsilon\\\)-differential privacy for \\\(\\varepsilon = \\frac{\\log\_2 \|\\mathcal{Y}\|}{\\sigma} \\\) by composition.
 
 ---
 
@@ -163,3 +175,5 @@ Let \\\(\\mathcal{Y} = \\{y\_0 \\le y\_1 \\le \\cdots \\le y\_m \\}\\\).
 [^3]: The finiteness assumption can be relaxed somewhat, but we do need some kind of constraint on the output space to ensure utility. The surjectivity assumption simply ensures that the loss is always finite; alternatively we could allow the loss to take the value infinity. Note that we define \\\(\\mathcal{X}^\* := \\bigcup\_{n=0}^\\infty \\mathcal{X}^n\\\) to be the set of all finite tuples of elements in \\\(\\mathcal{X}\\\); we use subset notation \\\(x' \\subseteq x \\\) to denote that \\\(x'\\\) can be obtained by removing elements from \\\(x\\\) (and potentially permuting).
 
 [^4]: Alas, there is a technical issue we need to deal with in order to apply the exponential mechanism: The loss function is far from continuous, so there may not exist any \\\(y\\\) such that \\\(\|\\ell(x,y)-\\tau\|<\\tau\\\). For example, computing the maximum of the dataset \\\(x=\(1,1,\\cdots,1\)\\\) gives a loss function with \\\(\\ell(x,y)=0\\\) for all \\\(y \\ge 1\\\) and \\\(\\ell(x,y)=n\\\) for all \\\(y < 1\\\); i.e., no \\\(y\\\) gives \\\(0<\\ell(x,y)<n\\\). The way we fix this issue is as follows. Observe that we can decompose \\\(\|\\ell(x,y)-\\tau\|=\\max\\{\\ell(x,y)-\\tau,\\tau-\\ell(x,y)\\}\\\). Now we define a slightly different loss function: \\\[\\overline{\\ell}(x,y) := \\min\\{ \\mathrm{dist}(x,\\tilde{x}) : \\tilde{x} \\subseteq x, f\(\\tilde{x}\) < y \\}. \tag{A}\\\] Equation A defining \\\(\\overline{\\ell}(x,y)\\) differs from Equation 4 defining \\\(\\ell(x,y)\\) only in that we replace "\\\(\le\\\)" with "\\\(<\\\)". The modified loss \\\(\\overline\\ell\\\) still has low sensitivity; the proof is identical to that of Proposition 3. Now we can run the exponential mechanism with the loss \\\[\\ell^\*(x,y) := \\max\\{\\ell(x,y)-\\tau,\\tau-\\overline{\\ell}(x,y)\\}. \tag{B}\\\] This loss has low sensitivity and, for \\\(\\hat{y} = \\min\\{f(\\tilde{x}):\\tilde{x}\\subseteq x, \\mathrm{dist}(x,\\tilde{x})\\le\\tau\\}\\\), we have \\\(\\ell(x,\\hat{y})\\le\\tau\\\) and \\\(\\overline{\\ell}(x,\\hat{y})>\\tau\\\), which implies \\\(\\ell^\*(x,\\hat{y}) \\le 0\\\). Thus we can use \\\(\\ell^\*(x,y)\\\) in place of \\\(\|\\ell(x,y)-\\tau\|\\\) to fix this technical issue. Setting \\\(\\tau=\\left\\lceil\\frac{2}{\\varepsilon}\\log\\left\(\\frac{\|\\mathcal{Y}\|}{\\beta}\\right\)\\right\\rceil\\\) and running the exponential mechanism with loss \\\(\\ell^\*\\\) yields Theorem 4. Specifically, the guarantee of the exponential mechanism is \\\(\\mathbb{P}\\left\[ \\ell^\*(x,M(x)) < \\frac{2}{\\varepsilon}\\log\\left\(\\frac{\|\\mathcal{Y}\|}{\\beta}\\right\)\\right\]\\ge 1-\\beta\\\). Then \\\(\\tau-\\overline{\\ell}(x,M(x)))< \\frac{2}{\\varepsilon}\\log\\left\(\\frac{\|\\mathcal{Y}\|}{\\beta}\\right\)\\\) implies \\\(\\overline{\\ell}(x,M(x))>0\\\), which implies \\\(M(x)\\le f(x)\\\). Similarly, \\\(\\ell(x,M(x))-\\tau < \\frac{2}{\\varepsilon}\\log\\left\(\\frac{\|\\mathcal{Y}\|}{\\beta}\\right\)\\\) implies \\\(\\ell(x,M(x))<2\\tau\\\), which implies that \\\(M(x) \\ge f(\\tilde{x})\\\) for some \\\(\\tilde{x}\\subseteq x\\\) with \\\(\\mathrm{dist}(x,\\tilde{x})<2\tau\\\); by the definition of down sensitivity, \\\(\|f(x)-f(\\tilde{x})\| \\le \\mathsf{DS}\_f^{2\tau}(x)\\\) and so \\\(M(x) \ge f(\\tilde{x}) \\ge f(x) - \\mathsf{DS}\_f^{2\tau}(x)\\\), as required.
+
+[^5]: To the best of our knowledge, differentially private binary search was first proposed by Blum, Ligett, and Roth [[BLR08](https://arxiv.org/abs/1109.2229 "Avrim Blum, Katrina Ligett, Aaron Roth. A Learning Theory Approach to Non-Interactive Database Privacy. STOC 2008.")]. This algorithmic idea has been used in various other papers [e.g., [BSU17](https://arxiv.org/abs/1604.04618 "Mark Bun, Thomas Steinke, Jonathan Ullman. Make Up Your Mind: The Price of Online Queries in Differential Privacy. SODA 2017."),[FS17](https://arxiv.org/abs/1706.05069 "Vitaly Feldman, Thomas Steinke. Generalization for Adaptively-chosen Estimators via Stable Median. COLT 2017."),[DGMSS21](https://arxiv.org/abs/2106.10333 "Joerg Drechsler, Ira Globus-Harris, Audra McMillan, Jayshree Sarathy, Adam Smith. Non-parametric Differentially Private Confidence Intervals for the Median. 2021.")]
