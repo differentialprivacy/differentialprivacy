@@ -126,7 +126,7 @@ Intuitively, the way we get around this problem is by looking for a value \\\(y\
 Going back to the example of the maximum, this corresponds to aiming for the \\\(\(\\tau+1\)\\\)-th largest value instead of the largest value.
 The hope is that we get an output with \\\(\|\\ell(x,y)-\\tau\|<\\tau\\\), which for the maximum example corresponds roughly to getting a value between the largest value and the \\\(2\tau\\\)-th largest value.
 
-Fang, Dong, and Yi [[FDY22](https://cse.hkust.edu.hk/~yike/ShiftedInverse.pdf "Juanru Fang, Wei Dong, Ke Yi. Shifted Inverse: A General Mechanism for Monotonic Functions under User Differential Privacy. CCS 2022.")] directly apply the exponential mechanism with a loss of the form \\\(\|\\ell(x,y)-\\tau\|\\\).[^4]
+Fang, Dong, and Yi [[FDY22](https://cse.hkust.edu.hk/~yike/ShiftedInverse.pdf "Juanru Fang, Wei Dong, Ke Yi. Shifted Inverse: A General Mechanism for Monotonic Functions under User Differential Privacy. CCS 2022.")] directly apply the exponential mechanism [[MT07](https://ieeexplore.ieee.org/document/4389483 "Frank McSherry, Kunal Talwar. Mechanism Design via Differential Privacy. FOCS 2007.")] with a loss of the form \\\(\|\\ell(x,y)-\\tau\|\\\).[^4]
 This yields the following guarantee.
 
 > **Theorem 4. (Shifted Inverse Sensitivity Mechanism)**
@@ -136,7 +136,23 @@ This yields the following guarantee.
 > \\\[\\mathbb{P}\\left\[ f(x) \\ge M(x) \\ge f(x) - \\mathsf{DS}\_f^{2\tau}(x)  \\right\] \\ge 1 - \\beta,\\\]
 > where \\\(\\tau=\\left\\lceil\\frac{2}{\\varepsilon}\\log\\left\(\\frac{\|\\mathcal{Y}\|}{\\beta}\\right\)\\right\\rceil\\\).
 
-This is exactly the kind of guarantee we were aiming for. 
+This is exactly the kind of guarantee we were aiming for; the accuracy scales with the down sensitivity, which could be much smaller than either the local sensitivity or the global sensitivity.
+Note that the guarantee gives an <i>under</i>estimate: \\\(M(x) \\le f(x)\\\). This is inherent. If the function has infinite "up sensitivity," then we cannot give an upper bound in a differentially private manner.
+
+The shifted inverse sensitivity mechanism has the same limitations as the inverse sensitivity mechanism that we discussed in [our previous post](/inverse-sensitivity/). Namely, computing the loss can be computationally intractable for general functions and we have a \\\(\\log\|\\mathcal{Y}\|\\\) dependence. (We will discuss how to improve this next.)
+An additional limitation is that we need the monotonicity assumption. But, as discussed earlier, down sensitivity behaves weirdly without this assumption.
+
+
+## Beyond the Exponential Mechanism
+
+Applying the exponential mechanism to find \\\(y\\\) with \\\(\\ell(x,y)\\approx\\tau\\\) yields a clean guarantee in Theorem 4. However, there are other methods we can apply which may be simpler[^4] and give better asymptotic guarantees.
+
+Observe that the loss \\\(\\ell(x,y)\\\) is a decreasing function of \\\(y\\\). The exponential mechanism does not exploit this structure.
+A very natural alternative algorithm is to perform binary search.
+```
+Let \\\(\\mathcal{Y} = \\{y\_0 \\le y\_1 \\le \\cdots \\le y\_m \\}\\\).
+
+``` 
 
 ---
 
