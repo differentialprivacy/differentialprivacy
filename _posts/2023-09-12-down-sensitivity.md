@@ -152,7 +152,7 @@ A very natural alternative algorithm is to perform binary search.[^5]
 
 We describe the algorithm in pseudocode and briefly analyze it: The input is the loss \\\(\\ell\\\) defined in Equation 4, the dataset \\\(x\\\), an ordered enumeration of the set of outputs \\\(\\mathcal{Y} = \\{y\_1 \\le y\_2 \\le \\cdots \\le y\_m \\}\\\), and parameters \\\(\\sigma,\\tau>0\\\).
 ```python
-def shifted_inverse_sensitivity(loss, x, Y, sigma, tau)
+def shifted_inverse_sensitivity(loss, x, Y, sigma, tau):
      i_min = 0
      i_max = len(Y) - 1
      while i_min + 1 < i_max:
