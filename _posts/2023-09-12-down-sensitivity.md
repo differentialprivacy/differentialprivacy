@@ -17,7 +17,7 @@ The difficulty is that adding a single element to \\\(x\\\) can increase the max
 One solution to the problem of unbounded sensitivity is to clip the inputs, so that the sensitivity becomes bounded. But this requires knowing a good a priori approximate upper bound on the \\\(x\_i\\\)s. Trying to find such an upper bound is probably the very reason we want to approximate the maximum in the first place!
 
 Another solution is to "aim lower:" Instead of aiming to approximate the largest element \\\(x\_{\(n\)} := \\max\_i x\_i\\\), we can aim to approximate the \\\(k\\\)-th largest element \\\(x\_{\(n-k+1\)}\\\).
-The \\\(k\\\)-th largest element has bounded local sensitivity (up to distance \\\(k-1\\\)), which means we can apply [the inverse sensitivity mechanism](/inverse-sensitivity/) or similar tools.
+The \\\(k\\\)-th largest element has bounded local sensitivity, which means we can apply [the inverse sensitivity mechanism](/inverse-sensitivity/) or similar tools.
 And -- spoiler alert -- this is essentially what we will do. However, we will present an algorithm that is more general than just for approximating the maximum.
 
 The algorithm we present is due to Fang, Dong, and Yi [[FDY22](https://cse.hkust.edu.hk/~yike/ShiftedInverse.pdf "Juanru Fang, Wei Dong, Ke Yi. Shifted Inverse: A General Mechanism for Monotonic Functions under User Differential Privacy. CCS 2022.")].
@@ -43,7 +43,7 @@ Our goal now is to estimate \\\(f\(x\)\\\) in a differentially private manner, w
 ## Monotonicity Assumption
 
 In order to do anything, we need some assumptions about the function \\\(f : \\mathcal{X}^\* \\to \\mathcal{Y}\\\) that we are trying to approximate.
-First we will assume that \\\(\\mathcal{Y} \subseteq \\mathbb{R}\\\) is finite and surjective.[^3]
+First we will assume that \\\(\\mathcal{Y} \subseteq \\mathbb{R}\\\) is finite and \\\(f\\\) is surjective.[^3]
 The main assumption is monotonicity:
 \\\[\\forall x' \\subseteq x \\in \\mathcal{X}^\* ~~~ f(x') \le f(x). \tag{3}\\\]
 The maximum and many other example functions satisfy this assumption.
@@ -212,7 +212,7 @@ We can view the shifted inverse sensitivity mechanism as a reduction. It reduces
 
 [^1]: We emphasize that user-level differential privacy is not an alternative privacy definition, rather it is the standard definition of differential privacy with a data schema allowing multiple data items per person. In contrast, most of the differential privacy literature assumes a one-to-one correspondence between people and data items. Note that we prefer the terminology "person"/"people" rather than "user"/"users." The "user" terminology is specific to the tech industry and may be confusing in other contexts; e.g., in the context of the US Census Bureau, "users" are the entities (such as government agencies) that use data provided by the bureau, rather than the people whose data the bureau collects.
 
-[^2]: The name "down sensitivity" is due to Cummings and Durfee [[CD20](https://arxiv.org/abs/1804.08645 "Rachel Cummings, David Durfee. Individual sensitivity preprocessing for data privacy. SODA 2020.")], who attribute the idea to Raskhodnikova and Smith [[RS16](https://arxiv.org/abs/1504.07912 "Sofya Raskhodnikova, Adam Smith. Efficient lipschitz extensions for highdimensional graph statistics and node private degree distributions. FOCS 2016.")]. 
+[^2]: The name "down sensitivity" is due to Cummings and Durfee [[CD20](https://arxiv.org/abs/1804.08645 "Rachel Cummings, David Durfee. Individual sensitivity preprocessing for data privacy. SODA 2020.")], who attribute the idea to Raskhodnikova and Smith [[RS16](https://arxiv.org/abs/1504.07912 "Sofya Raskhodnikova, Adam Smith. Efficient lipschitz extensions for highdimensional graph statistics and node private degree distributions. FOCS 2016.")]. The name _local empirical sensitivity_ has also been used [[CZ13](https://arxiv.org/abs/1304.4795 "Shixi Chen, Shuigeng Zhou. Recursive mechanism: towards node differential privacy and unrestricted joins. SIGMOD 2013.")].
 
 [^3]: The finiteness assumption can be relaxed somewhat, but we do need some kind of constraint on the output space to ensure utility. The surjectivity assumption simply ensures that the loss is always finite; alternatively we could allow the loss to take the value infinity. Note that we define \\\(\\mathcal{X}^\* := \\bigcup\_{n=0}^\\infty \\mathcal{X}^n\\\) to be the set of all finite tuples of elements in \\\(\\mathcal{X}\\\); we use subset notation \\\(x' \\subseteq x \\\) to denote that \\\(x'\\\) can be obtained by removing elements from \\\(x\\\) (and potentially permuting).
 
