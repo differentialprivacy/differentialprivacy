@@ -9,7 +9,7 @@ categories: [Algorithms]
 ---
 
 In [our previous post](/inverse-sensitivity/), we discussed local sensitivity and how we can get accuracy guarantees that scale with local sensitivity, which can be much better than the global sensitivity guarantees attained via standard noise addition mechanisms.
-In this post we will look at what we can do when even the local sensitivity is unbounded. This is obviously a challenging setting, but it turns out that not all hope is lost.
+In this post, we will look at what we can do when even the local sensitivity is unbounded. This is obviously a challenging setting, but it turns out that not all hope is lost.
 
 As a motivating example, suppose we have a dataset \\\(x=\(x\_1,x\_2,\\cdots,x\_n\)\\\) and we want to approximate \\\(\\max\_i x\_i \\\) in a differentially private manner.
 The difficulty is that adding a single element to \\\(x\\\) can increase the maximum arbitrarily. That is, if \\\(x'=\(x\_1,x\_2,\\cdots,x\_n,\\infty\)\\\), then \\\(\\max\_i x'\_i=\\infty\\\). Differential privacy requires us to make the outputs \\\(M\(x\)\\\) and \\\(M\(x'\)\\\) indistinguishable, which seems to directly contradict our accuracy goal \\\(M\(x\) \\approx \\max\_i x\_i\\\).
@@ -51,7 +51,7 @@ The maximum and many other example functions satisfy this assumption.
 Intuitively, we need this assumption to ensure that the down sensitivity is well-behaved. 
 Specifically, Lemma 1 below requires monotonicity.
 
-As an example of <a id="weirdnonmonotonicity" />what could happen if we don't make this assumption, consider the function \\\(\mathrm{sum}(x) := \sum\_i x_i\\\) and the pair of neighbouring inputs \\\(x=(1,1,\cdots,1)\in\mathcal{Y}^n,x'=(1,1,\cdots,1,-n)\in\mathcal{Y}^{n+1}\\\). Then, for all \\\(1 \le k\\le n\\\), we have \\\(\mathsf{DS}\_{\mathrm{sum}}^k(x)=k\\\), but \\\(\mathsf{DS}\_{\mathrm{sum}}^k(x')=n\\\).
+As an example of <a id="weirdnonmonotonicity" />what could happen if we don't make this assumption, consider the function \\\(\mathrm{sum}(x) := \sum\_i x_i\\\) and the pair of neighbouring inputs \\\(x=(1,1,\cdots,1)\in\mathcal{Y}^n,x'=(1,1,\cdots,1,-100n)\in\mathcal{Y}^{n+1}\\\). Then, for all \\\(1 \le k\\le n\\\), we have \\\(\mathsf{DS}\_{\mathrm{sum}}^k(x)=k\\\), but \\\(\mathsf{DS}\_{\mathrm{sum}}^k(x')=100n\\\).
 
 Note that the sum is monotone if we restrict to non-negative inputs. In general, we can take any function \\\(g\\\) and convert it into a monotone function \\\(f\\\) by defining \\\(f\(x\) = \max\\{ g\(\\check{x}\) : \\check{x} \\subseteq x \\}\\\). Depending on the context, this \\\(f\\\) may or may not be a good proxy for \\\(g\\\).
 
@@ -120,7 +120,7 @@ Overall we have the following guarantee.
 
 Let's recap where we are: We have a monotone function \\\(f : \\mathcal{X}^\* \\to \\mathcal{Y}\\\), where \\\(\\mathcal{Y} \\subseteq \\mathbb{R}\\\) is finite. We want to approximate \\\(f(x)\\\) privately. <a href="#loss">Equation 4</a> gives us a loss \\\(\\ell\\\) that is low-sensitivity.
 We have \\\(\\ell(x,f(x))=0\\\) and, if \\\(y < f\(x\)\\\) decreases, the loss \\\(\\ell(x,y)\\\) increases (depending on the down sensitivity of \\\(f\\\)).
-So far so good. The problem is that if \\\(y > f\(x\)\\\) increases, the loss \\\(\\ell(x,y)\\\) doesn't increase. This means we can't just throw this loss into the exponential mechanism.
+So far, so good. The problem is that if \\\(y > f\(x\)\\\) increases, the loss \\\(\\ell(x,y)\\\) doesn't increase. This means we can't just throw this loss into the exponential mechanism.
 
 Intuitively, the way we get around this problem is by looking for a value \\\(y\\\) such that the loss \\\(\\ell\(x,y\)\\\) is greater than zero, but not too large. That is, we "shift" our goal from trying to minimize \\\(\\ell(x,y)\\\) to minimizing something like \\\(\|\\ell(x,y)-\\tau\|\\\) for some integer \\\(\\tau>0\\\).
 Going back to the example of the maximum, this corresponds to aiming for the \\\(\(\\tau+1\)\\\)-th largest value instead of the largest value.
@@ -172,6 +172,8 @@ Assuming the noise magnitudes are \\\(\\le\\tau\\\), the binary search maintains
 These invariants imply \\\(y\_{i\_\\min} < f(x)\\\) and \\\(y\_{i\_\\max} \\ge f(x) - \\mathsf{DS}\_f^{2\tau}(x)\\\) respectively. 
 At the end of the binary search, \\\(i\_\\min+1 \ge i\_\\max\\\) and thus \\\(y\_{i\_\\min} < f(x)\\\) implies \\\(y\_{i\_\\max} \le f(x)\\\).
 
+Setting \\\(\\tau = \\sigma \\cdot \\log\\left(\\frac{\\log\_2\|\\mathcal{Y}\|}{\\beta}\\right)\\\) and \\\(\\sigma = \\frac{\\log\_2\|\\mathcal{Y}\|}{\\varepsilon}\\\) yields a result similar to Theorem 4.
+
 Setting \\\(\\tau = \\sigma \\cdot \\log\\left(\\frac{\\log\_2\|\\mathcal{Y}\|}{\\beta}\\right)\\\) and \\\(\\sigma = \\sqrt{\\frac{\\log\_2\|\\mathcal{Y}\|}{2\\rho}}\\\) yields the following result for concentrated differential privacy [[DR16](https://arxiv.org/abs/1603.01887 "Cynthia Dwork, Guy N. Rothblum. Concentrated Differential Privacy. 2016."),[BS16](https://arxiv.org/abs/1605.02065 "Mark Bun, Thomas Steinke. Concentrated Differential Privacy: Simplifications, Extensions, and Lower Bounds. TCC 2016.")]. 
 Note that setting \\\(\\rho = \\frac{\\varepsilon^2}{4\\log(1/\\delta)+4\\varepsilon}\\\) suffices to give \\\((\\varepsilon,\\delta)\\\)-differential privacy [e.g. [S22](https://arxiv.org/abs/2210.00597v4 "Thomas Steinke. Composition of Differential Privacy & Privacy Amplification by Subsampling. 2022.") Remark 15].
 
@@ -182,7 +184,7 @@ Note that setting \\\(\\rho = \\frac{\\varepsilon^2}{4\\log(1/\\delta)+4\\vareps
 > \\\[\\mathbb{P}\\left\[ f(x) \\ge M(x) \\ge f(x) - \\mathsf{DS}\_f^{2\tau}(x)  \\right\] \\ge 1 - \\beta,\\\]
 > where \\\(\\tau = \\sqrt{\\frac{\\log\_2\|\\mathcal{Y}\|}{2\\rho}} \\cdot \\log\\left(\\frac{\\log\_2\|\\mathcal{Y}\|}{\\beta}\\right) \\\).
 
-Comparing Theorems 4 and 5 we see an asymptotic improvement in the dependence on the size of the output space \\\(\|\\mathcal{Y}\|\\\). Theorem 4 gives \\\(\\tau = \\Theta\(\\log\|\\mathcal{Y}\|\)\\\), while Theorem 5 gives \\\(\\tau = \\Theta\(\\sqrt{\\log\|\\mathcal{Y}\|} \\cdot \\log \\log \|\\mathcal{Y}\|\)\\\).[^6]
+Comparing Theorems 4 and 5 we see an asymptotic improvement in the dependence on the size of the output space \\\(\|\\mathcal{Y}\|\\\). (This improvement is the benefit of advanced composition.) Theorem 4 gives \\\(\\tau = \\Theta\(\\log\|\\mathcal{Y}\|\)\\\), while Theorem 5 gives \\\(\\tau = \\Theta\(\\sqrt{\\log\|\\mathcal{Y}\|} \\cdot \\log \\log \|\\mathcal{Y}\|\)\\\).[^6]
 In exchange, Theorem 4 gives a pure differential privacy guarantee (i.e. \\\((\\varepsilon,\\delta)\\\)-DP with \\\(\\delta=0\\\)), while Theorem 5 gives a concentrated differential privacy guarantee, which can be translated to approximate differential privacy (i.e. \\\((\\varepsilon,\\delta)\\\)-DP with \\\(\\delta>0\\\)).
 
 We can actually do even better than binary search!
@@ -206,13 +208,15 @@ In this post we've covered the shifted inverse sensitivity mechanism of Fang, Do
 The key takeaway is that we can privately approximate a monotone function with error scaling with the down sensitivity. This is particularly interesting in settings where the local and global sensitivities are large.
 Down sensitivity is an appealing notion because it is entirely defined by the "real" dataset; its definition (<a href="#downsensitivity">Equation 1</a>) does not consider hypothetical data items that aren't in the dataset.
 
+Fang, Dong, and Yi [[FDY22](https://cse.hkust.edu.hk/~yike/ShiftedInverse.pdf "Juanru Fang, Wei Dong, Ke Yi. Shifted Inverse: A General Mechanism for Monotonic Functions under User Differential Privacy. CCS 2022.")] show that the shifted inverse sensitivity mechanism attains strong instance optimality guarantees. In other words, up to logarithmic factors, no differentially private mechanism can achieve better error guarantees. 
+
 We can view the shifted inverse sensitivity mechanism as a reduction. It reduces the task of approximating a monotone function to a problem akin to approximating the median. (More precisely, it reduces it to a generalized interior point problem.) We think this is a neat addition to the toolkit of differentially private algorithms
 
 ---
 
 [^1]: We emphasize that user-level differential privacy is not an alternative privacy definition, rather it is the standard definition of differential privacy with a data schema allowing multiple data items per person. In contrast, most of the differential privacy literature assumes a one-to-one correspondence between people and data items. Note that we prefer the terminology "person"/"people" rather than "user"/"users." The "user" terminology is specific to the tech industry and may be confusing in other contexts; e.g., in the context of the US Census Bureau, "users" are the entities (such as government agencies) that use data provided by the bureau, rather than the people whose data the bureau collects.
 
-[^2]: The name "down sensitivity" is due to Cummings and Durfee [[CD20](https://arxiv.org/abs/1804.08645 "Rachel Cummings, David Durfee. Individual sensitivity preprocessing for data privacy. SODA 2020.")], who attribute the idea to Raskhodnikova and Smith [[RS16](https://arxiv.org/abs/1504.07912 "Sofya Raskhodnikova, Adam Smith. Efficient lipschitz extensions for highdimensional graph statistics and node private degree distributions. FOCS 2016.")]. The name _local empirical sensitivity_ has also been used [[CZ13](https://arxiv.org/abs/1304.4795 "Shixi Chen, Shuigeng Zhou. Recursive mechanism: towards node differential privacy and unrestricted joins. SIGMOD 2013.")]. The the \\\(k\\\)-down sensitivity should not be confused with the down sensitivity at distance \\\(k\\\), which is defined by \\\(\\mathsf{DS}\_f^{(k)}(x) := \\sup \\{ \\mathsf{DS}\_f^1(x') : \\mathrm{dist}(x,x') \\le k \\}\\\). Note that \\\(\\mathsf{DS}\_f^k(x) \\le k \\cdot \\mathsf{DS}\_f^{(k-1)}(x)\\\).
+[^2]: The name "down sensitivity" is due to Cummings and Durfee [[CD20](https://arxiv.org/abs/1804.08645 "Rachel Cummings, David Durfee. Individual sensitivity preprocessing for data privacy. SODA 2020.")], who attribute the idea to Raskhodnikova and Smith [[RS16](https://arxiv.org/abs/1504.07912 "Sofya Raskhodnikova, Adam Smith. Efficient lipschitz extensions for highdimensional graph statistics and node private degree distributions. FOCS 2016.")]. The name _local empirical sensitivity_ has also been used [[CZ13](https://arxiv.org/abs/1304.4795 "Shixi Chen, Shuigeng Zhou. Recursive mechanism: towards node differential privacy and unrestricted joins. SIGMOD 2013.")]. The \\\(k\\\)-down sensitivity should not be confused with the down sensitivity at distance \\\(k\\\), which is defined by \\\(\\mathsf{DS}\_f^{(k)}(x) := \\sup \\{ \\mathsf{DS}\_f^1(x') : \\mathrm{dist}(x,x') \\le k \\}\\\). Note that \\\(\\mathsf{DS}\_f^k(x) \\le k \\cdot \\mathsf{DS}\_f^{(k-1)}(x)\\\).
 
 [^3]: The finiteness assumption can be relaxed somewhat, but we do need some kind of constraint on the output space to ensure utility. The surjectivity assumption simply ensures that the loss is always finite; alternatively we could allow the loss to take the value infinity. Note that we define \\\(\\mathcal{X}^\* := \\bigcup\_{n=0}^\\infty \\mathcal{X}^n\\\) to be the set of all finite tuples of elements in \\\(\\mathcal{X}\\\); we use subset notation \\\(x' \\subseteq x \\\) to denote that \\\(x'\\\) can be obtained by removing elements from \\\(x\\\) (and potentially permuting).
 
