@@ -31,7 +31,7 @@ In the original composition result [[DMKS06]], all mechanisms \\(\mathcal{M}_1\\
 They only take the sensitive data \\(D\\) as input: \\(\mathcal{M}_2\\) cannot see nor depend on \\(\mathcal{M}_1(D)\\).
 This setting is typically called *sequential composition*.
 
-<img src="../images/sequential-composition.png" width="80%" alt="A diagram representing sequential composition. A database icon is on the left. Arrows go from it to three boxes labeled M1, M2, and M3, each labeled with ε1, ε2, ε3; these ε values are labeled 'fixed budgets'." style="margin:auto;display: block;"/>
+<img src="../images/sequential-composition.svg" width="80%" alt="A diagram representing sequential composition. A database icon is on the left. Arrows go from it to three boxes labeled M1, M2, and M3, each labeled with ε1, ε2, ε3; these ε values are labeled 'fixed budgets'." style="margin:auto;display: block;"/>
 
 #### Adaptive composition
 
@@ -39,7 +39,7 @@ Shortly afterwards, the result was extended to a setting called *adaptive compos
 In this context, each mechanism can access the outputs of previous mechanisms: for example, \\(\mathcal{M}_2\\) takes as input not only the sensitive data \\(D\\), but also \\(\mathcal{M}_1(D)\\).
 However, the privacy budget associated with each mechanism is still fixed.
 
-<img src="../images/adaptive-composition.png" width="80%" alt="A diagram representing adaptive composition. It's the same diagram as sequential composition, except there are arrows going from M1 to M2, and from M2 to M3." style="margin:auto;display: block;"/>
+<img src="../images/adaptive-composition.svg" width="80%" alt="A diagram representing adaptive composition. It's the same diagram as sequential composition, except there are arrows going from M1 to M2, and from M2 to M3." style="margin:auto;display: block;"/>
 
 #### Fully adaptive composition
 
@@ -47,7 +47,7 @@ A natural extension of adaptive composition consists in allowing the privacy bud
 This setting is called *fully adaptive composition* [[RRUV16]].
 It captures a setting in which a single analyst is interacting with a DP interface, and can change which queries to run and their budget based on past results.
 
-<img src="../images/fully-adaptive-composition.png" width="80%" alt="A diagram representing fully adaptive composition. It's the same diagram as adaptive composition, except the 'fixed budgets' label is gone, and there are arrows going from M1 to ε2, and from M2 to ε3." style="margin:auto;display: block;"/>
+<img src="../images/fully-adaptive-composition.svg" width="80%" alt="A diagram representing fully adaptive composition. It's the same diagram as adaptive composition, except the 'fixed budgets' label is gone, and there are arrows going from M1 to ε2, and from M2 to ε3." style="margin:auto;display: block;"/>
 
 Composition theorems in the fully adaptive setting are of two types.
 
@@ -65,7 +65,7 @@ What if *multiple* analysts have access to this interface, each with their own b
 In this setting, the mechanisms that are being composed are *interactive* (we denote them by IM in the diagram below), and the analysts interacting with each mechanism can share results with each other, and adaptively decide which queries to run.
 The goal is to quantify the total privacy budget cost, across analysts: do existing results extend to the composition of interactive mechanisms?
 
-<img src="../images/concurrent-composition.png" width="80%" alt="A diagram representing concurrent composition. A database icon on the left has two-sided arrows going from two boxes labeled IM1 and IM2, respectively labeled ε1 and ε2. The first box has two pairs of arrows going back and forth between it and a smiley face. The second one has the same, with a different smiley face." style="margin:auto;display: block;"/>
+<img src="../images/concurrent-composition.svg" width="80%" alt="A diagram representing concurrent composition. A database icon on the left has two-sided arrows going from two boxes labeled IM1 and IM2, respectively labeled ε1 and ε2. The first box has two pairs of arrows going back and forth between it and a smiley face. The second one has the same, with a different smiley face." style="margin:auto;display: block;"/>
 
 #### Fully concurrent composition?
 
@@ -75,12 +75,12 @@ This suggests an even more generic setting, which (to the best of our knowledge)
 Let's call this *fully concurrent composition*.
 In this setting, an analyst with a certain privacy budget would be able to spin off a new interactive mechanism, with an adaptively-chosen privacy budget, that can also be interacted with concurrently.
 
-<img src="../images/fully-concurrent-composition.png" width="80%" alt="A diagram representing fully concurrent composition. It's the same as the diagram for concurrent composition, except one of the pairs of arrows going to and from IM1 goes to a smaller box labeled IM3, labeled ε3, and there is also an arrow from IM1 to ε3. IM3 also has a pair of arrows going back and forth towards a third smiley face." style="margin:auto;display: block;"/>
+<img src="../images/fully-concurrent-composition.svg" width="80%" alt="A diagram representing fully concurrent composition. It's the same as the diagram for concurrent composition, except one of the pairs of arrows going to and from IM1 goes to a smaller box labeled IM3, labeled ε3, and there is also an arrow from IM1 to ε3. IM3 also has a pair of arrows going back and forth towards a third smiley face." style="margin:auto;display: block;"/>
 
 This setting might seem pointless — why would analysts want to do this? — but proving composition results in this context would help building DP interfaces that combine expressivity and conceptual simplicity.
 To understand why, let's take a look at how [Tumult Analytics](https://tmlt.dev)[^1] allows users to use its parallel composition feature.
 
-[^1]: Tumult Analytics is a differential privacy framework used by institutions such as the U.S. Census Bureau, the IRS, or the Wikimedia Foundation. It is developed by [Tumult Labs](https://tmlt.io), the employer of the author of this blog post.
+[^1]: [Tumult Analytics](https://tmlt.dev) is a differential privacy framework used by institutions such as the U.S. Census Bureau, the IRS, or the Wikimedia Foundation. It is developed by [Tumult Labs](https://tmlt.io), the employer of the author of this blog post.
 
 Tumult Analytics has a concept of a *Session*, which is initialized on some sensitive data with a given privacy budget.
 Users can submit queries to this Session using a query language implemented in Python.
@@ -93,7 +93,7 @@ With this feature, users can write algorithms that use *parallel composition*, w
 This partitioning operation takes a fraction of the privacy budget, and spins off *sub-Sessions* that each have access to a subset of the original data.
 The following diagram visualizes an example of this process.
 
-<img src="../images/parallel-composition-analytics.png" width="80%" alt="A diagram visualizing an example of parallel composition in Tumult Analytics. At the top is a database icon labeled 'Data'. A double-sided arrow goes from it to a box labeled 'Session 1, ε1 = 3'. Under this box is a differently-colored box labeled 'Parallel partitioning using ε2 = 1', three dotted-line arrows go through this box towards boxes labeled 'Session 2a, ε2 = 1', 'Session 2b, ε2 = 1', and 'Session 1, ε1 = 2'. Session 2a and 2b have arrows going to and from the database icon, cut in two parts (one for each Session)." style="margin:auto;display: block;"/>
+<img src="../images/parallel-composition-analytics.svg" width="80%" alt="A diagram visualizing an example of parallel composition in Tumult Analytics. At the top is a database icon labeled 'Data'. A double-sided arrow goes from it to a box labeled 'Session 1, ε1 = 3'. Under this box is a differently-colored box labeled 'Parallel partitioning using ε2 = 1', three dotted-line arrows go through this box towards boxes labeled 'Session 2a, ε2 = 1', 'Session 2b, ε2 = 1', and 'Session 1, ε1 = 2'. Session 2a and 2b have arrows going to and from the database icon, cut in two parts (one for each Session)." style="margin:auto;display: block;"/>
 
 At the beginning, there is one Session with a privacy budget of \\(\varepsilon_1=3\\).
 After the partitioning operation, there are now *three* Sessions: the original Session that has access to all the data and has a leftover privacy budget of \\(\varepsilon_1=2\\), and two sub-Sessions that each have access to a partition of the data and have a privacy budget of \\(\varepsilon_2=1\\).
@@ -120,15 +120,21 @@ We give an overview in the following table.
 |----------------------------------------|----------------|--------------|--------------------|---------------
 |                                        | **Sequential** | **Adaptive** | **Fully adaptive** | **Concurrent** 
 |----------------------------------------|----------------|--------------|--------------------|---------------
-| \\(\varepsilon\\)-DP                  | [[DMKS06]]     | [[DKMMN06]]  | [[RRUV16]]         | [[VW21]] 
-| \\((\varepsilon,\delta)\\)-DP         | [[KOV15]]      | [[KOV15]]    | [[WRRW22]][^2]     | [[WRRW22], [Lyu22]]
+| \\(\varepsilon\\)-DP                   | [[DMKS06]]     | [[DKMMN06]]  | [[RRUV16]]         | [[VW21]] 
+| \\((\varepsilon,\delta)\\)-DP          | [[KOV15]]      | [[KOV15]]    | [[WRRW22]]\*       | [[WRRW22], [Lyu22]]
 | Gaussian DP                            | [[DRS22]]      | [[DRS22]]    | [[ST22]]           | [[VZ22]]
-| \\(f\\)-DP                            | [[DRS22]]      | [[DRS22]]    |                    | [[VZ22]]
-| \\((\alpha,\varepsilon)\\)-Rényi DP   | [[Mir17]]      | [[Mir17]]    | [[FZ21]]           | [[Lyu22]]
-| \\(\rho\\)-zero-concentrated DP       | [[BS16]]       | [[BS16]]     | [[FZ21]]           | [[Lyu22]]
-| \\(\delta\\)-approx. \\(\rho\\)-zCDP | [[BS16]]       | [[BS16]]     | [[WRRW22]]         | 
+| \\(f\\)-DP                             | [[DRS22]]      | [[DRS22]]    |                    | [[VZ22]]
+| \\((\alpha,\varepsilon)\\)-Rényi DP    | [[Mir17]]      | [[Mir17]]    | [[FZ21]]           | [[Lyu22]]
+| \\(\rho\\)-zero-concentrated DP        | [[BS16]]       | [[BS16]]     | [[FZ21]]           | [[Lyu22]]
+| \\(\delta\\)-approx. \\(\rho\\)-zCDP   | [[BS16]]       | [[BS16]]     | [[WRRW22]]         | 
+|----------------------------------------|----------------|--------------|--------------------|---------------
 
-[^2]: Only asymptotically optimal for small \\(\varepsilon\\).
+
+<center><small
+
+* Only asymptotically optimal for small ε.
+
+</small></center>
 
 This summary already suggests a few natural open questions: it is not known whether the fully adaptive composition results for \\((\varepsilon,\delta)\\)-DP can be improved, there is no fully adaptive composition theorem for \\(f\\)-DP, or concurrent for \\((\rho,\delta)\\)-approximate zCDP.
 
@@ -156,7 +162,7 @@ In that case, proving such a separation result would be of significant theoretic
 When we say that a mechanism is \\((\varepsilon,\delta)\\)-DP, or \\(\rho\\)-zCDP, we are giving a "global" bound on the privacy loss random variable, defined by:
 \\[
     \mathcal{L}_{D,D'}(o) =
-       \ln\left(\frac{\mathbb{P}\left[\mathcal{M}{D}=o\right]}{\mathbb{P}\left[\mathcal{M}{D'}=o\right]}\right)
+       \ln\left(\frac{\mathbb{P}\left[\mathcal{M}(D)=o\right]}{\mathbb{P}\left[\mathcal{M}(D')=o\right]}\right)
 \\]
 for all neighboring inputs \\(D\\) and \\(D'\\).
 
@@ -164,7 +170,7 @@ An alternative approach to privacy accounting consists in *fully* describing thi
 One approach to do this uses the formalism of *privacy loss distributions* (PLDs) [[SMM18]].
 The PLD of a mechanism is defined as:
 \\[
-    \omega(y) = \mathbb{P}_{o\sim\mathcal{M}{D}}{\mathcal{L}_{D,D'}(o)=y}.
+    \omega(y) = \mathbb{P}\_{o\sim\mathcal{M}(D)}\left[\mathcal{L}_{D,D'}(o)=y\right].
 \\]
 
 In the sequential composition setting, PLDs can be used for tight privacy analysis. 
@@ -216,3 +222,6 @@ We're excited about both prospects!
 [DGKKM22]: https://arxiv.org/abs/2207.04380
 [ZDW22]: https://proceedings.mlr.press/v151/zhu22c.html
 [SMM18]: https://petsymposium.org/popets/2019/popets-2019-0029.php
+
+---
+
