@@ -29,7 +29,7 @@ We stumbled upon these open questions while building general-purpose differentia
 
 &lt;p&gt;In the original composition result [&lt;a href=&quot;https://link.springer.com/chapter/10.1007/11681878_14&quot;&gt;DMKS06&lt;/a&gt;], all mechanisms \(\mathcal{M}_1\), \(\mathcal{M}_2\), etc., are fixed in advance, and have a predetermined privacy budget (resp. \(\varepsilon_1\), \(\varepsilon_2\), etc.).
 They only take the sensitive data \(D\) as input: \(\mathcal{M}_2\) cannot see nor depend on \(\mathcal{M}_1(D)\).
-This setting is typically called \emph{sequential composition}.&lt;/p&gt;
+This setting is typically called &lt;em&gt;sequential composition&lt;/em&gt;.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;../images/sequential-composition.png&quot; width=&quot;80%&quot; alt=&quot;A diagram representing sequential composition. A database icon is on the left. Arrows go from it to three boxes labeled M1, M2, and M3, each labeled with ε1, ε2, ε3; these ε values are labeled &apos;fixed budgets&apos;.&quot; style=&quot;margin:auto;display: block;&quot; /&gt;&lt;/p&gt;
 
@@ -114,7 +114,7 @@ Gaussian DP and its generalization \(f\)-DP [&lt;a href=&quot;https://academic.o
 Meanwhile, statistical use cases using the Gaussian mechanism often use zero-concentrated DP [&lt;a href=&quot;https://link.springer.com/chapter/10.1007/978-3-662-53641-4_24&quot;&gt;BS16&lt;/a&gt;] (zCDP) for their privacy analysis [&lt;a href=&quot;https://desfontain.es/privacy/real-world-differential-privacy.html&quot;&gt;Des21&lt;/a&gt;]; the approximate version of this definition is also useful when queries are grouped by an unknown domain [&lt;a href=&quot;https://arxiv.org/abs/2301.01998&quot;&gt;SDH23&lt;/a&gt;].&lt;/p&gt;
 
 &lt;p&gt;It is thus natural to study the composition of these variants under the settings described in the previous section.
-For many variants and composition settings, \emph{optimal} composition results have been proven.
+For many variants and composition settings, &lt;em&gt;optimal&lt;/em&gt; composition results have been proven.
 We give an overview in the following table.&lt;/p&gt;
 
 &lt;table&gt;
@@ -189,7 +189,7 @@ Consider an analyst using a differential privacy framework, and performing multi
 Some of these operations are using \(\rho\)-zCDP, others are \((\varepsilon,\delta)\)-DP, alternatively, with varying parameters.
 How should the privacy accounting be done in such a scenario?&lt;/p&gt;
 
-&lt;p&gt;In the context of sequential composition, it would be natural to \emph{reorder} those mechanisms: consider the equivalent situation where all \(\rho\)-zCDP mechanisms occur first, and all \((\varepsilon,\delta)\)-DP mechanisms occur afterwards.
+&lt;p&gt;In the context of sequential composition, it would be natural to &lt;em&gt;reorder&lt;/em&gt; those mechanisms: consider the equivalent situation where all \(\rho\)-zCDP mechanisms occur first, and all \((\varepsilon,\delta)\)-DP mechanisms occur afterwards.
 In this setting, the zCDP mechanisms can be first be composed using the zCDP composition rule.
 The overall zCDP guarantee can then be converted to \((\varepsilon,\delta)\)-DP, and composed with the other \((\varepsilon,\delta)\)-DP guarantees.
 This will lead to a tighter privacy analysis than converting every individual \(\rho\)-zCDP mechanism to \((\varepsilon,\delta)\)-DP, and composing those guarantees.&lt;/p&gt;
@@ -210,8 +210,8 @@ In that case, proving such a separation result would be of significant theoretic
 \]
 for all neighboring inputs \(D\) and \(D’\).&lt;/p&gt;
 
-&lt;p&gt;An alternative approach to privacy accounting consists in \emph{fully} describing this random variable.
-One approach to do this uses the formalism of \emph{privacy loss distributions}~\cite{sommer2018privacy} (PLDs).
+&lt;p&gt;An alternative approach to privacy accounting consists in &lt;em&gt;fully&lt;/em&gt; describing this random variable.
+One approach to do this uses the formalism of &lt;em&gt;privacy loss distributions&lt;/em&gt; (PLDs) [&lt;a href=&quot;https://petsymposium.org/popets/2019/popets-2019-0029.php&quot;&gt;SMM18&lt;/a&gt;].
 The PLD of a mechanism is defined as:
 \[
     \omega(y) = \mathbb{P}&lt;em&gt;{o\sim\mathcal{M}{D}}{\mathcal{L}&lt;/em&gt;{D,D’}(o)=y}.
@@ -219,7 +219,7 @@ The PLD of a mechanism is defined as:
 
 &lt;p&gt;In the sequential composition setting, PLDs can be used for tight privacy analysis. 
 This relies on a conceptually simple result: if \(\omega\) is the PLD of \(\mathcal{M}\) and \(\omega’\) is the PLD of \(\mathcal{M}’\) on neighboring databases \(D\), \(D’\), then the PLD of the composition of \(\mathcal{M}\) and \(\mathcal{M}’\) is \(\omega\ast\omega’\), where \(\ast\) is the convolution operator.
-Of course, when doing privacy accounting, we don’t want \(\omega\) and \(\omega’\) to depend on the pair of databases, so we replace them by \emph{worst-case} PLDs, that are “larger” than all possible PLDs for neighboring databases.&lt;/p&gt;
+Of course, when doing privacy accounting, we don’t want \(\omega\) and \(\omega’\) to depend on the pair of databases, so we replace them by &lt;em&gt;worst-case&lt;/em&gt; PLDs, that are “larger” than all possible PLDs for neighboring databases.&lt;/p&gt;
 
 &lt;p&gt;Using PLDs for privacy accounting can be done numerically [&lt;a href=&quot;https://eprint.iacr.org/2017/1034&quot;&gt;MM18&lt;/a&gt;, &lt;a href=&quot;https://arxiv.org/abs/2102.12412&quot;&gt;KJH20&lt;/a&gt;, &lt;a href=&quot;http://proceedings.mlr.press/v130/koskela21a.html&quot;&gt;KJPH21&lt;/a&gt;, &lt;a href=&quot;https://proceedings.neurips.cc/paper_files/paper/2021/hash/6097d8f3714205740f30debe1166744e-Abstract.html&quot;&gt;GLW21&lt;/a&gt;, &lt;a href=&quot;https://proceedings.mlr.press/v162/ghazi22a.html&quot;&gt;GKKM22&lt;/a&gt;, &lt;a href=&quot;https://arxiv.org/abs/2207.04380&quot;&gt;DGKKM22&lt;/a&gt;] or analytically [&lt;a href=&quot;https://proceedings.mlr.press/v151/zhu22c.html&quot;&gt;ZDW22&lt;/a&gt;].
 This family of approaches is convenient because it is very generic: DP frameworks can use a tight upper bound PLD when known, and fall back to a worst-case PLD corresponding to \(\varepsilon\)-DP or \((\varepsilon,\delta)\)-DP when the mechanism is too complex.

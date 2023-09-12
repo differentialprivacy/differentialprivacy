@@ -29,7 +29,7 @@ First, let's discuss what it means to compose two DP mechanisms.
 
 In the original composition result [[DMKS06]], all mechanisms \\(\mathcal{M}_1\\), \\(\mathcal{M}_2\\), etc., are fixed in advance, and have a predetermined privacy budget (resp. \\(\varepsilon_1\\), \\(\varepsilon_2\\), etc.).
 They only take the sensitive data \\(D\\) as input: \\(\mathcal{M}_2\\) cannot see nor depend on \\(\mathcal{M}_1(D)\\).
-This setting is typically called \emph{sequential composition}.
+This setting is typically called *sequential composition*.
 
 <img src="../images/sequential-composition.png" width="80%" alt="A diagram representing sequential composition. A database icon is on the left. Arrows go from it to three boxes labeled M1, M2, and M3, each labeled with ε1, ε2, ε3; these ε values are labeled 'fixed budgets'." style="margin:auto;display: block;"/>
 
@@ -114,7 +114,7 @@ Gaussian DP and its generalization \\(f\\)-DP [[DRS22]] are also used in this co
 Meanwhile, statistical use cases using the Gaussian mechanism often use zero-concentrated DP [[BS16]] (zCDP) for their privacy analysis [[Des21]]; the approximate version of this definition is also useful when queries are grouped by an unknown domain [[SDH23]].
 
 It is thus natural to study the composition of these variants under the settings described in the previous section.
-For many variants and composition settings, \emph{optimal} composition results have been proven.
+For many variants and composition settings, *optimal* composition results have been proven.
 We give an overview in the following table.
 
 |----------------------------------------|----------------|--------------|--------------------|---------------
@@ -139,7 +139,7 @@ Consider an analyst using a differential privacy framework, and performing multi
 Some of these operations are using \\(\rho\\)-zCDP, others are \\((\varepsilon,\delta)\\)-DP, alternatively, with varying parameters.
 How should the privacy accounting be done in such a scenario?
 
-In the context of sequential composition, it would be natural to \emph{reorder} those mechanisms: consider the equivalent situation where all \\(\rho\\)-zCDP mechanisms occur first, and all \\((\varepsilon,\delta)\\)-DP mechanisms occur afterwards.
+In the context of sequential composition, it would be natural to *reorder* those mechanisms: consider the equivalent situation where all \\(\rho\\)-zCDP mechanisms occur first, and all \\((\varepsilon,\delta)\\)-DP mechanisms occur afterwards.
 In this setting, the zCDP mechanisms can be first be composed using the zCDP composition rule.
 The overall zCDP guarantee can then be converted to \\((\varepsilon,\delta)\\)-DP, and composed with the other \\((\varepsilon,\delta)\\)-DP guarantees.
 This will lead to a tighter privacy analysis than converting every individual \\(\rho\\)-zCDP mechanism to \\((\varepsilon,\delta)\\)-DP, and composing those guarantees. 
@@ -160,8 +160,8 @@ When we say that a mechanism is \\((\varepsilon,\delta)\\)-DP, or \\(\rho\\)-zCD
 \\]
 for all neighboring inputs \\(D\\) and \\(D'\\).
 
-An alternative approach to privacy accounting consists in \emph{fully} describing this random variable.
-One approach to do this uses the formalism of \emph{privacy loss distributions}~\cite{sommer2018privacy} (PLDs).
+An alternative approach to privacy accounting consists in *fully* describing this random variable.
+One approach to do this uses the formalism of *privacy loss distributions* (PLDs) [[SMM18]].
 The PLD of a mechanism is defined as:
 \\[
     \omega(y) = \mathbb{P}_{o\sim\mathcal{M}{D}}{\mathcal{L}_{D,D'}(o)=y}.
@@ -169,7 +169,7 @@ The PLD of a mechanism is defined as:
 
 In the sequential composition setting, PLDs can be used for tight privacy analysis. 
 This relies on a conceptually simple result: if \\(\omega\\) is the PLD of \\(\mathcal{M}\\) and \\(\omega'\\) is the PLD of \\(\mathcal{M}'\\) on neighboring databases \\(D\\), \\(D'\\), then the PLD of the composition of \\(\mathcal{M}\\) and \\(\mathcal{M}'\\) is \\(\omega\ast\omega'\\), where \\(\ast\\) is the convolution operator.
-Of course, when doing privacy accounting, we don't want \\(\omega\\) and \\(\omega'\\) to depend on the pair of databases, so we replace them by \emph{worst-case} PLDs, that are "larger" than all possible PLDs for neighboring databases.
+Of course, when doing privacy accounting, we don't want \\(\omega\\) and \\(\omega'\\) to depend on the pair of databases, so we replace them by *worst-case* PLDs, that are "larger" than all possible PLDs for neighboring databases.
 
 Using PLDs for privacy accounting can be done numerically [[MM18], [KJH20], [KJPH21], [GLW21], [GKKM22], [DGKKM22]] or analytically [[ZDW22]].
 This family of approaches is convenient because it is very generic: DP frameworks can use a tight upper bound PLD when known, and fall back to a worst-case PLD corresponding to \\(\varepsilon\\)-DP or \\((\varepsilon,\delta)\\)-DP when the mechanism is too complex.
@@ -215,3 +215,4 @@ We're excited about both prospects!
 [GKKM22]: https://proceedings.mlr.press/v162/ghazi22a.html
 [DGKKM22]: https://arxiv.org/abs/2207.04380
 [ZDW22]: https://proceedings.mlr.press/v151/zhu22c.html
+[SMM18]: https://petsymposium.org/popets/2019/popets-2019-0029.php
