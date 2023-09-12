@@ -78,9 +78,9 @@ In this setting, an analyst with a certain privacy budget would be able to spin 
 <img src="../images/fully-concurrent-composition.png" width="80%" alt="A diagram representing fully concurrent composition. It's the same as the diagram for concurrent composition, except one of the pairs of arrows going to and from IM1 goes to a smaller box labeled IM3, labeled ε3, and there is also an arrow from IM1 to ε3. IM3 also has a pair of arrows going back and forth towards a third smiley face." style="margin:auto;display: block;"/>
 
 This setting might seem pointless — why would analysts want to do this? — but proving composition results in this context would help building DP interfaces that combine expressivity and conceptual simplicity.
-To understand why, let's take a look at how [Tumult Analytics][https://tmlt.dev][^1] allows users to use its parallel composition feature.
+To understand why, let's take a look at how [Tumult Analytics](https://tmlt.dev)[^1] allows users to use its parallel composition feature.
 
-[^1]: Tumult Analytics is a differential privacy framework used by institutions such as the U.S. Census Bureau, the IRS, or the Wikimedia Foundation. It is developed by [Tumult Labs][https://tmlt.io], the employer of the author of this blog post.
+[^1]: Tumult Analytics is a differential privacy framework used by institutions such as the U.S. Census Bureau, the IRS, or the Wikimedia Foundation. It is developed by [Tumult Labs](https://tmlt.io), the employer of the author of this blog post.
 
 Tumult Analytics has a concept of a *Session*, which is initialized on some sensitive data with a given privacy budget.
 Users can submit queries to this Session using a query language implemented in Python.
@@ -117,14 +117,16 @@ It is thus natural to study the composition of these variants under the settings
 For many variants and composition settings, \emph{optimal} composition results have been proven.
 We give an overview in the following table.
 
-                                       | **Sequential** | **Adaptive** | **Fully adaptive** | **Concurrent** 
-\\(\varepsilon\\)$-DP                  | [[DMKS06]]     | [[DKMMN06]]  | [[RRUV16]]         | [[VW21]] 
-\\((\varepsilon,\delta)\\)$-DP         | [[KOV15]]      | [[KOV15]]    | [[WRRW22]][^2]     | [[WRRW22],[Lyu22]]
-Gaussian DP                            | [[DRS22]]      | [[DRS22]]    | [[ST22]]           | [[VZ22]]
-\\(f\\)$-DP                            | [[DRS22]]      | [[DRS22]]    |                    | [[VZ22]]
-\\((\alpha,\varepsilon)\\)$-Rényi DP   | [[Mir17]]      | [[Mir17]]    | [[FZ21]]           | [[Lyu22]]
-\\(\rho\\)$-zero-concentrated DP       | [[BS16]]       | [[BS16]]     | [[FZ21]]           | [[Lyu22]]
-\\(\delta\\)$-approx. \\(\rho\\)$-zCDP | [[BS16]]       | [[BS16]]     | [[WRRW22]]         | 
+|----------------------------------------|----------------|--------------|--------------------|---------------
+|                                        | **Sequential** | **Adaptive** | **Fully adaptive** | **Concurrent** 
+|----------------------------------------|----------------|--------------|--------------------|---------------
+| \\(\varepsilon\\)$-DP                  | [[DMKS06]]     | [[DKMMN06]]  | [[RRUV16]]         | [[VW21]] 
+| \\((\varepsilon,\delta)\\)$-DP         | [[KOV15]]      | [[KOV15]]    | [[WRRW22]][^2]     | [[WRRW22], [Lyu22]]
+| Gaussian DP                            | [[DRS22]]      | [[DRS22]]    | [[ST22]]           | [[VZ22]]
+| \\(f\\)$-DP                            | [[DRS22]]      | [[DRS22]]    |                    | [[VZ22]]
+| \\((\alpha,\varepsilon)\\)$-Rényi DP   | [[Mir17]]      | [[Mir17]]    | [[FZ21]]           | [[Lyu22]]
+| \\(\rho\\)$-zero-concentrated DP       | [[BS16]]       | [[BS16]]     | [[FZ21]]           | [[Lyu22]]
+| \\(\delta\\)$-approx. \\(\rho\\)$-zCDP | [[BS16]]       | [[BS16]]     | [[WRRW22]]         | 
 
 [^2]: Only asymptotically optimal for small \\(\varepsilon\\)$.
 
@@ -190,27 +192,27 @@ Along the way, we listed a number of natural open questions.
 Progress on these open questions would either uncover surprising additional separation results, or enable usability and utility improvements to general-purpose DP infrastructure.
 We're excited about both prospects!
 
-[DMKS06]: TODO cite dwork2006calibrating
-[DKMMN06]: TODO cite dwork2006our
-[RRUV16]: TODO cite rogers2016privacy
-[VW21]: TODO cite vadhan2021concurrent
-[Mir17]: TODO cite mironov2017renyi
-[ACGMMTZ16]: TODO cite abadi2016deep
-[DRS22]: TODO cite dong2022gaussian
-[BDLS20]: TODO cite bu2020deep
-[BS16]: TODO cite bun2016concentrated
+[DMKS06]: https://link.springer.com/chapter/10.1007/11681878_14
+[DKMMN06]: https://link.springer.com/chapter/10.1007/11761679_29
+[RRUV16]: https://proceedings.neurips.cc/paper_files/paper/2016/hash/58c54802a9fb9526cd0923353a34a7ae-Abstract.html
+[VW21]: https://arxiv.org/abs/2105.14427
+[Mir17]: https://ieeexplore.ieee.org/abstract/document/8049725
+[ACGMMTZ16]: https://research.google/pubs/pub45428/
+[DRS22]: https://academic.oup.com/jrsssb/article/84/1/3/7056089
+[BDLS20]: https://arxiv.org/abs/1911.11607
+[BS16]: https://link.springer.com/chapter/10.1007/978-3-662-53641-4_24
 [Des21]: https://desfontain.es/privacy/real-world-differential-privacy.html
-[SDH23]: TODO cite swanberg2023dp
-[KOV15]: TODO cite kairouz2015composition
-[WRRW22]: TODO cite whitehouse2022fully
-[Lyu22]: TODO cite lyu2022composition
-[ST22]: TODO cite smith2022fully
-[VZ22]: TODO cite vadhan2022concurrent
-[FZ21]: TODO cite feldman2021individual
-[MM18]: TODO cite meiser2018tight
-[KJH20]: TODO cite koskela2020computing
-[KJPH21]: TODO cite koskela2021tight
-[GLW21]: TODO cite gopi2021numerical
-[GKKM22]: TODO cite ghazi2022faster
-[DGKKM22]: TODO cite doroshenko2022connect
-[ZDW22]: TODO cite zhu2022optimal
+[SDH23]: https://arxiv.org/abs/2301.01998
+[KOV15]: https://proceedings.mlr.press/v37/kairouz15.html
+[WRRW22]: https://proceedings.mlr.press/v202/whitehouse23a.html
+[Lyu22]: https://proceedings.neurips.cc/paper_files/paper/2022/hash/3f52b555967a95ee850fcecbd29ee52d-Abstract-Conference.html
+[ST22]: https://arxiv.org/abs/2210.17520
+[VZ22]: https://arxiv.org/abs/2207.08335
+[FZ21]: https://proceedings.neurips.cc/paper/2021/hash/ec7f346604f518906d35ef0492709f78-Abstract.html
+[MM18]: https://eprint.iacr.org/2017/1034
+[KJH20]: https://arxiv.org/abs/2102.12412
+[KJPH21]: http://proceedings.mlr.press/v130/koskela21a.html
+[GLW21]: https://proceedings.neurips.cc/paper_files/paper/2021/hash/6097d8f3714205740f30debe1166744e-Abstract.html
+[GKKM22]: https://proceedings.mlr.press/v162/ghazi22a.html
+[DGKKM22]: https://arxiv.org/abs/2207.04380
+[ZDW22]: https://proceedings.mlr.press/v151/zhu22c.html
