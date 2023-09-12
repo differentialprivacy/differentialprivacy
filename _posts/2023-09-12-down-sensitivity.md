@@ -79,7 +79,7 @@ The key property we need is that this loss has bounded sensitivity. We split the
 > Let \\\(\\widehat{x} \\subseteq x\\\) satisfy \\\(f\(\\widehat{x}\)\\le y\\\) and \\\(\\mathrm{dist}\(x,\\widehat{x}\)=\\ell\(x,y\)\\\).
 > Define \\\(\\widehat{x}' = \\widehat{x} \\setminus x\_\\Delta\\\). This ensures \\\(\\widehat{x}' \\subseteq x'\\\) and \\\[\\mathrm{dist}(x',\\widehat{x}') = \\mathrm{dist}\(x  \\setminus x\_\\Delta , \\widehat{x}  \\setminus x\_\\Delta \) \\le \\mathrm{dist}(x,\\widehat{x}).\\\]
 > 
-> By monotonicity, \\\(f\(\\widehat{x}'\) \\le f\(x\) \\le y\\\). 
+> By monotonicity, \\\(f\(\\widehat{x}'\) \\le f\(\\widehat{x}\) \\le y\\\). 
 > Thus \\\[\\ell(x',y) = \\min\\{ \\mathrm{dist}(x',\\tilde{x}') : \\tilde{x}' \\subseteq x', f\(\\tilde{x}'\) \le y \\}\\\]\\\[ \\le \\mathrm{dist}(x',\\widehat{x}')  \\le \\mathrm{dist}(x,\\widehat{x}) = \\ell\(x,y\).\\\]
 > &#8718;
 
