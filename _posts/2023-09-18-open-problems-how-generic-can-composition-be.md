@@ -31,7 +31,7 @@ In the original composition result [[DMKS06]], all mechanisms \\(\mathcal{M}_1\\
 They only take the sensitive data \\(D\\)$ as input: \\(\mathcal{M}_2\\)$ cannot see nor depend on \\(\mathcal{M}_1(D)\\)$.
 This setting is typically called \emph{sequential composition}.
 
-<img src="../images/TODOsequential-composition.png" width="80%" alt="A diagram representing sequential composition. A database icon is on the left. Arrows go from it to three boxes labeled M1, M2, and M3, each labeled with ε1, ε2, ε3; these ε values are labeled 'fixed budgets'." style="margin:auto;display: block;"/>
+<img src="../images/sequential-composition.png" width="80%" alt="A diagram representing sequential composition. A database icon is on the left. Arrows go from it to three boxes labeled M1, M2, and M3, each labeled with ε1, ε2, ε3; these ε values are labeled 'fixed budgets'." style="margin:auto;display: block;"/>
 
 #### Adaptive composition
 
@@ -182,7 +182,6 @@ This leads us to our last open question: can these privacy accounting techniques
 
 In this blog post, we gave a high-level overview of different settings and variants of composition theorems.
 Along the way, we listed a number of natural open questions.
-
 
 1. Can we define a setting that generalizes both fully adaptive composition and concurrent composition? What composition results hold in that setting?
 1. Can we "fill in the blanks" among existing composition results? Namely, can we prove optimal composition results for \\((\varepsilon,\delta)\\)$-DP and \\(f\\)$-DP in the fully adaptive setting, and for \\((\varepsilon,\delta)\\)$-approximate zCDP in the concurrent setting?
