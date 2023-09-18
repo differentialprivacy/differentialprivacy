@@ -27,7 +27,7 @@ First, let's discuss what it means to compose two DP mechanisms.
 
 #### Sequential composition
 
-In the original composition result [[DMKS06]], all mechanisms \\(\mathcal{M}_1\\), \\(\mathcal{M}_2\\), etc., are fixed in advance, and have a predetermined privacy budget (resp. \\(\varepsilon_1\\), \\(\varepsilon_2\\), etc.).
+In the original composition result [[DMNS06]], all mechanisms \\(\mathcal{M}_1\\), \\(\mathcal{M}_2\\), etc., are fixed in advance, and have a predetermined privacy budget (resp. \\(\varepsilon_1\\), \\(\varepsilon_2\\), etc.).
 They only take the sensitive data \\(D\\) as input: \\(\mathcal{M}_2\\) cannot see nor depend on \\(\mathcal{M}_1(D)\\).
 This setting is typically called *sequential composition*.
 
@@ -120,7 +120,7 @@ We give an overview in the following table.
 |----------------------------------------|----------------|--------------|--------------------|---------------
 |                                        | **Sequential** | **Adaptive** | **Fully adaptive** | **Concurrent** 
 |----------------------------------------|----------------|--------------|--------------------|---------------
-| \\(\varepsilon\\)-DP                   | [[DMKS06]]     | [[DKMMN06]]  | [[RRUV16]]         | [[VW21]] 
+| \\(\varepsilon\\)-DP                   | [[DMNS06]]     | [[DKMMN06]]  | [[RRUV16]]         | [[VW21]] 
 | \\((\varepsilon,\delta)\\)-DP          | [[KOV15]]      | [[KOV15]]    | [[WRRW22]]\*       | [[WRRW22], [Lyu22]]
 | Gaussian DP                            | [[DRS22]]      | [[DRS22]]    | [[ST22]]           | [[VZ22]]
 | \\(f\\)-DP                             | [[DRS22]]      | [[DRS22]]    |                    | [[VZ22]]
@@ -197,7 +197,7 @@ Along the way, we listed a number of natural open questions.
 Progress on these open questions would either uncover surprising additional separation results, or enable usability and utility improvements to general-purpose DP infrastructure.
 We're excited about both prospects!
 
-[DMKS06]: https://link.springer.com/chapter/10.1007/11681878_14
+[DMNS06]: https://link.springer.com/chapter/10.1007/11681878_14
 [DKMMN06]: https://link.springer.com/chapter/10.1007/11761679_29
 [RRUV16]: https://proceedings.neurips.cc/paper_files/paper/2016/hash/58c54802a9fb9526cd0923353a34a7ae-Abstract.html
 [VW21]: https://arxiv.org/abs/2105.14427
