@@ -9,7 +9,7 @@
     <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@DiffPriv" />
-    <meta name="twitter:image" content="https://differentialprivacy.org/images/logodp-transparent.png" />
+    <meta name="twitter:image" content="https://differentialprivacy.org/images/logodp.png" />
     <meta name="twitter:image:alt" content="DP.org logo" />
 
     
@@ -62,6 +62,218 @@
 
     <div id="main" role="main" class="container">
       <div class="posts">
+  
+    <article class="post">
+
+      <h1><a href="/open-problems-how-generic-can-composition-be/">Open problem(s) - How generic can composition results be?</a></h1>
+
+      <div class="entry">
+        <p>The composition theorem is a cornerstone of differential privacy literature. 
+In its most basic formulation, it states that if two mechanisms \(\mathcal{M}_1\) and \(\mathcal{M}_2\) are respectively \(\varepsilon_1\)-DP and \(\varepsilon_2\)-DP, then the mechanism \(\mathcal{M}\) defined by \(\mathcal{M}(D)=\left(\mathcal{M}_1(D),\mathcal{M}_2(D)\right)\) is \((\varepsilon_1+\varepsilon_2)\)-DP.
+A large body of work focused on proving extensions of this composition theorem.
+These extensions are of two kinds.</p>
+
+      </div>
+
+      <a href="/open-problems-how-generic-can-composition-be/" class="read-more">Read More</a>
+    </article>
+  
+    <article class="post">
+
+      <h1><a href="/inverse-sensitivity/">Beyond Global Sensitivity via Inverse Sensitivity</a></h1>
+
+      <div class="entry">
+        <p>The most well-known and widely-used method for achieving differential privacy is to compute the true function value \(f(x)\) and then add Laplace or Gaussian noise scaled to the <em>global sensitivity</em> of \(f\). 
+This may be overly conservative. In this post we’ll show how we can do better.</p>
+
+      </div>
+
+      <a href="/inverse-sensitivity/" class="read-more">Read More</a>
+    </article>
+  
+    <article class="post">
+
+      <h1><a href="/colt23-bsp/">Covariance-Aware Private Mean Estimation, Efficiently</a></h1>
+
+      <div class="entry">
+        <p>Last week, the Mark Fulk award for best student paper at <a href="https://learningtheory.org/colt2023/">COLT 2023</a> was awarded to the following two papers on private mean estimation:</p>
+<ul>
+  <li><a href="https://arxiv.org/abs/2301.07078">A Fast Algorithm for Adaptive Private Mean Estimation</a>, by <a href="https://web.stanford.edu/~jduchi/">John Duchi</a>, <a href="https://dblp.org/pid/252/5821.html">Saminul Haque</a>, and <a href="https://web.stanford.edu/~rohithk/">Rohith Kuditipudi</a> <strong>[<a href="https://arxiv.org/abs/2301.07078">DHK23</a>]</strong>;</li>
+  <li><a href="https://arxiv.org/abs/2301.12250">Fast, Sample-Efficient, Affine-Invariant Private Mean and Covariance Estimation for Subgaussian Distributions</a> by <a href="https://cs-people.bu.edu/grbrown/">Gavin Brown</a>, <a href="https://www.samuelbhopkins.com/">Samuel B. Hopkins</a>, and <a href="https://cs-people.bu.edu/ads22/">Adam Smith</a> <strong>[<a href="https://arxiv.org/abs/2301.12250">BHS23</a>]</strong>.</li>
+</ul>
+
+      </div>
+
+      <a href="/colt23-bsp/" class="read-more">Read More</a>
+    </article>
+  
+    <article class="post">
+
+      <h1><a href="/tpdp2023/">Call for Papers - TPDP 2023 - Submission deadline July 7</a></h1>
+
+      <div class="entry">
+        <p>The <a href="https://tpdp.journalprivacyconfidentiality.org/2023/">9th Workshop on the Theory and Practice of Differential Privacy (TPDP 2023)</a> will take place in Boston September 27-28, 2023.
+This is the first year the workshop is a standalone event. However, the <a href="https://opendp.org/event/opendp-community-meeting-2023">OpenDP community meeting</a> is the following day (also in Boston). It is also moving from a one-day event to two days.</p>
+
+      </div>
+
+      <a href="/tpdp2023/" class="read-more">Read More</a>
+    </article>
+  
+    <article class="post">
+
+      <h1><a href="/open-problem-better-privacy-guarantees-for-larger-groups/">Open problem - Better privacy guarantees for larger groups</a></h1>
+
+      <div class="entry">
+        <p>Consider a simple query counting the number of people in various mutually exclusive groups.
+In the differential privacy literature, it is typical to assume that each of these groups should be subject to the same privacy loss: the noise added to each count has the same magnitude, and everyone gets the same privacy guarantees.
+However, in settings where these groups have vastly different population sizes, larger populations may be willing to accept more error in exchange for stronger privacy protections.
+In particular, in many use cases, <em>relative</em> error (the noisy count is within 5% of the true value) matters more than absolute error (the noisy count is at a distance of at most 100 of the true value).
+This leads to a natural question: can we use this fact to develop a mechanism that improves the privacy guarantees of individuals in larger groups, subject to a constraint on relative error?</p>
+
+      </div>
+
+      <a href="/open-problem-better-privacy-guarantees-for-larger-groups/" class="read-more">Read More</a>
+    </article>
+  
+    <article class="post">
+
+      <h1><a href="/composition-basics/">Composition Basics</a></h1>
+
+      <div class="entry">
+        <p>Our data is subject to many different uses. Many entities will have access to our data and those entities will perform many different analyses that involve our data. The greatest risk to privacy is that an attacker will combine multiple pieces of information from the same or different sources and that the combination of these will reveal sensitive details about us.
+Thus we cannot study privacy leakage in a vacuum; it is important that we can reason about the accumulated privacy leakage over multiple independent analyses, which is known as <em>composition</em>. We have <a href="/privacy-composition/">previously discussed</a> why composition is so important for differential privacy.</p>
+
+<p>This is the first in a series of posts on <em>composition</em> in which we will explain in more detail how compositoin analyses work.</p>
+
+<p>Composition is quantitative. The differential privacy guarantee of the overall system will depend on the number of analyses and the privacy parameters that they each satisfy. The exact relationship between these quantities can be complex. There are various composition theorems that give bounds on the overall parameters in terms of the parameters of the parts of the system.</p>
+
+<p>The simplest composition theorem is what is known as basic composition, which applies to pure \(\varepsilon\)-DP (although it can be extended to approximate \((\varepsilon,\delta)\)-DP):</p>
+
+<blockquote>
+  <p><strong>Theorem</strong> (Basic Composition)
+Let \(M_1, M_2, \cdots, M_k : \mathcal{X}^n \to \mathcal{Y}\) be randomized algorithms. Suppose \(M_j\) is \(\varepsilon_j\)-DP for each \(j \in [k]\).
+Define \(M : \mathcal{X}^n \to \mathcal{Y}^k\) by \(M(x)=(M_1(x),M_2(x),\cdots,M_k(x))\), where each algorithm is run independently. Then \(M\) is \(\varepsilon\)-DP for \(\varepsilon = \sum_{j=1}^k \varepsilon_j\).</p>
+</blockquote>
+
+      </div>
+
+      <a href="/composition-basics/" class="read-more">Read More</a>
+    </article>
+  
+    <article class="post">
+
+      <h1><a href="/privacy-doona/">Privacy Doona&#58; Why We Should Hide Among The Clones</a></h1>
+
+      <div class="entry">
+        <p>In this blog post, we will discuss a recent(ish) result of Feldman, McMillan, and Talwar <a href="https://arxiv.org/abs/2012.12803" title="Vitaly Feldman, Audra McMillan, Kunal Talwar. Hiding Among the Clones: A Simple and Nearly Optimal Analysis of Privacy Amplification by Shuffling. FOCS 2021"><strong>[FMT21]</strong></a>, which provides an improved and simple analysis of the so-called “amplification by shuffling” formally connecting local privacy (LDP) and shuffle privacy.<sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup> Now, I’ll assume the reader is familiar with both LDP and Shuffle DP: if not, a quick-and-dirty refresher (with less quick, and less dirty references) can be found <a href="\trustmodels">here</a>, and of course there is also Albert Cheu’s excellent survey on Shuffle DP <a href="https://arxiv.org/abs/2107.11839" title="Albert Cheu. Differential Privacy in the Shuffle Model: A Survey of Separations. arXiv 2021"><strong>[Cheu21]</strong></a>.</p>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1" role="doc-endnote">
+      <p>The title of this post is a reference to the title of <a href="https://arxiv.org/abs/2012.12803" title="Vitaly Feldman, Audra McMillan, Kunal Talwar. Hiding Among the Clones: A Simple and Nearly Optimal Analysis of Privacy Amplification by Shuffling. FOCS 2021"><strong>[FMT21]</strong></a>, “Hiding Among The Clones,” and to the notion of <em>privacy blanket</em> introduced by Balle, Bell, Gascón, and Nissim <a href="https://link.springer.com/chapter/10.1007/978-3-030-26951-7_22" title="Borja Balle, James Bell, Adrià Gascón, Kobbi Nissim. The Privacy Blanket of the Shuffle Model. CRYPTO 2019"><strong>[BBGN19]</strong></a>. Intuitively, the “amplification by shuffling” paradigm can be seen as anonymizing the messages from local randomizers, whose message distribution can be mathematically decomposed as a mixture of “noise distribution not depending on the user’s input” and “distribution actually depending on their input.” As a result, each user randomly sends a message from the first or second distribution of the mixture.  But the shuffling then hides the informative messages (drawn from the second part of the mixture) among the non-informative (noise) ones: so the noise messages end up providing a “privacy blanket” in which sensitive information is safely and soundly wrapped. <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+      </div>
+
+      <a href="/privacy-doona/" class="read-more">Read More</a>
+    </article>
+  
+    <article class="post">
+
+      <h1><a href="/dp-fine-tuning/">Differentially private deep learning can be effective with self-supervised models</a></h1>
+
+      <div class="entry">
+        <p>Differential Privacy (DP) is a formal definition of privacy which guarantees that the outcome of a statistical procedure does not vary much regardless of whether an individual input is included or removed from the training dataset. 
+This guarantee is desirable when we are tasked to train machine learning models on private datasets that should not memorize individual inputs. 
+Past works have shown that differentially private models can be resilient to strong membership inference [<a href="https://proceedings.mlr.press/v37/kairouz15.html">1</a>, <a href="https://ieeexplore.ieee.org/abstract/document/9519424">34</a>, <a href="https://proceedings.neurips.cc/paper/2020/hash/fc4ddc15f9f4b4b06ef7844d6bb53abf-Abstract.html">35</a>] and data reconstruction attacks [<a href="https://www.usenix.org/conference/usenixsecurity19/presentation/carlini">2</a>, <a href="https://arxiv.org/abs/2201.12383">3</a>] when the privacy parameter is set to be sufficiently small. 
+See a <a href="https://differentialprivacy.org/how-to-deploy-ml-with-dp/">prior post</a> for more background on differentially private machine learning.</p>
+
+      </div>
+
+      <a href="/dp-fine-tuning/" class="read-more">Read More</a>
+    </article>
+  
+    <article class="post">
+
+      <h1><a href="/synth-data-1/">A simple recipe for private synthetic data generation</a></h1>
+
+      <div class="entry">
+        <p>In the <a href="https://differentialprivacy.org/synth-data-0/">last blog post</a>, we covered the potential pitfalls of synthetic data without formal privacy guarantees, and motivated the need for differentially private synthetic data mechanisms.  In this blog post, we will describe the <strong>select-measure-generate</strong> paradigm, which is a simple and effective template for designing synthetic data mechanisms.  The three steps underlying the select-measure-generate paradigm are illustrated and explained below.</p>
+
+      </div>
+
+      <a href="/synth-data-1/" class="read-more">Read More</a>
+    </article>
+  
+    <article class="post">
+
+      <h1><a href="/synth-data-0/">What is Synthetic Data?</a></h1>
+
+      <div class="entry">
+        <p>The concept of synthetic data seems to be having “a moment” in the privacy world as a promising approach to sharing data while protecting privacy.  Strictly speaking, any time you make up data, you have produced a synthetic dataset, but more specifically</p>
+
+      </div>
+
+      <a href="/synth-data-0/" class="read-more">Read More</a>
+    </article>
+  
+    <article class="post">
+
+      <h1><a href="/neurips2021/">Conference Digest - NeurIPS 2021</a></h1>
+
+      <div class="entry">
+        <p>The accepted papers for <a href="https://neurips.cc/Conferences/2020">NeurIPS 2021</a> were recently announced, and there’s a huge amount of differential privacy content. 
+We found one relevant workshop and 48 papers.
+This is up from 31 papers last year, an over 50% increase!
+It looks like there’s huge growth in interest on differentially private machine learning.
+Impressively, at the time of this writing, all but five papers are already posted on arXiv!
+For the full list of accepted papers, see <a href="https://neurips.cc/Conferences/2021/AcceptedPapersInitial">here</a>.
+Please let us know if we missed relevant papers on differential privacy!</p>
+
+      </div>
+
+      <a href="/neurips2021/" class="read-more">Read More</a>
+    </article>
+  
+    <article class="post">
+
+      <h1><a href="/how-to-deploy-ml-with-dp/">How to deploy machine learning with differential privacy?</a></h1>
+
+      <div class="entry">
+        <p>In many applications of machine learning, such as machine learning for medical diagnosis, we would like to have machine learning algorithms that do not memorize sensitive information about the training set, such as the specific medical histories of individual patients. Differential privacy is a notion that allows quantifying the degree of privacy protection provided by an algorithm on the underlying (sensitive) data set it operates on. Through the lens of differential privacy, we can design machine learning algorithms that responsibly train models on private data.</p>
+
+      </div>
+
+      <a href="/how-to-deploy-ml-with-dp/" class="read-more">Read More</a>
+    </article>
+  
+    <article class="post">
+
+      <h1><a href="/one-shot-top-k/">One-shot DP Top-k mechanisms</a></h1>
+
+      <div class="entry">
+        <p>In the last <a href="https://differentialprivacy.org/exponential-mechanism-bounded-range/"><em>blog post</em></a>, we showed that the exponential mechanism enjoys improved composition bounds over general pure DP mechanisms due to a property called <strong>bounded range</strong>.  For this post, we will present another useful, and somewhat surprising, property of the exponential mechanism in its application of top-\(k\) selection.</p>
+
+      </div>
+
+      <a href="/one-shot-top-k/" class="read-more">Read More</a>
+    </article>
+  
+    <article class="post">
+
+      <h1><a href="/exponential-mechanism-bounded-range/">A Better Privacy Analysis of the Exponential Mechanism</a></h1>
+
+      <div class="entry">
+        <p>A basic and frequent task in data analysis is <em>selection</em> – given a set of options \(\mathcal{Y}\), output the (approximately) best one, where “best” is defined by some loss function \(\ell : \mathcal{Y} \times \mathcal{X}^n \to \mathbb{R}\) and a dataset \(x \in \mathcal{X}^n\). That is, we want to output some \(y \in \mathcal{Y}\) that approximately minimizes \(\ell(y,x)\). Naturally, we are interested in <em>private selection</em> – i.e., the output should be differentially private in terms of the dataset \(x\).
+This post discusses algorithms for private selection – in particular, we give an improved privacy analysis of the popular exponential mechanism.</p>
+
+      </div>
+
+      <a href="/exponential-mechanism-bounded-range/" class="read-more">Read More</a>
+    </article>
   
     <article class="post">
 

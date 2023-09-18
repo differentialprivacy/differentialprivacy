@@ -83,7 +83,6 @@ We plot 1,000,000 sample outputs of Algorithm 1 (red) with parameters \\(\sigma^
 
 <img src="../images/two-stage-noise-gaussian.png" width="70%" alt="A comparison between sample outputs of Algorithm 1 and the best-fit Gaussian distribution, showing that both match very closely." style="margin:auto;display: block;"/>
 
-
 With parameters such as these, the output of the mechanism looks and behaves like a Gaussian distribution, which should be ideal to characterize the zCDP guarantee.
 However, it is difficult to directly quantify this guarantee, due to the changing variance which is also a random variable.
 Likewise, if the true count is close to zero or if the first instance of noise is large compared to the true count than the resulting distribution takes on a heavy skew and is no longer similar to a single Gaussian distribution.
