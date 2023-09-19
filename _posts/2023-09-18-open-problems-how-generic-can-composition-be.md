@@ -130,7 +130,7 @@ We give an overview in the following table.
 |----------------------------------------|----------------|--------------|--------------------|---------------
 
 
-<center><small
+<center><small>
 
 * Only asymptotically optimal for small ε.
 
