@@ -48,13 +48,28 @@ We can do better than this:
 > \\\[ \\widehat\\varepsilon\(\\alpha\) = \\frac{1}{\\alpha-1} \\log \\left\( \\frac{1}{e^\\varepsilon+1} e^{\\alpha \\varepsilon} +  \\frac{e^\\varepsilon}{e^\\varepsilon+1} e^{-\\alpha \\varepsilon} \\right\) \\\]\\\[ = \\varepsilon - \\frac{1}{\\alpha-1} \\log \\left\( \\frac{1+e^{-\\varepsilon}}{1 + e^{-(2\\alpha-1)\\varepsilon}} \\right\). \\\]
 > Furthermore, this bound is tight. 
 
-_Proof._
-Fix neighbouring inputs \\\(x, x' \\in \\mathcal{X}^n\\\).
+_Proof._[^3]
+Fix neighbouring inputs \\\(x, x' \\in \\mathcal{X}^n\\\) and fix \\\(\\alpha>1\\\).
+
 First note that this bound is tight when \\\(M\\\) corresponds to randomized response.
-That is, if \\\(M\(x\) = \\mathsf{Bernoulli}\(\\tfrac{e^\\varepsilon}{e^\\varepsilon+1}\)\\\) and \\\(M\(x'\) = \\mathsf{Bernoulli}\(\\tfrac{1}{e^\\varepsilon+1}\)\\\), then the expression in the theorem statement equals the expression in the definition of Renyi DP. Since this is consistent with \\\(M\\\) satisfying \\\(\\varepsilon\\\)-DP, this proves tightness of the result.
-To prove the result we next must show that randomized response is the worst case \\\(M\\\).
+That is, if \\\(M\(x\) = \\mathsf{Bernoulli}\(\\tfrac{e^\\varepsilon}{e^\\varepsilon+1}\)\\\) and \\\(M\(x'\) = \\mathsf{Bernoulli}\(\\tfrac{1}{e^\\varepsilon+1}\)\\\), then the expression in the theorem statement is simply the expression in the definition of Renyi DP. Since this is consistent with \\\(M\\\) satisfying \\\(\\varepsilon\\\)-DP, this proves tightness of the result.
+To prove the result it only remains to show that randomized response is indeed the worst case \\\(M\\\).
 
+We make two additional observations: 
+(1) The definition of pure DP implies \\\( \\frac{\\mathbb{P}\[M\(x\)=y\]}{\\mathbb{P}\[M\(x'\)=y\]} \\le e^\\varepsilon \\\) for all \\\(y \\in \\mathcal{Y}\\\).
+But the definition of pure DP is symmetric in \\\(x\\\) and \\\(x'\\\), so we can swap them and obtain a two-sided bound: \\\[ \\forall y \\in \\mathcal{Y} ~~~~~ e^{-\\varepsilon} \\le \\frac{\\mathbb{P}\[M\(x\)=y\]}{\\mathbb{P}\[M\(x'\)=y\]} \\le e^\\varepsilon.\\]
+(2) Since \\\(\\sum_y \\mathbb{P}\[M\(x\)=y\] = 1\\\), we have \\\[ \\underset{Y \\gets M\(x'\)}{\\mathbb{E}}\\left\[ \\frac{\\mathbb{P}\[M\(x\)=Y\]}{\\mathbb{P}\[M\(x'\)=Y\]} \\right\] = \sum_y \\mathbb{P}\[M\(x'\)=y\] \cdot \\frac{\\mathbb{P}\[M\(x\)=y\]}{\\mathbb{P}\[M\(x'\)=y\]} = 1. \\\]
 
+Now we define a randomized rounding function \\\(A : \[e^{-\\varepsilon},e^\\varepsilon\] \\to \\{e^{-\\varepsilon},e^\\varepsilon\\}\\\) by \\\(\\mathbb{E}_A \[A\(z\)\] = z \\\).
+That is, for all \\\( z \\in \[e^{-\\varepsilon},e^\\varepsilon\] \\\), we have \\\[\\underset{A}{\\mathbb{P}}\[A(z)=e^\\varepsilon\]=\\frac{z-e^{-\\varepsilon}}{e^\\varepsilon-e^{-\\varepsilon}} ~~~ \text{ and } ~~~ \\underset{A}{\\mathbb{P}}\[A(z)=e^{-\\varepsilon}\]=\\frac{e^\\varepsilon-z}{e^\\varepsilon-e^{-\\varepsilon}}.\\\]
+Since \\\( v \\mapsto v^\\alpha \\\) is convex, by Jensen's inequality, for all \\\( z \\in \[e^{-\\varepsilon},e^\\varepsilon\] \\\), we have \\\[z^\\alpha = \\mathbb{E}_A\[A\(z\)\]^\\alpha \\le \\mathbb{E}_A\[A\(z\)^\\alpha\] = \\frac{z-e^{-\\varepsilon}}{e^\\varepsilon-e^{-\\varepsilon}} \cdot e^{\\varepsilon\\alpha} + \\frac{e^\\varepsilon-z}{e^\\varepsilon-e^{-\\varepsilon}} e^{-\\alpha\\varepsilon}. \\\]
+Applying this inequality to the quantity of interest with \\\(z = \\frac{\\mathbb{P}\[M\(x\)=Y\]}{\\mathbb{P}\[M\(x'\)=Y\]} \\\), we get
+\\\[ \\underset{Y \\gets M\(x'\)}{\\mathbb{E}}\\left\[ \\left\( \\frac{\\mathbb{P}\[M\(x\)=Y\]}{\\mathbb{P}\[M\(x'\)=Y\]} \\right\)^\\alpha \\right\] \le \\underset{Y \\gets M\(x'\) }{\\mathbb{E}}\\left\[ \\frac{\\frac{\\mathbb{P}\[M\(x\)=Y\]}{\\mathbb{P}\[M\(x'\)=Y\]}-e^{-\\varepsilon}}{e^\\varepsilon-e^{-\\varepsilon}} \cdot e^{\\varepsilon\\alpha} + \\frac{e^\\varepsilon-\\frac{\\mathbb{P}\[M\(x\)=Y\]}{\\mathbb{P}\[M\(x'\)=Y\]}}{e^\\varepsilon-e^{-\\varepsilon}} e^{-\\alpha\\varepsilon} \\right\] .\\\]
+Observation 1 tells us that this is valid, since \\\(z \\in \[e^{-\\varepsilon},e^\\varepsilon\]\\\). Observation 2 and linearity of expectations gives
+\\\[ \\underset{Y \\gets M\(x'\) }{\\mathbb{E}}\\left\[ \\frac{\\frac{\\mathbb{P}\[M\(x\)=Y\]}{\\mathbb{P}\[M\(x'\)=Y\]}-e^{-\\varepsilon}}{e^\\varepsilon-e^{-\\varepsilon}} \cdot e^{\\varepsilon\\alpha} + \\frac{e^\\varepsilon-\\frac{\\mathbb{P}\[M\(x\)=Y\]}{\\mathbb{P}\[M\(x'\)=Y\]}}{e^\\varepsilon-e^{-\\varepsilon}} e^{-\\alpha\\varepsilon} \\right\] = \\frac{1-e^{-\\varepsilon}}{e^\\varepsilon-e^{-\\varepsilon}} \cdot e^{\\varepsilon\\alpha} + \\frac{e^\\varepsilon-1}{e^\\varepsilon-e^{-\\varepsilon}} e^{-\\alpha\\varepsilon}.\\\] 
+We have \\\(\\frac{1-e^{-\\varepsilon}}{e^\\varepsilon-e^{-\\varepsilon}} = \\frac{e^\\varepsilon-1}{e^{2\\varepsilon}-1} = \\frac{e^\\varepsilon-1}{(e^\\varepsilon-1)(e^\\varepsilon+1)} = \\frac{1}{e^\\varepsilon+1}\\\) and, similarly,\\\(\\frac{e^\\varepsilon-1}{e^\\varepsilon-e^{-\\varepsilon}} = \\frac{e^\\varepsilon}{e^\\varepsilon+1}\\\).
+Combining the equalities and inequalities gives \\\[ e^{\(\\alpha-1\)\\widehat\\varepsilon\(\\alpha\)} = \\underset{Y \\gets M\(x'\)}{\\mathbb{E}}\\left\[ \\left\( \\frac{\\mathbb{P}\[M\(x\)=Y\]}{\\mathbb{P}\[M\(x'\)=Y\]} \\right\)^\\alpha \\right\] \le \\frac{1}{e^\\varepsilon+1} e^{\\alpha\\varepsilon} + \\frac{e^\\varepsilon}{e^\\varepsilon+1} e^{-\\alpha\\varepsilon},\\\] which establishes the result.
+The equivalence of the two expressions in the theorem statement is a matter of algebraic manipulation; the second expression is more suitable for numerical computation.
  &#8718;
 
 ## Converting Pure DP to zCDP
@@ -173,14 +188,6 @@ There are a lot of interesting aspects of private selection, including questions
 
 [^1]: In general, we can replace \\\(\\frac{\\mathbb{P}\[M\(x\)=y\]}{\\mathbb{P}\[M\(x'\)=y\]}\\\) with the Radon-Nikodym derivative of the probability distribution given by \\\(M\(x\)\\\) with respect to the probability distribution given by \\\(M\(x'\)\\\) evaluated at \\\(y\\\). We handle division by zero by defining \\\(\\frac{0}{0} = 1\\\) and \\\(\\frac{\\eta}{0} = \\infty\\\) for \\\(\\eta>0\\\).
 
-[^2]: To be more precise, \\\(\(\\varepsilon,\\delta\)\\\)-differential privacy is equivalent to demanding that \\\(\\mathbb{E}[\\max\\{0,1-\\exp(\\varepsilon-Z)\\}]\\le\\delta\\\) [**[CKS20]**](https://arxiv.org/abs/2004.00010 "Clément L. Canonne, Gautam Kamath, Thomas Steinke. The Discrete Gaussian for Differential Privacy. NeurIPS 2020."). (To be completely precise, we must appropriately deal with the \\\(Z=\\infty\\\) case, which we ignore in this discussion for simplicity.)
+[^2]: To be more precise, we have \\\[\\underset{Y \\gets M\(x'\)}{\\mathbb{E}}\\left\[ \\left\( \\frac{\\mathbb{P}\[M\(x\)=Y\]}{\\mathbb{P}\[M\(x'\)=Y\]} \\right\)^\\alpha \\right\] \le \\underset{Y \\gets M\(x'\)}{\\mathbb{E}}\\left\[ \\frac{\\mathbb{P}\[M\(x\)=Y\]}{\\mathbb{P}\[M\(x'\)=Y\]}  \\right\] \cdot \max_y \\left\( \\frac{\\mathbb{P}\[M\(x\)=y\]}{\\mathbb{P}\[M\(x'\)=y\]} \\right\)^{\\alpha-1} \le 1 \cdot \\left\( e^\\varepsilon \\right\)^{\\alpha-1},\\\] which yields the trivial conversion. Here we use the fact that \\\[ \\underset{Y \\gets M\(x'\)}{\\mathbb{E}}\\left\[ \\frac{\\mathbb{P}\[M\(x\)=Y\]}{\\mathbb{P}\[M\(x'\)=Y\]} \\right\] = \sum_y \\mathbb{P}\[M\(x'\)=y\] \cdot \\frac{\\mathbb{P}\[M\(x\)=y\]}{\\mathbb{P}\[M\(x'\)=y\]} = 1. \\\]
 
-[^3]: This proof actually gives [a slightly stronger result](https://dongjs.github.io/2020/02/10/ExpMech.html): We can replace the sensitivity \\\(\\Delta\\\) (defined in Equation 2) by half the range \\\[\\hat\\Delta = \\frac12 \\sup_{x,x' \\in \\mathcal{X}^n : d(x,x') \\le 1} \\left( \\max_{\\overline{y}\\in\\mathcal{Y}} \\ell(\\overline{y},x) - \\ell(\\overline{y},x') - \\min_{\\underline{y}\\in\\mathcal{Y}} \\ell(\\underline{y},x) - \\ell(\\underline{y},x') \\right).\\\] We always have \\\(\\hat\\Delta \\le \\Delta\\\) but it is possible that \\\(\\hat\\Delta < \\Delta\\\) and the privacy analysis of the exponential mechanism still works if we replace \\\(\\Delta\\\) by \\\(\\hat\\Delta\\\).
-
-[^4]: Equivalently, a randomized algorithm \\\(M : \\mathcal{X}^n \\to \\mathcal{Y}\\\) satisfies \\\(\\rho\\\)-concentrated differential privacy if, for all pairs of inputs \\\(x, x' \\in \\mathcal{X}^n\\\) differing only on the data of a single individual, \\\[\\forall \\lambda > 0 ~~~~~ \\mathrm{D}\_{\\lambda+1}(M(x)\\\|M(x')) \\le (\\lambda+1)\\rho,\\\] where \\\(\\mathrm{D}\_{\\lambda+1}(M(x)\\\|M(x')))\\\) is the order \\\(\\lambda+1\\\) Rényi divergence of \\\(M(x)\\\) from \\\(M(x')\\\).
-
-[^5]: To be precise, if \\\(M(x) = q(x) + \\mathcal{N}(0,\\sigma^2I)\\\), then \\\(M : \\mathcal{X}^n \\to \\mathbb{R}^d\\\) satisfies \\\(\\frac{\\Delta\_2^2}{2\\sigma^2}\\\)-concentrated differential privacy, where \\\(\\Delta\_2 = \\sup\_{x,x'\\in\\mathcal{X}^n : d(x,x')\\le1} \\\|q(x)-q(x')\\\|\_2\\\) is the 2-norm sensitivity of \\\(q:\\mathcal{X}^n \\to \\mathbb{R}^d\\\). Furthermore, the privacy loss of the Gaussian mechanism is itself a Gaussian and it makes the inequality defining concentrated differential privacy (Equation 3) an equality for all \\\(\\lambda\\\)
-
-[^6]: Note that the expectation of the privacy loss is simply the [KL divergence](https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence): \\\(\\mathbb{E}[Z] = \\mathrm{D}\_1( M(x) \\\| M(x') )\\\).
-
-[^7]: We have presented selection here in terms of minimization, but most of the literature is in terms of maximization.
+[^3]: This proof technique is due to Bun & Steinke \[[BS16](https://arxiv.org/abs/1605.02065 "Mark Bun, Thomas Steinke. Concentrated Differential Privacy: Simplifications, Extensions, and Lower Bounds. 2016."), Proposition 3.3\].
