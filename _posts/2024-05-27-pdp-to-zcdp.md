@@ -38,6 +38,30 @@ This definition is equivalent to satisfying \\\(\(\\alpha,\\rho\\alpha\)\\\)-RDP
 
 ## Converting Pure DP to Renyi DP
 
+It is immediate from the definitions that \\\(\\varepsilon\\\)-DP implies \\\(\(\\alpha,\\varepsilon\)\\\)-RDP for all \\\(\\alpha>1\\\).[^2]
+This is just saying that the average value is at most the maximum value.
+We can do better than this:
+
+> **Theorem 4 (Pure DP to Renyi DP):**
+> Let \\\(M : \\mathcal{X}^n \\to \\mathcal{Y}\\\) be a randomized algorithm satisfying \\\(\\varepsilon\\\)-differential privacy.
+> Then \\\(M\\\) satisfies \\\(\(\\alpha,\\widehat\\varepsilon\(\\alpha\)\)\\\)-Renyi DP for all \\\(\\alpha>1\\\), where
+> \\\[ \\widehat\\varepsilon\(\\alpha\) = \\frac{1}{\\alpha-1} \\log \\left\( \\frac{1}{e^\\varepsilon+1} e^{\\alpha \\varepsilon} +  \\frac{e^\\varepsilon}{e^\\varepsilon+1} e^{-\\alpha \\varepsilon} \\right\) \\\]\\\[ = \\varepsilon - \\frac{1}{\\alpha-1} \\log \\left\( \\frac{1+e^{-\\varepsilon}}{1 + e^{-(2\\alpha-1)\\varepsilon}} \\right\). \\\]
+> Furthermore, this bound is tight. 
+
+_Proof._
+Fix neighbouring inputs \\\(x, x' \\in \\mathcal{X}^n\\\).
+First note that this bound is tight when \\\(M\\\) corresponds to randomized response.
+That is, if \\\(M\(x\) = \\mathsf{Bernoulli}\(\\tfrac{e^\\varepsilon}{e^\\varepsilon+1}\)\\\) and \\\(M\(x'\) = \\mathsf{Bernoulli}\(\\tfrac{1}{e^\\varepsilon+1}\)\\\), then the expression in the theorem statement equals the expression in the definition of Renyi DP. Since this is consistent with \\\(M\\\) satisfying \\\(\\varepsilon\\\)-DP, this proves tightness of the result.
+To prove the result we next must show that randomized response is the worst case \\\(M\\\).
+
+
+ &#8718;
+
+## Converting Pure DP to zCDP
+
+
+---
+
 
 
 
