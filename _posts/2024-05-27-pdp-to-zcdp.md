@@ -70,7 +70,7 @@ Observation 1 tells us that this is valid, since \\\(z \\in \[e^{-\\varepsilon},
 We have \\\(\\frac{1-e^{-\\varepsilon}}{e^\\varepsilon-e^{-\\varepsilon}} = \\frac{e^\\varepsilon-1}{e^{2\\varepsilon}-1} = \\frac{e^\\varepsilon-1}{(e^\\varepsilon-1)(e^\\varepsilon+1)} = \\frac{1}{e^\\varepsilon+1}\\\) and, similarly,\\\(\\frac{e^\\varepsilon-1}{e^\\varepsilon-e^{-\\varepsilon}} = \\frac{e^\\varepsilon}{e^\\varepsilon+1}\\\).
 Combining the equalities and inequalities gives \\\[ e^{\(\\alpha-1\)\\widehat\\varepsilon\(\\alpha\)} = \\underset{Y \\gets M\(x'\)}{\\mathbb{E}}\\left\[ \\left\( \\frac{\\mathbb{P}\[M\(x\)=Y\]}{\\mathbb{P}\[M\(x'\)=Y\]} \\right\)^\\alpha \\right\] \le \\frac{1}{e^\\varepsilon+1} e^{\\alpha\\varepsilon} + \\frac{e^\\varepsilon}{e^\\varepsilon+1} e^{-\\alpha\\varepsilon},\\\] which establishes the result.
 The equivalence of the two expressions in the theorem statement is a matter of algebraic manipulation; the second expression is more suitable for numerical computation.
- &#8718;
+&#8718;
 
 ## Converting Pure DP to zCDP
 
@@ -81,8 +81,27 @@ Now we prove a tight bound:
 > **Theorem 5 (Pure DP to zCDP):**
 > Let \\\(M : \\mathcal{X}^n \\to \\mathcal{Y}\\\) be a randomized algorithm satisfying \\\(\\varepsilon\\\)-differential privacy.
 > Then \\\(M\\\) satisfies \\\(\\rho\\\)-zCDP for all \\\(\\alpha>1\\\), where
-> \\\[ \\rho = \\frac{e^\\varepsilon-1}{e^\\varepsilon+1} \\varepsilon . \\\]
+> \\\[ \\rho = \\frac{e^\\varepsilon-1}{e^\\varepsilon+1} \\varepsilon \\le \\frac12 \\varepsilon^2. \\\]
 > Furthermore, this bound is tight. 
+
+To prove this result, we use the following result, which is a tighter version of Hoeffding's inequality.
+
+> **Proposition 6 (Kearns-Saul inequality \[[KS13](https://arxiv.org/abs/1301.7392 "Michael Kearns, Lawrence Saul. Large Deviation Methods for Approximate Probabilistic Inference. 2013."),[BK13](https://doi.org/10.1214/ECP.v18-2359 "Daniel Berend, Aryeh Kontorovich. On the concentration of the missing mass. 2013."),[AMN19](https://arxiv.org/abs/1901.09188 "Julyan Arbel, Olivier Marchal, Hien D. Nguyen. On strict sub-Gaussianity, optimal proxy variance and symmetry for bounded random variables. 2019.")\]):**
+> For all \\\(p \\in \[0,1\]\\\) and all \\\(t\\in\\mathbb{R}\\\), we have \\\[1-p + p \\cdot e^t \\le \\exp\\left\(t \\cdot p + t^2 \\cdot \\frac{1-2p}{4\\log\(\(1-p\)/p\)}\\right\).\\\]
+
+_Proof of Theorem 5._
+By Theorem 4, \\\(M\\\) satisfies \\\(\(\\alpha,\\widehat\\varepsilon\(\\alpha\)\)\\\)-Renyi DP for all \\\(\\alpha>1\\\), where \\\[ e^{\(\\alpha-1\)\\widehat\\varepsilon\(\\alpha\)} = \\frac{1}{e^\\varepsilon+1} e^{\\alpha \\varepsilon} +  \\frac{e^\\varepsilon}{e^\\varepsilon+1} e^{-\\alpha \\varepsilon} .\\\]
+We need to show \\\(\\widehat\\varepsilon\(\\alpha\) \\le \\rho\\alpha\\\) for all \\\(\\alpha>1\\\). Fix \\\(\\alpha>1\\\).
+
+Let \\\(p = \\tfrac{1}{e^\\varepsilon+1}\\\). Then
+\\\[ \\frac{1}{e^\\varepsilon+1} e^{\\alpha \\varepsilon} +  \\frac{e^\\varepsilon}{e^\\varepsilon+1} e^{-\\alpha \\varepsilon} = e^{-\\alpha\\varepsilon} \cdot \\left\( 1-p + p e^{2\\alpha\\varepsilon} \\right\) .\\\]
+By the Kearns-Saul inequality, \\\[  e^{-\\alpha\\varepsilon} \cdot \\left\( 1-p + p e^{2\\alpha\\varepsilon} \\right\) \le \\exp\\left\((2p-1)\\alpha\\varepsilon + \( 2 \\alpha \\varepsilon\)^2 \\cdot \\frac{1-2p}{4\\log\(\(1-p\)/p\)}\\right\) .\\\]
+Since \\\(2p-1 = - \\tfrac{e^\\varepsilon-1}{e^\\varepsilon + 1}\\\) and \\\( \\frac{1-p}{p} = e^\\varepsilon \\\), this simplifies to \\\[ \\exp\\left\((2p-1)\\alpha\\varepsilon + \( 2 \\alpha \\varepsilon\)^2 \\cdot \\frac{1-2p}{4\\log\(\(1-p\)/p\)}\\right\) = \\exp\\left\( -\\alpha\\varepsilon\\frac{e^\\varepsilon-1}{e^\\varepsilon+1} + 4 \\alpha^2 \\varepsilon^2 \\frac{\\frac{e^\\varepsilon-1}{e^\\varepsilon+1}}{4\\varepsilon} \\right\)\\\]\\\[ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ = \\exp\\left\( \(\\alpha-1\) \\alpha \\varepsilon \\frac{e^\\varepsilon-1}{e^\\varepsilon+1} \\right\). \\\]
+Combining the inequalities yields \\\( \\widehat\\varepsilon\(\\alpha\) \\le \\alpha \\varepsilon \\frac{e^\\varepsilon-1}{e^\\varepsilon+1} \\\), which gives the result.
+
+Tightness is witnessed by randomized response and by taking the limit \\\(\\alpha \\to 1\\\).
+&#8718;
+
 
 ---
 
