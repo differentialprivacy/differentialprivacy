@@ -8,15 +8,15 @@ timestamp: 10:00:00 -0700
 categories: [Algorithms]
 ---
 
-There are multiple ways to quantify differential privacy, including pure DP \[[DMNS06](https://journalprivacyconfidentiality.org/index.php/jpc/article/view/405 "Cynthia Dwork, Frank McSherry, Kobbi Nissim, Adam Smith. Calibrating Noise to Sensitivity in Private Data Analysis. 2006.")\], approximate DP \[[DKMMN06](https://link.springer.com/chapter/10.1007/11761679_29 "Cynthia Dwork, Krishnaram Kenthapadi, Frank McSherry, Ilya Mironov, Moni Naor. Our Data, Ourselves: Privacy Via Distributed Noise Generation. 2006.")\], Concentrated DP \[[DR16](https://arxiv.org/abs/1603.01887 "Cynthia Dwork, Guy N. Rothblum. Concentrated Differential Privacy. 2016."),[BS16](https://arxiv.org/abs/1605.02065 "Mark Bun, Thomas Steinke. Concentrated Differential Privacy: Simplifications, Extensions, and Lower Bounds. 2016.")\], Renyi DP \[[M17](https://arxiv.org/abs/1702.07476 "Ilya Mironov. Renyi Differential Privacy. 2017.")\], Gaussian DP \[[DRS19](https://arxiv.org/abs/1905.02383 "Jinshuo Dong, Aaron Roth, Weijie J. Su. Gaussian Differential Privacy. 2019.")\], & function-DP \[[DRS19](https://arxiv.org/abs/1905.02383 "Jinshuo Dong, Aaron Roth, Weijie J. Su. Gaussian Differential Privacy. 2019.")\].
-Fortunately, these definitions are similar enough that we can convert between most of them with some loss in parameters.
+There are multiple ways to quantify differential privacy, including pure DP \[[DMNS06](https://journalprivacyconfidentiality.org/index.php/jpc/article/view/405 "Cynthia Dwork, Frank McSherry, Kobbi Nissim, Adam Smith. Calibrating Noise to Sensitivity in Private Data Analysis. 2006.")\], approximate DP \[[DKMMN06](https://link.springer.com/chapter/10.1007/11761679_29 "Cynthia Dwork, Krishnaram Kenthapadi, Frank McSherry, Ilya Mironov, Moni Naor. Our Data, Ourselves: Privacy Via Distributed Noise Generation. 2006.")\], Concentrated DP \[[DR16](https://arxiv.org/abs/1603.01887 "Cynthia Dwork, Guy N. Rothblum. Concentrated Differential Privacy. 2016."),[BS16](https://arxiv.org/abs/1605.02065 "Mark Bun, Thomas Steinke. Concentrated Differential Privacy: Simplifications, Extensions, and Lower Bounds. 2016.")\], R&eacute;nyi DP \[[M17](https://arxiv.org/abs/1702.07476 "Ilya Mironov. R&eacute;nyi Differential Privacy. 2017.")\], Gaussian DP \[[DRS19](https://arxiv.org/abs/1905.02383 "Jinshuo Dong, Aaron Roth, Weijie J. Su. Gaussian Differential Privacy. 2019.")\], & function-DP \[[DRS19](https://arxiv.org/abs/1905.02383 "Jinshuo Dong, Aaron Roth, Weijie J. Su. Gaussian Differential Privacy. 2019.")\].
+Fortunately, these definitions are similar enough that we can convert between most of them \(with some loss in parameters\).
 
-In this post we will discuss converting from pure DP to Renyi DP and concentrated DP. In particular, we will provide optimal results, which are an improvement on what is currently in the literature.
+In this post, we consider converting from pure DP to R&eacute;nyi DP and Concentrated DP. In particular, we will provide optimal results, which are an improvement on what is currently in the literature.
 But first, let's recap the relevant definitions.
 
-## Definitions: Pure DP, Renyi DP, & zCDP
+## Definitions: Pure DP, R&eacute;nyi DP, & zCDP
 
-For notational simplicity, we will assume the output space of algorithms is discrete and the algorithms outputs have full support.[^1]
+For notational simplicity, we will assume the output space of the algorithms is discrete and that the algorithms' output distributions have full support.[^1]
 
 > **Definition 1 (Pure DP):**
 > A randomized algorithm \\\(M : \\mathcal{X}^n \\to \\mathcal{Y}\\\) satisfies \\\(\\varepsilon\\\)-differential privacy if, for all pairs of inputs \\\(x, x' \\in \\mathcal{X}^n\\\) differing only on the data of a single individual, we have \\\[\\forall y \\in \\mathcal{Y} ~~~~~ \\log\\left(\\frac{\\mathbb{P}\[M\(x\)=y\]}{\\mathbb{P}\[M\(x'\)=y\]}\\right) \\le \\varepsilon.\\\]
@@ -24,27 +24,27 @@ For notational simplicity, we will assume the output space of algorithms is disc
 Pure DP is the simplest (and first) definition and is very convenient for analysis. 
 Pure DP can also be called pointwise DP because the guarantee holds for all points \\\(y\\\), whereas all the other definitions either bound some quantity averaged over \\\(y\\\) or quantify over sets \\\(S \\subseteq \\mathcal{Y}\\\).
 
-> **Definition 2 (Renyi DP):**
-> A randomized algorithm \\\(M : \\mathcal{X}^n \\to \\mathcal{Y}\\\) satisfies \\\(\(\\alpha,\\widehat\\varepsilon\)\\\)-Renyi differential privacy if, for all pairs of inputs \\\(x, x' \\in \\mathcal{X}^n\\\) differing only on the data of a single individual, we have \\\[ \\frac{1}{\\alpha-1} \\log \\left\( \\underset{Y \\gets M\(x'\)}{\\mathbb{E}}\\left\[ \\left\( \\frac{\\mathbb{P}\[M\(x\)=Y\]}{\\mathbb{P}\[M\(x'\)=Y\]} \\right\)^\\alpha \\right\] \\right\) \\le \\widehat\\varepsilon.\\\]
+> **Definition 2 (R&eacute;nyi DP):**
+> A randomized algorithm \\\(M : \\mathcal{X}^n \\to \\mathcal{Y}\\\) satisfies \\\(\(\\alpha,\\widehat\\varepsilon\)\\\)-R&eacute;nyi differential privacy if, for all pairs of inputs \\\(x, x' \\in \\mathcal{X}^n\\\) differing only on the data of a single individual, we have \\\[ \\frac{1}{\\alpha-1} \\log \\left\( \\underset{Y \\gets M\(x'\)}{\\mathbb{E}}\\left\[ \\left\( \\frac{\\mathbb{P}\[M\(x\)=Y\]}{\\mathbb{P}\[M\(x'\)=Y\]} \\right\)^\\alpha \\right\] \\right\) \\le \\widehat\\varepsilon.\\\]
 
-Renyi DP is a more flexible definition than pure DP. But flexibility comes at the cost of complexity.
+R&eacute;nyi DP is a more flexible definition than pure DP. But this flexibility comes at the cost of complexity.
 The definition has two parameters, but we can usually trade off these parameters. Thus it is often better to think of it as being parameterized by a function \\\(\\widehat\\varepsilon\(\\alpha\)\\\), which gives us a \\\(\(\\alpha,\\widehat\\varepsilon\(\\alpha\)\)\\\)-RDP bound for all \\\(\\alpha>1\\\) simultaneously.
 However, in many cases -- such as the Gaussian mechanism -- the function is linear, or can be bounded by a linear function.
 
 > **Definition 3 (zero-Concentrated DP (zCDP)):**
 > A randomized algorithm \\\(M : \\mathcal{X}^n \\to \\mathcal{Y}\\\) satisfies \\\(\\rho\\\)-zCDP if, for all pairs of inputs \\\(x, x' \\in \\mathcal{X}^n\\\) differing only on the data of a single individual, we have \\\[ \\forall \\alpha > 1 ~~~~~ \\frac{1}{\\alpha-1} \\log \\left\( \\underset{Y \\gets M\(x'\)}{\\mathbb{E}}\\left\[ \\left\( \\frac{\\mathbb{P}\[M\(x\)=Y\]}{\\mathbb{P}\[M\(x'\)=Y\]} \\right\)^\\alpha \\right\] \\right\) \\le \\alpha\\rho.\\\]
 
-This definition is equivalent to satisfying \\\(\(\\alpha,\\rho\\alpha\)\\\)-RDP for all \\\(\\alpha>1\\\); zCDP can be thought of as a single-parameter version of RDP which gives us many of the benefits of RDP without the complexity.
+This definition is equivalent to satisfying \\\(\(\\alpha,\\rho\\alpha\)\\\)-RDP for all \\\(\\alpha>1\\\); zCDP can be thought of as a single-parameter version of RDP, which gives us many of the benefits of RDP without the complexity.
 
-## Converting Pure DP to Renyi DP
+## Converting Pure DP to R&eacute;nyi DP
 
 It is immediate from the definitions that \\\(\\varepsilon\\\)-DP implies \\\(\(\\alpha,\\varepsilon\)\\\)-RDP for all \\\(\\alpha>1\\\).[^2]
 This is just saying that the average value is at most the maximum value.
 We can do better than this:
 
-> **Theorem 4 (Pure DP to Renyi DP):**
+> **Theorem 4 (Pure DP to R&eacute;nyi DP):**
 > Let \\\(M : \\mathcal{X}^n \\to \\mathcal{Y}\\\) be a randomized algorithm satisfying \\\(\\varepsilon\\\)-differential privacy.
-> Then \\\(M\\\) satisfies \\\(\(\\alpha,\\widehat\\varepsilon\(\\alpha\)\)\\\)-Renyi DP for all \\\(\\alpha>1\\\), where
+> Then \\\(M\\\) satisfies \\\(\(\\alpha,\\widehat\\varepsilon\(\\alpha\)\)\\\)-R&eacute;nyi DP for all \\\(\\alpha>1\\\), where
 > \\\[ \\widehat\\varepsilon\(\\alpha\) = \\frac{1}{\\alpha-1} \\log \\left\( \\frac{1}{e^\\varepsilon+1} e^{\\alpha \\varepsilon} +  \\frac{e^\\varepsilon}{e^\\varepsilon+1} e^{-\\alpha \\varepsilon} \\right\) \\\]\\\[ = \\varepsilon - \\frac{1}{\\alpha-1} \\log \\left\( \\frac{1+e^{-\\varepsilon}}{1 + e^{-(2\\alpha-1)\\varepsilon}} \\right\). \\\]
 > Furthermore, this bound is tight. 
 
@@ -52,7 +52,7 @@ _Proof._[^3]
 Fix neighbouring inputs \\\(x, x' \\in \\mathcal{X}^n\\\) and fix \\\(\\alpha>1\\\).
 
 First note that this bound is tight when \\\(M\\\) corresponds to randomized response.
-That is, if \\\(M\(x\) = \\mathsf{Bernoulli}\(\\tfrac{e^\\varepsilon}{e^\\varepsilon+1}\)\\\) and \\\(M\(x'\) = \\mathsf{Bernoulli}\(\\tfrac{1}{e^\\varepsilon+1}\)\\\), then the expression in the theorem statement is simply the expression in the definition of Renyi DP. Since this is consistent with \\\(M\\\) satisfying \\\(\\varepsilon\\\)-DP, this proves tightness of the result.
+That is, if \\\(M\(x\) = \\mathsf{Bernoulli}\(\\tfrac{e^\\varepsilon}{e^\\varepsilon+1}\)\\\) and \\\(M\(x'\) = \\mathsf{Bernoulli}\(\\tfrac{1}{e^\\varepsilon+1}\)\\\), then the expression in the theorem statement is simply the expression in the definition of R&eacute;nyi DP. Since this is consistent with \\\(M\\\) satisfying \\\(\\varepsilon\\\)-DP, this proves tightness of the result.
 To prove the result it only remains to show that randomized response is indeed the worst case \\\(M\\\).
 
 We make two additional observations: 
@@ -85,13 +85,13 @@ Now we prove a tight bound:
 > \\\[ \\rho = \\frac{e^\\varepsilon-1}{e^\\varepsilon+1} \\varepsilon \\le \\frac12 \\varepsilon^2. \\\]
 > Furthermore, this bound is tight. 
 
-To prove this result, we use the following result, which is a tighter version of Hoeffding's inequality.
+To prove this result, we use the following result, which is a tighter version of [Hoeffding's lemma](https://en.wikipedia.org/wiki/Hoeffding%27s_lemma).
 
 > **Proposition 6 (Kearns-Saul inequality \[[KS13](https://arxiv.org/abs/1301.7392 "Michael Kearns, Lawrence Saul. Large Deviation Methods for Approximate Probabilistic Inference. 2013."),[BK13](https://doi.org/10.1214/ECP.v18-2359 "Daniel Berend, Aryeh Kontorovich. On the concentration of the missing mass. 2013."),[AMN19](https://arxiv.org/abs/1901.09188 "Julyan Arbel, Olivier Marchal, Hien D. Nguyen. On strict sub-Gaussianity, optimal proxy variance and symmetry for bounded random variables. 2019.")\]):**
 > For all \\\(p \\in \[0,1\]\\\) and all \\\(t\\in\\mathbb{R}\\\), we have \\\[1-p + p \\cdot e^t \\le \\exp\\left\(t \\cdot p + t^2 \\cdot \\frac{1-2p}{4\\log\(\(1-p\)/p\)}\\right\).\\\]
 
 _Proof of Theorem 5._
-By Theorem 4, \\\(M\\\) satisfies \\\(\(\\alpha,\\widehat\\varepsilon\(\\alpha\)\)\\\)-Renyi DP for all \\\(\\alpha>1\\\), where \\\[ e^{\(\\alpha-1\)\\widehat\\varepsilon\(\\alpha\)} = \\frac{1}{e^\\varepsilon+1} e^{\\alpha \\varepsilon} +  \\frac{e^\\varepsilon}{e^\\varepsilon+1} e^{-\\alpha \\varepsilon} .\\\]
+By Theorem 4, \\\(M\\\) satisfies \\\(\(\\alpha,\\widehat\\varepsilon\(\\alpha\)\)\\\)-R&eacute;nyi DP for all \\\(\\alpha>1\\\), where \\\[ e^{\(\\alpha-1\)\\widehat\\varepsilon\(\\alpha\)} = \\frac{1}{e^\\varepsilon+1} e^{\\alpha \\varepsilon} +  \\frac{e^\\varepsilon}{e^\\varepsilon+1} e^{-\\alpha \\varepsilon} .\\\]
 We need to show \\\(\\widehat\\varepsilon\(\\alpha\) \\le \\rho\\alpha\\\) for all \\\(\\alpha>1\\\). Fix \\\(\\alpha>1\\\).
 
 Let \\\(p = \\tfrac{1}{e^\\varepsilon+1}\\\). Then
@@ -108,9 +108,9 @@ Tightness is witnessed by randomized response and by taking the limit \\\(\\alph
 Let's see what these improved bounds look like:
 
 <img src="/images/pdp2zcdp-purerenyi.png" width="700" alt="Plot showing the bound from Theorem 4 compared to the trivial bound and the bound implied by Theorem 5 for epsilon=0.5,1,2." style="margin:auto;display: block;" />
-This first plot compares the tight Renyi DP bound from Theorem 4 \(solid line\) with the trivial bound \(\\\(\\widehat\\varepsilon\(\\alpha\)\\le\\varepsilon\\\), dotted line\) and the bound implied by zCDP \(dashed line\) via Theorem 5. We consider \\\(\\varepsilon=\\frac12\\\) \(<font color="red">red</font> line, bottom\), \\\(\\varepsilon=1\\\) \(<font color="green">green</font> line, middle\), and \\\(\\varepsilon=2\\\) \(<font color="blue">blue</font> line, top\).
+This first plot compares the tight R&eacute;nyi DP bound from Theorem 4 \(solid line\) with the trivial bound \(\\\(\\widehat\\varepsilon\(\\alpha\)\\le\\varepsilon\\\), dotted line\) and the bound implied by zCDP \(\\\(\\widehat\\varepsilon\(\\alpha\)\\le\\alpha\\rho\\\), dashed line\) via Theorem 5. We consider \\\(\\varepsilon=\\frac12\\\) \(<font color="red">red</font> lines, bottom\), \\\(\\varepsilon=1\\\) \(<font color="green">green</font> lines, middle\), and \\\(\\varepsilon=2\\\) \(<font color="blue">blue</font> lines, top\).
 
-We see that the trivial bound is tight as the Renyi order \\\(\\alpha\\\) becomes large, while the zCDP bound is tight for small Renyi orders \(i.e., \\\(\\alpha\\to1\\\)\).
+We see that the trivial bound is tight as the R&eacute;nyi order \\\(\\alpha\\\) becomes large, while the zCDP bound is tight for small R&eacute;nyi orders \(i.e., \\\(\\alpha\\to1\\\)\).
 The smaller \\\(\\varepsilon\\\) is, the later this transition occurs.
 
 
@@ -120,9 +120,26 @@ This second plot compares the tight zCDP bound from Theorem 5 \(solid <font colo
 
 We see that, for small values of \\\(\\varepsilon\\\), the quadrtic bound is tight, while for large values of \\\(\\varepsilon\\\), the trivial bound is tight.
 
+## Conclusion
+
+In this post, we have given improved bounds for converting from pure DP to R&eacute;nyi DP and zCDP.
+Numerically, these bounds are a modest improvement over the standard bounds.
+
+The bounds are tight when the algorithm corresponds to randomized response. 
+However, in many cases we can prove better bounds for specific algorithms.
+For example, in [a previous post](/exponential-mechanism-bounded-range), we proved better zCDP bounds for the exponential mechanism.
+
+Another popular pure DP mechanism is Laplace noise addition. Mironov \[[M17](https://arxiv.org/abs/1702.07476 "Ilya Mironov. R&eacute;nyi Differential Privacy. 2017."), Proposition 6\] computed a tight R&eacute;nyi DP bound specifically for the Laplace mechanism:
+Adding Laplace noise with scale \\\(1/\\varepsilon\\\) to a sensitivity-1 function guarantees \\\(\\varepsilon\\\)-DP and also \\\(\(\\alpha,\\widehat\\varepsilon_{\\text{Lap}}\(\\alpha\)\)\\\)-RDP for all \\\(\\alpha>1\\\) and \\\[\\widehat\\varepsilon_{\\text{Lap}}\(\\alpha\) = \\frac{1}{\\alpha-1}\\log\\left\( \\frac{\\alpha}{2\\alpha-1} e^{\(\\alpha-1\)\\varepsilon} + \\frac{\\alpha-1}{2\\alpha-1} e^{-\\alpha\\varepsilon} \\right\).\\\]
+
+### Acknowledgements
+
+Thanks to Damien Desfontaines for prompting this post.
+To the best of my knowledge this improved conversion first appeared in [a Tweet by Yu-Xiang Wang](https://x.com/yuxiangw_cs/status/1565765508950999041).
+
 ---
 
-[^1]: In general, we can replace \\\(\\frac{\\mathbb{P}\[M\(x\)=y\]}{\\mathbb{P}\[M\(x'\)=y\]}\\\) with the Radon-Nikodym derivative of the probability distribution given by \\\(M\(x\)\\\) with respect to the probability distribution given by \\\(M\(x'\)\\\) evaluated at \\\(y\\\). We handle division by zero by defining \\\(\\frac{0}{0} = 1\\\) and \\\(\\frac{\\eta}{0} = \\infty\\\) for \\\(\\eta>0\\\).
+[^1]: In general, we can replace \\\(\\frac{\\mathbb{P}\[M\(x\)=y\]}{\\mathbb{P}\[M\(x'\)=y\]}\\\) with the Radon-Nikodym derivative of the probability distribution given by \\\(M\(x\)\\\) with respect to the probability distribution given by \\\(M\(x'\)\\\) evaluated at \\\(y\\\). If the output distributions do not have full support, we must handle division by zero; to do this we take \\\(\\frac{0}{0} = 1\\\) and \\\(\\frac{\\eta}{0} = \\infty\\\) for \\\(\\eta>0\\\).
 
 [^2]: To be more precise, we have \\\[\\underset{Y \\gets M\(x'\)}{\\mathbb{E}}\\left\[ \\left\( \\frac{\\mathbb{P}\[M\(x\)=Y\]}{\\mathbb{P}\[M\(x'\)=Y\]} \\right\)^\\alpha \\right\] \le \\underset{Y \\gets M\(x'\)}{\\mathbb{E}}\\left\[ \\frac{\\mathbb{P}\[M\(x\)=Y\]}{\\mathbb{P}\[M\(x'\)=Y\]}  \\right\] \cdot \max_y \\left\( \\frac{\\mathbb{P}\[M\(x\)=y\]}{\\mathbb{P}\[M\(x'\)=y\]} \\right\)^{\\alpha-1} \le 1 \cdot \\left\( e^\\varepsilon \\right\)^{\\alpha-1},\\\] which yields the trivial conversion. Here we use Observation 2 from the proof of Theorem 4.
 
