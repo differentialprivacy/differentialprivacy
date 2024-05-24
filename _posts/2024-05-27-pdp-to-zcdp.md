@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Sharp RDP & zCDP from Pure DP"
+title: "Tight RDP & zCDP Bounds from Pure DP"
 comments: true
 authors:
   - thomassteinke
@@ -75,6 +75,7 @@ The equivalence of the two expressions in the theorem statement is a matter of a
 ## Converting Pure DP to zCDP
 
 The RDP bound in Theorem 4 is tight, but a bit unwieldy. Now we look at zCDP bounds, which are looser but simpler.
+The trivial bound gives that \\\(\\varepsilon\\\)-DP implies \\\(\\varepsilon\\\)-zCDP.
 In [a previous post](/exponential-mechanism-bounded-range) we proved that \\\(\\varepsilon\\\)-DP implies \\\(\\frac12\\varepsilon^2\\\)-zCDP.[^4]
 Now we prove a tight bound:
 
@@ -104,12 +105,20 @@ Tightness is witnessed by randomized response and by taking the limit \\\(\\alph
 
 ## Numerical Comparison
 
-Let's see what these improved bounds look like
+Let's see what these improved bounds look like:
 
-<img src="/images/pdp2zcdp-purerenyi.png" width="600" alt="Plot showing the bound from Theorem 4 compared to the trivial bound and the bound implied by Theorem 5 for epsilon=0.5,1,2." style="margin:auto;display: block;" />
+<img src="/images/pdp2zcdp-purerenyi.png" width="700" alt="Plot showing the bound from Theorem 4 compared to the trivial bound and the bound implied by Theorem 5 for epsilon=0.5,1,2." style="margin:auto;display: block;" />
+This first plot compares the tight Renyi DP bound from Theorem 4 \(solid line\) with the trivial bound \(\\\(\\widehat\\varepsilon\(\\alpha\)\\le\\varepsilon\\\), dotted line\) and the bound implied by zCDP \(dashed line\) via Theorem 5. We consider \\\(\\varepsilon=\\frac12\\\) \(<font color="red">red</font> line, bottom\), \\\(\\varepsilon=1\\\) \(<font color="green">green</font> line, middle\), and \\\(\\varepsilon=2\\\) \(<font color="blue">blue</font> line, top\).
 
-<img src="/images/pdp2zcdp-purezcdp.png" width="600" alt="Plot showing the bound from Theorem 5 compared to rho=epsilon^2/2 and rho=epsilon." style="margin:auto;display: block;" />
+We see that the trivial bound is tight as the Renyi order \\\(\\alpha\\\) becomes large, while the zCDP bound is tight for small Renyi orders \(i.e., \\\(\\alpha\\to1\\\)\).
+The smaller \\\(\\varepsilon\\\) is, the later this transition occurs.
 
+
+<img src="/images/pdp2zcdp-purezcdp.png" width="700" alt="Plot showing the bound from Theorem 5 compared to rho=epsilon^2/2 and rho=epsilon." style="margin:auto;display: block;" />
+
+This second plot compares the tight zCDP bound from Theorem 5 \(solid <font color="magenta">magenta</font> line\) against the trivial bound \(dotted <font color="yellow">yellow</font> line\) and the quadratic bound \(dashed <font color="cyan">cyan</font> line\).
+
+We see that, for small values of \\\(\\varepsilon\\\), the quadrtic bound is tight, while for large values of \\\(\\varepsilon\\\), the trivial bound is tight.
 
 ---
 
