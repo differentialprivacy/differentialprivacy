@@ -102,6 +102,14 @@ Combining the inequalities yields \\\( \\widehat\\varepsilon\(\\alpha\) \\le \\a
 Tightness is witnessed by randomized response and by taking the limit \\\(\\alpha \\to 1\\\).
 &#8718;
 
+## Numerical Comparison
+
+Let's see what these improved bounds look like
+
+<img src="/images/pdp2zcdp-purerenyi.png" width="600" alt="Plot showing the bound from Theorem 4 compared to the trivial bound and the bound implied by Theorem 5 for epsilon=0.5,1,2." style="margin:auto;display: block;" />
+
+<img src="/images/pdp2zcdp-purezcdp.png" width="600" alt="Plot showing the bound from Theorem 5 compared to rho=epsilon^2/2 and rho=epsilon." style="margin:auto;display: block;" />
+
 
 ---
 
