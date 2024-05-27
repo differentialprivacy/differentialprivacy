@@ -118,7 +118,7 @@ The smaller \\\(\\varepsilon\\\) is, the later this transition occurs.
 
 This second plot compares the tight zCDP bound from Theorem 5 \(solid <font color="magenta">magenta</font> line\) against the trivial bound \(dotted <font color="yellow">yellow</font> line\) and the quadratic bound \(dashed <font color="cyan">cyan</font> line\).
 
-We see that, for small values of \\\(\\varepsilon\\\), the quadrtic bound is tight, while for large values of \\\(\\varepsilon\\\), the trivial bound is tight.
+We see that, for small values of \\\(\\varepsilon\\\), the quadratic bound is tight, while for large values of \\\(\\varepsilon\\\), the trivial bound is tight.
 
 ## Conclusion
 
