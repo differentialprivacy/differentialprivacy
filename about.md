@@ -22,6 +22,7 @@ Please [join our low-traffic mailing list](https://groups.google.com/d/forum/dif
 ## Subscribe and Follow
 
 <a href="https://follow.it/differential-privacy-1?leanpub"><i class="svg-icon email"></i></a>&nbsp;&nbsp;
+<a href="https://bsky.app/profile/differentialprivacy.org"><i class="svg-icon bluesky"></i></a>&nbsp;&nbsp;
 <a href="https://www.twitter.com/DiffPriv"><i class="svg-icon twitter"></i></a>&nbsp;&nbsp;
 <a href="{{ site.baseurl }}/feed.xml"><i class="svg-icon rss"></i></a>&nbsp;&nbsp;
 <a href="https://github.com/differentialprivacy/differentialprivacy"><i class="svg-icon github"></i></a> 
