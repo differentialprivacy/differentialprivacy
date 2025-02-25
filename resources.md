@@ -6,7 +6,7 @@ permalink: /resources/
 
 ## Books and General Surveys
 * [The Algorithmic Foundations of Differential Privacy](https://www.cis.upenn.edu/~aaroth/Papers/privacybook.pdf), by [Cynthia Dwork](https://www.microsoft.com/en-us/research/people/dwork/) and [Aaron Roth](https://www.cis.upenn.edu/~aaroth/)
-* [The Complexity of Differential Privacy](https://privacytools.seas.harvard.edu/files/privacytools/files/complexityprivacy_1.pdf), by [Salil Vadhan](https://salil.seas.harvard.edu/)
+* [The Complexity of Differential Privacy](https://salil.seas.harvard.edu/publications/complexity-differential-privacy), by [Salil Vadhan](https://salil.seas.harvard.edu/)
 
 ## Focused Surveys
 * [Differential Privacy in the Shuffle Model: A Survey of Separations](https://arxiv.org/abs/2107.11839) by [Albert Cheu](http://www.ccs.neu.edu/home/albertcheu/)
