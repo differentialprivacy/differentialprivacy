@@ -36,13 +36,31 @@ There are _many_ privacy ampliffication by subsampling results in the literature
 > Let \\\(M \\circ S : \\mathcal{X}^\* \\to \\mathcal{Y}\\\) denote the combined algorithm that first subsamples and then runs \\\(M\\\) -- i.e., \\\(M \\circ S \(x\) = M\(S\(x\)\)\\\) for all \\\(x\\\).
 > Then \\\(M \\circ S\\\) satisfies \\\(\(\\varepsilon',\\delta'\)\\\)-differential privacy for \\\[\\varepsilon' = \\log\\big\(1+p\(\\exp\(\\varepsilon\)-1\)\\big\) \~\~\~\~ \\text{ and } \~\~\~\~ \\delta' = p \\delta. \\\]
 
+_Proof._
+Let \\\(x \\in \\mathcal{X}^\*\\\) and \\\(x\_i \\in x \\\) be arbitrary. Let \\\(x'=x\\setminus\\{x\_i\\}\\\) be \\\(x\\\) with \\\(x\_i\\\) removed. Let \\\(T \\subseteq \\mathcal{Y}\\\) be arbitrary.
+We have <br/>
+\\\(\\mathbb{P}\[M\(S\(x\)\) \\in T \] = \(1-p\) \\mathbb{P}\[M\(S\(x\)\) \\in T \\mid x\_i \\notin S\(x\)\] + p \\mathbb{P}\[M\(S\(x\)\) \\in T \\mid x\_i \\in S\(x\)\] \\\)
+\\\(\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~ = \(1-p\) \\mathbb{P}\[M\(S\(x'\)\) \\in T\] + p \\mathbb{P}\[M\(S\(x'\)\\cup\{x\_i\}\) \\in T\]\\\)<br/>
+\\\(\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~ \\le \(1-p\) \\mathbb{P}\[M\(S\(x'\)\) \\in T\] + p \(e^\\varepsilon \\mathbb{P}\[M\(S\(x'\)\) \\in T\] + \\delta \) \\\)<br/>
+\\\(\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~ = \(1-p + p e^\\varepsilon \) \\mathbb{P}\[M\(S\(x'\)\) \\in T\] + p \\delta. \\\) <br/>
+Here we are using the fact that \\\(S\(x\)\\\) conditioned on \\\(x\_i \\notin S\(x\)\\\) is just \\\(S\(x'\)\\\) and the fact that \\\(S\(x\)\\\) conditioned on \\\(x\_i \\in S\(x\)\\\) is just \\\(S\(x'\)\\cup\{x\_i\}\\\).
+This establishes half of the result. The other direction is similar:<br/>
+\\\(\\mathbb{P}\[M\(S\(x\)\) \\in T \] = \(1-p\) \\mathbb{P}\[M\(S\(x\)\) \\in T \\mid x\_i \\notin S\(x\)\] + p \\mathbb{P}\[M\(S\(x\)\) \\in T \\mid x\_i \\in S\(x\)\] \\\)
+\\\(\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~ = \(1-p\) \\mathbb{P}\[M\(S\(x'\)\) \\in T\] + p \\mathbb{P}\[M\(S\(x'\)\\cup\{x\_i\}\) \\in T\]\\\)<br/>
+\\\(\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~ \\ge \(1-p\) \\mathbb{P}\[M\(S\(x'\)\) \\in T\] + p e^{-\\varepsilon}\( \\mathbb{P}\[M\(S\(x'\)\) \\in T\] - \\delta \) \\\)<br/>
+\\\(\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~ = \(1-p+p e^{-\\varepsilon}\) \\mathbb{P}\[M\(S\(x'\)\) \\in T\] - p e^{-\\varepsilon} \\delta \\\)<br/>
+This rearranges to<br/>
+\\\( \\mathbb{P}\[M\(S\(x'\)\) \\in T\] \\le \\frac{\\mathbb{P}\[M\(S\(x\)\) \\in T \]+p e^{-\\varepsilon}\\delta}{1-p+p e^{-\\varepsilon}} \\le \(1-p+pe^\\varepsilon\)\\mathbb{P}\[M\(S\(x\)\) \\in T \] + p\\delta.\\\)
+&#8718;
+
+## Why is Privacy Amplification by Subsampling Useful?
 
 ---
 
-[^up]: For simplicity we assume that the probability of inclusion \\\(\\mathbb{P}\[x\_i\\in S\(x\)\]\\\) is the same for all individuals \\\(i\\\). In general, it can be different, in which case we would work with the largest probability \\\(p = \\max\_i \\mathbb{P}\[x\_i\\in S\(x\)\]\\\). 
+[^up]: For simplicity we assume that the probability of inclusion \\\(\\mathbb{P}\[x\_i\\in S\(x\)\]\\\) is the same for all individuals \\\(i\\\). In general, it can be different, in which case we would work with the largest probability \\\(p = \\max\_i \\mathbb{P}\[x\_i\\in S\(x\)\]\\\).  
 
 [^amb]: Under pure differential privacy, there is no privacy amplification by subsampling when the adversary knows whether or not your data was included in the subsample. (However, under approximate or R&eacute;nyi differential privacy there is some amplification, but less than when the subsample remains secret.)
 
 [^poisson]: I have no idea why it's called Poisson subsampling instead of Binomial subsampling. Intuitively, the reason independent inclusion is better than having a fixed-size subsample is that, if the size of the subsample is known, then knowing whether other people's data is included or excluded reveals information about whether your data is included or excluded. 
 
-[^replace]: 
+[^notation]: This post uses set notation \\\(x\_i \\in S\(x\) \\subset x\\\) somewhat informally. 
