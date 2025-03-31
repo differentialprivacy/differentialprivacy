@@ -102,12 +102,17 @@ This adds a bit of complexity, but doesn't fundamentally alter the story; essent
 The story so far is pretty good. But let's take a closer look at the approximation we made in [Equation 6](#eq6):
 <a id="eq6prime" />\\\[\\varepsilon_p = \\log\\left\(1 + \\frac{1}{p} \\big\( e^{\\varepsilon}-1 \\big\)\\right\) \\approx \\frac{\\varepsilon}{p}. \\tag{6'} \\\]
 Specifically, we're interested in the scale of the Laplace noise: <a id="eq10" />\\\[\\frac{1}{\\varepsilon\_p p} = \\frac{1}{p\\log\\left\(1 + \\frac{1}{p} \\big\( e^{\\varepsilon}-1 \\big\)\\right\)} \\approx \\frac{1}{\\varepsilon}. \\tag{10} \\\]
-To get an idea of how good this approximation is, let's plot the ratio \\\(\\frac{p\\varepsilon\_p}{\\varepsilon} \\approx 1\\\):
-<p align="center"><img src="/images/subsampling-ratio-p.png" alt="Plot of p*eps\_p/eps as a function of p for eps=0.01,0.1,1,2"/></p> 
-<p align="center"><img src="/images/subsampling-ratio-eps.png" alt="Plot of p*eps\_p/eps as a function of eps for p=0.001,0.01,0.1,0.5"/></p> 
+To get an idea of how good this approximation is, let's plot the ratio \\\(\\frac{p\\varepsilon\_p}{\\varepsilon} = \\frac{p}{\\varepsilon} \\log\\left\(1 + \\frac{1}{p} \\big\( e^{\\varepsilon}-1 \\big\)\\right\) \\approx 1\\\):
+<p align="center"><img src="/images/subsampling-ratio-p.png" alt="Plot of p*eps\_p/eps as a function of p for eps=0.01,0.1,1,2" width="768" height="576"/></p> 
+<p align="center"><img src="/images/subsampling-ratio-eps.png" alt="Plot of p*eps\_p/eps as a function of eps for p=0.001,0.01,0.1,0.5"  width="768" height="576"/></p> 
 This doesn't look so good!
-The approximation we made in [Equation 6](#eq6) tells us that these lines should be close to 1.
-But this seems to only be accurate when \\\(p \\approx 1\\\) or \\\(\\varepsilon \\approx 0\\\).
+The approximation we made in [Equation 6](#eq6) tells us that all of the plotted lines should be close to 1.
+But this seems to only be accurate when \\\(p \\approx 1\\\) or when \\\(\\varepsilon\\\) is _very_ small.
+Large subsampling probability \\\(p\\\) doesn't make much sense for subsampling; we don't get much speedup. So the question is _how small does the privacy parameter \\\(\\varepsilon\\\) need to be?_
+
+Roughly, if we want the approximation in [Equation 6](#eq6) to be good within constant factors, then  the privacy parameter \\\(\\varepsilon\\\) needs to scale linearly with the subsampling probability \\\(p\\\). I.e., \\\(\\varepsilon=cp\\\) for a constant \\\(c\\\). Let's see what the ratio looks like for various constants:
+<p align="center"><img src="/images/subsampling-ratio-c.png" alt="Plot of p*eps\_p/eps as a function of p for eps=p*const where const=0.2,0.5,2,5"  width="768" height="576"/></p> 
+
  
 ---
 
