@@ -120,8 +120,15 @@ Here's what this function looks like:
 <p align="center"><img src="/images/subsampling-ratio-lim.png" alt="Plot of c/log(1+c as a function of c"  width="768" height="576"/></p> 
 
 This bound on the ratio seems reasonable as long as \\\(c\\\) isn't large. 
-However, assuming \\\(\\varepsilon \\le cp\\\) is a pretty strong assumption.
- 
+However, assuming \\\(\\varepsilon \\le cp\\\) is a pretty strong assumption!
+This is the big limitation of privacy amplification by subsampling -- subsampling is free only when the privacy parameter is tiny.
+
+## Conclusion
+
+To summarize, we showed that privacy amplification by subsampling can be used to make differentially private algorithms faster. 
+This comes at essentially no cost in privacy and accuracy, but only if the privacy parameter is tiny. Specifically, the privacy parameter needs to be on the order of the subsampling probability -- i.e., \\\(\\varepsilon=O\(p\)\\\) -- for the claim to hold.
+
+
  
 ---
 
