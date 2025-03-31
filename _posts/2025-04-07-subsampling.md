@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Limits of Privacy Amplification by Subsampling"
+title: "Privacy Amplification by Subsampling"
 comments: true
 authors:
   - thomassteinke
@@ -83,14 +83,31 @@ In terms of variance, we have <a id="eq8" />
 In the last step we substitute in the approximation from [Equation 6](#eq6).[^nx]
 
 Now let's compare the linear-time mechanism \\\(M\\\) with the subsampled mechanism \\\(\\widetilde{M}\_p\\\): 
-We'll make the privacy guarantees the same; \\\(\\varepsilon'=\\varepsilon\\\).
+We have the same privacy guarantee.
 Comparing the accuracy guarantee in [Equation 4](#eq4) with that in [Equation 8](#eq8) we see two differences -- the approximation (more on that shortly) and the extra \\\(\\frac{1}{pn}\\\) term.
 This extra term is a low order term when <a id="eq9" />
  \\\[\\frac{1}{pn} \\le \\frac{1}{\\varepsilon^2 n^2} \\iff p \\ge \\varepsilon^2 n \\iff \\varepsilon \\le \\sqrt{\\frac{p}{n}}.\\tag{9}\\\]
  In other words, when \\\(\\varepsilon\\\) is sufficiently small, the statistical error \\\(\\frac{1}{\\sqrt{pn}}\\\) is dominated by the scale of the noise added for privacy \\\(\\frac{1}{\\varepsilon\_p p n}\\approx\\frac{1}{\\varepsilon n}\\\). 
+ The statistical error is unrelated to privacy; it is something people are used to and we don't need to worry about it too much.
  
- The upshot is that, **for sufficiently small values of \\\(\\varepsilon\\\), the error of the subsampled Laplace mechanism \\\(\\widetilde{M}\_p\\\) is approximately the same as the standard Laplace mechanism \\\(M\\\).
+  **The upshot is that, for sufficiently small values of \\\(\\varepsilon\\\), the error of the subsampled Laplace mechanism \\\(\\widetilde{M}\_p\\\) is approximately the same as the standard Laplace mechanism \\\(M\\\).
  Thus we get a faster algorithm with essentially no cost in privacy and accuracy.**
+ 
+This is very useful in machine learning applications, where the query \\\(q\\\) computes a gradient.
+However, gradients are usually higher-dimensional, rather than one-dimensional.
+This adds a bit of complexity, but doesn't fundamentally alter the story; essentially we need to analyze Gaussian noise rather than Laplace noise.
+
+## The Limits of Privacy Amplification by Subsamplig
+ 
+The story so far is pretty good. But let's take a closer look at the approximation we made in [Equation 6](#eq6):
+<a id="eq6prime" />\\\[\\varepsilon_p = \\log\\left\(1 + \\frac{1}{p} \\big\( e^{\\varepsilon}-1 \\big\)\\right\) \\approx \\frac{\\varepsilon}{p}. \\tag{6'} \\\]
+Specifically, we're interested in the scale of the Laplace noise: <a id="eq10" />\\\[\\frac{1}{\\varepsilon\_p p} = \\frac{1}{p\\log\\left\(1 + \\frac{1}{p} \\big\( e^{\\varepsilon}-1 \\big\)\\right\)} \\approx \\frac{1}{\\varepsilon}. \\tag{10} \\\]
+To get an idea of how good this approximation is, let's plot the ratio \\\(\\frac{p\\varepsilon\_p}{\\varepsilon} \\approx 1\\\):
+<p align="center"><img src="/images/subsampling-ratio-p.png" alt="Plot of p*eps\_p/eps as a function of p for eps=0.01,0.1,1,2"/></p> 
+<p align="center"><img src="/images/subsampling-ratio-eps.png" alt="Plot of p*eps\_p/eps as a function of eps for p=0.001,0.01,0.1,0.5"/></p> 
+This doesn't look so good!
+The approximation we made in [Equation 6](#eq6) tells us that these lines should be close to 1.
+But this seems to only be accurate when \\\(p \\approx 1\\\) or \\\(\\varepsilon \\approx 0\\\).
  
 ---
 
