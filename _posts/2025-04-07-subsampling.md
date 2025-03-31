@@ -102,7 +102,7 @@ This adds a bit of complexity, but doesn't fundamentally alter the story; essent
 The story so far is pretty good. But let's take a closer look at the approximation we made in [Equation 6](#eq6):
 <a id="eq6prime" />\\\[\\varepsilon_p = \\log\\left\(1 + \\frac{1}{p} \\big\( e^{\\varepsilon}-1 \\big\)\\right\) \\approx \\frac{\\varepsilon}{p}. \\tag{6'} \\\]
 Specifically, we're interested in the scale of the Laplace noise: <a id="eq10" />\\\[\\frac{1}{\\varepsilon\_p p} = \\frac{1}{p\\log\\left\(1 + \\frac{1}{p} \\big\( e^{\\varepsilon}-1 \\big\)\\right\)} \\approx \\frac{1}{\\varepsilon}. \\tag{10} \\\]
-To get an idea of how good this approximation is, let's plot the ratio \\\(\\frac{p\\varepsilon\_p}{\\varepsilon} = \\frac{p}{\\varepsilon} \\log\\left\(1 + \\frac{1}{p} \\big\( e^{\\varepsilon}-1 \\big\)\\right\) \\approx 1\\\):
+To get an idea of how good this approximation is, let's plot the ratio <a id="eq11" />\\\[\\frac{p\\varepsilon\_p}{\\varepsilon} = \\frac{p}{\\varepsilon} \\log\\left\(1 + \\frac{1}{p} \\big\( e^{\\varepsilon}-1 \\big\)\\right\) \\approx 1:\\tag{11}\\\]
 <p align="center"><img src="/images/subsampling-ratio-p.png" alt="Plot of p*eps\_p/eps as a function of p for eps=0.01,0.1,1,2" width="768" height="576"/></p> 
 <p align="center"><img src="/images/subsampling-ratio-eps.png" alt="Plot of p*eps\_p/eps as a function of eps for p=0.001,0.01,0.1,0.5"  width="768" height="576"/></p> 
 This doesn't look so good!
@@ -112,7 +112,16 @@ Large subsampling probability \\\(p\\\) doesn't make much sense for subsampling;
 
 Roughly, if we want the approximation in [Equation 6](#eq6) to be good within constant factors, then  the privacy parameter \\\(\\varepsilon\\\) needs to scale linearly with the subsampling probability \\\(p\\\). I.e., \\\(\\varepsilon=cp\\\) for a constant \\\(c\\\). Let's see what the ratio looks like for various constants:
 <p align="center"><img src="/images/subsampling-ratio-c.png" alt="Plot of p*eps\_p/eps as a function of p for eps=p*const where const=0.2,0.5,2,5"  width="768" height="576"/></p> 
+This looks better. In particular, if \\\(\\varepsilon \\le 2p\\\), then \\\(\\frac{p\\varepsilon\_p}{\\varepsilon} \\ge \\frac{1}{2}\\\), which means the subsampled Laplace mechanism adds at most twice as much noise as the standard Laplace mechanism.
+ 
+In general, if we set \\\(\\varepsilon=cp\\\) and take the infimum over all \\\(p\\in\[0,1\]\\\) of the ratio in [Equation 11](#eq11), we get 
+<a id="eq12" />\\\[\\inf\_{p\\in\[0,1\],\\varepsilon=cp}\\frac{p}{\\varepsilon} \\log\\left\(1 + \\frac{1}{p} \\big\( e^{\\varepsilon}-1 \\big\)\\right\) = \\frac{1}{c} \\log\\big\( 1+c\\big\).\\tag{12}\\\] In other words, if \\\(\\varepsilon \\le cp\\\), then the subsampled Laplace mechanism adds at most \\\(\\frac{c}{\\log\(1+c\)}\\\) times as much noise as the standard Laplace mechanism. 
+Here's what this function looks like:
+<p align="center"><img src="/images/subsampling-ratio-lim.png" alt="Plot of c/log(1+c as a function of c"  width="768" height="576"/></p> 
 
+This bound on the ratio seems reasonable as long as \\\(c\\\) isn't large. 
+However, assuming \\\(\\varepsilon \\le cp\\\) is a pretty strong assumption.
+ 
  
 ---
 
