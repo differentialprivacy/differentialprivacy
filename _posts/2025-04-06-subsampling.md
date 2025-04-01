@@ -56,7 +56,7 @@ This rearranges to<br/>
 as required. (The inequalities \\\(\\frac{1}{1-p+pe^{-\\varepsilon}} \\le 1-p+pe^\\varepsilon\\\) and \\\(\\frac{e^{-\\varepsilon}}{1-p+pe^{-\\varepsilon}} \\le 1\\\) are left as exercises for the reader.)
 &#8718;
 
-[Theorem 1](#thm1) is tight. The algorithm that makes it tight is randomized response applied to the bit indicating whether or not your data is included in the subsample. 
+[Theorem 1](#thm1) is exactly tight. That's because the proof really only has one inequality. In particular, it is tight when the algorithm is randomized response applied to the bit indicating whether or not your data is included in the subsample. 
 
 ## Why is Privacy Amplification by Subsampling Useful?
 
