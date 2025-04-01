@@ -12,7 +12,7 @@ Privacy Amplification by Subsampling is an important property of differential pr
 It is key to making many algorithms efficient -- particularly in machine learning applications.
 Thus a lot of work has gone into analyzing this phenomenon.
 In this post we will give a quick introduction to privacy amplification by subsampling and its applications. 
-Furthermore, we're going to look at the limitations of privacy amplification by subsampling -- i.e., what _can't_ it do.
+In a follow-up post, we're going to look at the limitations of privacy amplification by subsampling -- i.e., what _can't_ it do.
 
 ## What is Privacy Amplification by Subsampling?
 
@@ -56,6 +56,8 @@ This rearranges to<br/>
 as required. (The inequalities \\\(\\frac{1}{1-p+pe^{-\\varepsilon}} \\le 1-p+pe^\\varepsilon\\\) and \\\(\\frac{e^{-\\varepsilon}}{1-p+pe^{-\\varepsilon}} \\le 1\\\) are left as exercises for the reader.)
 &#8718;
 
+[Theorem 1](#thm1) is tight. The algorithm that makes it tight is randomized response applied to the bit indicating whether or not your data is included in the subsample. 
+
 ## Why is Privacy Amplification by Subsampling Useful?
 
 Lets work out a simplified illustrative example for why privacy amplification by subsampling is useful.
@@ -90,43 +92,19 @@ This extra term is a low order term when <a id="eq9" />
  In other words, when \\\(\\varepsilon\\\) is sufficiently small, the statistical error \\\(\\frac{1}{\\sqrt{pn}}\\\) is dominated by the scale of the noise added for privacy \\\(\\frac{1}{\\varepsilon\_p p n}\\approx\\frac{1}{\\varepsilon n}\\\). 
  The statistical error is unrelated to privacy; it is something people are used to and we don't need to worry about it too much.
  
-  **The upshot is that, for sufficiently small values of \\\(\\varepsilon\\\), the error of the subsampled Laplace mechanism \\\(\\widetilde{M}\_p\\\) is approximately the same as the standard Laplace mechanism \\\(M\\\).
- Thus we get a faster algorithm with essentially no cost in privacy and accuracy.**
+The upshot is that, for sufficiently small values of \\\(\\varepsilon\\\), the error of the subsampled Laplace mechanism \\\(\\widetilde{M}\_p\\\) is approximately the same as the standard Laplace mechanism \\\(M\\\).
+ Thus we get a faster algorithm with essentially no cost in privacy and accuracy.
  
 This is very useful in machine learning applications, where the query \\\(q\\\) computes a gradient.
 However, gradients are usually higher-dimensional, rather than one-dimensional.
-This adds a bit of complexity, but doesn't fundamentally alter the story; essentially we need to analyze Gaussian noise rather than Laplace noise.
-
-## The Limits of Privacy Amplification by Subsamplig
- 
-The story so far is pretty good. But let's take a closer look at the approximation we made in [Equation 6](#eq6):
-<a id="eq6prime" />\\\[\\varepsilon_p = \\log\\left\(1 + \\frac{1}{p} \\big\( e^{\\varepsilon}-1 \\big\)\\right\) \\approx \\frac{\\varepsilon}{p}. \\tag{6'} \\\]
-Specifically, we're interested in the scale of the Laplace noise: <a id="eq10" />\\\[\\frac{1}{\\varepsilon\_p p} = \\frac{1}{p\\log\\left\(1 + \\frac{1}{p} \\big\( e^{\\varepsilon}-1 \\big\)\\right\)} \\approx \\frac{1}{\\varepsilon}. \\tag{10} \\\]
-To get an idea of how good this approximation is, let's plot the ratio <a id="eq11" />\\\[\\frac{p\\varepsilon\_p}{\\varepsilon} = \\frac{p}{\\varepsilon} \\log\\left\(1 + \\frac{1}{p} \\big\( e^{\\varepsilon}-1 \\big\)\\right\) \\approx 1:\\tag{11}\\\]
-<p align="center"><img src="/images/subsampling-ratio-p.png" alt="Plot of p*eps\_p/eps as a function of p for eps=0.01,0.1,1,2" width="768" height="576"/></p> 
-<p align="center"><img src="/images/subsampling-ratio-eps.png" alt="Plot of p*eps\_p/eps as a function of eps for p=0.001,0.01,0.1,0.5"  width="768" height="576"/></p> 
-This doesn't look so good!
-The approximation we made in [Equation 6](#eq6) tells us that all of the plotted lines should be close to 1.
-But this seems to only be accurate when \\\(p \\approx 1\\\) or when \\\(\\varepsilon\\\) is _very_ small.
-Large subsampling probability \\\(p\\\) doesn't make much sense for subsampling; we don't get much speedup. So the question is _how small does the privacy parameter \\\(\\varepsilon\\\) need to be?_
-
-Roughly, if we want the approximation in [Equation 6](#eq6) to be good within constant factors, then  the privacy parameter \\\(\\varepsilon\\\) needs to scale linearly with the subsampling probability \\\(p\\\). I.e., \\\(\\varepsilon=cp\\\) for a constant \\\(c\\\). Let's see what the ratio looks like for various constants:
-<p align="center"><img src="/images/subsampling-ratio-c.png" alt="Plot of p*eps\_p/eps as a function of p for eps=p*const where const=0.2,0.5,2,5"  width="768" height="576"/></p> 
-This looks better. In particular, if \\\(\\varepsilon \\le 2p\\\), then \\\(\\frac{p\\varepsilon\_p}{\\varepsilon} \\ge \\frac{1}{2}\\\), which means the subsampled Laplace mechanism adds at most twice as much noise as the standard Laplace mechanism.
- 
-In general, if we set \\\(\\varepsilon=cp\\\) and take the infimum over all \\\(p\\in\[0,1\]\\\) of the ratio in [Equation 11](#eq11), we get 
-<a id="eq12" />\\\[\\inf\_{p\\in\[0,1\],\\varepsilon=cp}\\frac{p}{\\varepsilon} \\log\\left\(1 + \\frac{1}{p} \\big\( e^{\\varepsilon}-1 \\big\)\\right\) = \\frac{1}{c} \\log\\big\( 1+c\\big\).\\tag{12}\\\] In other words, if \\\(\\varepsilon \\le cp\\\), then the subsampled Laplace mechanism adds at most \\\(\\frac{c}{\\log\(1+c\)}\\\) times as much noise as the standard Laplace mechanism. 
-Here's what this function looks like:
-<p align="center"><img src="/images/subsampling-ratio-lim.png" alt="Plot of c/log(1+c as a function of c"  width="768" height="576"/></p> 
-
-This bound on the ratio seems reasonable as long as \\\(c\\\) isn't large. 
-However, assuming \\\(\\varepsilon \\le cp\\\) is a pretty strong assumption!
-This is the big limitation of privacy amplification by subsampling -- subsampling is free only when the privacy parameter is tiny.
+This adds some complexity, but doesn't fundamentally alter the story; essentially we need to analyze Gaussian noise rather than Laplace noise.
 
 ## Conclusion
 
 To summarize, we showed that privacy amplification by subsampling can be used to make differentially private algorithms faster. 
-This comes at essentially no cost in privacy and accuracy, but only if the privacy parameter is tiny. Specifically, the privacy parameter needs to be on the order of the subsampling probability -- i.e., \\\(\\varepsilon=O\(p\)\\\) -- for the claim to hold.
+This comes at essentially no cost in privacy and accuracy, which is why it's a really valuable tool.
+
+In the next post, we're going to look a little deeper at when the story above breaks down. When do we need to pay in privacy or accuracy for privacy amplification by subsampling?
 
 
  
