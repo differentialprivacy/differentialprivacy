@@ -90,7 +90,7 @@ Comparing the accuracy guarantee in [Equation 4](#eq4) with that in [Equation 8]
 This extra term is a low order term when <a id="eq9" />
  \\\[\\frac{1}{pn} \\le \\frac{1}{\\varepsilon^2 n^2} \\iff p \\ge \\varepsilon^2 n \\iff \\varepsilon \\le \\sqrt{\\frac{p}{n}}.\\tag{9}\\\]
  In other words, when \\\(\\varepsilon\\\) is sufficiently small, the statistical error \\\(\\frac{1}{\\sqrt{pn}}\\\) is dominated by the scale of the noise added for privacy \\\(\\frac{1}{\\varepsilon\_p p n}\\approx\\frac{1}{\\varepsilon n}\\\). 
- The statistical error is unrelated to privacy; it is something people are used to and we don't need to worry about it too much.
+ The statistical error is unrelated to privacy; it is something people are used to and we don't need to worry about it too much.[^errdim]
  
 The upshot is that, for sufficiently small values of \\\(\\varepsilon\\\), the error of the subsampled Laplace mechanism \\\(\\widetilde{M}\_p\\\) is approximately the same as the standard Laplace mechanism \\\(M\\\).
  Thus we get a faster algorithm with essentially no cost in privacy and accuracy.
@@ -106,7 +106,7 @@ This comes at essentially no cost in privacy and accuracy, which is why it's a r
 
 In the next post, we're going to look a little deeper at when the story above breaks down. When do we need to pay in privacy or accuracy for privacy amplification by subsampling?
 
-
+If you want to dig deeper into privacy amplification by subsampling, see, e.g., [this survey](https://arxiv.org/abs/2210.00597) and the references therein.
  
 ---
 
@@ -121,3 +121,5 @@ In the next post, we're going to look a little deeper at when the story above br
 [^supp]: This is a nontrivial supposition. Often different subsampling schemes are used in practice because they are easier to implement than Poisson subsampling.
 
 [^nx]: Sweeping details under the rug: Since we're defining differential privacy with respect to addition or removal of one person's data, the size of the dataset \\\(\|x\|\\\) is itself private. Thus we only assume that \\\(n \\approx \|x\|\\\).
+
+[^errdim]: For simplicity, we're looking at one-dimensional estimation. In higher dimensions, there's an additional reason why the statistical error term isn't a big deal: The error due to privacy grows with the dimension, while the statistical error doesn't.
