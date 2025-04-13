@@ -12,7 +12,7 @@ Privacy Amplification by Subsampling is an important property of differential pr
 It is key to making many algorithms efficient -- particularly in machine learning applications.
 Thus a lot of work has gone into analyzing this phenomenon.
 In this post we will give a quick introduction to privacy amplification by subsampling and its applications. 
-In a follow-up post, we're going to look at the limitations of privacy amplification by subsampling -- i.e., what _can't_ it do.
+In a follow-up post, we're going to look at the limitations of privacy amplification by subsampling -- i.e., when it doesn't quite live up to the promises.
 
 ## What is Privacy Amplification by Subsampling?
 
@@ -45,7 +45,7 @@ We have <br/>
 \\\(\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~ = \(1-p\) \\mathbb{P}\[M\(S\_p\(x'\)\) \\in T\] + p \\mathbb{P}\[M\(S\_p\(x'\)\\cup\{x\_i\}\) \\in T\]\\\)<br/>
 \\\(\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~ \\le \(1-p\) \\mathbb{P}\[M\(S\_p\(x'\)\) \\in T\] + p \(e^\\varepsilon \\mathbb{P}\[M\(S\_p\(x'\)\) \\in T\] + \\delta \) \\\)<br/>
 \\\(\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~ = \(1-p + p e^\\varepsilon \) \\mathbb{P}\[M\(S\_p\(x'\)\) \\in T\] + p \\delta. \\\) <br/>
-Here we are using the fact that \\\(S\_p\(x\)\\\) conditioned on \\\(x\_i \\notin S\_p\(x\)\\\) is just \\\(S\_p\(x'\)\\\) and the fact that \\\(S\_p\(x\)\\\) conditioned on \\\(x\_i \\in S\_p\(x\)\\\) is just \\\(S\_p\(x'\)\\cup\{x\_i\}\\\).
+Here we are using the fact that \\\(S\_p\(x\)\\\) conditioned on \\\(x\_i \\notin S\_p\(x\)\\\) is just \\\(S\_p\(x'\)\\\) and the fact that \\\(S\_p\(x\)\\\) conditioned on \\\(x\_i \\in S\_p\(x\)\\\) is just \\\(S\_p\(x'\)\\cup\{x\_i\}\\\). (This relies on the independence of Poisson sampling.)
 This establishes half of the result. The other direction is similar:<br/>
 \\\(\\mathbb{P}\[M\(S\_p\(x\)\) \\in T \] = \(1-p\) \\mathbb{P}\[M\(S\_p\(x\)\) \\in T \\mid x\_i \\notin S\_p\(x\)\] + p \\mathbb{P}\[M\(S\_p\(x\)\) \\in T \\mid x\_i \\in S\_p\(x\)\] \\\)
 \\\(\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~ = \(1-p\) \\mathbb{P}\[M\(S\_p\(x'\)\) \\in T\] + p \\mathbb{P}\[M\(S\_p\(x'\)\\cup\{x\_i\}\) \\in T\]\\\)<br/>
@@ -110,7 +110,7 @@ If you want to dig deeper into privacy amplification by subsampling, see, e.g., 
  
 ---
 
-[^up]: For simplicity, we assume that the probability of inclusion \\\(\\mathbb{P}\[x\_i\\in S\_p\(x\)\]\\\) is the same for all individuals \\\(i\\\). In general, it can be different, in which case we would work with the largest probability \\\(p = \\max\_i \\mathbb{P}\[x\_i\\in S\_p\(x\)\]\\\).  
+[^up]: For simplicity, we assume that the probability of inclusion \\\(\\mathbb{P}\[x\_i\\in S\(x\)\]\\\) is the same for all individuals \\\(i\\\). In general, it can be different, in which case we would work with the largest probability \\\(p = \\max\_i \\mathbb{P}\[x\_i\\in S\(x\)\]\\\).  
 
 [^amb]: Under pure differential privacy, there is no privacy amplification by subsampling when the adversary knows whether or not your data was included in the subsample. (However, under approximate or R&eacute;nyi differential privacy there is some amplification, but less than when the subsample remains secret.)
 
