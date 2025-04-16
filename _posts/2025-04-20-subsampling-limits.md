@@ -67,7 +67,7 @@ The quantity \\\(pk\\\) is the expected number of times each datapoint will be s
 In machine learning parlance, \\\(pk\\\) is the number of training epochs and \\\(k\\\) is the number of steps.
 Thus \\\(p \\ge \\Omega\(1/\\sqrt{k}\)\\\) implies that the number of epochs is \\\(\\Omega\(\\sqrt{k}\)\\\), which is a lot. It's common to train with as little as one epoch.
 
-The expected size of each subsample (a.k.a. the batch size) is \\\(p\|x\|\\\), where \\\(\|x\|\\\) is the overall dataaset size. We typically want the batch size to be a constant (dictated by computer hardware).[^parallel] So we want \\\(p \le O\(1/\|x\|\)\\\), but this would lead us to set \\\(\\varepsilon \le O\(1/\|x\|\)\\\) and, as before, this would correspond to \\\(k \\ge \\Omega\(\|x\|^2\)\\\) steps. The number of steps being quadratic in the dataset size (and the number of epochs being linear in the datset size) is a lot.
+The expected size of each subsample (a.k.a. the batch size) is \\\(p\|x\|\\\), where \\\(\|x\|\\\) is the overall dataset size. We typically want the batch size to be a constant (dictated by computer hardware).[^parallel] So we want \\\(p \le O\(1/\|x\|\)\\\), but this would lead us to set \\\(\\varepsilon \le O\(1/\|x\|\)\\\) and, as before, this would correspond to \\\(k \\ge \\Omega\(\|x\|^2\)\\\) steps. The number of steps being quadratic in the dataset size (and the number of epochs being linear in the datset size) is a lot.
 
 The takeaway from this back-of-the-envelope calculation is that \\\(\\varepsilon \\le cp\\\) is well outside the typical parameter regime for machine learning applications.
 We have to set the hyperparameters differently for private machine learning.
