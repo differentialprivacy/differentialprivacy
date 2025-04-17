@@ -64,7 +64,7 @@ Let's think about the machine learning application that is the biggest motivatio
 In machine learning applications we want to answer many queries \\\(q\_1,q\_2,\\cdots,q\_k\\\). (These queries are actually high-dimensional gradients that we want to estimate, but that's not important right now.)
 Suppose we have some overall privacy budget \\\(\\varepsilon\_\*\\\). Then this needs to be divided among the \\\(k\\\) queries. Using advanced composition, we get a per-query budget of \\\(\\varepsilon = \\Theta\\left\(\\frac{\\varepsilon\_\*}{\\sqrt{k}}\\right\)\\\).[^advcomp]
 
-The overall privacy budget \\\(\\varepsilon\_\*\\\) is a constant. So as the number of queries \\\(k\\\) increases, the per-query privacy budget shrinks; \\\(\\varepsilon = \\Theta\(1/\\sqrt{k}\)\\\). That's good for subsampling. We are in the small \\\(\\varepsilon\\\) regime.
+The overall privacy budget \\\(\\varepsilon\_\*\\\) is a constant. So as the number of queries \\\(k\\\) increases, the per-query privacy budget shrinks; \\\(\\varepsilon = \\Theta\(1/\\sqrt{k}\)\\\). That's good for subsampling; we are in the small \\\(\\varepsilon\\\) regime.
 
 Now we want \\\(\\varepsilon \\le cp\\\) for privacy amplification by subsampling, where \\\(c\\\) is a small constant. Thus we need \\\(p \\ge \\Omega\(1/\\sqrt{k}\)\\\) in the machine learning application. Is this reasonable?
 
@@ -79,28 +79,27 @@ We have to set the hyperparameters differently for private machine learning.
 
 ## Conclusion
 
-To summarize, in [our previous post](/subsampling) the story was that privacy amplification by subsampling can be used to make differentially private algorithms faster and this comes at essentially no cost in privacy and accuracy. But in this post we observe that this is free only the case if the privacy parameter \\\(\\varepsilon\\) is tiny. Specifically, the privacy parameter needs to be on the order of the subsampling probability -- i.e., \\\(\\varepsilon\\le O\(p\)\\\) -- for the claim to hold.
+To summarize, in [our previous post](/subsampling) the story was that privacy amplification by subsampling can be used to make differentially private algorithms faster and this comes at essentially no cost in privacy and accuracy. But, in this post, we observe that this is free only if the privacy parameter \\\(\\varepsilon\\) is tiny. Specifically, the privacy parameter needs to be on the order of the subsampling probability -- i.e., \\\(\\varepsilon\\le O\(p\)\\\) -- for the claim to hold up to constant factors.
 
-In these posts we've looked at univariate queries with Laplace noise. 
-In the machine learning application, we would have high-dimensional queries (i.e., model gradients) with Gaussian noise.
-This adds a fair bit of complexity, but the moral of the story is the same.[^complex]
+In these posts, we've looked at univariate queries with Laplace noise. 
+In the machine learning application, we would instead have high-dimensional queries (i.e., model gradients) with Gaussian noise.
+This adds a fair bit of complexity, but the moral of the story remains the same.[^complex]
 
 Practitioners of differetially private machine learning have observed that larger batch sizes yield better results. The purpose of this post is to make this folklore knowledge more widely accessible.
 
 To be clear, the limits of privacy amplification by subsampling are a very real problem in practice. 
 Increasing the batch size mitigates the problem, but comes at a high computational cost.[^parallel]
-
-In recent years, there has been a lot of research that seeks to _avoid_ the limits of privacy amplification by subsampling.[^dpftrl]
+Thus, in recent years, there has been a lot of research that seeks to _avoid_ the limits of privacy amplification by subsampling.[^dpftrl]
 
  
 ---
 
-[^complex]: The main added complexity of working with Gaussian noise and high-dimensional queries comes from the fact that we can't use pure \\\(\(\\varepsilon,0\)\\\)-differential privacy for the analysis. And, if we use approximate \\\(\(\\varepsilon,\\delta\)\\\)-differential privacy for the analysis, we incur superfluous \\\(\\log\(1/\\delta\)\\\) factors. To get a sharper analysis we need to work with R&eacute;nyi differential privacy or numerically compute the privacy loss distribution. There is a lot of very interesting work on this topic, but the high-level conclusion remains the same. 
+[^complex]: The main added complexity of working with Gaussian noise and high-dimensional queries comes from the fact that we can't use pure \\\(\(\\varepsilon,0\)\\\)-differential privacy for the analysis. And, if we use approximate \\\(\(\\varepsilon,\\delta\)\\\)-differential privacy for the analysis, we incur superfluous \\\(\\sqrt{\\log\(1/\\delta\)}\\\) factors. To get a sharper analysis we need to work with R&eacute;nyi differential privacy or numerically compute the privacy loss distribution. There is a lot of very interesting work on this topic, but the high-level conclusion remains the same. 
 
 [^advcomp]: We're being a bit imprecise here. We can't apply advanced composition with pure \\\(\(\\varepsilon,0\)\\\)-differential privacy. So the overall privacy budget \\\(\\varepsilon\_\*\\\) needs to be quantified in terms of approximate \\\(\(\\varepsilon\_\*,\\delta\_\*\)\\\)-differential privacy, concentrated differential privacy, or something like that. To make things formal we could set the overall privacy budget constraint as \\\(\\frac{1}{2}\\varepsilon\_\*^2\\\)-[zCDP](https://arxiv.org/abs/1605.02065), which gives a per-query budget of pure \\\(\(\\varepsilon=\\frac{\\varepsilon\_\*}{\\sqrt{k}},0\)\\\)-differential privacy.
 
-[^parallel]: In non-private machine learning, the batch size is typically determined by hardware parallelism. Absent parallelism, smaller batch size is typically better -- right down to batch size 1. Generally, you make faster progress by updating the model parameters after each gradient computation. However, batch size 1 doesn't exploit the fact that the computer hardware can usually compute multiple gradients at the same time. Larger batch sizes allow you to get more out of the hardware. But once you saturate the hardware, there's no benefit (non-privately) to larger batch sizes.
+[^parallel]: In non-private machine learning, the batch size is typically determined by hardware parallelism. Absent parallelism, smaller batch size is typically better -- right down to batch size 1. Generally, you make faster progress by updating the model parameters after each gradient computation. However, batch size 1 doesn't exploit the fact that the computer hardware can usually compute multiple gradients at the same time. Larger batch sizes allow you to get more out of the hardware. But once you saturate the hardware, there's little benefit (non-privately) to larger batch sizes.
 
-[^dpftrl]: For example, [DP-FTRL](https://arxiv.org/abs/2103.00039) adds negatively correlated noise instead of independent noise to the queries/gradients. Since DP-FTRL doesn't rely on privacy amplification by subsampling, the noise added to each query/gradient is large. Instead DP-FTRL relies on the fact that, when you sum up the noisy values, the noise partially cancels out. In practice, DP-FTRL often works better than relying on privacy amplification by subsampling.
+[^dpftrl]: For example, [DP-FTRL](https://arxiv.org/abs/2103.00039) adds negatively correlated noise instead of independent noise to the queries/gradients. Since DP-FTRL doesn't rely on privacy amplification by subsampling, the noise added to each query/gradient needs to be large. Instead DP-FTRL relies on the fact that, when you sum up the noisy values, the noise can be made to partially cancel out. In practice, DP-FTRL often works better than relying on privacy amplification by subsampling. Another example alternataive is to avoid privacy amplification by subsampling by computing gradients on the full dataset and instead accelerating the computation using [second-order methods](https://arxiv.org/abs/2305.13209) so that we require fewer iterations.
 
 [^taylor]: Looking at the second- and third-order terms in the Taylor series in [Equation 5](#eq5), we can already see that this approximation may be problematic when the subsampling probability \\\(p\\\) is small, since these terms include factors of \\\(1/p^2\\\) and \\\(1/p^3\\\) respectively. 
