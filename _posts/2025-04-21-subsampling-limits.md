@@ -4,13 +4,13 @@ title: "Limits of Privacy Amplification by Subsampling"
 comments: true
 authors:
   - thomassteinke
-timestamp: 7:00:00 -0700
+timestamp: 12:00:00 -0700
 categories: [Algorithms]
 ---
 
 In [our previous post](/subsampling) we gave a brief introduction to privacy amplification by subsampling.
 The high-level story is that we can make differentially private algorithms faster by runninng them on a subsample of the dataset instead of the whole dataset and this comes at essentially no cost in privacy and accuracy. 
-That story is pretty good. But now we'll take a closer look at the limits of this story.
+That story is pretty good. But now we'll take a closer look at the details of this story.
 
 ## Setting
 
@@ -40,7 +40,7 @@ To get an idea of how good this approximation actually is, let's plot the ratio 
 <p align="center"><img src="/images/subsampling-ratio-eps.png" alt="Plot of p*eps\_p/eps as a function of eps for p=0.001,0.01,0.1,0.5"  width="768" height="576"/></p> 
 This doesn't look so good!
 The approximation we made in [Equation 3](#eq3) tells us that all of the plotted lines should be close to 1.
-But this seems to only be accurate when \\\(p \\approx 1\\\) or when \\\(\\varepsilon\\\) is _very_ small.
+But this seems to only be accurate when the subsampling probability \\\(p\\\) is large or when the privacy parameter \\\(\\varepsilon\\\) is _very_ small.
 Large subsampling probability \\\(p\\\) doesn't make much sense for subsampling; we don't get much speedup. So the question is _how small does the privacy parameter \\\(\\varepsilon\\\) need to be?_
 
 Roughly, if we want the approximation in [Equation 3](#eq3) to be good within constant factors, then  the privacy parameter \\\(\\varepsilon\\\) needs to scale linearly with the subsampling probability \\\(p\\\). I.e., \\\(\\varepsilon=cp\\\) for a constant \\\(c\\\). Let's see what the ratio looks like for various constants:
@@ -48,7 +48,7 @@ Roughly, if we want the approximation in [Equation 3](#eq3) to be good within co
 This looks slightly better. In particular, if \\\(\\varepsilon \\le 2p\\\), then \\\(\\frac{p\\varepsilon\_p}{\\varepsilon} \\ge \\frac{1}{2}\\\), which means the subsampled Laplace mechanism \\\(\\widetilde{M}\_p\\\) adds at most twice as much noise as the standard Laplace mechanism \\\(M\\\).
  
 In general, if we set \\\(\\varepsilon \\le cp\\\), then the ratio in [Equation 6](#eq6) is lower bounded by
-<a id="eq7" />\\\[\\inf\_{p\\in\(0,1\],0&lt;\\varepsilon \\le cp}\\frac{p}{\\varepsilon} \\log\\left\(1 + \\frac{1}{p} \\big\( e^{\\varepsilon}-1 \\big\)\\right\) = \\frac{1}{c} \\log\\big\( 1+c\\big\).\\tag{7}\\\] In other words, if \\\(\\varepsilon \\le cp\\\), then the subsampled Laplace mechanism \\\(\\widetilde{M}\_p\\\) adds at most \\\(\\frac{c}{\\log\(1+c\)}\\\) times as much noise as the standard Laplace mechanism \\\(M\\\). 
+<a id="eq7" />\\\[\\inf\_{p\\in\(0,1\],\\varepsilon \\in \(0,cp\]}\\frac{p}{\\varepsilon} \\log\\left\(1 + \\frac{1}{p} \\big\( e^{\\varepsilon}-1 \\big\)\\right\) = \\frac{1}{c} \\log\\big\( 1+c\\big\).\\tag{7}\\\] In other words, if \\\(\\varepsilon \\le cp\\\), then the subsampled Laplace mechanism \\\(\\widetilde{M}\_p\\\) adds at most \\\(\\frac{c}{\\log\(1+c\)}\\\) times as much noise as the standard Laplace mechanism \\\(M\\\). 
 Here's what this function looks like:
 <p align="center"><img src="/images/subsampling-ratio-lim.png" alt="Plot of c/log(1+c as a function of c"  width="768" height="576"/></p> 
 
@@ -70,9 +70,9 @@ Now we want \\\(\\varepsilon \\le cp\\\) for privacy amplification by subsamplin
 
 The quantity \\\(pk\\\) is the expected number of times each datapoint will be sampled over the \\\(k\\\) queries.
 In machine learning parlance, \\\(pk\\\) is the number of training epochs and \\\(k\\\) is the number of steps.
-Thus \\\(p \\ge \\Omega\(1/\\sqrt{k}\)\\\) implies that the number of epochs is \\\(\\Omega\(\\sqrt{k}\)\\\), which is a lot. It's common to train with as little as one epoch.
+Thus \\\(p \\ge \\Omega\(1/\\sqrt{k}\)\\\) implies that the number of epochs is \\\(pk \\ge \\Omega\(\\sqrt{k}\)\\\), which is a lot. It's common to train with as little as one epoch.
 
-The expected size of each subsample (a.k.a. the batch size) is \\\(p\|x\|\\\), where \\\(\|x\|\\\) is the overall dataset size. We typically want the batch size to be a moderate constant -- e.g., [32](https://xcancel.com/ylecun/status/989610208497360896).[^parallel] So we want \\\(p \le O\(1/\|x\|\)\\\), but privacy amplification by subsampling would need us to set \\\(\\varepsilon \le O\(1/\|x\|\)\\\). As before, with \\\(\\varepsilon = \\Theta\(1/\\sqrt{k}\)\\\), this would correspond to \\\(k \\ge \\Omega\(\|x\|^2\)\\\) steps and \\\(kp \\ge \\Omega\(\|x\|\)\\\) epochs. The number of steps being quadratic in the dataset size and the number of epochs being linear in the datset size is _a lot_.
+The expected size of each subsample (a.k.a. the batch size) is \\\(p\|x\|\\\), where \\\(\|x\|\\\) is the overall dataset size. We typically want the batch size to be a moderate constant -- e.g., [32](https://xcancel.com/ylecun/status/989610208497360896).[^parallel] So we want \\\(p \\le O\(1/\|x\|\)\\\), but privacy amplification by subsampling would need us to set \\\(\\varepsilon \\le cp \\le O\(1/\|x\|\)\\\). As before, with \\\(\\varepsilon = \\Theta\(1/\\sqrt{k}\)\\\), this would correspond to \\\(k \\ge \\Omega\(\|x\|^2\)\\\) steps and \\\(kp \\ge \\Omega\(\|x\|\)\\\) epochs. The number of steps being quadratic in the dataset size and the number of epochs being linear in the datset size is _a lot_.
 
 The takeaway from this back-of-the-envelope calculation is that \\\(\\varepsilon \\le cp\\\) is well outside the typical parameter regime for machine learning applications.
 We have to set the hyperparameters differently for private machine learning.
@@ -98,7 +98,7 @@ Thus, in recent years, there has been a lot of research that seeks to _avoid_ th
 
 [^advcomp]: We're being a bit imprecise here. We can't apply advanced composition with pure \\\(\(\\varepsilon,0\)\\\)-differential privacy. So the overall privacy budget \\\(\\varepsilon\_\*\\\) needs to be quantified in terms of approximate \\\(\(\\varepsilon\_\*,\\delta\_\*\)\\\)-differential privacy, concentrated differential privacy, or something like that. To make things formal we could set the overall privacy budget constraint as \\\(\\frac{1}{2}\\varepsilon\_\*^2\\\)-[zCDP](https://arxiv.org/abs/1605.02065), which gives a per-query budget of pure \\\(\(\\varepsilon=\\frac{\\varepsilon\_\*}{\\sqrt{k}},0\)\\\)-differential privacy.
 
-[^parallel]: The ideal batch size (in non-private machine learning) is determined by many factors -- ultimately, you try a few settings and use whatever works best. Some very rough intuition: The batch size is typically determined by hardware parallelism (and, in particular, can be limited by memory constraints). Absent parallelism, smaller batch size is typically better -- right down to batch size 1; generally, you make faster progress by updating the model parameters after each gradient computation. However, batch size 1 doesn't exploit the fact that the computer hardware can usually compute multiple gradients at the same time. Larger batch sizes allow you to get more work out of the hardware in the same amount of time. But once you saturate the hardware, there's little benefit (non-privately) to larger batch sizes.
+[^parallel]: The ideal batch size (in non-private machine learning) is determined by many factors -- ultimately, you try a few settings and use whatever works best. Some very rough intuition: A major factor in determining the right batch size is hardware parallelism/pipelining (and memory constraints). Absent parallelism, smaller batch size is typically better -- right down to batch size 1; generally, you make faster progress by updating the model parameters after each gradient computation. However, batch size 1 doesn't exploit the fact that the computer hardware can usually compute multiple gradients at the same time. Larger batch sizes allow you to get more work out of the hardware in the same amount of time. But once you saturate the hardware, there's little benefit (non-privately) to larger batch sizes.
 
 [^dpftrl]: For example, [DP-FTRL](https://arxiv.org/abs/2103.00039) adds negatively correlated noise instead of independent noise to the queries/gradients. Since DP-FTRL doesn't rely on privacy amplification by subsampling, the noise added to each query/gradient needs to be large. Instead DP-FTRL relies on the fact that, when you sum up the noisy values, the noise can be made to partially cancel out. In practice, DP-FTRL often works better than relying on privacy amplification by subsampling. Another example alternataive is to avoid privacy amplification by subsampling by computing gradients on the full dataset and instead accelerating the computation using [second-order methods](https://arxiv.org/abs/2305.13209) so that we require fewer iterations.
 
