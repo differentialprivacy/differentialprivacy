@@ -12,7 +12,7 @@ Privacy Amplification by Subsampling is an important property of differential pr
 It is key to making many algorithms efficient -- particularly in machine learning applications.
 Thus a lot of work has gone into analyzing this phenomenon.
 In this post we will give a quick introduction to privacy amplification by subsampling and its applications. 
-In a follow-up post, we're going to look at the limitations of privacy amplification by subsampling -- i.e., when it doesn't quite live up to the promises.
+In a [follow-up post](/subsampling-limits), we're going to look at the limitations of privacy amplification by subsampling -- i.e., when it doesn't quite live up to the promises.
 
 ## What is Privacy Amplification by Subsampling?
 
@@ -104,7 +104,7 @@ This adds some complexity, but doesn't fundamentally alter the story; essentiall
 To summarize, we showed that privacy amplification by subsampling can be used to make differentially private algorithms faster. 
 This comes at essentially no cost in privacy and accuracy, which is why it's a really valuable tool.
 
-In the next post, we're going to look a little deeper at when the story above breaks down. When do we need to pay in privacy or accuracy for privacy amplification by subsampling?
+In [the next post](/subsampling-limits), we're going to look a little deeper at when the story above breaks down. When do we need to pay in privacy or accuracy for privacy amplification by subsampling?
 
 If you want to dig deeper into privacy amplification by subsampling, see, e.g., [this survey](https://arxiv.org/abs/2210.00597) and the references therein.
  
