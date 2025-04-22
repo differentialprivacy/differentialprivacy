@@ -33,8 +33,11 @@ So let's talk about the approximation in [Equation 3](#eq3), which directly affe
 The approximation in [Equation 3](#eq3) comes from the Taylor series around \\\(\\varepsilon=0\\\): 
 <a id="eq5" />\\\[\\varepsilon_p = \\log\\left\(1 + \\frac{1}{p} \\big\( e^{\\varepsilon}-1 \\big\)\\right\) = \\frac{\\varepsilon}{p} - \\frac{\(1-p\)\\varepsilon^2}{2p^2} + \\frac{\(2-p\)\(1-p\)\\varepsilon^3}{6p^3} \\pm O\(\\varepsilon^4\)\tag{5}.\\\]
 The approximation in [Equation 3](#eq3) is just the first term in this Taylor series.[^taylor] 
+We can make the approximation precise with some inequalities:[^ineq]
+<a id="eq6" />\\\[\\frac{\\varepsilon}{p+\\varepsilon} \\le \\log\\left\(1 + \\frac{\\varepsilon}{p}\\right\) \\le \\varepsilon_p = \\log\\left\(1 + \\frac{1}{p} \\big\( e^{\\varepsilon}-1 \\big\)\\right\) \\le \\frac{\\varepsilon}{p}. \\tag{6} \\\]
 
-To get an idea of how good this approximation actually is, let's plot the ratio <a id="eq6" />\\\[\\frac{\\text{noise\_scale}\(M\)}{\\text{noise\_scale}\(\\widetilde{M}\_p\)} = \\frac{p\\varepsilon\_p}{\\varepsilon} = \\frac{p}{\\varepsilon} \\log\\left\(1 + \\frac{1}{p} \\big\( e^{\\varepsilon}-1 \\big\)\\right\) \\approx 1:\\tag{6}\\\]
+To get an idea of how good this approximation actually is, let's plot the approximation ratio <a id="eq7" />\\\[\\frac{\\text{noise\_scale}\(M\)}{\\text{noise\_scale}\(\\widetilde{M}\_p\)} = \\frac{p\\varepsilon\_p}{\\varepsilon} = \\frac{p}{\\varepsilon} \\log\\left\(1 + \\frac{1}{p} \\big\( e^{\\varepsilon}-1 \\big\)\\right\) \\approx 1:\\tag{7}\\\]
+\(Per [Equation 6](#eq6), this ratio is bounded: \\\(\\frac{p}{p+\\varepsilon} \\le \\frac{p\\varepsilon\_p}{\\varepsilon} \\le 1\\\).\)
 
 <p align="center"><img src="/images/subsampling-ratio-p.png" alt="Plot of p*eps\_p/eps as a function of p for eps=0.01,0.1,1,2" width="768" height="576"/></p> 
 <p align="center"><img src="/images/subsampling-ratio-eps.png" alt="Plot of p*eps\_p/eps as a function of eps for p=0.001,0.01,0.1,0.5"  width="768" height="576"/></p> 
@@ -47,8 +50,8 @@ Roughly, if we want the approximation in [Equation 3](#eq3) to be good within co
 <p align="center"><img src="/images/subsampling-ratio-c.png" alt="Plot of p*eps\_p/eps as a function of p for eps=p*const where const=0.2,0.5,2,5"  width="768" height="576"/></p> 
 This looks slightly better. In particular, if \\\(\\varepsilon \\le 2p\\\), then \\\(\\frac{p\\varepsilon\_p}{\\varepsilon} \\ge \\frac{1}{2}\\\), which means the subsampled Laplace mechanism \\\(\\widetilde{M}\_p\\\) adds at most twice as much noise as the standard Laplace mechanism \\\(M\\\).
  
-In general, if we set \\\(\\varepsilon \\le cp\\\), then the ratio in [Equation 6](#eq6) is lower bounded by
-<a id="eq7" />\\\[\\inf\_{p\\in\(0,1\],\\varepsilon \\in \(0,cp\]}\\frac{p}{\\varepsilon} \\log\\left\(1 + \\frac{1}{p} \\big\( e^{\\varepsilon}-1 \\big\)\\right\) = \\frac{1}{c} \\log\\big\( 1+c\\big\).\\tag{7}\\\] In other words, if \\\(\\varepsilon \\le cp\\\), then the subsampled Laplace mechanism \\\(\\widetilde{M}\_p\\\) adds at most \\\(\\frac{c}{\\log\(1+c\)}\\\) times as much noise as the standard Laplace mechanism \\\(M\\\). 
+In general, if we set \\\(\\varepsilon \\le cp\\\), then the ratio in [Equation 7](#eq7) is lower bounded by
+<a id="eq8" />\\\[\\inf\_{p\\in\(0,1\],\\varepsilon \\in \(0,cp\]}\\frac{p}{\\varepsilon} \\log\\left\(1 + \\frac{1}{p} \\big\( e^{\\varepsilon}-1 \\big\)\\right\) = \\frac{1}{c} \\log\\big\( 1+c\\big\).\\tag{8}\\\] In other words, if \\\(\\varepsilon \\le cp\\\), then the subsampled Laplace mechanism \\\(\\widetilde{M}\_p\\\) adds at most \\\(\\frac{c}{\\log\(1+c\)}\\\) times as much noise as the standard Laplace mechanism \\\(M\\\). 
 Here's what this function looks like:
 <p align="center"><img src="/images/subsampling-ratio-lim.png" alt="Plot of c/log(1+c as a function of c"  width="768" height="576"/></p> 
 
@@ -85,7 +88,7 @@ In these posts, we've looked at univariate queries with Laplace noise.
 In the machine learning application, we would instead have high-dimensional queries (i.e., model gradients) with Gaussian noise.
 This adds a fair bit of complexity, but the moral of the story remains the same.[^complex]
 
-Practitioners of differetially private machine learning have observed that larger batch sizes yield better results. The purpose of this post is to make this folklore knowledge more widely accessible.
+Practitioners of differentially private machine learning have observed that larger batch sizes yield better results. The purpose of this post is to make this folklore knowledge more widely accessible.
 
 To be clear, the limits of privacy amplification by subsampling are a very real problem in practice. 
 Increasing the batch size mitigates the problem, but often comes at a high computational cost.[^parallel]
@@ -100,6 +103,8 @@ Thus, in recent years, there has been a lot of research that seeks to _avoid_ th
 
 [^parallel]: The ideal batch size (in non-private machine learning) is determined by many factors -- ultimately, you try a few settings and use whatever works best. Some very rough intuition: A major factor in determining the right batch size is hardware parallelism/pipelining (and memory constraints). Absent parallelism, smaller batch size is typically better -- right down to batch size 1; generally, you make faster progress by updating the model parameters after each gradient computation. However, batch size 1 doesn't exploit the fact that the computer hardware can usually compute multiple gradients at the same time. Larger batch sizes allow you to get more work out of the hardware in the same amount of time. But once you saturate the hardware, there's little benefit (non-privately) to larger batch sizes.
 
-[^dpftrl]: For example, [DP-FTRL](https://arxiv.org/abs/2103.00039) adds negatively correlated noise instead of independent noise to the queries/gradients. Since DP-FTRL doesn't rely on privacy amplification by subsampling, the noise added to each query/gradient needs to be large. Instead DP-FTRL relies on the fact that, when you sum up the noisy values, the noise can be made to partially cancel out. In practice, DP-FTRL often works better than relying on privacy amplification by subsampling. Another example alternataive is to avoid privacy amplification by subsampling by computing gradients on the full dataset and instead accelerating the computation using [second-order methods](https://arxiv.org/abs/2305.13209) so that we require fewer iterations.
+[^dpftrl]: For example, [DP-FTRL](https://arxiv.org/abs/2103.00039) adds negatively correlated noise instead of independent noise to the queries/gradients. Since DP-FTRL doesn't rely on privacy amplification by subsampling, the noise added to each query/gradient needs to be large. Instead DP-FTRL relies on the fact that, when you sum up the noisy values, the noise can be made to partially cancel out. In practice, DP-FTRL often works better than relying on privacy amplification by subsampling. Another example alternative is to avoid privacy amplification by subsampling by computing gradients on the full dataset and instead accelerating the computation using [second-order methods](https://arxiv.org/abs/2305.13209) so that we require fewer iterations.
 
 [^taylor]: Looking at the second- and third-order terms in the Taylor series in [Equation 5](#eq5), we can already see that this approximation may be problematic when the subsampling probability \\\(p\\\) is small, since these terms include factors of \\\(1/p^2\\\) and \\\(1/p^3\\\) respectively. 
+
+[^ineq]: To prove the inequalities in [Equation 6](#eq6): Since \\\(\\log\\\) is concave, Jensen's inequality gives \\\(\\log\(1-p+pe^{\\varepsilon/p}\) \\ge \(1-p\)\\log\(1\) + p \\log\(e^{\\varepsilon/p}\) = \\varepsilon\\\); rearranging yields the upper bound \\\(\\varepsilon/p \\ge \\log\(1+\(e^\\varepsilon-1\)/p\)\\\). On the other hand \\\(\\varepsilon \\le e^\\varepsilon-1\\\), which yields the first inequality on the lower bound side. Finally, we have \\\(\\log\(1+x\) = \\int\_0^x \\frac{1}{1+t} \\mathrm{d}t \\ge \\int\_0^x \\frac{1}{\(1+t\)^2} \\mathrm{d}t = \\frac{x}{1+x}\\\) for all \\\(x\\ge0\\\); substituting \\\(x=\\varepsilon/p\\\) yields the second inequality on the lower bound side.
