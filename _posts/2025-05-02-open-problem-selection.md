@@ -4,7 +4,7 @@ title: "Open Problem: Selection via Low-Sensitivity Queries"
 comments: true
 authors:
   - thomassteinke
-timestamp: 9:00:00 -0700
+timestamp: 7:00:00 -0700
 categories: [Open Problems]
 ---
 
@@ -41,7 +41,7 @@ For the utility analysis, let \\\(A\_1,A\_2,\\cdots,A\_k\\\) denote the nodes on
 We track the minimum loss on the subtree rooted at the current node -- i.e., \\\(B\_i := \\min\_{y \\text{ in subtree rooted at } A\_i} \\ell\(x,y\)\\\).
 
 Initially, we have \\\(B\_1 = \\min\_{y\\in\\mathcal{Y}} \\ell\(x, y\) \\\), which is the desired quantity. And \\\(B\_k\\\) is the loss of the final output.
-We also have \\\(B\_1 \\le B\_2 \\le \\cdots \\le B\_k\\\). 
+We also have \\\(B\_1 \\le B\_2 \\le \\cdots \\le B\_k\\\), since each successive subtress is a subset of the previous one. 
 To complete the analysis we need only show that \\\(\\mathbb{E}\[B\_{i+1}\] \\le B\_i + O\(\\sqrt{\\log\|\\mathcal{Y}\|}\)\\\) for all \\\(i\\\).
 
 If the (noiseless) value of the query in [Equation 2](#eq2) is positive, then the minimizer is in the right subtree and vice versa. 
@@ -63,9 +63,9 @@ Note that the reverse reduction is trivial: We can use the exponential mechanism
 In practice, the exponential mechanism works fine, so we don't really _need_ this algorithm.
 Nevertheless, I think this could lead to something insightful, and maybe even useful: There are situations where we can do better than the exponental mechanism or at least better than the standard _analysis_ of the exponential mechanism. An alternative algorithm might open up more avenues for improving on the exponential mechanism.
 
-To give some examples where we know how to beat the standard analysis of the exponential mechanism: Suppose the loss function can be decomposed as \\\[\\ell\(x,y\) = \\ell\(x,\(y\_1,y\_2,\\cdots,y\_d\)\) = \\ell\_1\(x,y\_1\) + \\ell\_2\(x,y\_2\) + \\cdots + \\ell\_d\(x,y\_d\). \\tag{4}\\\]
+To give some examples where we know how to beat the standard analysis of the exponential mechanism: First, suppose the loss function can be decomposed as \\\[\\ell\(x,y\) = \\ell\(x,\(y\_1,y\_2,\\cdots,y\_d\)\) = \\ell\_1\(x,y\_1\) + \\ell\_2\(x,y\_2\) + \\cdots + \\ell\_d\(x,y\_d\). \\tag{4}\\\]
 Then the analysis of the exponential mechanism can also be decomposed into the composition of \\\(d\\\) independent exponential mechanisms, which yields better asymptotic results via the advanced composition theorem.
-Another example is when there is one option \\\(y\_\* \\in \\mathcal{Y}\\\) stands out from the other options -- i.e., \\\(\\ell\(x,y\_\*\) \\le \\min\_{y \\in \\mathcal{Y} \\setminus \{y\_\*\}} \\ell\(x,y\) - c\\\), where \\\(c\\\) is sufficiently large. In this case we can privately output \\\(y\_\*\\\) with an improved dependence on the number of options \\\(\|\\mathcal{Y}\|\\\) \[[CHS14](https://arxiv.org/abs/1409.2177 "Kamalika Chaudhuri, Daniel Hsu, Shuang Song. The Large Margin Mechanism for Differentially Private Maximization. NIPS 2014."),[BDRS18](https://dl.acm.org/doi/10.1145/3188745.3188946 " Mark Bun, Cynthia Dwork, Guy N. Rothblum, Thomas Steinke. Composable and versatile privacy via truncated CDP. STOC 2018."),[BKSW19](https://arxiv.org/abs/1905.13229 "Mark Bun, Gautam Kamath, Thomas Steinke, Zhiwei Steven Wu. Private Hypothesis Selection. NeurIPS 2019.")\]. 
+A second example is when there is one option \\\(y\_\* \\in \\mathcal{Y}\\\) that stands out from the other options -- i.e., \\\(\\ell\(x,y\_\*\) \\le \\min\_{y \\in \\mathcal{Y} \\setminus \{y\_\*\}} \\ell\(x,y\) - c\\\), where \\\(c\\\) is sufficiently large. In this case we can privately output \\\(y\_\*\\\) with an improved dependence on the number of options \\\(\|\\mathcal{Y}\|\\\) \[[CHS14](https://arxiv.org/abs/1409.2177 "Kamalika Chaudhuri, Daniel Hsu, Shuang Song. The Large Margin Mechanism for Differentially Private Maximization. NIPS 2014."),[BDRS18](https://dl.acm.org/doi/10.1145/3188745.3188946 " Mark Bun, Cynthia Dwork, Guy N. Rothblum, Thomas Steinke. Composable and versatile privacy via truncated CDP. STOC 2018."),[BKSW19](https://arxiv.org/abs/1905.13229 "Mark Bun, Gautam Kamath, Thomas Steinke, Zhiwei Steven Wu. Private Hypothesis Selection. NeurIPS 2019.")\]. 
 
 A negative solution -- that is, an impossibility result -- would show that selection is a fundamental and indivisible primitive of differentially private algorithms. This would be surprising and thus interesting. The proof technique would presumably also be novel.
 
@@ -86,5 +86,5 @@ Let's state that formally:
 
 For pure DP, the [binary tree algorithm](#partsoln) would achieve excess loss \\\(O\(\(\\log \|\\mathcal{Y}\|\)^2\)\\\) instead of \\\(O\(\\log \|\\mathcal{Y}\|\)\\\).
 
-The contrast between pure DP and Gaussian DP is interesting because the exponential mechanism satisfies pure DP and [relaxing to approximate DP doesn't allow us to do any better](https://arxiv.org/abs/1704.03024). But, comparing [Problem 1](#prob1) and [Problem 2](#prob2), it seems like the Gaussian case should be easier.
+The contrast between pure DP and Gaussian DP is interesting because the exponential mechanism satisfies pure DP and [relaxing to approximate DP doesn't allow us to do any better](https://arxiv.org/abs/1704.03024). But, comparing [Problem 1](#prob1) and [Problem 2](#prob2), it seems like the Gaussian case _should_ be easier.
 I can't quite put my finger on it, but I feel like there's something interesting to say about this distinction and I hope resolving this open problem would shed light on it.
