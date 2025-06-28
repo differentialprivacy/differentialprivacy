@@ -23,7 +23,7 @@ The question is whether we can replace the exponential mechanism with an algorit
 > The goal is to construct an algorithm that outputs \\\(Y \\in \\mathcal{Y}\\\) such that \\\[\mathbb{E}\_Y\[\\ell\(x, Y\)\] \\le \\min\_{y\\in\\mathcal{Y}} \\ell\(x, y\) + O\(\\log \|\\mathcal{Y}\|\).\\tag{1}\\\]
 > However, the algorithm cannot access \\\(x\\\) directly. Instead there is an oracle which provides noisy answers to \\\(k\\) sensitivity-\\\(1\\\) queries. Specifically, each query is specified by a sensitivity-\\\(1\\\) function \\\(q : \\mathcal{X}^n \\to \\mathbb{R}\\\), which is submitted to the oracle, and the oracle returns a sample from \\\(\\mathcal{N}\(q\(x\),k\)\\\). The number of queries \\\(k\\\) may be chosen arbitrarily and the queries may be specified adaptively.
 
-Obviously, if the algorithm has direct access to \\\(x\\\) of if the oracle didn't add any noise, this problem would be trivial \(just query \\\(q\(x\)=\\ell\(x,y\)\\\) for all \\\(y\\in\\mathcal{Y}\\\) -- i.e., \\\(k=\|\\mathcal{Y}\|\\\) queries -- and output the minimum\).
+Obviously, if the algorithm has direct access to \\\(x\\\) or if the oracle didn't add any noise, this problem would be trivial \(just query \\\(q\(x\)=\\ell\(x,y\)\\\) for all \\\(y\\in\\mathcal{Y}\\\) -- i.e., \\\(k=\|\\mathcal{Y}\|\\\) queries -- and output the minimum\).
 
 The noise added by the oracle ensures that the algorithm is differentially private. Thus the goal of this algorithm is directly comparable with the guarantee of the exponential mechanism.
 
@@ -41,7 +41,7 @@ For the utility analysis, let \\\(A\_1,A\_2,\\cdots,A\_k\\\) denote the nodes on
 We track the minimum loss on the subtree rooted at the current node -- i.e., \\\(B\_i := \\min\_{y \\text{ in subtree rooted at } A\_i} \\ell\(x,y\)\\\).
 
 Initially, we have \\\(B\_1 = \\min\_{y\\in\\mathcal{Y}} \\ell\(x, y\) \\\), which is the desired quantity. And \\\(B\_k\\\) is the loss of the final output.
-We also have \\\(B\_1 \\le B\_2 \\le \\cdots \\le B\_k\\\), since each successive subtress is a subset of the previous one. 
+We also have \\\(B\_1 \\le B\_2 \\le \\cdots \\le B\_k\\\), since each successive subtree is a subset of the previous one. 
 To complete the analysis we need only show that \\\(\\mathbb{E}\[B\_{i+1}\] \\le B\_i + O\(\\sqrt{\\log\|\\mathcal{Y}\|}\)\\\) for all \\\(i\\\).
 
 If the (noiseless) value of the query in [Equation 2](#eq2) is positive, then the minimizer is in the right subtree and vice versa. 
